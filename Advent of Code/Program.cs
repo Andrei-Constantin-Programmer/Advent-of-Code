@@ -25,10 +25,12 @@ namespace Advent_of_Code
                 try
                 {
                     solution.SolveSecondPart();
+                    Console.WriteLine();
                 }
                 catch (NotImplementedException)
                 {
                     Console.WriteLine("The second part of this challenge has not been solved yet.");
+                    Console.WriteLine();
                 }
             }
             catch (NotImplementedException)
