@@ -10,19 +10,27 @@ namespace Advent_of_Code.Challenge_Solutions
     {
         public void SolveFirstPart()
         {
-            int maxCalories = 0;
+            Console.WriteLine(GetElfCaloriesList().First());
+        }
 
+        public void SolveSecondPart()
+        {
+            Console.WriteLine(GetElfCaloriesList().GetRange(0, 3).Sum());
+        }
+
+        private List<int> GetElfCaloriesList()
+        {
+            var elfCalories = new List<int>();
             using (TextReader read = Utilities.GetInputFile(2022, 1))
             {
                 int currentCaloriesSum = 0;
                 string? line;
-                while((line = read.ReadLine()) != null)
+                while ((line = read.ReadLine()) != null)
                 {
                     line = line.Trim();
-                    if(line.Length == 0)
+                    if (line.Length == 0)
                     {
-                        if(maxCalories < currentCaloriesSum)
-                            maxCalories = currentCaloriesSum;
+                        elfCalories.Add(currentCaloriesSum);
                         currentCaloriesSum = 0;
                     }
                     else
@@ -32,12 +40,8 @@ namespace Advent_of_Code.Challenge_Solutions
                 }
             }
 
-            Console.WriteLine(maxCalories);
-        }
-
-        public void SolveSecondPart()
-        {
-            throw new NotImplementedException();
+            elfCalories = elfCalories.OrderByDescending(x => x).ToList();
+            return elfCalories;
         }
     }
 }
