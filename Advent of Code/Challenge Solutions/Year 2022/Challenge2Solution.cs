@@ -9,11 +9,6 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class Challenge2Solution : ChallengeSolution
     {
-        private const string A = "rock", X = "rock";
-        private const string B = "paper", Y = "paper";
-        private const string C = "scissors", Z = "scissors";
-
-
         public void SolveFirstPart()
         {
             Console.WriteLine(
