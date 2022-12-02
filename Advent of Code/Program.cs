@@ -9,11 +9,35 @@ namespace Advent_of_Code
     {
         static void Main(string[] args)
         {
-            SolutionMapper mapper = new Year2022().SolutionMapper;
+            SolutionMapper mapper = new SolutionMapperImplementation();
             ChallengeReader reader = new ChallengeReaderImplementation(mapper);
-            var solution = reader.ReadChallenge();
+            
+            while(true)
+            {
+                try
+                {
+                    var year = reader.ReadYear();
+                    Console.WriteLine();
 
-            PrintSolution(solution);
+                    while(true)
+                    {
+                        try
+                        {
+                            var solution = reader.ReadChallenge(year);
+                            Console.WriteLine();
+                            PrintSolution(solution);
+                        } 
+                        catch(Exception)
+                        {
+                            break;
+                        }
+                    }
+                }
+                catch(Exception)
+                {
+                    break;
+                }
+            }
         }
 
 
@@ -21,9 +45,11 @@ namespace Advent_of_Code
         {
             try
             {
+                Console.WriteLine("First part:");
                 solution.SolveFirstPart();
                 try
                 {
+                    Console.WriteLine("Second part:");
                     solution.SolveSecondPart();
                     Console.WriteLine();
                 }

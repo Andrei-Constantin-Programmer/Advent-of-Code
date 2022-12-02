@@ -9,6 +9,7 @@ namespace Advent_of_Code.Reader
 {
     internal interface ChallengeReader
     {
-        public ChallengeSolution ReadChallenge();
+        public int ReadYear();
+        public ChallengeSolution ReadChallenge(int year);
     }
 }
