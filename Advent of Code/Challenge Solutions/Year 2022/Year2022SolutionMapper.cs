@@ -16,6 +16,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return new Dictionary<int, ChallengeSolution>()
             {
                 { 1, new Challenge1Solution() },
+                { 2, new Challenge2Solution() },
             };
         }
     }
