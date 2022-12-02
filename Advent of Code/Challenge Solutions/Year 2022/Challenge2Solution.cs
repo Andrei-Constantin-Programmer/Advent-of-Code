@@ -14,14 +14,20 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(
                 ReadRockPaperScissorsRounds()
                 .Select((round) => {
-                    return GetScore(round.Item1, round.Item2); })
+                    return FirstPartSolver.GetScore(round.Item1, round.Item2); })
                 .Sum());
         }
 
         public void SolveSecondPart()
         {
-            throw new NotImplementedException();
+            Console.WriteLine(
+                ReadRockPaperScissorsRounds()
+                .Select((round) => {
+                    return SecondPartSolver.GetScore(round.Item1, round.Item2);
+                })
+                .Sum());
         }
+
 
         private List<(char, char)> ReadRockPaperScissorsRounds()
         {
@@ -39,33 +45,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return rounds;
         }
 
-        private int GetScore(char oponentChoiceCharacter, char yourChoiceCharacter)
-        {
-            var oponentChoice = GetChoiceForCharacter(oponentChoiceCharacter);
-            var yourChoice = GetChoiceForCharacter(yourChoiceCharacter);
-
-            if (oponentChoice == yourChoice)
-                return 3 + (int)GetChoiceForCharacter(yourChoiceCharacter);
-
-            if (GetWinner(oponentChoice, yourChoice) == oponentChoice)
-                return (int)yourChoice;
-
-            return 6 + (int)yourChoice;
-        }
-
-        private RockPaperScissorsChoice GetChoiceForCharacter(char character)
-        {
-            if (character == 'A' || character == 'X')
-                return RockPaperScissorsChoice.Rock;
-            if (character == 'B' || character == 'Y')
-                return RockPaperScissorsChoice.Paper;
-            if (character == 'C' || character == 'Z')
-                return RockPaperScissorsChoice.Scissors;
-
-            throw new ArgumentException("This character does not map to a rock-paper-scissors choice");
-        }
-
-        private RockPaperScissorsChoice GetWinner(RockPaperScissorsChoice oponentChoice, RockPaperScissorsChoice yourChoice)
+        private static RockPaperScissorsChoice GetWinner(RockPaperScissorsChoice oponentChoice, RockPaperScissorsChoice yourChoice)
         {
             return oponentChoice switch
             {
@@ -102,6 +82,88 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Rock = 1,
             Paper = 2,
             Scissors = 3,
+        }
+
+        private static class FirstPartSolver
+        {
+            public static int GetScore(char oponentChoiceCharacter, char yourChoiceCharacter)
+            {
+                var oponentChoice = GetChoiceForCharacter(oponentChoiceCharacter);
+                var yourChoice = GetChoiceForCharacter(yourChoiceCharacter);
+
+                if (oponentChoice == yourChoice)
+                    return 3 + (int)yourChoice;
+
+                if (GetWinner(oponentChoice, yourChoice) == oponentChoice)
+                    return (int)yourChoice;
+
+                return 6 + (int)yourChoice;
+            }
+
+            public static RockPaperScissorsChoice GetChoiceForCharacter(char character)
+            {
+                if (character == 'A' || character == 'X')
+                    return RockPaperScissorsChoice.Rock;
+                if (character == 'B' || character == 'Y')
+                    return RockPaperScissorsChoice.Paper;
+                if (character == 'C' || character == 'Z')
+                    return RockPaperScissorsChoice.Scissors;
+
+                throw new ArgumentException("This character does not map to a rock-paper-scissors choice");
+            }
+        }
+
+        private static class SecondPartSolver
+        {
+            public static int GetScore(char oponentChoiceCharacter, char roundConclusion)
+            {
+                var oponentChoice = GetChoiceForCharacter(oponentChoiceCharacter);
+                var yourChoice = oponentChoice switch
+                {
+                    RockPaperScissorsChoice.Rock => roundConclusion switch
+                    {
+                        'X' => RockPaperScissorsChoice.Scissors,
+                        'Y' => RockPaperScissorsChoice.Rock,
+                        'Z' => RockPaperScissorsChoice.Paper,
+                        _ => throw new ArgumentException("Invalid round conclusion")
+                    },
+                    RockPaperScissorsChoice.Paper => roundConclusion switch
+                    {
+                        'X' => RockPaperScissorsChoice.Rock,
+                        'Y' => RockPaperScissorsChoice.Paper,
+                        'Z' => RockPaperScissorsChoice.Scissors,
+                        _ => throw new ArgumentException("Invalid round conclusion")
+                    },
+                    RockPaperScissorsChoice.Scissors => roundConclusion switch
+                    {
+                        'X' => RockPaperScissorsChoice.Paper,
+                        'Y' => RockPaperScissorsChoice.Scissors,
+                        'Z' => RockPaperScissorsChoice.Rock,
+                        _ => throw new ArgumentException("Invalid round conclusion")
+                    },
+                    _ => throw new ArgumentException("Invalid rock paper scissors choice found")
+                };
+
+                if (oponentChoice == yourChoice)
+                    return 3 + (int)yourChoice;
+
+                if (GetWinner(oponentChoice, yourChoice) == oponentChoice)
+                    return (int)yourChoice;
+
+                return 6 + (int)yourChoice;
+            }
+
+            public static RockPaperScissorsChoice GetChoiceForCharacter(char character)
+            {
+                if (character == 'A')
+                    return RockPaperScissorsChoice.Rock;
+                if (character == 'B')
+                    return RockPaperScissorsChoice.Paper;
+                if (character == 'C')
+                    return RockPaperScissorsChoice.Scissors;
+
+                throw new ArgumentException("This character does not map to a rock-paper-scissors choice");
+            }
         }
     }
 }
