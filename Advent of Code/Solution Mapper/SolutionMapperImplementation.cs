@@ -41,6 +41,11 @@ namespace Advent_of_Code.Solution_Mapper
                     [9] = new Year2020.ChallengeSolution9(),
                     [10] = new Year2020.ChallengeSolution10(),
                     [11] = new Year2020.ChallengeSolution11(),
+                    [12] = new Year2020.ChallengeSolution12(),
+                    [13] = new Year2020.ChallengeSolution13(),
+                    [14] = new Year2020.ChallengeSolution14(),
+                    [15] = new Year2020.ChallengeSolution15(),
+                    [16] = new Year2020.ChallengeSolution16(),
                 },
                 [2021] = new Dictionary<int, ChallengeSolution>()
                 {
