@@ -12,7 +12,14 @@
 
         public void SolveSecondPart()
         {
-            throw new NotImplementedException();
+            int sum = 0;
+            var rucksacks = ReadRucksacks();
+            for(int i = 0; i < rucksacks.Length; i+=3)
+            {
+                sum += GetItemTypePriority(GetCommonItemTypePerGroup(rucksacks[i], rucksacks[i + 1], rucksacks[i + 2]));
+            }
+
+            Console.WriteLine(sum);
         }
 
         private string[] ReadRucksacks()
@@ -31,13 +38,17 @@
             return rucksackList.ToArray();
         }
 
-
         private char GetCommonItemType(string rucksack)
         {
             var firstCompartment = rucksack.Substring(0, rucksack.Length / 2);
             var secondCompartment = rucksack.Substring(rucksack.Length / 2, rucksack.Length / 2);
 
             return firstCompartment.First(c => secondCompartment.Contains(c));
+        }
+
+        private char GetCommonItemTypePerGroup(string firstRucksack, string secondRucksack, string thirdRucksack)
+        {
+            return firstRucksack.First(c => secondRucksack.Contains(c) && thirdRucksack.Contains(c));
         }
 
         private int GetItemTypePriority(char itemType)
