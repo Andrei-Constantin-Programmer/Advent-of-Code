@@ -15,7 +15,7 @@ Click the 'Run' button or use the key F5. This will open the terminal.
 You will be asked to enter the year and then day for which you want the solution. Enter a value for the year and the day (between 1 and 25), hit enter, and the solution will be shown on the terminal (if it exists).  
 
 ## Link to the Advent of Code
-[Advent of Code](https://www.google.com "Advent of Code")
+[Advent of Code](https://adventofcode.com/)
 
 ## Special thanks
 - David Barnes, the lecturer at the University of Kent who inspired me to join Advent of Code  
