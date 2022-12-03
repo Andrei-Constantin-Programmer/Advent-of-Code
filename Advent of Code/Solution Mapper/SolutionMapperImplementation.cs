@@ -34,7 +34,22 @@ namespace Advent_of_Code.Solution_Mapper
                 },
                 [2021] = new Dictionary<int, ChallengeSolution>()
                 {
-                    [1] = new Year2021.Challenge1Solution(),
+                    [1] = new Year2021.ChallengeSolution1(),
+                    [2] = new Year2021.ChallengeSolution2(),
+                    [3] = new Year2021.ChallengeSolution3(),
+                    [4] = new Year2021.ChallengeSolution4(),
+                    [5] = new Year2021.ChallengeSolution5(),
+                    [6] = new Year2021.ChallengeSolution6(),
+                    [7] = new Year2021.ChallengeSolution7(),
+                    [8] = new Year2021.ChallengeSolution8(),
+                    [9] = new Year2021.ChallengeSolution9(),
+                    [10] = new Year2021.ChallengeSolution10(),
+                    [11] = new Year2021.ChallengeSolution11(),
+                    [12] = new Year2021.ChallengeSolution12(),
+                    [13] = new Year2021.ChallengeSolution13(),
+                    [14] = new Year2021.ChallengeSolution14(),
+                    [15] = new Year2021.ChallengeSolution15(),
+                    [16] = new Year2021.ChallengeSolution16(),
                 },
             };
         }
