@@ -1,6 +1,8 @@
-﻿using Advent_of_Code.Solution_Mapper;
+﻿using Advent_of_Code.Challenge_Solutions;
+using Year2022 = Advent_of_Code.Challenge_Solutions.Year_2022;
+using Year2021 = Advent_of_Code.Challenge_Solutions.Year_2021;
 
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+namespace Advent_of_Code.Solution_Mapper
 {
     internal class SolutionMapperImplementation : SolutionMapper
     {
@@ -27,12 +29,12 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             {
                 [2022] = new Dictionary<int, ChallengeSolution>()
                 {
-                    [1] = new Year_2022.Challenge1Solution(),
-                    [2] = new Year_2022.Challenge2Solution()
+                    [1] = new Year2022.Challenge1Solution(),
+                    [2] = new Year2022.Challenge2Solution(),
                 },
                 [2021] = new Dictionary<int, ChallengeSolution>()
                 {
-
+                    [1] = new Year2021.Challenge1Solution(),
                 },
             };
         }
