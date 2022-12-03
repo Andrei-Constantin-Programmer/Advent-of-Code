@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿using static Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution3 : ChallengeSolution
     {
@@ -6,7 +8,7 @@
         {
             var bits = Enumerable.Range(0, 12).Select(x => new BitAmmount { }).ToList();
 
-            using (TextReader read = Utilities.GetInputFile(2021, 3))
+            using (TextReader read = GetInputFile(2021, 3))
             {
                 string line;
                 while ((line = read.ReadLine()) != null)
@@ -31,7 +33,7 @@
 
         public void SolveSecondPart()
         {
-            string[] lines = File.ReadAllLines(Utilities.GetFileString("input", 2021, 3));
+            string[] lines = File.ReadAllLines(GetFileString(FileType.Input, 2021, 3));
             var O2 = new List<string>(lines);
             var CO2 = new List<string>(lines);
 

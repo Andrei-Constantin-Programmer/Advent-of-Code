@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿using static Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution10 : ChallengeSolution
     {
@@ -45,7 +47,7 @@
 
         public void SolveSecondPart()
         {
-            using (TextReader read = Utilities.GetInputFile(2021, 10))
+            using (TextReader read = GetInputFile(2021, 10))
             {
                 var scores = new List<long>();
                 string line;
@@ -84,7 +86,6 @@
                     stack.Push(line[i]);
                 else if (openCloseValues[stack.Pop()] != line[i])
                 {
-                    //Console.WriteLine(line);
                     return line[i];
                 }
             }

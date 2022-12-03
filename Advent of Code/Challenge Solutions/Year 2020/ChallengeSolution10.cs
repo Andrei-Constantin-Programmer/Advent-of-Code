@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using static Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
@@ -12,7 +8,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution10()
         {
-            var lines = File.ReadAllLines(Utilities.GetFileString("input", 2020, 10));
+            var lines = File.ReadAllLines(GetFileString(FileType.Input, 2020, 10));
             numbers.Add(0);
 
             foreach (string line in lines)

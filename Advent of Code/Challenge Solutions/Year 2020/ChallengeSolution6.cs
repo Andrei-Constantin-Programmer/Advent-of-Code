@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2020
+﻿using static Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
     internal class ChallengeSolution6 : ChallengeSolution
     {
@@ -8,7 +10,7 @@
 
         public ChallengeSolution6()
         {
-            string lines = File.ReadAllText(Utilities.GetFileString("input", 2020, 6));
+            string lines = File.ReadAllText(GetFileString(FileType.Input, 2020, 6));
             groups = lines.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         }
 

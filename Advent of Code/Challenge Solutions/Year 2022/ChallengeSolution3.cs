@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿using static Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution3 : ChallengeSolution
     {
@@ -26,7 +28,7 @@
         {
             var rucksackList = new List<string>();
 
-            using (TextReader read = Utilities.GetInputFile(2022, 3))
+            using (TextReader read = GetInputFile(2022, 3))
             {
                 string? line;
                 while ((line = read.ReadLine()) != null)

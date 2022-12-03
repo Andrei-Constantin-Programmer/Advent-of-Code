@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
@@ -29,7 +30,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             {
                 validBags = new List<Bag>();
                 allBags = new List<Bag>();
-                string[] rules = File.ReadAllLines(Utilities.GetFileString("input", 2020, 7));
+                string[] rules = File.ReadAllLines(GetFileString(FileType.Input, 2020, 7));
                 foreach (string rule in rules)
                 {
                     string[] codes = rule.Split(new string[] { "contain" }, StringSplitOptions.RemoveEmptyEntries);
@@ -131,7 +132,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             {
                 validBags = new List<Bag>();
                 allBags = new List<Bag>();
-                string[] rules = File.ReadAllLines(Utilities.GetFileString("input", 2020, 7));
+                string[] rules = File.ReadAllLines(GetFileString(FileType.Input, 2020, 7));
                 foreach (string rule in rules)
                 {
                     string[] codes = rule.Split(new string[] { "contain" }, StringSplitOptions.RemoveEmptyEntries);

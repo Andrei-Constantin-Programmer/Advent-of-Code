@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿using static Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution14 : ChallengeSolution
     {
@@ -91,7 +93,7 @@
             insertionRules = new Dictionary<string, char>();
             appearances = new Dictionary<char, long>();
             pairAppearances = new Dictionary<string, long>();
-            using (TextReader read = Utilities.GetInputFile(2021, 14))
+            using (TextReader read = GetInputFile(2021, 14))
             {
                 polymer = new List<char>(read.ReadLine().ToCharArray());
                 foreach(var c in polymer)

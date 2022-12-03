@@ -1,27 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Advent_of_Code
+﻿namespace Advent_of_Code
 {
     internal class Utilities
     {
         public static TextReader GetInputFile(int year, int day)
         {
-            return File.OpenText(GetFileString("input", year, day));
+            return File.OpenText(GetFileString(FileType.Input, year, day));
         }
 
         public static StreamWriter GetOutputFile(int year, int day)
         {
-            return new StreamWriter(GetFileString("output", year, day));
+            return new StreamWriter(GetFileString(FileType.Output, year, day));
         }
 
-        public static string GetFileString(string folder, int year, int day)
+        public static string GetFileString(FileType fileType, int year, int day)
         {
-            return Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + @$"\resources\{folder}\{year}_{day}.txt";
+            return Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + @$"\resources\{fileType.ToString().ToLower()}\{year}_{day}.txt";
         }
 
+        public enum FileType
+        {
+            Input,
+            Output,
+        }
     }
 }

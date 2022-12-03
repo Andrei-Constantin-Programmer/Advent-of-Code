@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿using static Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution7 : ChallengeSolution
     {
@@ -14,7 +16,7 @@
 
         private void Solution(bool increasingFuel)
         {
-            List<int> initialPositions = new List<int>(Array.ConvertAll(Utilities.GetInputFile(2021, 7).ReadLine().Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
+            List<int> initialPositions = new List<int>(Array.ConvertAll(GetInputFile(2021, 7).ReadLine().Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
             Dictionary<int, int> fishByPosition = new Dictionary<int, int>();
             foreach (var x in initialPositions)
             {

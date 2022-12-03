@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿using static Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution4 : ChallengeSolution
     {
@@ -6,7 +8,7 @@
 
         public void SolveFirstPart()
         {
-            using (TextReader read = Utilities.GetInputFile(2021, 4))
+            using (TextReader read = GetInputFile(2021, 4))
             {
                 var drawn = Array.ConvertAll(read.ReadLine().Split(","), int.Parse);
                 var boards = GetBingoBoards(read);
@@ -37,7 +39,7 @@
 
         public void SolveSecondPart()
         {
-            using (TextReader read = Utilities.GetInputFile(2021, 4))
+            using (TextReader read = GetInputFile(2021, 4))
             {
                 var drawn = Array.ConvertAll(read.ReadLine().Split(","), int.Parse);
                 var boards = GetBingoBoards(read);

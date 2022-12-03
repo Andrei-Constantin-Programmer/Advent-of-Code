@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2020
+﻿using static Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
     internal class ChallengeSolution8 : ChallengeSolution
     {
@@ -7,7 +9,7 @@
 
         public ChallengeSolution8()
         {
-            var lines = File.ReadAllLines(Utilities.GetFileString("input", 2020, 8));
+            var lines = File.ReadAllLines(GetFileString(FileType.Input, 2020, 8));
 
             foreach (string instruction in lines)
             {
@@ -73,18 +75,18 @@
         {
             bool reachedLoop = false;
             foreach (Instruction i in instructions)
-                i.reset();
+                i.Reset();
             for (int i = 0; i < instructions.Count && !reachedLoop; i++)
             {
-                if (instructions[i].isExecuted())
+                if (instructions[i].IsExecuted())
                 {
                     reachedLoop = true;
                 }
                 else
                 {
-                    instructions[i].execute();
+                    instructions[i].Execute();
                     int command = instructions[i].type;
-                    int value = instructions[i].getValue();
+                    int value = instructions[i].GetValue();
                     switch (command)
                     {
                         case Instruction.ACC:
@@ -115,22 +117,22 @@
                 executed = false;
             }
 
-            public void execute()
+            public void Execute()
             {
                 executed = true;
             }
 
-            public void reset()
+            public void Reset()
             {
                 executed = false;
             }
 
-            public int getValue()
+            public int GetValue()
             {
                 return value;
             }
 
-            public bool isExecuted()
+            public bool IsExecuted()
             {
                 return executed;
             }

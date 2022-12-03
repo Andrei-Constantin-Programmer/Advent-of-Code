@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2020
+﻿using static Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
     internal class ChallengeSolution12 : ChallengeSolution
     {
@@ -6,7 +8,7 @@
         
         public ChallengeSolution12()
         {
-            actions = File.ReadAllLines(Utilities.GetFileString("input", 2020, 12));
+            actions = File.ReadAllLines(GetFileString(FileType.Input, 2020, 12));
         }
 
         public void SolveFirstPart()

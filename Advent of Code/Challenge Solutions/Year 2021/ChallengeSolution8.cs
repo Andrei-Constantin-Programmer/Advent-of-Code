@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿using static Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution8 : ChallengeSolution
     {
@@ -11,7 +13,7 @@
 
             var uniqueSegmentsDigits = new List<byte>(){1, 4, 7, 8};
 
-            using(TextReader read = Utilities.GetInputFile(2021, 8))
+            using(TextReader read = GetInputFile(2021, 8))
             {
                 int no = 0;
                 string line;
@@ -34,7 +36,7 @@
 
         public void SolveSecondPart()
         {
-            using (TextReader read = Utilities.GetInputFile(2021, 8))
+            using (TextReader read = GetInputFile(2021, 8))
             {
                 int sum = 0;
                 string line;

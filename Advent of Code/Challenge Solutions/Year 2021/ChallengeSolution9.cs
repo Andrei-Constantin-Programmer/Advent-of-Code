@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿using static Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution9 : ChallengeSolution
     {
@@ -6,7 +8,7 @@
 
         public ChallengeSolution9()
         {
-            string[] lines = File.ReadAllLines(Utilities.GetFileString("input", 2021, 9));
+            string[] lines = File.ReadAllLines(GetFileString(FileType.Input, 2021, 9));
             n = lines.Length;
             m = lines[0].Length;
         }
@@ -14,7 +16,7 @@
         public void SolveFirstPart()
         {
             int[,] heightMap = ReadHeightMap();
-            using (TextReader read = Utilities.GetInputFile(2021, 9))
+            using (TextReader read = GetInputFile(2021, 9))
             {
                 for (int i = 0; i < n; i++)
                 {
@@ -81,7 +83,7 @@
         private int[,] ReadHeightMap()
         {
             var heightMap = new int[n, m];
-            using (TextReader read = Utilities.GetInputFile(2021, 9))
+            using (TextReader read = GetInputFile(2021, 9))
             {
                 for (int i = 0; i < n; i++)
                 {

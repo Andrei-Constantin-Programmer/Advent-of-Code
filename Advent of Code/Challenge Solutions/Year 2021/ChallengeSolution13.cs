@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿using static Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution13 : ChallengeSolution
     {
@@ -7,7 +9,7 @@
 
         public void SolveFirstPart()
         {
-            using(TextReader read = Utilities.GetInputFile(2021, 13))
+            using(TextReader read = GetInputFile(2021, 13))
             {
                 var points = new List<Point>();
                 string line;
@@ -20,7 +22,6 @@
                 }
 
                 CreateMatrix(points);
-                //printMatrix();
 
                 SolveFold(read.ReadLine());
 
@@ -36,7 +37,7 @@
 
         public void SolveSecondPart()
         {
-            using (TextReader read = Utilities.GetInputFile(2021, 13))
+            using (TextReader read = GetInputFile(2021, 13))
             {
                 var points = new List<Point>();
                 string line;
@@ -53,7 +54,7 @@
                 while ((line = read.ReadLine()) != null)
                     SolveFold(line);
 
-                using (StreamWriter write = Utilities.GetOutputFile(2021, 13))
+                using (StreamWriter write = GetOutputFile(2021, 13))
                 {
                     for (int i = 0; i < n; i++)
                     {
