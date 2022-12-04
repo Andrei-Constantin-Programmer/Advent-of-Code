@@ -32,6 +32,7 @@ namespace Advent_of_Code.Solution_Mapper
                 [2019] = new Dictionary<int, ChallengeSolution>()
                 {
                     [1] = new Year2019.ChallengeSolution1(),
+                    [2] = new Year2019.ChallengeSolution2(),
                 },
                 [2020] = new Dictionary<int, ChallengeSolution>()
                 {
