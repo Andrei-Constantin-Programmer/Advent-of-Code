@@ -1,4 +1,5 @@
 ﻿using Advent_of_Code.Challenge_Solutions;
+using Year2019 = Advent_of_Code.Challenge_Solutions.Year_2019;
 using Year2020 = Advent_of_Code.Challenge_Solutions.Year_2020;
 using Year2021 = Advent_of_Code.Challenge_Solutions.Year_2021;
 using Year2022 = Advent_of_Code.Challenge_Solutions.Year_2022;
@@ -28,6 +29,10 @@ namespace Advent_of_Code.Solution_Mapper
         {
             return new Dictionary<int, Dictionary<int, ChallengeSolution>>()
             {
+                [2019] = new Dictionary<int, ChallengeSolution>()
+                {
+                    [1] = new Year2019.ChallengeSolution1(),
+                },
                 [2020] = new Dictionary<int, ChallengeSolution>()
                 {
                     [1] = new Year2020.ChallengeSolution1(),
