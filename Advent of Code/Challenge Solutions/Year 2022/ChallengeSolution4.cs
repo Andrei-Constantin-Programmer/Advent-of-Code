@@ -14,7 +14,10 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         public void SolveSecondPart()
         {
-            throw new NotImplementedException();
+            Console.WriteLine(
+                ReadPairRanges()
+                .Where(pair => OverlapsRange(pair.FirstRange, pair.SecondRange))
+                .Count());
         }
 
         private List<Pair> ReadPairRanges()
@@ -45,6 +48,22 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         private bool ContainsRange(Range firstRange, Range secondRange)
         {
             return firstRange.Minimum <= secondRange.Minimum && firstRange.Maximum >= secondRange.Maximum;
+        }
+
+        private bool OverlapsRange(Range firstRange, Range secondRange)
+        {
+            if (firstRange.Minimum == secondRange.Minimum || firstRange.Minimum == secondRange.Maximum)
+                return true;
+            if (firstRange.Maximum == secondRange.Minimum || firstRange.Maximum == secondRange.Maximum)
+                return true;
+
+            if (firstRange.Minimum < secondRange.Minimum && firstRange.Maximum > secondRange.Minimum)
+                return true;
+
+            if (firstRange.Minimum > secondRange.Minimum && firstRange.Minimum < secondRange.Maximum)
+                return true;
+
+            return false;
         }
 
         record Pair(Range FirstRange, Range SecondRange);
