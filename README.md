@@ -3,6 +3,15 @@
 ## General information
 My solution for Advent of Code, written in C# as a Console Application. No other technologies are used.
 
+## Where to find the solutions?
+The solutions to each year are in their own folder under Challenge Solutions. Below you can find some useful links to both the Advent of Code years on the website, as well as my solutions:   
+
+| Year | Link to challenges                                   | Link to my solutions |
+| ---- | ------------------                                   | -------------------- |
+| 2020 | [Advent of Code 2020](https://adventofcode.com/2020) | [Solutions 2020](https://github.com/Andrei-Constantin-Programmer/Advent-of-Code/tree/master/Advent%20of%20Code/Challenge%20Solutions/Year%202020) |
+| 2021 | [Advent of Code 2021](https://adventofcode.com/2021) | [Solutions 2021](https://github.com/Andrei-Constantin-Programmer/Advent-of-Code/tree/master/Advent%20of%20Code/Challenge%20Solutions/Year%202021) |
+| 2022 | [Advent of Code 2022](https://adventofcode.com/2022) | [Solutions 2022](https://github.com/Andrei-Constantin-Programmer/Advent-of-Code/tree/master/Advent%20of%20Code/Challenge%20Solutions/Year%202022) |
+
 ## Installation
 Open [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) (or newer)  
 Click on 'Git>Clone Repository'  
