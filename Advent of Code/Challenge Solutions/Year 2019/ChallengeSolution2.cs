@@ -7,28 +7,36 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2019
         public void SolveFirstPart()
         {
             var opCodes = ReadOpCodes();
-            opCodes[1] = 12;
-            opCodes[2] = 2;
-
-            opCodes = CalculateOpCodes(opCodes);
-
-            Console.WriteLine(opCodes[0]);
+            Console.WriteLine(ResultForOpCodeCalculation(opCodes, 12, 2));
         }
 
         public void SolveSecondPart()
         {
-            throw new NotImplementedException();
+            for(byte noun = 0; noun < 99; noun++)
+            {
+                for (byte verb = 0; verb < 99; verb++)
+                {
+                    var opCodes = ReadOpCodes();
+                    var result = ResultForOpCodeCalculation(opCodes, noun, verb);
+
+                    if (result == 19_690_720)
+                    {
+                        Console.WriteLine(100 * noun + verb);
+                        return;
+                    }
+                }
+            }
         }
 
-        private int[] ReadOpCodes()
+        private long ResultForOpCodeCalculation(long[] opCodes, byte noun, byte verb)
         {
-            return String.Join(",", File.ReadAllLines(GetFileString(FileType.Input, 2019, 2)))
-                .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                .Select(stringValue => Convert.ToInt32(stringValue))
-                .ToArray();
+            opCodes[1] = noun;
+            opCodes[2] = verb;
+
+            return CalculateOpCodes(opCodes)[0];
         }
 
-        private int[] CalculateOpCodes(int[] opCodes)
+        private long[] CalculateOpCodes(long[] opCodes)
         {
             for (var i = 0; opCodes[i] != 99; i += 4)
             {
@@ -41,6 +49,14 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2019
             }
 
             return opCodes;
+        }
+
+        private long[] ReadOpCodes()
+        {
+            return String.Join(",", File.ReadAllLines(GetFileString(FileType.Input, 2019, 2)))
+                .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                .Select(stringValue => Convert.ToInt64(stringValue))
+                .ToArray();
         }
     }
 }
