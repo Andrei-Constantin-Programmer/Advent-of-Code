@@ -8,27 +8,34 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         {
             var buffer = ReadDatastreamBuffer();
 
-            char[] recent = new char[4];
-
-            recent = buffer.Substring(0, 4).ToCharArray();
-            int count = 4;
-            while(ContainsDuplicateCharacter(recent))
-            {
-                for(int i = 0; i < 3; i++)
-                {
-                    recent[i] = recent[i + 1];
-                }
-
-                recent[3] = buffer[count];
-                count++;
-            }
-
-            Console.WriteLine(count);
+            Console.WriteLine(FindFirstUniqueBufferPosition(buffer, 4));
         }
 
         public void SolveSecondPart()
         {
-            throw new NotImplementedException();
+            var buffer = ReadDatastreamBuffer();
+
+            Console.WriteLine(FindFirstUniqueBufferPosition(buffer, 14));
+        }
+
+        private int FindFirstUniqueBufferPosition(string buffer, int bufferSize)
+        {
+            char[] recent = new char[bufferSize];
+
+            recent = buffer.Substring(0, bufferSize).ToCharArray();
+            int count = bufferSize;
+            while (ContainsDuplicateCharacter(recent))
+            {
+                for (int i = 0; i < bufferSize - 1; i++)
+                {
+                    recent[i] = recent[i + 1];
+                }
+
+                recent[bufferSize - 1] = buffer[count];
+                count++;
+            }
+
+            return count;
         }
 
         private bool ContainsDuplicateCharacter(char[] array)
