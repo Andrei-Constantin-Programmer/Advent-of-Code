@@ -1,12 +1,27 @@
-﻿using static Advent_of_Code.Utilities;
+﻿using System.Drawing;
+using static Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution7 : ChallengeSolution
     {
+        private const int MAX_SIZE = 100000;
+        private const int NEEDED = 30000000;
+
         public void SolveFirstPart()
         {
-            ReadFileSystem().Print();
+            var root = ReadFileSystem();
+            
+            int sum = 0;
+            if (root.Size <= MAX_SIZE)
+                sum += root.Size;
+
+            sum += root
+                .FindFolders(folder => folder.Size < MAX_SIZE)
+                .Select(folder => folder.Size)
+                .Sum();
+
+            Console.WriteLine(sum);
         }
 
         public void SolveSecondPart()
@@ -60,6 +75,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
     {
         public string Name { get; }
         public Folder? Parent { get; }
+        public abstract int Size { get; }
 
         public FileSystemObject(string name, Folder? parent = null)
         {
@@ -76,7 +92,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
     class TextFile : FileSystemObject
     {
-        public int Size { get; init; }
+        public override int Size { get; }
 
         public TextFile(string name, int size, Folder? parent = null) : base(name, parent)
         {
@@ -94,6 +110,8 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
     {
         List<FileSystemObject> Files { get; init; }
 
+        public override int Size => Files.Select(file => file.Size).Sum();
+
         public Folder(string name, Folder? parent = null) : base(name, parent)
         {
             Files = new List<FileSystemObject>();
@@ -110,6 +128,27 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 .Where(file => file.GetType() == typeof(Folder))
                 .FirstOrDefault(folder => folder.Name == name)
                 as Folder;
+        }
+
+        public List<Folder> FindFolders(Predicate<Folder> condition)
+        {
+            var folders = new List<Folder>();
+            foreach(var file in Files)
+            {
+                try
+                {
+                    var folder = (Folder)file;
+                    if (condition(folder))
+                        folders.Add(folder);
+                    folders.AddRange(folder.FindFolders(condition));
+                }
+                catch(Exception)
+                {
+                    continue;
+                }
+            }
+
+            return folders;
         }
 
         public override void Print()
