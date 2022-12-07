@@ -6,11 +6,14 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
     internal class ChallengeSolution7 : ChallengeSolution
     {
         private const int MAX_SIZE = 100000;
+        private const int AVAILABLE = 70000000;
         private const int NEEDED = 30000000;
+
+        private Folder? root = null;
 
         public void SolveFirstPart()
         {
-            var root = ReadFileSystem();
+            root = root ?? ReadFileSystem();
             
             int sum = 0;
             if (root.Size <= MAX_SIZE)
@@ -26,7 +29,23 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         public void SolveSecondPart()
         {
-            throw new NotImplementedException();
+            root = root ?? ReadFileSystem();
+
+            var folders = root
+                .FindFolders((_) => true)
+                .OrderBy(folder => folder.Size);
+
+            foreach(var folder in folders)
+            {
+                var used = root.Size - folder.Size;
+                if (AVAILABLE - used >= NEEDED)
+                {
+                    Console.WriteLine(folder.Size);
+                    return;
+                }
+            }
+
+            Console.WriteLine(root);
         }
 
 
