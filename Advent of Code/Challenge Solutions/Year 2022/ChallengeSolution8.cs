@@ -6,28 +6,125 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
     {
         public void SolveFirstPart()
         {
-            int rows, columns;
-            var grid = ReadTreeGrid(out rows, out columns);
+            var grid = ReadTreeGrid();
 
-            int perimeter = CalculatePerimeter(rows, columns);
-            int visibleTrees = GetVisibleTreeCount(grid, rows, columns);
+            int perimeter = CalculatePerimeter(grid.Length, grid[0].Length);
+            int visibleTrees = GetVisibleTreeCount(grid);
 
             Console.WriteLine(perimeter + visibleTrees);
         }
 
         public void SolveSecondPart()
         {
-            throw new NotImplementedException();
+            var grid = ReadTreeGrid();
+
+            Console.WriteLine(GetScenicScores(grid).Max());
         }
 
-        private int GetVisibleTreeCount(byte[][] grid, int rows, int columns)
+        private List<int> GetScenicScores(byte[][] grid)
+        {
+            var scores = new List<int>();
+
+            for(int i = 0; i < grid.Length; i++)
+            {
+                for(int j = 0; j < grid[0].Length; j++)
+                {
+                    scores.Add(CalculateScenicScore(grid, (i, j)));
+                }
+            }
+
+            return scores;
+        }
+
+        private int CalculateScenicScore(byte[][] grid, (int row, int column) treePosition)
+        {
+            return TreesVisibleToTop(grid, treePosition)
+                 * TreesVisibleToBottom(grid, treePosition)
+                 * TreesVisibleToLeft(grid, treePosition)
+                 * TreesVisibleToRight(grid, treePosition);
+        }
+
+        private int TreesVisibleToTop(byte[][] grid, (int row, int column) treePosition)
+        {
+            var treeHeight = grid[treePosition.row][treePosition.column];
+
+            int visible = 0;
+            for (int i = treePosition.row - 1; i >= 0; i--)
+            {
+                visible++;
+
+                if (treeHeight <= grid[i][treePosition.column])
+                {
+                    break;
+                }
+            }
+
+            return visible;
+        }
+
+        private int TreesVisibleToBottom(byte[][] grid, (int row, int column) treePosition)
+        {
+            var treeHeight = grid[treePosition.row][treePosition.column];
+            
+            int visible = 0;
+            for (int i = treePosition.row + 1; i < grid.Length; i++)
+            {
+                visible++;
+
+                if (treeHeight <= grid[i][treePosition.column])
+                {
+                    break;
+                }
+            }
+
+            return visible;
+        }
+
+        private int TreesVisibleToLeft(byte[][] grid, (int row, int column) treePosition)
+        {
+            var treeHeight = grid[treePosition.row][treePosition.column];
+
+            int visible = 0;
+            for (int j = treePosition.column - 1; j >= 0; j--)
+            {
+                visible++;
+
+                if (treeHeight <= grid[treePosition.row][j])
+                {
+                    break;
+                }
+            }
+
+            return visible;
+        }
+
+        private int TreesVisibleToRight(byte[][] grid, (int row, int column) treePosition)
+        {
+            var treeHeight = grid[treePosition.row][treePosition.column];
+
+            int visible = 0;
+            for (int j = treePosition.column + 1; j < grid[0].Length; j++)
+            {
+                visible++;
+
+                if (treeHeight <= grid[treePosition.row][j])
+                {
+                    break;
+                }
+            }
+
+            return visible;
+        }
+
+
+        private int GetVisibleTreeCount(byte[][] grid)
         {
             int count = 0;
-            for(int i = 1; i < rows - 1; i++)
+            for(int i = 1; i < grid.Length - 1; i++)
             {
-                for(int j = 1; j < columns - 1; j++)
+                for(int j = 1; j < grid[0].Length - 1; j++)
                 {
-                    if(TreeIsVisible(grid, rows, columns, (i, j)))
+                    if(TreeIsVisible(grid, (i, j)))
                     {
                         count++;
                     }
@@ -37,19 +134,19 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return count;
         }
 
-        private bool TreeIsVisible(byte[][] grid, int rows, int columns, (int row, int column) treePosition)
+        private bool TreeIsVisible(byte[][] grid, (int row, int column) treePosition)
         {
-            return TreeVisibleFromTop(grid, rows, columns, treePosition)
-                || TreeVisibleFromBottom(grid, rows, columns, treePosition)
-                || TreeVisibleFromLeft(grid, rows, columns, treePosition)
-                || TreeVisibleFromRight(grid, rows, columns, treePosition);
+            return TreeVisibleFromTop(grid, treePosition)
+                || TreeVisibleFromBottom(grid, treePosition)
+                || TreeVisibleFromLeft(grid, treePosition)
+                || TreeVisibleFromRight(grid, treePosition);
         }
 
-        private bool TreeVisibleFromTop(byte[][] grid, int rows, int columns, (int row, int column) treePosition)
+        private bool TreeVisibleFromTop(byte[][] grid, (int row, int column) treePosition)
         {
             var treeHeight = grid[treePosition.row][treePosition.column];
 
-            for (var i = treePosition.row - 1; i >= 0; i--)
+            for (int i = treePosition.row - 1; i >= 0; i--)
             {
                 if (treeHeight <= grid[i][treePosition.column])
                 {
@@ -60,11 +157,11 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return true;
         }
 
-        private bool TreeVisibleFromBottom(byte[][] grid, int rows, int columns, (int row, int column) treePosition)
+        private bool TreeVisibleFromBottom(byte[][] grid, (int row, int column) treePosition)
         {
             var treeHeight = grid[treePosition.row][treePosition.column];
 
-            for (var i = treePosition.row + 1; i < rows; i++)
+            for (int i = treePosition.row + 1; i < grid.Length; i++)
             {
                 if (treeHeight <= grid[i][treePosition.column])
                 {
@@ -75,11 +172,11 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return true;
         }
 
-        private bool TreeVisibleFromLeft(byte[][] grid, int rows, int columns, (int row, int column) treePosition)
+        private bool TreeVisibleFromLeft(byte[][] grid, (int row, int column) treePosition)
         {
             var treeHeight = grid[treePosition.row][treePosition.column];
 
-            for (var j = treePosition.column - 1; j >= 0; j--)
+            for (int j = treePosition.column - 1; j >= 0; j--)
             {
                 if (treeHeight <= grid[treePosition.row][j])
                 {
@@ -90,11 +187,11 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return true;
         }
 
-        private bool TreeVisibleFromRight(byte[][] grid, int rows, int columns, (int row, int column) treePosition)
+        private bool TreeVisibleFromRight(byte[][] grid, (int row, int column) treePosition)
         {
             var treeHeight = grid[treePosition.row][treePosition.column];
 
-            for (var j = treePosition.column + 1; j < columns; j++)
+            for (int j = treePosition.column + 1; j < grid[0].Length; j++)
             {
                 if (treeHeight <= grid[treePosition.row][j])
                 {
@@ -104,22 +201,21 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
             return true;
         }
-
 
         private int CalculatePerimeter(int rows, int columns)
         {
             return 2 * (rows + columns) - 4;
         }
 
-        private byte[][] ReadTreeGrid(out int rows, out int columns)
+        private byte[][] ReadTreeGrid()
         {
             var lines = File.ReadAllLines(Utilities.GetFileString(Utilities.FileType.Input, 2022, 8));
-            rows = lines.Length;
-            columns = lines[0].Length;
+            var rows = lines.Length;
+            var columns = lines[0].Length;
 
             var grid = new byte[rows][];
 
-            for(byte i = 0; i < rows; i++)
+            for(int i = 0; i < rows; i++)
             {
                 grid[i] = new byte[columns];
                 for(int j = 0; j < columns; j++)
