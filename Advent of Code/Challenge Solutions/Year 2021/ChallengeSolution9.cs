@@ -1,4 +1,6 @@
-﻿using static Advent_of_Code.Utilities;
+﻿using System.Drawing;
+using System.Reflection;
+using static Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
@@ -21,7 +23,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
             foreach (var point in lowPoints)
             {
-                sum += heightMap[point.row, point.column] + 1;
+                sum += heightMap[point.Row, point.Column] + 1;
             }
 
             Console.WriteLine(sum);
@@ -32,86 +34,86 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             var heightMap = ReadHeightMap();
             var lowPoints = GetLowPoints(heightMap);
 
-            var basinHeights = CalculateBasinSizes(heightMap, lowPoints);
+            int basins;
+            CreateBasins(heightMap, lowPoints, out basins);
 
-            Console.WriteLine(basinHeights
-                .OrderBy(x => x)
+            Console.WriteLine(CalculateBasinSizes(heightMap, basins)
+                .OrderByDescending(x => x)
                 .Take(3)
                 .Aggregate((x, y) => x * y));
         }
 
-        private List<int> CalculateBasinSizes(int[,] heightMap, List<(int row, int column)> lowPoints)
+        private List<int> CalculateBasinSizes(int[,] heightMap, int basins)
         {
-            var basinHeights = new List<int>();
+            var basinToSize = new Dictionary<int, int>();
 
+            for(int i = 0; i < rows; i++)
+            {
+                for(int j = 0; j < columns; j++)
+                {
+                    var basinNumber = heightMap[i, j];
+                    if(basinNumber < 0)
+                    {
+                        if (basinToSize.ContainsKey(basinNumber))
+                            basinToSize[basinNumber]++;
+                        else
+                            basinToSize.Add(basinNumber, 1);
+                    }
+                }
+            }
+
+            return basinToSize.Values.ToList();
+        }
+
+        private void CreateBasins(int[,] heightMap, List<Coordinate> lowPoints, out int basins)
+        {
+            basins = 0;
             foreach (var lowPoint in lowPoints)
             {
-                if (heightMap[lowPoint.row, lowPoint.column] < 9)
+                if (heightMap[lowPoint.Row, lowPoint.Column] < 9)
                 {
-                    int basinSize;
-                    CreateBasin(heightMap, lowPoint, out basinSize);
-                    for (var i = 0; i < rows; i++)
+                    basins++;
+                    GetBasinMembers(heightMap, lowPoint, basins);
+                }
+            }
+        }
+
+        private HashSet<Coordinate> GetBasinMembers(int[,] heightMap, Coordinate startingPoint, int basinNumber)
+        {
+            var basinMembers = new HashSet<Coordinate>();
+            if (heightMap[startingPoint.Row, startingPoint.Column] < 0)
+                return basinMembers;
+
+            basinMembers.Add(startingPoint);
+            heightMap[startingPoint.Row, startingPoint.Column] = -basinNumber;
+
+            foreach(var neighbour in GetNeighbourCoords(startingPoint))
+            {
+                if(InBounds(neighbour))
+                {
+                    if (heightMap[neighbour.Row, neighbour.Column] < 9 && heightMap[neighbour.Row, neighbour.Column] >= 0)
                     {
-                        for (var j = 0; j < columns; j++)
-                        {
-                            Console.Write(heightMap[i, j] + " ");
-                        }
-                        Console.WriteLine();
+                        basinMembers.Add(neighbour);
+                        foreach(var member in GetBasinMembers(heightMap, neighbour, basinNumber))
+                            basinMembers.Add(member);
                     }
-                    Console.WriteLine();
-
-                    basinHeights.Add(basinSize);
                 }
             }
 
-            return basinHeights;
+            return basinMembers;
         }
 
-        private void CreateBasin(int[,] heightMap, (int row, int column) point, out int basinSize)
+        private List<Coordinate> GetLowPoints(int[,] heightMap)
         {
-            basinSize = 1;
-            heightMap[point.row, point.column] = 9;
-            var neighbours = GetNeighbourLowPoints(heightMap, point);
-
-            while(neighbours.Count > 0)
-            {
-                var newNeighbours = new List<(int row, int column)>();
-
-                basinSize += neighbours.Count;
-                foreach(var neighbour in neighbours)
-                {
-                    heightMap[neighbour.row, neighbour.column] = 9;
-                    newNeighbours.AddRange(GetNeighbourLowPoints(heightMap, neighbour));
-                }
-
-                neighbours = newNeighbours;
-            }
-        }
-
-        private List<(int row, int column)> GetNeighbourLowPoints(int[,] heightMap, (int row, int column) coord)
-        {
-            var neighbours = new List<(int row, int column)>();
-            var coords = GetNeighbourCoords(coord);
-            foreach (var x in coords)
-            {
-                if (InBounds(x) && IsLowPoint(heightMap, x))
-                    neighbours.Add(x);
-            }
-
-            return neighbours;
-        }
-
-        private List<(int row, int column)> GetLowPoints(int[,] heightMap)
-        {
-            var lowPoints = new List<(int row, int column)>();
+            var lowPoints = new List<Coordinate>();
 
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    if (IsLowPoint(heightMap, (i, j)))
+                    if (IsLowPoint(heightMap, new Coordinate(i, j)))
                     {
-                        lowPoints.Add((i, j));
+                        lowPoints.Add(new Coordinate(i, j));
                     }
                 }
             }
@@ -119,11 +121,11 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             return lowPoints;
         }
 
-        private bool IsLowPoint(int[,] heightMap, (int row, int column) coord)
+        private bool IsLowPoint(int[,] heightMap, Coordinate coord)
         {
             foreach(var neighbour in GetNeighbourCoords(coord))
             {
-                if (InBounds(coord) && heightMap[neighbour.row, neighbour.column] <= heightMap[coord.row, coord.column])
+                if (InBounds(coord) && heightMap[neighbour.Row, neighbour.Column] <= heightMap[coord.Row, coord.Column])
                 {
                     return false;
                 }
@@ -132,14 +134,14 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             return true;
         }
 
-        private List<(int row, int column)> GetNeighbourCoords((int row, int column) coord)
+        private List<Coordinate> GetNeighbourCoords(Coordinate coord)
         {
-            var coords = new List<(int row, int column)>() 
+            var coords = new List<Coordinate>() 
             { 
-                (coord.row - 1, coord.column), 
-                (coord.row, coord.column - 1), 
-                (coord.row + 1, coord.column), 
-                (coord.row, coord.column + 1) 
+                new Coordinate(coord.Row - 1, coord.Column), 
+                new Coordinate(coord.Row, coord.Column - 1), 
+                new Coordinate(coord.Row + 1, coord.Column), 
+                new Coordinate(coord.Row, coord.Column + 1) 
             };
 
             for (int k = 0; k < coords.Count; k++)
@@ -152,9 +154,9 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             return coords;
         }
 
-        private bool InBounds((int row, int column) coord)
+        private bool InBounds(Coordinate coord)
         {
-            return coord.row >= 0 && coord.row < rows && coord.column >= 0 && coord.column < columns;
+            return coord.Row >= 0 && coord.Row < rows && coord.Column >= 0 && coord.Column < columns;
         }
 
         private int[,] ReadHeightMap()
@@ -174,5 +176,6 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             }
         }
 
+        private record Coordinate(int Row, int Column);
     }
 }
