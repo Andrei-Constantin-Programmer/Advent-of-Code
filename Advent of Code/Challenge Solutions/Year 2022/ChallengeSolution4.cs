@@ -20,7 +20,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 .Count());
         }
 
-        private List<Pair> ReadPairRanges()
+        private static List<Pair> ReadPairRanges()
         {
             var pairs = new List<Pair>();
 
@@ -45,12 +45,12 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return pairs;
         }
 
-        private bool ContainsRange(Range firstRange, Range secondRange)
+        private static bool ContainsRange(Range firstRange, Range secondRange)
         {
             return firstRange.Minimum <= secondRange.Minimum && firstRange.Maximum >= secondRange.Maximum;
         }
 
-        private bool OverlapsRange(Range firstRange, Range secondRange)
+        private static bool OverlapsRange(Range firstRange, Range secondRange)
         {
             if (firstRange.Minimum == secondRange.Minimum || firstRange.Minimum == secondRange.Maximum)
                 return true;

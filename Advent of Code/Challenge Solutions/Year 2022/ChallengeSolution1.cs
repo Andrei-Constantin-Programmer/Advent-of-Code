@@ -14,7 +14,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(GetElfCaloriesList().GetRange(0, 3).Sum());
         }
 
-        private List<int> GetElfCaloriesList()
+        private static List<int> GetElfCaloriesList()
         {
             var elfCalories = new List<int>();
             using (TextReader read = GetInputFile(2022, 1))

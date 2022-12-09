@@ -23,8 +23,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 .Sum());
         }
 
-
-        private List<(char, char)> ReadRockPaperScissorsRounds()
+        private static List<(char, char)> ReadRockPaperScissorsRounds()
         {
             var rounds = new List<(char, char)>();
             using (TextReader read = GetInputFile(2022, 2))
@@ -72,13 +71,6 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             };
         } 
 
-        private enum RockPaperScissorsChoice
-        {
-            Rock = 1,
-            Paper = 2,
-            Scissors = 3,
-        }
-
         private static RockPaperScissorsChoice GetChoiceForCharacter(char character)
         {
             if (character == 'A' || character == 'X')
@@ -91,7 +83,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             throw new ArgumentException("This character does not map to a rock-paper-scissors choice");
         }
 
-        public int GetScorePartOne(char oponentChoiceCharacter, char yourChoiceCharacter)
+        public static int GetScorePartOne(char oponentChoiceCharacter, char yourChoiceCharacter)
         {
             var oponentChoice = GetChoiceForCharacter(oponentChoiceCharacter);
             var yourChoice = GetChoiceForCharacter(yourChoiceCharacter);
@@ -105,7 +97,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return 6 + (int)yourChoice;
         }
 
-        public int GetScorePartTwo(char oponentChoiceCharacter, char roundConclusion)
+        public static int GetScorePartTwo(char oponentChoiceCharacter, char roundConclusion)
         {
             var oponentChoice = GetChoiceForCharacter(oponentChoiceCharacter);
             var yourChoice = oponentChoice switch
@@ -141,6 +133,13 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 return (int)yourChoice;
 
             return 6 + (int)yourChoice;
+        }
+
+        private enum RockPaperScissorsChoice
+        {
+            Rock = 1,
+            Paper = 2,
+            Scissors = 3,
         }
     }
 }

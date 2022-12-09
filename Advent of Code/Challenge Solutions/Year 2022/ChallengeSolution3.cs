@@ -24,7 +24,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(sum);
         }
 
-        private string[] ReadRucksacks()
+        private static string[] ReadRucksacks()
         {
             var rucksackList = new List<string>();
 
@@ -40,7 +40,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return rucksackList.ToArray();
         }
 
-        private char GetCommonItemType(string rucksack)
+        private static char GetCommonItemType(string rucksack)
         {
             var firstCompartment = rucksack.Substring(0, rucksack.Length / 2);
             var secondCompartment = rucksack.Substring(rucksack.Length / 2, rucksack.Length / 2);
@@ -48,12 +48,12 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return firstCompartment.First(c => secondCompartment.Contains(c));
         }
 
-        private char GetCommonItemTypePerGroup(string firstRucksack, string secondRucksack, string thirdRucksack)
+        private static char GetCommonItemTypePerGroup(string firstRucksack, string secondRucksack, string thirdRucksack)
         {
             return firstRucksack.First(c => secondRucksack.Contains(c) && thirdRucksack.Contains(c));
         }
 
-        private int GetItemTypePriority(char itemType)
+        private static int GetItemTypePriority(char itemType)
         {
             if (Char.IsLower(itemType))
                 return itemType - 'a' + 1;

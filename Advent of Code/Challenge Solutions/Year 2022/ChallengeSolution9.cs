@@ -25,12 +25,12 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(knots.Last().History.Count);
         }
 
-        private void ComputeCommands(Knot head, Knot tail, List<Command> commands)
+        private static void ComputeCommands(Knot head, Knot tail, List<Command> commands)
         {
             ComputeCommands(head, new List<Knot>() { tail }, commands);
         }
 
-        private void ComputeCommands(Knot head, List<Knot> trailingKnots, List<Command> commands)
+        private static void ComputeCommands(Knot head, List<Knot> trailingKnots, List<Command> commands)
         {
             foreach(var command in commands)
             {
@@ -38,7 +38,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             }
         }
 
-        private (Knot, List<Knot>) MoveRope(Knot head, List<Knot> trailingKnots, Command command)
+        private static (Knot, List<Knot>) MoveRope(Knot head, List<Knot> trailingKnots, Command command)
         {
             if (command.Steps == 0)
             {
@@ -57,7 +57,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return MoveRope(head, trailingKnots, new Command(command.Direction, command.Steps - 1));
         }
 
-        private Knot MoveTail(Knot head, Knot tail)
+        private static Knot MoveTail(Knot head, Knot tail)
         {
             if (AreTouching(head.Position, tail.Position))
                 return tail;
@@ -112,7 +112,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return new Knot(newTailPosition, tail.History);
         }
 
-        private bool AreTouching(Coordinate head, Coordinate tail)
+        private static bool AreTouching(Coordinate head, Coordinate tail)
         {
             if (head == tail)
                 return true;
@@ -128,7 +128,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return true;
         }
 
-        private Knot MoveHead(Knot head, Direction direction)
+        private static Knot MoveHead(Knot head, Direction direction)
         {
             var newHead = new Knot(new Coordinate(head.Position.Row, head.Position.Column));
             switch (direction)
@@ -150,7 +150,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return newHead;
         }
 
-        private List<Knot> CreateKnots()
+        private static List<Knot> CreateKnots()
         {
             var knots = new List<Knot>();
 
@@ -160,7 +160,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return knots;
         }
 
-        private List<Command> ReadCommands()
+        private static List<Command> ReadCommands()
         {
             var commands = new List<Command>();
             using(TextReader read = Utilities.GetInputFile(2022, 9))

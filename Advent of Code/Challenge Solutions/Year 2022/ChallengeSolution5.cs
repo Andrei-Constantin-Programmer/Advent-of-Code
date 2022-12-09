@@ -22,7 +22,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(String.Join("", stacks.Select(stack => stack.Peek())));
         }
 
-        private void OperateMovesCrateMover9000(List<Stack<char>> stacks, List<MoveOperation> moves)
+        private static void OperateMovesCrateMover9000(List<Stack<char>> stacks, List<MoveOperation> moves)
         {
             foreach(var move in moves)
             {
@@ -33,7 +33,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             }
         }
 
-        private void OperateMovesCrateMover9001(List<Stack<char>> stacks, List<MoveOperation> moves)
+        private static void OperateMovesCrateMover9001(List<Stack<char>> stacks, List<MoveOperation> moves)
         {
             foreach (var move in moves)
             {
@@ -50,7 +50,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             }
         }
 
-        private (List<Stack<char>>, List<MoveOperation>) ReadInput()
+        private static (List<Stack<char>>, List<MoveOperation>) ReadInput()
         {
             var stacks = new List<Stack<char>>();
             var moves = new List<MoveOperation>();
@@ -79,7 +79,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return (stacks, moves);
         }
 
-        private List<Stack<char>> GetStacksFromInput(List<string> input)
+        private static List<Stack<char>> GetStacksFromInput(List<string> input)
         {
             var stacks = new List<Stack<char>>();
 

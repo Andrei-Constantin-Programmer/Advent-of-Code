@@ -18,7 +18,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(FindFirstUniqueBufferPosition(buffer, 14));
         }
 
-        private int FindFirstUniqueBufferPosition(string buffer, int bufferSize)
+        private static int FindFirstUniqueBufferPosition(string buffer, int bufferSize)
         {
             char[] recent = new char[bufferSize];
 
@@ -38,7 +38,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return count;
         }
 
-        private bool ContainsDuplicateCharacter(char[] array)
+        private static bool ContainsDuplicateCharacter(char[] array)
         {
             for (int i = 0; i < array.Length - 1; i++)
             {
@@ -54,7 +54,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return false;
         }
 
-        private string ReadDatastreamBuffer()
+        private static string ReadDatastreamBuffer()
         {
             return String.Join("", File.ReadAllLines(GetFileString(FileType.Input, 2022, 6)));
         }

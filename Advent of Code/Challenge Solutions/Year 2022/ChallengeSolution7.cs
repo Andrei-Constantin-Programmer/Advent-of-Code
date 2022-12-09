@@ -48,7 +48,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         }
 
 
-        private Folder ReadFileSystem()
+        private static Folder ReadFileSystem()
         {
             var root = new Folder("/");
 
