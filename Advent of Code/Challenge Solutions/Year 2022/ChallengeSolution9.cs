@@ -4,13 +4,6 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution9 : ChallengeSolution
     {
-        private HashSet<Coordinate> visitedCoordinates;
-
-        public ChallengeSolution9()
-        {
-            visitedCoordinates = new HashSet<Coordinate>();
-        }
-
         public void SolveFirstPart()
         {
             var commands = ReadCommands();
@@ -127,9 +120,9 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             int horizontalDistance = head.Column - tail.Column;
             int verticalDistance = head.Row - tail.Row;
 
-            if (!(horizontalDistance >= -1 && horizontalDistance <= 1))
+            if (Math.Abs(horizontalDistance) > 1)
                 return false;
-            if (!(verticalDistance >= -1 && verticalDistance <= 1))
+            if (Math.Abs(verticalDistance) > 1)
                 return false;
 
             return true;
@@ -156,7 +149,6 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
             return newHead;
         }
-
 
         private List<Knot> CreateKnots()
         {
