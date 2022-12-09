@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿using System.Security.AccessControl;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution9 : ChallengeSolution
     {
@@ -13,90 +15,108 @@
         {
             var commands = ReadCommands();
 
-            var (head, tail) = ComputeCommands(commands);
+            var head = new Knot(new Coordinate(0, 0));
+            var tail = new Knot(new Coordinate(0, 0));
+            ComputeCommands(head, tail, commands);
 
-            Console.WriteLine(visitedCoordinates.Count);
+            Console.WriteLine(tail.History.Count);
         }
 
         public void SolveSecondPart()
         {
-            throw new NotImplementedException();
+            var commands = ReadCommands();
+            var knots = CreateKnots();
+
+            ComputeCommands(knots[0], knots.Skip(1).ToList(), commands);
+
+            Console.WriteLine(knots.Last().History.Count);
         }
 
-        private (Coordinate head, Coordinate tail) ComputeCommands(List<Command> commands)
+        private void ComputeCommands(Knot head, Knot tail, List<Command> commands)
         {
-            var head = new Coordinate(0, 0);
-            var tail = new Coordinate(0, 0);
-            visitedCoordinates.Add(tail);
+            ComputeCommands(head, new List<Knot>() { tail }, commands);
+        }
 
+        private void ComputeCommands(Knot head, List<Knot> trailingKnots, List<Command> commands)
+        {
             foreach(var command in commands)
             {
-                (head, tail) = MoveRope(head, tail, command);
+                (head, trailingKnots) = MoveRope(head, trailingKnots, command);
             }
-
-            return (head, tail);
         }
 
-        private (Coordinate, Coordinate) MoveRope(Coordinate head, Coordinate tail, Command command)
+        private (Knot, List<Knot>) MoveRope(Knot head, List<Knot> trailingKnots, Command command)
         {
             if (command.Steps == 0)
             {
-                return (head, tail);
+                return (head, trailingKnots);
             }
 
             head = MoveHead(head, command.Direction);
-            tail = MoveTail(head, tail);
+            for(int i = 0; i < trailingKnots.Count; i++)
+            {
+                if (i == 0)
+                    trailingKnots[i] = MoveTail(head, trailingKnots[i]);
+                else
+                    trailingKnots[i] = MoveTail(trailingKnots[i - 1], trailingKnots[i]);
+            }
 
-            return MoveRope(head, tail, new Command(command.Direction, command.Steps - 1));
+            return MoveRope(head, trailingKnots, new Command(command.Direction, command.Steps - 1));
         }
 
-        private Coordinate MoveTail(Coordinate head, Coordinate tail)
+        private Knot MoveTail(Knot head, Knot tail)
         {
-            if (AreTouching(head, tail))
+            if (AreTouching(head.Position, tail.Position))
                 return tail;
 
-            var newTail = new Coordinate(tail.Row, tail.Column);
-            if(head.Row == tail.Row)
+            var newTailPosition = new Coordinate(tail.Position.Row, tail.Position.Column);
+
+            var headRow = head.Position.Row;
+            var headColumn = head.Position.Column;
+            var tailRow = tail.Position.Row;
+            var tailColumn = tail.Position.Column;
+
+            if(headRow == tailRow)
             {
-                if (head.Column > tail.Column)
-                    newTail.Column++;
-                else if (head.Column < tail.Column)
-                    newTail.Column--;
+                if (headColumn > tailColumn)
+                    newTailPosition.Column++;
+                else if (headColumn < tailColumn)
+                    newTailPosition.Column--;
             }
-            else if(head.Column == tail.Column)
+            else if(headColumn == tailColumn)
             {
-                if (head.Row > tail.Row)
-                    newTail.Row++;
-                else if (head.Row < tail.Row)
-                    newTail.Row--;
+                if (headRow > tailRow)
+                    newTailPosition.Row++;
+                else if (headRow < tailRow)
+                    newTailPosition.Row--;
             }
             else
             {
-                if(head.Row < tail.Row && head.Column < tail.Column)
+                if(headRow < tailRow && headColumn < tailColumn)
                 {
-                    newTail.Row--;
-                    newTail.Column--;
+                    newTailPosition.Row--;
+                    newTailPosition.Column--;
                 }
-                else if (head.Row < tail.Row && head.Column > tail.Column)
+                else if (headRow < tailRow && headColumn > tailColumn)
                 {
-                    newTail.Row--;
-                    newTail.Column++;
+                    newTailPosition.Row--;
+                    newTailPosition.Column++;
                 }
-                else if (head.Row > tail.Row && head.Column < tail.Column)
+                else if (headRow > tailRow && headColumn < tailColumn)
                 {
-                    newTail.Row++;
-                    newTail.Column--;
+                    newTailPosition.Row++;
+                    newTailPosition.Column--;
                 }
                 else
                 {
-                    newTail.Row++;
-                    newTail.Column++;
+                    newTailPosition.Row++;
+                    newTailPosition.Column++;
                 }
             }
 
-            visitedCoordinates.Add(newTail);
+            tail.History.Add(newTailPosition);
 
-            return newTail;
+            return new Knot(newTailPosition, tail.History);
         }
 
         private bool AreTouching(Coordinate head, Coordinate tail)
@@ -115,21 +135,37 @@
             return true;
         }
 
-        private Coordinate MoveHead(Coordinate head, Direction direction)
+        private Knot MoveHead(Knot head, Direction direction)
         {
+            var newHead = new Knot(new Coordinate(head.Position.Row, head.Position.Column));
             switch (direction)
             {
                 case Direction.Up:
-                    return new Coordinate(head.Row - 1, head.Column);
+                    newHead.Position = new Coordinate(head.Position.Row - 1, head.Position.Column);
+                    break;
                 case Direction.Down:
-                    return new Coordinate(head.Row + 1, head.Column);
+                    newHead.Position = new Coordinate(head.Position.Row + 1, head.Position.Column);
+                    break;
                 case Direction.Left:
-                    return new Coordinate(head.Row, head.Column - 1);
+                    newHead.Position = new Coordinate(head.Position.Row, head.Position.Column - 1);
+                    break;
                 case Direction.Right:
-                    return new Coordinate(head.Row, head.Column + 1);
+                    newHead.Position = new Coordinate(head.Position.Row, head.Position.Column + 1);
+                    break;
             }
 
-            return head;
+            return newHead;
+        }
+
+
+        private List<Knot> CreateKnots()
+        {
+            var knots = new List<Knot>();
+
+            for(int i = 0; i < 10; i++)
+                knots.Add(new Knot(new Coordinate(0, 0)));
+
+            return knots;
         }
 
         private List<Command> ReadCommands()
@@ -155,6 +191,24 @@
             }
 
             return commands;
+        }
+
+        private class Knot
+        {
+            public Coordinate Position { get; set; }
+            public HashSet<Coordinate> History { get; set; }
+
+            public Knot(Coordinate initialPosition)
+            {
+                Position = initialPosition;
+                History = new HashSet<Coordinate>() { initialPosition };
+            }
+
+            public Knot(Coordinate position, HashSet<Coordinate> history)
+            {
+                Position = position;
+                History = history;
+            }
         }
 
         private record struct Coordinate(int Row, int Column);
