@@ -6,10 +6,11 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution10 : ChallengeSolution
     {
-        private int sumSignalStrengths;
         private const int DISPLAY_WIDTH = 40, DISPLAY_HEIGHT = 6;
+        private const char LIT = '#', DARK = ' ';
+
+        private int sumSignalStrengths;
         private char[] flattenedDisplay;
-        private const char LIT = '#', DARK = '.';
 
         public ChallengeSolution10()
         {
@@ -40,20 +41,19 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
             foreach(var command in commands)
             {
-                try
-                {
-                    RunCommand(cpu, command, DrawCycle);
-                } catch(Exception ex)
-                {
-                    Console.WriteLine(ex.StackTrace);
-                }
+                RunCommand(cpu, command, DrawCycle);
             }
 
+            PrintDisplay();
+        }
+
+        private void PrintDisplay()
+        {
             var display = UnflattenDisplay(flattenedDisplay);
 
-            for(int i = 0; i < DISPLAY_HEIGHT; i++)
+            for (int i = 0; i < DISPLAY_HEIGHT; i++)
             {
-                for(int j = 0; j < DISPLAY_WIDTH; j++)
+                for (int j = 0; j < DISPLAY_WIDTH; j++)
                 {
                     Console.Write(display[i][j]);
                 }
@@ -123,7 +123,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         private static string[] ReadCommands()
         {
-            return File.ReadAllLines(GetFileString(Utilities.FileType.Input, 2022, 10));
+            return File.ReadAllLines(GetFileString(FileType.Input, 2022, 10));
         }
 
         private class CPU
