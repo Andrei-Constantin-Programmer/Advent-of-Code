@@ -1,11 +1,24 @@
 ﻿using Microsoft.Win32;
+using System.ComponentModel.DataAnnotations;
 using static Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution10 : ChallengeSolution
     {
-        private int sumSignalStrengths = 0;
+        private int sumSignalStrengths;
+        private const int DISPLAY_WIDTH = 40, DISPLAY_HEIGHT = 6;
+        private char[] flattenedDisplay;
+        private const char LIT = '#', DARK = '.';
+
+        public ChallengeSolution10()
+        {
+            sumSignalStrengths = 0;
+
+            flattenedDisplay = new char[DISPLAY_HEIGHT * DISPLAY_WIDTH];
+            for (int i = 0; i < flattenedDisplay.Length; i++)
+                flattenedDisplay[i] = DARK;
+        }
 
         public void SolveFirstPart()
         {
@@ -14,7 +27,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
             foreach(var command in commands)
             {
-                RunCommand(cpu, command);
+                RunCommand(cpu, command, AddSignalStrengthIfInteresting);
             }
 
             Console.WriteLine(sumSignalStrengths);
@@ -22,33 +35,42 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         public void SolveSecondPart()
         {
-            throw new NotImplementedException();
+            var cpu = new CPU();
+            var commands = ReadCommands();
+
+            foreach(var command in commands)
+            {
+                try
+                {
+                    RunCommand(cpu, command, DrawCycle);
+                } catch(Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                }
+            }
+
+            var display = UnflattenDisplay(flattenedDisplay);
+
+            for(int i = 0; i < DISPLAY_HEIGHT; i++)
+            {
+                for(int j = 0; j < DISPLAY_WIDTH; j++)
+                {
+                    Console.Write(display[i][j]);
+                }
+                Console.WriteLine();
+            }
         }
 
-        private void RunCommand(CPU cpu, string command)
+        private static char[][] UnflattenDisplay(char[] flattenedDisplay)
         {
-            var elements = command.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            char[][] display = new char[DISPLAY_HEIGHT][];
 
-            switch (elements[0])
+            for(int i = 0; i < DISPLAY_HEIGHT; i++)
             {
-                case "noop":
-                    cpu.Cycles++;
-                    AddSignalStrengthIfInteresting(cpu);
-
-                    break;
-                case "addx":
-                    cpu.Cycles++;
-                    AddSignalStrengthIfInteresting(cpu);
-
-                    cpu.Register += Convert.ToInt32(elements[1]);
-
-                    cpu.Cycles++;
-                    AddSignalStrengthIfInteresting(cpu);
-
-                    break;
-                default:
-                    throw new ArgumentException();
+                display[i] = flattenedDisplay.ToList().GetRange(i * DISPLAY_WIDTH, DISPLAY_WIDTH).ToArray();
             }
+
+            return display;
         }
 
         private void AddSignalStrengthIfInteresting(CPU cpu)
@@ -59,7 +81,39 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             }
         }
 
-        private bool IsInterestingCycle(int cycle)
+        private void DrawCycle(CPU cpu)
+        {
+            var currentPosition = cpu.Cycles - 1;
+
+            if(Math.Abs(cpu.Register - currentPosition % 40) <= 1 && currentPosition < flattenedDisplay.Length)
+            {
+                flattenedDisplay[currentPosition] = LIT;
+            }
+        }
+
+        private static void RunCommand(CPU cpu, string command, Action<CPU> cycleEvent)
+        {
+            var elements = command.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+            switch (elements[0])
+            {
+                case "noop":
+                    cycleEvent(cpu);
+                    cpu.Cycles++;
+                    break;
+                case "addx":
+                    cycleEvent(cpu);
+                    cpu.Cycles++;
+                    cycleEvent(cpu);
+                    cpu.Register += Convert.ToInt32(elements[1]);
+                    cpu.Cycles++;
+                    break;
+                default:
+                    throw new ArgumentException("Command unrecognised");
+            }
+        }
+
+        private static bool IsInterestingCycle(int cycle)
         {
             while (cycle > 20)
                 cycle -= 40;
@@ -67,7 +121,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return cycle == 20;
         }
 
-        private string[] ReadCommands()
+        private static string[] ReadCommands()
         {
             return File.ReadAllLines(GetFileString(Utilities.FileType.Input, 2022, 10));
         }
