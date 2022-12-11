@@ -4,25 +4,28 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution11 : ChallengeSolution
     {
+        private int limit;
+
         public void SolveFirstPart()
         {
             var monkeys = ReadMonkeys();
-
-            Console.WriteLine(FindMonkeyBusiness(monkeys));
+            Console.WriteLine(FindMonkeyBusiness(monkeys, 20, (x) => x / 3));
         }
 
         public void SolveSecondPart()
         {
-            throw new NotImplementedException();
+            limit = 1;
+            var monkeys = ReadMonkeys();
+            Console.WriteLine(FindMonkeyBusiness(monkeys, 10000, (x) => x % limit));
         }
 
-        private static int FindMonkeyBusiness(List<Monkey> monkeys)
+        private long FindMonkeyBusiness(List<Monkey> monkeys, int rounds, Func<long, long> modifier)
         {
-            var totalItemsInspected = new int[monkeys.Count];
+            var totalItemsInspected = new long[monkeys.Count];
 
-            for(int round = 0; round < 20; round++)
+            for(int round = 0; round < rounds; round++)
             {
-                var inspectedThisRound = PlayRoundAndReturnInspected(monkeys);
+                var inspectedThisRound = PlayRoundAndReturnInspected(monkeys, modifier);
 
                 for (int monkeyIndex = 0; monkeyIndex < monkeys.Count; monkeyIndex++)
                 {
@@ -37,10 +40,9 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 .Aggregate((x, y) => x * y);
         }
 
-        private static int[] PlayRoundAndReturnInspected(List<Monkey> monkeys)
+        private long[] PlayRoundAndReturnInspected(List<Monkey> monkeys, Func<long, long> modifier)
         {
-            var itemsInspected = new List<int>();
-            int x = 0;
+            var itemsInspected = new List<long>();
             foreach (var monkey in monkeys)
             {
                 itemsInspected.Add(monkey.Items.Count);
@@ -49,18 +51,16 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 {
                     var item = monkey.Items[i];
                     item = monkey.Operation(item);
-                    item /= 3;
+                    item = modifier(item);
                     monkeys[monkey.ThrowToMonkey(item)].Items.Add(item);
                 }
                 monkey.Items.Clear();
-
-                x++;
             }
 
             return itemsInspected.ToArray();
         }
 
-        private static List<Monkey> ReadMonkeys()
+        private List<Monkey> ReadMonkeys()
         {
             var monkeys = new List<Monkey>();
 
@@ -68,9 +68,9 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             {
                 string? line;
 
-                var currentItems = new List<int>();
-                Func<int, int>? currentOperation = null;
-                Func<int, int>? currentTest = null;
+                var currentItems = new List<long>();
+                Func<long, long>? currentOperation = null;
+                Func<long, int>? currentTest = null;
 
                 while (true)
                 {
@@ -79,7 +79,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                     if(line == null || line.Trim().Length == 0)
                     {
                         monkeys.Add(new Monkey(currentItems, currentOperation!, currentTest!));
-                        currentItems = new List<int>();
+                        currentItems = new List<long>();
                         currentOperation = null;
                         currentTest = null;
 
@@ -91,7 +91,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                         currentItems.AddRange(line
                             .Split(":", StringSplitOptions.RemoveEmptyEntries)[1]
                             .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                            .Select(x => Convert.ToInt32(x))
+                            .Select(x => Convert.ToInt64(x))
                             .ToList()
                             );
                     }
@@ -114,6 +114,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                         var trueValue = Convert.ToInt32(trueLine!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
                         var falseValue = Convert.ToInt32(falseLine!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
 
+                        limit *= divisibleBy;
                         currentTest = (value) => value % divisibleBy == 0 ? trueValue : falseValue;
                     }
                 }
@@ -124,11 +125,11 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         private class Monkey
         {
-            public List<int> Items { get; set; }
-            public Func<int, int> Operation { get; init; }
-            public Func<int, int> ThrowToMonkey { get; init; }
+            public List<long> Items { get; set; }
+            public Func<long, long> Operation { get; init; }
+            public Func<long, int> ThrowToMonkey { get; init; }
 
-            public Monkey(List<int> items, Func<int, int> operation, Func<int, int> throwTest)
+            public Monkey(List<long> items, Func<long, long> operation, Func<long, int> throwTest)
             {
                 Items = items;
                 Operation = operation;
