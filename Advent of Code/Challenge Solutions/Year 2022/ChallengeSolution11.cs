@@ -75,8 +75,9 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 while (true)
                 {
                     line = read.ReadLine();
+                    line = line?.Trim();
 
-                    if(line == null || line.Trim().Length == 0)
+                    if(line == null || line.Length == 0)
                     {
                         monkeys.Add(new Monkey(currentItems, currentOperation!, currentTest!));
                         currentItems = new List<long>();
@@ -86,7 +87,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                         if (line == null)
                             break;
                     }
-                    else if(line.Trim().StartsWith("Starting items"))
+                    else if(line.StartsWith("Starting items"))
                     {
                         currentItems.AddRange(line
                             .Split(":", StringSplitOptions.RemoveEmptyEntries)[1]
@@ -95,7 +96,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                             .ToList()
                             );
                     }
-                    else if(line.Trim().StartsWith("Operation"))
+                    else if(line.StartsWith("Operation"))
                     {
                         var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
@@ -106,7 +107,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                         else
                             currentOperation = (old) => old * ((value == "old") ? old : Convert.ToInt32(value));
                     }
-                    else if(line.Trim().StartsWith("Test"))
+                    else if(line.StartsWith("Test"))
                     {
                         var trueLine = read.ReadLine()!.Trim();
                         var falseLine = read.ReadLine()!.Trim();
