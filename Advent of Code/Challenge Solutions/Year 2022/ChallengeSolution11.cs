@@ -19,7 +19,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(FindMonkeyBusiness(monkeys, 10000, (x) => x % limit));
         }
 
-        private long FindMonkeyBusiness(List<Monkey> monkeys, int rounds, Func<long, long> modifier)
+        private static long FindMonkeyBusiness(List<Monkey> monkeys, int rounds, Func<long, long> modifier)
         {
             var totalItemsInspected = new long[monkeys.Count];
 
@@ -40,7 +40,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 .Aggregate((x, y) => x * y);
         }
 
-        private long[] PlayRoundAndReturnInspected(List<Monkey> monkeys, Func<long, long> modifier)
+        private static long[] PlayRoundAndReturnInspected(List<Monkey> monkeys, Func<long, long> modifier)
         {
             var itemsInspected = new List<long>();
             foreach (var monkey in monkeys)
