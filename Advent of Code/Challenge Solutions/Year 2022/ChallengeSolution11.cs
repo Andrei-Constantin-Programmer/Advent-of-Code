@@ -112,6 +112,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                         var trueLine = read.ReadLine()!.Trim();
                         var falseLine = read.ReadLine()!.Trim();
                         var divisibleBy = Convert.ToInt32(line.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
+
                         var trueValue = Convert.ToInt32(trueLine!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
                         var falseValue = Convert.ToInt32(falseLine!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
 
