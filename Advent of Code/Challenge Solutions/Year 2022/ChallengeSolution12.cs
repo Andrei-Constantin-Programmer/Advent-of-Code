@@ -4,7 +4,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution12 : ChallengeSolution
     {
-        private static char START = 'S', END = 'E';
+        private const char START = 'S', END = 'E';
         private readonly int[][] heightMap;
         private (int row, int column) endPosition;
 
@@ -18,14 +18,14 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         {
             var distanceMap = CreateMatrix<int>(heightMap.Length, heightMap[0].Length);
 
-            Console.WriteLine(ShortestPath(distanceMap, endPosition, 27));
+            Console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a') + 1));
         }
 
         public void SolveSecondPart()
         {
             var distanceMap = CreateMatrix<int>(heightMap.Length, heightMap[0].Length);
 
-            Console.WriteLine(ShortestPath(distanceMap, endPosition, 'z' + 1 - 'a'));
+            Console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a')));
         }
 
         private int ShortestPath(int[][] distanceMap, (int row, int column) position, int toBeReached)
@@ -53,17 +53,6 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return shortestPath;
         }
 
-        private (int row, int column)[] GetNeighbourPositions((int row, int column) position)
-        {
-            var neighbours = new List<(int, int)>();
-            for (int direction = 1; direction <= 7; direction += 2)
-            {
-                neighbours.Add((position.row + ((direction % 3) - 1), position.column + ((direction / 3) - 1)));
-            }
-
-            return neighbours.ToArray();
-        }
-
         private bool IsValidMove((int row, int column) position)
         {
             if (position.row < 0)
@@ -83,9 +72,20 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return heightMap[destination.row][destination.column] - heightMap[source.row][source.column] <= 1;
         }
 
-        private bool IsShorterPath(int[][] distanceMap, int currentPath, (int row, int column) position)
+        private static bool IsShorterPath(int[][] distanceMap, int currentPath, (int row, int column) position)
         {
-            return (distanceMap[position.row][position.column] == 0 || currentPath < distanceMap[position.row][position.column]);
+            return distanceMap[position.row][position.column] == 0 || currentPath < distanceMap[position.row][position.column];
+        }
+
+        private static (int row, int column)[] GetNeighbourPositions((int row, int column) position)
+        {
+            var neighbours = new List<(int, int)>();
+            for (int direction = 1; direction <= 7; direction += 2)
+            {
+                neighbours.Add((position.row + ((direction % 3) - 1), position.column + ((direction / 3) - 1)));
+            }
+
+            return neighbours.ToArray();
         }
 
         private (int row, int column) GetPositionOf(int toBeFound)
@@ -107,18 +107,26 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                     {
                         if (c == START)
                         {
-                            return 27;
+                            return LetterReversePositionInAlphabet('a') + 1;
                         }
                         else if (c == END)
                         {
-                            return 0;
+                            return LetterReversePositionInAlphabet('z') - 1;
                         }
                         else
                         {
-                            return 'z' + 1 - c;
+                            return LetterReversePositionInAlphabet(c);
                         }
                     }).ToArray())
                 .ToArray();
+        }
+
+        private static int LetterReversePositionInAlphabet(char letter)
+        {
+            if (!char.IsLetter(letter))
+                return -1;
+
+            return 'z' + 1 - letter;
         }
 
         private static T[][] CreateMatrix<T>(int rows, int columns)
