@@ -11,18 +11,11 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
             var rightOrderIndexSum = 0;
 
-            try
+            for (int i = 0; i < packetGroups.Count; i++)
             {
-
-                for (int i = 0; i < packetGroups.Count; i++)
-                {
-                    var packetGroup = packetGroups[i];
-                    if (packetGroup.Item1.CompareTo(packetGroup.Item2) < 0)
-                        rightOrderIndexSum += (i + 1);
-                }
-            } catch(Exception ex)
-            {
-                Console.WriteLine(ex);
+                var packetGroup = packetGroups[i];
+                if (packetGroup.Item1.CompareTo(packetGroup.Item2) < 0)
+                    rightOrderIndexSum += (i + 1);
             }
 
             Console.WriteLine(rightOrderIndexSum);
@@ -30,7 +23,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         public void SolveSecondPart()
         {
-            var packets = GetAllPackets(ReadPacketGroups());
+            var packets = GetAllPacketsFromPacketGroups(ReadPacketGroups());
             var dividers = CreateDividerPackets(new int[] { 2, 6 });
             packets.AddRange(dividers);
 
@@ -112,20 +105,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return dividers;
         }
 
-        private void PrintPacket(Packet packet)
-        {
-            Console.Write("[");
-            foreach(var item in packet.Items)
-            {
-                if (item.GetType() == typeof(Packet))
-                    PrintPacket((Packet)item);
-                else
-                    Console.Write(" " + ((PacketInteger)item).Value + " ");
-            }
-            Console.Write("]");
-        }
-
-        private static List<Packet> GetAllPackets(List<(Packet, Packet)> packetGroups)
+        private static List<Packet> GetAllPacketsFromPacketGroups(List<(Packet, Packet)> packetGroups)
         {
             var packets = new List<Packet>();
             foreach (var packetGroup in packetGroups)
@@ -139,29 +119,22 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         private static List<(Packet, Packet)> ReadPacketGroups()
         {
-            var packetGroups = new List<(Packet, Packet)>();
-
             var lines = string.Join("\n", File.ReadAllLines(Utilities.GetFileString(Utilities.FileType.Input, 2022, 13)));
 
-            var packets = lines
+            return lines
                 .Split("\n\n", StringSplitOptions.RemoveEmptyEntries)
                 .Select(pair => pair
                                 .Split("\n")
                                 .Select(packet => GetPacket(packet))
                                 .ToArray()
-                ).ToList();
-
-            foreach(var packet in packets)
-            {
-                packetGroups.Add((packet[0], packet[1]));
-            }
-
-            return packetGroups;
+                )
+                .Select(pair => (pair[0], pair[1]))
+                .ToList();
         }
 
         private static Packet GetPacket(string packetString)
         {
-            Packet? currentPacket = new Packet(null);
+            var currentPacket = new Packet(null);
 
             for (int i = 0; i < packetString.Length; i++)
             {
@@ -172,9 +145,9 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
                 if(c == '[')
                 {
-                    var newList = new Packet(currentPacket);
-                    currentPacket!.AddItem(newList);
-                    currentPacket = newList;
+                    var newPacket = new Packet(currentPacket);
+                    currentPacket!.AddItem(newPacket);
+                    currentPacket = newPacket;
                 }
                 else if(c == ']')
                 {
