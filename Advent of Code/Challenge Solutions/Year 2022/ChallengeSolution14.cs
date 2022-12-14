@@ -1,6 +1,7 @@
 ﻿using Advent_of_Code.Challenge_Solutions.Year_2021;
 using System.Data.Common;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using static Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022
@@ -26,9 +27,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         public void SolveSecondPart()
         {
-            var paths = ReadRockPaths(out leftMargin, out rightMargin, out bottomMargin);
             var cave = AddFloor(CreateCaveMap(paths, leftMargin, rightMargin, bottomMargin));
-            
             Console.WriteLine(GrainsToPlugSource(cave, leftMargin));
         }
 
@@ -70,6 +69,23 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             }
 
             return grains;
+        }
+
+        private static void PrintCave(char[][] cave)
+        {
+            for(int i = 0; i < cave.Length; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                var builder = new StringBuilder();
+                for(int j = 0; j < cave[i].Length; j++)
+                {
+                    if (cave[i][j] == AIR)
+                        builder.Append(" ");
+                    else
+                        builder.Append(cave[i][j]);
+                }
+                Console.Write(builder.ToString());
+            }
         }
 
         private static bool MoveSandAndReturnIfSettled(char[][] cave, (int x, int y) sandPosition, out (int x, int y) newSandPosition)
