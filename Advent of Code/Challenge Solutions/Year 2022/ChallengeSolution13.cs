@@ -24,7 +24,7 @@
             var dividers = CreateDividerPackets(new int[] { 2, 6 });
             packets.AddRange(dividers);
 
-            packets = OrderPackets(packets);
+            packets.Sort();
 
             var product = 1;
             for(int i = 0; i < packets.Count; i++)
@@ -41,48 +41,6 @@
             }
 
             Console.WriteLine(product);
-        }
-
-        private static List<Packet> OrderPackets(List<Packet> packets)
-        {
-            return SortPacketArray(packets.ToArray(), 0, packets.Count - 1).ToList();
-        }
-
-        private static Packet[] SortPacketArray(Packet[] array, int leftIndex, int rightIndex)
-        {
-            var left = leftIndex;
-            var right = rightIndex;
-            var pivot = array[leftIndex];
-
-            while(left <= right)
-            {
-                while (array[left].CompareTo(pivot) < 0)
-                {
-                    left++;
-                }
-
-                while (array[right].CompareTo(pivot) > 0)
-                {
-                    right--;
-                }
-
-                if(left <= right)
-                {
-                    var temporary = array[left];
-                    array[left] = array[right];
-                    array[right] = temporary;
-                    left++;
-                    right--;
-                }
-            }
-
-            if(leftIndex < right)
-                SortPacketArray(array, leftIndex, right);
-
-            if (left < rightIndex)
-                SortPacketArray(array, left, rightIndex);
-
-            return array;
         }
 
         private static List<Packet> CreateDividerPackets(int[] values)
@@ -169,7 +127,7 @@
             throw new ArgumentException("Malformed packet.");
         }
 
-        private abstract class PacketItem
+        private abstract class PacketItem : IComparable<PacketInteger>, IComparable<Packet>
         {
             public Packet? Parent;
 
@@ -178,7 +136,9 @@
                 Parent = parent;
             }
 
-            public abstract int CompareTo(PacketItem item);
+            public abstract int CompareTo(PacketInteger? other);
+
+            public abstract int CompareTo(Packet? other);
         }
 
         private class PacketInteger : PacketItem
@@ -190,26 +150,27 @@
                 Value = value;
             }
 
-            public override int CompareTo(PacketItem item)
+            public override int CompareTo(PacketInteger? other)
             {
-                if(item.GetType() == typeof(PacketInteger))
-                {
-                    return Value.CompareTo(((PacketInteger)item).Value);
-                }
+                if (other == null)
+                    return -1;
 
-                if(item.GetType() == typeof(Packet))
-                {
-                    Packet list = new(null);
-                    list.AddItem(this);
+                return Value.CompareTo(other.Value);
+            }
 
-                    return list.CompareTo(item);
-                }
+            public override int CompareTo(Packet? other)
+            {
+                if (other == null)
+                    return -1;
 
-                throw new ArgumentException("Unrecognised packet item type.");
+                Packet list = new(null);
+                list.AddItem(this);
+
+                return list.CompareTo(other);
             }
         }
 
-        private class Packet : PacketItem
+        private class Packet : PacketItem, IComparable<PacketInteger>, IComparable<Packet>
         {
             public List<PacketItem> Items { get; private set; }
 
@@ -223,31 +184,36 @@
                 Items.Add(item);
             }
 
-            public override int CompareTo(PacketItem item)
+            public override int CompareTo(PacketInteger? other)
             {
-                if (item.GetType() == typeof(PacketInteger))
-                {
-                    Packet list = new(null);
-                    list.AddItem(item);
+                if (other == null)
+                    return -1;
 
-                    return CompareTo(list);
+                Packet list = new(null);
+                list.AddItem(other);
+
+                return CompareTo(list);
+            }
+
+            public override int CompareTo(Packet? other)
+            {
+                if (other == null)
+                    return -1;
+
+                for (int i = 0; i < Math.Min(Items.Count, other.Items.Count); i++)
+                {
+                    int compareItems;
+
+                    if (other.Items[i].GetType() == typeof(PacketInteger))
+                        compareItems = Items[i].CompareTo((PacketInteger)other.Items[i]);
+                    else
+                        compareItems = Items[i].CompareTo((Packet)other.Items[i]);
+
+                    if (compareItems != 0)
+                        return compareItems;
                 }
 
-                if (item.GetType() == typeof(Packet))
-                {
-                    var itemToList = (Packet)item;
-
-                    for(int i = 0; i < Math.Min(Items.Count, itemToList.Items.Count); i++)
-                    {
-                        int compareItems = Items[i].CompareTo(itemToList.Items[i]);
-                        if (compareItems != 0)
-                            return compareItems;
-                    }
-
-                    return Items.Count.CompareTo(itemToList.Items.Count);
-                }
-
-                throw new ArgumentException("Unrecognised packet item type.");
+                return Items.Count.CompareTo(other.Items.Count);
             }
         }
     }
