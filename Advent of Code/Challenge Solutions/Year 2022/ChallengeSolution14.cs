@@ -8,94 +8,131 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
     internal class ChallengeSolution14 : ChallengeSolution
     {
         private const char ROCK = '#', AIR = '.', SAND = 'o';
+        private List<(int x, int y)[]> paths;
+        private int leftMargin, rightMargin, bottomMargin;
+        private const int startingColumn = 500;
+        private const int floorExtension = 500;
 
-        private int leftMost = int.MaxValue;
-        private int rightMost = 0;
-        private int topMost = 0;
-        private int bottomMost = 0;
+        public ChallengeSolution14()
+        {
+            paths = ReadRockPaths(out leftMargin, out rightMargin, out bottomMargin);
+        }
 
         public void SolveFirstPart()
         {
-            var paths = ReadRockPaths();
-            var cave = CreateCaveMap(paths);
-
-            Console.WriteLine(GrainsToFillCave(cave));
+            var cave = CreateCaveMap(paths, leftMargin, rightMargin, bottomMargin);
+            Console.WriteLine(GrainsToFillCave(cave, leftMargin));
         }
 
         public void SolveSecondPart()
         {
-            throw new NotImplementedException();
+            var paths = ReadRockPaths(out leftMargin, out rightMargin, out bottomMargin);
+            var cave = AddFloor(CreateCaveMap(paths, leftMargin, rightMargin, bottomMargin));
+            
+            Console.WriteLine(GrainsToPlugSource(cave, leftMargin));
         }
 
-        private int GrainsToFillCave(char[][] cave)
+        private static int GrainsToPlugSource(char[][] cave, int leftMost)
+        {
+            return GrainsToReachGoal(cave, GetCavePosition((startingColumn + floorExtension / 2, 0), leftMost), true);
+        }
+
+        private static int GrainsToFillCave(char[][] cave, int leftMargin)
+        {
+            return GrainsToReachGoal(cave, GetCavePosition((startingColumn, 0), leftMargin), false);
+        }
+
+        private static int GrainsToReachGoal(char[][] cave, (int x, int y) startingPosition, bool hasFloor)
         {
             int grains = 0;
             bool hasSettled = false;
-            while(!hasSettled)
+            while (!hasSettled)
             {
-                (int x, int y) sandPosition = GetCavePosition((500, 0));
+                (int x, int y) sandPosition = startingPosition;
 
-                while(true)
+                if(hasFloor && cave[sandPosition.y][sandPosition.x] == SAND)
                 {
-                    if (OutOfCaveBounds(cave, sandPosition) || sandPosition.y + 1 >= cave.Length || (sandPosition.y + 1 < cave.Length && sandPosition.x - 1 < 0))
+                    grains--;
+                    hasSettled = true;
+                }
+
+                while (!MoveSandAndReturnIfSettled(cave, sandPosition, out sandPosition))
+                {
+                    if (!hasFloor && sandPosition.y + 1 >= cave.Length || (sandPosition.y + 1 < cave.Length && sandPosition.x - 1 < 0))
                     {
+                        grains--;
                         hasSettled = true;
                         break;
                     }
-
-                    if (sandPosition.y + 1 < cave.Length && cave[sandPosition.y + 1][sandPosition.x] == AIR)
-                    {
-                        sandPosition = (sandPosition.x, sandPosition.y + 1);
-                    }
-                    else if (sandPosition.y + 1 < cave.Length && sandPosition.x - 1 >= 0 && cave[sandPosition.y + 1][sandPosition.x - 1] == AIR)
-                    {
-                        sandPosition = (sandPosition.x - 1, sandPosition.y + 1);
-                    }
-                    else if (sandPosition.y + 1 < cave.Length && sandPosition.x + 1 < cave[0].Length && cave[sandPosition.y + 1][sandPosition.x + 1] == AIR)
-                    {
-                        sandPosition = (sandPosition.x + 1, sandPosition.y + 1);
-                    }
-                    else
-                    {
-                        cave[sandPosition.y][sandPosition.x] = SAND;
-                        grains++;
-                        break;
-                    }
                 }
+
+                grains++;
             }
 
             return grains;
         }
 
-        private static bool OutOfCaveBounds(char[][] cave, (int x, int y) sandPosition)
+        private static bool MoveSandAndReturnIfSettled(char[][] cave, (int x, int y) sandPosition, out (int x, int y) newSandPosition)
         {
-            if (sandPosition.x < 0 || sandPosition.x > cave[0].Length)
+            if (sandPosition.y + 1 < cave.Length && cave[sandPosition.y + 1][sandPosition.x] == AIR)
+            {
+                newSandPosition = (sandPosition.x, sandPosition.y + 1);
+            }
+            else if (sandPosition.y + 1 < cave.Length && sandPosition.x - 1 >= 0 && cave[sandPosition.y + 1][sandPosition.x - 1] == AIR)
+            {
+                newSandPosition = (sandPosition.x - 1, sandPosition.y + 1);
+            }
+            else if (sandPosition.y + 1 < cave.Length && sandPosition.x + 1 < cave[0].Length && cave[sandPosition.y + 1][sandPosition.x + 1] == AIR)
+            {
+                newSandPosition = (sandPosition.x + 1, sandPosition.y + 1);
+            }
+            else
+            {
+                cave[sandPosition.y][sandPosition.x] = SAND;
+                newSandPosition = sandPosition;
                 return true;
-
-            if (sandPosition.y < 0 || sandPosition.y > cave.Length)
-                return true;
+            }
 
             return false;
         }
-
-        private char[][] CreateCaveMap(List<(int x, int y)[]> paths)
+        
+        private static char[][] AddFloor(char[][] cave)
         {
-            var cave = new char[bottomMost + 1][];
+            var newCave = new char[cave.Length + 2][];
+            
+            for(int i = 0; i < newCave.Length; i++)
+            {
+                newCave[i] = new char[cave[0].Length + floorExtension];
+            }
+
+            newCave = CreateEmptyCave(newCave.Length, newCave[0].Length);
+
             for(int i = 0; i < cave.Length; i++)
             {
-                cave[i] = new char[rightMost - leftMost + 1];
-                for(int j = 0; j < cave[i].Length; j++)
+                for(int j = 0; j < cave[0].Length; j++)
                 {
-                    cave[i][j] = AIR;
+                    newCave[i][j + (floorExtension / 2)] = cave[i][j];
                 }
             }
+
+            for(int x = 0; x < newCave[0].Length; x++)
+            {
+                newCave[^1][x] = ROCK;
+            }
+
+            return newCave;
+        }
+
+        private static char[][] CreateCaveMap(List<(int x, int y)[]> paths, int leftMargin, int rightMargin, int bottomMargin)
+        {
+            var cave = CreateEmptyCave(bottomMargin + 1, rightMargin - leftMargin + 1);
 
             foreach(var path in paths)
             {
                 for(int pathIndex = 0; pathIndex < path.Length - 1; pathIndex++)
                 {
-                    var start = GetCavePosition(path[pathIndex]);
-                    var end = GetCavePosition(path[pathIndex + 1]);
+                    var start = GetCavePosition(path[pathIndex], leftMargin);
+                    var end = GetCavePosition(path[pathIndex + 1], leftMargin);
 
                     if(start.x > end.x)
                     {
@@ -127,13 +164,32 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return cave;
         }
 
-        private (int x, int y) GetCavePosition((int x, int y) position)
+        private static char[][] CreateEmptyCave(int rows, int columns)
         {
-            return (position.x - leftMost, position.y - topMost);
+            var cave = new char[rows][];
+            for (int i = 0; i < cave.Length; i++)
+            {
+                cave[i] = new char[columns];
+                for (int j = 0; j < cave[i].Length; j++)
+                {
+                    cave[i][j] = AIR;
+                }
+            }
+
+            return cave;
         }
 
-        private List<(int x, int y)[]> ReadRockPaths()
+        private static (int x, int y) GetCavePosition((int x, int y) position, int leftMargin)
         {
+            return (position.x - leftMargin, position.y);
+        }
+
+        private static List<(int x, int y)[]> ReadRockPaths(out int leftMargin, out int rightMargin, out int bottomMargin)
+        {
+            int leftMost = int.MaxValue;
+            int rightMost = 0;
+            int bottomMost = 0;
+
             var paths = new List<(int x, int y)[]>();
 
             using (TextReader read = GetInputFile(2022, 14))
@@ -161,6 +217,10 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                         .ToArray());
                 }
             }
+
+            leftMargin = leftMost;
+            rightMargin = rightMost;
+            bottomMargin = bottomMost;
 
             return paths;
         }
