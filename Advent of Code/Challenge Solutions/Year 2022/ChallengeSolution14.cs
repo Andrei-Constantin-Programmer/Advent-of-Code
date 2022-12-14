@@ -25,6 +25,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         {
             var cave = AddFloor(CreateCaveMap(paths, leftMargin, rightMargin, bottomMargin));
             Console.WriteLine(GrainsToPlugSource(cave, leftMargin));
+            PrintCave(cave);
         }
 
         private static int GrainsToPlugSource(char[][] cave, int leftMost)
@@ -69,18 +70,19 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         private static void PrintCave(char[][] cave)
         {
-            for(int i = 0; i < cave.Length; i++)
+            using StreamWriter write = Reader.GetOutputFile(2022, 14);
+            for (int i = 0; i < cave.Length; i++)
             {
-                Console.SetCursorPosition(0, i);
                 var builder = new StringBuilder();
-                for(int j = 0; j < cave[i].Length; j++)
+                for (int j = 0; j < cave[i].Length; j++)
                 {
                     if (cave[i][j] == AIR)
-                        builder.Append(" ");
+                        builder.Append(' ');
                     else
                         builder.Append(cave[i][j]);
                 }
-                Console.Write(builder.ToString());
+
+                write.WriteLine(builder.ToString());
             }
         }
 
