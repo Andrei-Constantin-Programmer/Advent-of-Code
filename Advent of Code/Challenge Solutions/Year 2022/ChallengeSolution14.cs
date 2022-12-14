@@ -10,7 +10,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
     {
         private const char ROCK = '#', AIR = '.', SAND = 'o';
         private List<(int x, int y)[]> paths;
-        private int leftMargin, rightMargin, bottomMargin;
+        private readonly int leftMargin, rightMargin, bottomMargin;
         private const int startingColumn = 500;
         private const int floorExtension = 500;
 
