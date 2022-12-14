@@ -2,7 +2,7 @@
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
-    internal class ChallengeSolution7 : ChallengeSolution
+    internal class ChallengeSolution07 : ChallengeSolution
     {
         private const int MAX_SIZE = 100000;
         private const int AVAILABLE = 70000000;

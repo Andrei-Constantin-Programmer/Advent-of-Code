@@ -7,7 +7,7 @@ using static Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
-    internal class ChallengeSolution7 : ChallengeSolution
+    internal class ChallengeSolution07 : ChallengeSolution
     {
         public void SolveFirstPart()
         {

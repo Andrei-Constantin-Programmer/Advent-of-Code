@@ -2,11 +2,11 @@
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
-    internal class ChallengeSolution3 : ChallengeSolution
+    internal class ChallengeSolution03 : ChallengeSolution
     {
         private string[] lines;
 
-        public ChallengeSolution3()
+        public ChallengeSolution03()
         {
             lines = File.ReadAllLines(GetFileString(FileType.Input, 2020, 3));
         }

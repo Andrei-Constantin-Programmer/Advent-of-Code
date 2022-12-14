@@ -2,7 +2,7 @@
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
-    class ChallengeSolution8 : ChallengeSolution
+    class ChallengeSolution08 : ChallengeSolution
     {
         Dictionary<byte, char[]> segmentsByDigit;
         Dictionary<char, char> positionsByChar;

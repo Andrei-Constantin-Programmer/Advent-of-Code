@@ -2,7 +2,7 @@
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
-    class ChallengeSolution5 : ChallengeSolution
+    class ChallengeSolution05 : ChallengeSolution
     {
         private const int n = 1000;
 

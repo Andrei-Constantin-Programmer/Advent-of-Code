@@ -1,7 +1,4 @@
-﻿using Advent_of_Code.Challenge_Solutions.Year_2021;
-using System.Data.Common;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+﻿using System.Text;
 using static Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022

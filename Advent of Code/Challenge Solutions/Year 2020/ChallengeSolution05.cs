@@ -2,12 +2,12 @@
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
-    internal class ChallengeSolution5 : ChallengeSolution
+    internal class ChallengeSolution05 : ChallengeSolution
     {
         private string[] seats;
         private static int[,] plane = new int[128, 8];
 
-        public ChallengeSolution5()
+        public ChallengeSolution05()
         {
             seats = File.ReadAllLines(GetFileString(FileType.Input, 2020, 5));
         }

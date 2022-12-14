@@ -2,7 +2,7 @@
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
-    internal class ChallengeSolution4 : ChallengeSolution
+    internal class ChallengeSolution04 : ChallengeSolution
     {
         private string text;
         private string[] passports;
@@ -10,7 +10,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
         private static string[] eyeColors = new string[] { "amb", "blu", "brn", "gry", "grn", "hzl", "oth" };
 
 
-        public ChallengeSolution4()
+        public ChallengeSolution04()
         {
             text = File.ReadAllText(GetFileString(FileType.Input, 2020, 4));
             passports = text.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);

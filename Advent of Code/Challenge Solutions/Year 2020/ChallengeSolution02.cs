@@ -3,11 +3,11 @@ using static Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
-    internal class ChallengeSolution2 : ChallengeSolution
+    internal class ChallengeSolution02 : ChallengeSolution
     {
         private string[] lines;
 
-        public ChallengeSolution2()
+        public ChallengeSolution02()
         {
             lines = File.ReadAllLines(GetFileString(FileType.Input, 2020, 2));
         }

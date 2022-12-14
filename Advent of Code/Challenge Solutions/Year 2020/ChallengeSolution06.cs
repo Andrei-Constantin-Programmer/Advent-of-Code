@@ -2,13 +2,13 @@
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
-    internal class ChallengeSolution6 : ChallengeSolution
+    internal class ChallengeSolution06 : ChallengeSolution
     {
         private static bool[] questions = new bool[200];
         private static int[] groupQuestions = new int[200];
         private static string[] groups;
 
-        public ChallengeSolution6()
+        public ChallengeSolution06()
         {
             string lines = File.ReadAllText(GetFileString(FileType.Input, 2020, 6));
             groups = lines.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);

@@ -4,11 +4,11 @@ using static Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
-    class ChallengeSolution9 : ChallengeSolution
+    class ChallengeSolution09 : ChallengeSolution
     {
         private int rows, columns;
 
-        public ChallengeSolution9()
+        public ChallengeSolution09()
         {
             string[] lines = File.ReadAllLines(GetFileString(FileType.Input, 2021, 9));
             rows = lines.Length;

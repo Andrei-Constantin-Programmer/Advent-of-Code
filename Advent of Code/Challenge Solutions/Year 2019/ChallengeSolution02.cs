@@ -2,7 +2,7 @@
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2019
 {
-    internal class ChallengeSolution2 : ChallengeSolution
+    internal class ChallengeSolution02 : ChallengeSolution
     {
         public void SolveFirstPart()
         {

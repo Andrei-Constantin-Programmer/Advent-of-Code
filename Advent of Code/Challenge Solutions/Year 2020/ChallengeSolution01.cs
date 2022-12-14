@@ -2,11 +2,11 @@
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
-    internal class ChallengeSolution1 : ChallengeSolution
+    internal class ChallengeSolution01 : ChallengeSolution
     {
         private static int[] a;
 
-        public ChallengeSolution1()
+        public ChallengeSolution01()
         {
             string[] lines = File.ReadAllLines(GetFileString(FileType.Input, 2020, 1));
             a = new int[lines.Length];
