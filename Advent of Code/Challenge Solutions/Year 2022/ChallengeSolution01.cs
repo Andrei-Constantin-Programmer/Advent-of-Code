@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution01 : ChallengeSolution
     {
@@ -17,7 +15,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         private static List<int> GetElfCaloriesList()
         {
             var elfCalories = new List<int>();
-            using (TextReader read = GetInputFile(2022, 1))
+            using (TextReader read = Reader.GetInputFile(2022, 1))
             {
                 int currentCaloriesSum = 0;
                 string? line;

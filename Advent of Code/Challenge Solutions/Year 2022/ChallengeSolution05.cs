@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution05 : ChallengeSolution
     {
@@ -55,7 +53,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             var stacks = new List<Stack<char>>();
             var moves = new List<MoveOperation>();
 
-            using (TextReader read = GetInputFile(2022, 5))
+            using (TextReader read = Reader.GetInputFile(2022, 5))
             {
                 var stackInput = new List<string>();
                 string? line;

@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution07 : ChallengeSolution
     {
@@ -12,7 +10,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         public void SolveFirstPart()
         {
-            root = root ?? ReadFileSystem();
+            root ??= ReadFileSystem();
             
             int sum = 0;
             if (root.Size <= MAX_SIZE)
@@ -52,7 +50,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         {
             var root = new Folder("/");
 
-            using (TextReader read = GetInputFile(2022, 7))
+            using (TextReader read = Reader.GetInputFile(2022, 7))
             {
                 var currentFolder = root;
                 string? line;

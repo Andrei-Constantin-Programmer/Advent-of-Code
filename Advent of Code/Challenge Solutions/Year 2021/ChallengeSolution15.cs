@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution15 : ChallengeSolution
     {
@@ -41,7 +39,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         private void ReadMatrix()
         {
-            string[] lines = File.ReadAllLines(GetFileString(FileType.Input, 2021, 15));
+            string[] lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2021, 15));
             n = lines.Length;
             riskMatrix = new int[n, n];
             for (int i = 0; i < n; i++)

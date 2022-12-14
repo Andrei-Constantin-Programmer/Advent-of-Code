@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution13 : ChallengeSolution
     {
@@ -9,7 +7,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         public void SolveFirstPart()
         {
-            using(TextReader read = GetInputFile(2021, 13))
+            using(TextReader read = Reader.GetInputFile(2021, 13))
             {
                 var points = new List<Point>();
                 string line;
@@ -37,7 +35,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         public void SolveSecondPart()
         {
-            using (TextReader read = GetInputFile(2021, 13))
+            using (TextReader read = Reader.GetInputFile(2021, 13))
             {
                 var points = new List<Point>();
                 string line;
@@ -54,20 +52,16 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
                 while ((line = read.ReadLine()) != null)
                     SolveFold(line);
 
-                using (StreamWriter write = GetOutputFile(2021, 13))
-                {
-                    for (int i = 0; i < n; i++)
-                    {
-                        string l = "";
-                        for (int j = 0; j < m; j++)
-                        {
-                            l += matrix[i, j] == '.' ? " " : "#" + "";
-                        }
 
-                        write.WriteLine(l);
+                for (int i = 0; i < n; i++)
+                {
+                    string l = "";
+                    for (int j = 0; j < m; j++)
+                    {
+                        l += matrix[i, j] == '.' ? " " : "#" + "";
                     }
 
-                    Console.WriteLine("Look in file /resources/output/2021_13.txt");
+                    Console.WriteLine(l);
                 }
             }
         }

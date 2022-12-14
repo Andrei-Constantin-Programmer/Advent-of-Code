@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution05 : ChallengeSolution
     {
@@ -20,7 +18,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         {
             var diagram = new int[n, n];
 
-            using (TextReader read = GetInputFile(2021, 5))
+            using (TextReader read = Reader.GetInputFile(2021, 5))
             {
                 string line;
                 while ((line = read.ReadLine()) != null)

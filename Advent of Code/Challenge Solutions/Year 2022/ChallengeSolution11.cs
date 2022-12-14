@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution11 : ChallengeSolution
     {
@@ -64,7 +62,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         {
             var monkeys = new List<Monkey>();
 
-            using(TextReader read = GetInputFile(2022, 11))
+            using(TextReader read = Reader.GetInputFile(2022, 11))
             {
                 string? line;
 

@@ -1,13 +1,11 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution02 : ChallengeSolution
     {
         public void SolveFirstPart()
         {
             int depth = 0, horizontal = 0;
-            using (TextReader read = GetInputFile(2021, 2))
+            using (TextReader read = Reader.GetInputFile(2021, 2))
             {
                 string line = "";
                 while ((line = read.ReadLine()) != null)
@@ -30,7 +28,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         {
             int depth = 0, horizontal = 0, aim = 0;
 
-            using (TextReader read = GetInputFile(2021, 2))
+            using (TextReader read = Reader.GetInputFile(2021, 2))
             {
                 string line = "";
                 while ((line = read.ReadLine()) != null)

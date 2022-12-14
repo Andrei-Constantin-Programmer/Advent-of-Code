@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using static Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
@@ -84,7 +83,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         {
             caveConnections = new Dictionary<string, List<string>>();
             smallCaves = new List<string>();
-            using (TextReader read = GetInputFile(2021, 12))
+            using (TextReader read = Reader.GetInputFile(2021, 12))
             {
                 string line;
                 while ((line = read.ReadLine()) != null)

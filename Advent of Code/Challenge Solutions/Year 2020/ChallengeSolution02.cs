@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using static Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
@@ -9,7 +8,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution02()
         {
-            lines = File.ReadAllLines(GetFileString(FileType.Input, 2020, 2));
+            lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 2));
         }
 
         public void SolveFirstPart()

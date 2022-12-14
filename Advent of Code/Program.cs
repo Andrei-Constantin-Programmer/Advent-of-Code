@@ -1,6 +1,6 @@
 ﻿using Advent_of_Code.Challenge_Solutions;
 using Advent_of_Code.Challenge_Solutions.Year_2022;
-using Advent_of_Code.Reader;
+using Advent_of_Code.Utilities.ChallengeReader;
 using Advent_of_Code.Solution_Mapper;
 
 namespace Advent_of_Code

@@ -1,13 +1,11 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution01 : ChallengeSolution
     {
         public void SolveFirstPart()
         {
             int no = 0;
-            using (TextReader read = Utilities.GetInputFile(2021, 1))
+            using (TextReader read = Reader.GetInputFile(2021, 1))
             {
                 int prev = Convert.ToInt32(read.ReadLine());
                 int x = 0;
@@ -24,7 +22,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         public void SolveSecondPart()
         {
-            List<int> depths = new List<int>(Array.ConvertAll(File.ReadAllLines(GetFileString(FileType.Input, 2021, 1)), int.Parse));
+            List<int> depths = new List<int>(Array.ConvertAll(File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2021, 1)), int.Parse));
             List<int> sums = new List<int>(depths);
             int highestSum = 0;
             for (int i = 0; i < depths.Count; i++)

@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution08 : ChallengeSolution
     {
@@ -209,7 +207,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         private static byte[][] ReadTreeGrid()
         {
-            var lines = File.ReadAllLines(GetFileString(Utilities.FileType.Input, 2022, 8));
+            var lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2022, 8));
             var rows = lines.Length;
             var columns = lines[0].Length;
 

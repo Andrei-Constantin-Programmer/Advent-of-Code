@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2020
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
     internal class ChallengeSolution01 : ChallengeSolution
     {
@@ -8,7 +6,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution01()
         {
-            string[] lines = File.ReadAllLines(GetFileString(FileType.Input, 2020, 1));
+            string[] lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 1));
             a = new int[lines.Length];
             for (int i = 0; i < lines.Length; i++)
                 a[i] = Convert.ToInt32(lines[i]);

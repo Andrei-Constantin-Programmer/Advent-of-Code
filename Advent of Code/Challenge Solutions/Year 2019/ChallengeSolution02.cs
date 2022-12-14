@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2019
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2019
 {
     internal class ChallengeSolution02 : ChallengeSolution
     {
@@ -53,7 +51,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2019
 
         private long[] ReadOpCodes()
         {
-            return String.Join(",", File.ReadAllLines(GetFileString(FileType.Input, 2019, 2)))
+            return string.Join(",", File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2019, 2)))
                 .Split(",", StringSplitOptions.RemoveEmptyEntries)
                 .Select(stringValue => Convert.ToInt64(stringValue))
                 .ToArray();

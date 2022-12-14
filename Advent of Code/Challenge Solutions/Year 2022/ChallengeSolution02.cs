@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution02 : ChallengeSolution
     {
@@ -26,7 +24,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         private static List<(char, char)> ReadRockPaperScissorsRounds()
         {
             var rounds = new List<(char, char)>();
-            using (TextReader read = GetInputFile(2022, 2))
+            using (TextReader read = Reader.GetInputFile(2022, 2))
             {
                 string? line;
                 while((line = read.ReadLine()) != null)

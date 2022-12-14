@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution12 : ChallengeSolution
     {
@@ -100,7 +98,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         private static int[][] ReadHeightMap()
         {
-            return File.ReadAllLines(GetFileString(FileType.Input, 2022, 12))
+            return File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2022, 12))
                 .Select(line => line
                     .ToCharArray()
                     .Select(c =>

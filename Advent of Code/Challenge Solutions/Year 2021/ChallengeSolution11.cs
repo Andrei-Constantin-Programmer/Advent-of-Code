@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution11 : ChallengeSolution
     {
@@ -11,7 +9,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         public ChallengeSolution11()
         {
             originalEnergy = new int[n, n];
-            using (TextReader read = GetInputFile(2021, 11))
+            using (TextReader read = Reader.GetInputFile(2021, 11))
             {
                 for (int i = 0; i < n; i++)
                 {

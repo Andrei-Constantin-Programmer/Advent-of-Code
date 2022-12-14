@@ -1,8 +1,4 @@
-﻿using System.Drawing;
-using System.Reflection;
-using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution09 : ChallengeSolution
     {
@@ -10,7 +6,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         public ChallengeSolution09()
         {
-            string[] lines = File.ReadAllLines(GetFileString(FileType.Input, 2021, 9));
+            string[] lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2021, 9));
             rows = lines.Length;
             columns = lines[0].Length;
         }
@@ -162,7 +158,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         private int[,] ReadHeightMap()
         {
             var heightMap = new int[rows, columns];
-            using (TextReader read = GetInputFile(2021, 9))
+            using (TextReader read = Reader.GetInputFile(2021, 9))
             {
                 for (int i = 0; i < rows; i++)
                 {

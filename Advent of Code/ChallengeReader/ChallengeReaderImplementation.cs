@@ -1,7 +1,7 @@
 ﻿using Advent_of_Code.Challenge_Solutions;
 using Advent_of_Code.Solution_Mapper;
 
-namespace Advent_of_Code.Reader
+namespace Advent_of_Code.Utilities.ChallengeReader
 {
     internal class ChallengeReaderImplementation : ChallengeReader
     {

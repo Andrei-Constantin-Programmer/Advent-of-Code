@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2020
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
     internal class ChallengeSolution10 : ChallengeSolution
     {
@@ -8,7 +6,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution10()
         {
-            var lines = File.ReadAllLines(GetFileString(FileType.Input, 2020, 10));
+            var lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 10));
             numbers.Add(0);
 
             foreach (string line in lines)

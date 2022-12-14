@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using static Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
@@ -205,7 +204,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
             var paths = new List<(int x, int y)[]>();
 
-            using (TextReader read = GetInputFile(2022, 14))
+            using (TextReader read = Reader.GetInputFile(2022, 14))
             {
                 string? line;
                 while((line = read.ReadLine()) != null)

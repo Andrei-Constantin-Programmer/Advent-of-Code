@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2020
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
     internal class ChallengeSolution04 : ChallengeSolution
     {
@@ -12,7 +10,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution04()
         {
-            text = File.ReadAllText(GetFileString(FileType.Input, 2020, 4));
+            text = File.ReadAllText(Reader.GetFileString(Reader.FileType.Input, 2020, 4));
             passports = text.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         }
 

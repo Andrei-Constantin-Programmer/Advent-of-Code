@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution09 : ChallengeSolution
     {
@@ -163,7 +161,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         private static List<Command> ReadCommands()
         {
             var commands = new List<Command>();
-            using(TextReader read = GetInputFile(2022, 9))
+            using(TextReader read = Reader.GetInputFile(2022, 9))
             {
                 string? line;
                 while((line = read.ReadLine()) != null)

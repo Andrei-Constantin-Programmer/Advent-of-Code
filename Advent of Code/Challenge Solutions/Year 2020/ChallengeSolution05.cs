@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2020
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
     internal class ChallengeSolution05 : ChallengeSolution
     {
@@ -9,7 +7,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution05()
         {
-            seats = File.ReadAllLines(GetFileString(FileType.Input, 2020, 5));
+            seats = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 5));
         }
 
         public void SolveFirstPart()
@@ -26,7 +24,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             seats.CopyTo(mySeats, 0);
             FillPlane(mySeats);
 
-            using (StreamWriter write = GetOutputFile(2020, 5))
+            using (StreamWriter write = Reader.GetOutputFile(2020, 5))
             {
                 for (int i = 0; i < 128; i++)
                 {

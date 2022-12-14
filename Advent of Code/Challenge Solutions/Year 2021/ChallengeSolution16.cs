@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution16 : ChallengeSolution
     {
@@ -27,7 +25,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         public void SolveFirstPart()
         {
             throw new NotImplementedException();
-            using(TextReader read = GetInputFile(2021, 16))
+            using(TextReader read = Reader.GetInputFile(2021, 16))
             {
                 string transmission = read.ReadLine();
                 string binary = ConvertToBinary(transmission);

@@ -1,6 +1,6 @@
 ﻿namespace Advent_of_Code
 {
-    internal class Utilities
+    internal class Reader
     {
         public static TextReader GetInputFile(int year, int day)
         {
@@ -14,7 +14,7 @@
 
         public static string GetFileString(FileType fileType, int year, int day)
         {
-            return Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + @$"\resources\{fileType.ToString().ToLower()}\{year}_{day}.txt";
+            return Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.FullName + @$"\resources\{fileType.ToString().ToLower()}\{year}_{day}.txt";
         }
 
         public enum FileType

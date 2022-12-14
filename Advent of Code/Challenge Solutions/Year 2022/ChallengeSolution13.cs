@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution13 : ChallengeSolution
     {
@@ -119,7 +116,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         private static List<(Packet, Packet)> ReadPacketGroups()
         {
-            var lines = string.Join("\n", File.ReadAllLines(Utilities.GetFileString(Utilities.FileType.Input, 2022, 13)));
+            var lines = string.Join("\n", File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2022, 13)));
 
             return lines
                 .Split("\n\n", StringSplitOptions.RemoveEmptyEntries)

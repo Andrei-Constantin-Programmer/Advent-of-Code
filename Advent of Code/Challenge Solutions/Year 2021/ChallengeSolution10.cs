@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution10 : ChallengeSolution
     {
@@ -28,7 +26,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         public void SolveFirstPart()
         {
-            using (TextReader read = Utilities.GetInputFile(2021, 10))
+            using (TextReader read = Reader.GetInputFile(2021, 10))
             {
                 int points = 0;
                 string line;
@@ -47,7 +45,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         public void SolveSecondPart()
         {
-            using (TextReader read = GetInputFile(2021, 10))
+            using (TextReader read = Reader.GetInputFile(2021, 10))
             {
                 var scores = new List<long>();
                 string line;

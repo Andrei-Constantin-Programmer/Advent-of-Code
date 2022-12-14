@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2019
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2019
 {
     internal class ChallengeSolution01 : ChallengeSolution
     {
@@ -38,7 +36,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2019
 
         private List<long> ReadModuleMasses()
         {
-            return File.ReadAllLines(GetFileString(FileType.Input, 2019, 1))
+            return File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2019, 1))
                 .Select(massString => Convert.ToInt64(massString))
                 .ToList();
         }

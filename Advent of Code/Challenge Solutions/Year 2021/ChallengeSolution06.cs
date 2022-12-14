@@ -1,12 +1,10 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2021
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution06 : ChallengeSolution
     {
         public void SolveFirstPart()
         {
-            List<int> lanternfish = new List<int>(Array.ConvertAll(GetInputFile(2021, 6).ReadLine().Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
+            List<int> lanternfish = new List<int>(Array.ConvertAll(Reader.GetInputFile(2021, 6).ReadLine().Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
 
             int days = 0;
 
@@ -37,7 +35,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         public void SolveSecondPart()
         {
             long[] fish = new long[9];
-            List<int> initialFish = new List<int>(Array.ConvertAll(GetInputFile(2021, 6).ReadLine().Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
+            List<int> initialFish = new List<int>(Array.ConvertAll(Reader.GetInputFile(2021, 6).ReadLine().Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
             foreach (var f in initialFish)
                 fish[f]++;
 

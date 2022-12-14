@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution04 : ChallengeSolution
     {
@@ -24,7 +22,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         {
             var pairs = new List<Pair>();
 
-            using (TextReader read = GetInputFile(2022, 4))
+            using (TextReader read = Reader.GetInputFile(2022, 4))
             {
                 string? line;
                 while ((line = read.ReadLine()) != null)

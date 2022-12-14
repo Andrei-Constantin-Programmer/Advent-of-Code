@@ -1,6 +1,4 @@
-﻿using static Advent_of_Code.Utilities;
-
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution10 : ChallengeSolution
     {
@@ -121,7 +119,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         private static string[] ReadCommands()
         {
-            return File.ReadAllLines(GetFileString(FileType.Input, 2022, 10));
+            return File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2022, 10));
         }
 
         private class CPU
