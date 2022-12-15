@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2022
+﻿// Task: https://adventofcode.com/2022/day/5
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution05 : ChallengeSolution
     {
