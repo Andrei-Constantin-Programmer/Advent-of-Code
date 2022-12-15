@@ -2,25 +2,104 @@
 {
     internal class ChallengeSolution15 : ChallengeSolution
     {
+        private const bool IsTesting = false;
+
         public void SolveFirstPart()
         {
             var pairs = ReadSensorsAndBeacons();
 
-            Console.WriteLine(BlockedPositions(2000000, pairs).Count);
+            var row = IsTesting ? 10 : 2000000;
+
+            Console.WriteLine(BlockedPositions(row, pairs).Count);
         }
 
         public void SolveSecondPart()
         {
-            throw new NotImplementedException();
+            var sensorBeaconPairs = ReadSensorsAndBeacons();
+            var diamonds = CreateDiamonds(sensorBeaconPairs);
+
+            var maximum = IsTesting ? 20 : 4000000;
+
+            var outliners = new HashSet<(long x, long y)>();
+            foreach(var outline in GetAllOutlines(diamonds, maximum))
+            {
+                outliners.UnionWith(outline);
+            }
+
+            foreach(var outliner in outliners)
+            {
+                bool isBeacon = true;
+                foreach(var diamond in diamonds)
+                {
+                    if(diamond.Contains(outliner))
+                    {
+                        isBeacon = false;
+                        break;
+                    }
+                }
+
+                if(isBeacon)
+                {
+                    Console.WriteLine(GetTuningFrequency(outliner));
+                    break;
+                }    
+            }
         }
 
-        private static ISet<(long x, long y)> BlockedPositions(long row, List<SensorBeaconPair> pairs)
+        private static List<ISet<(long, long)>> GetAllOutlines(List<BlockedDiamond> diamonds, long maximum)
+        {
+            var diamondOutlines = new List<ISet<(long x, long y)>>();
+
+            for (int d = 0; d < diamonds.Count; d++)
+            {
+                var diamond = diamonds[d];
+                var outline = GetDiamondOutline(diamond, maximum);
+
+                diamondOutlines.Add(outline);
+            }
+
+            return diamondOutlines;
+        }
+
+        private static ISet<(long, long)> GetDiamondOutline(BlockedDiamond diamond, long maximum)
+        {
+            var outline = new HashSet<(long, long)>();
+            for (long i = diamond.Top - 1, j = diamond.Center.x; i <= diamond.Center.y; i++, j++)
+            {
+                if(i > 0 && j > 0 && i <= maximum && j <= maximum)
+                    outline.Add((j, i));
+            }
+            for (long j = diamond.Right + 1, i = diamond.Center.y; j >= diamond.Center.x; j--, i++)
+            {
+                if (i > 0 && j > 0 && i <= maximum && j <= maximum)
+                    outline.Add((j, i));
+            }
+            for (long i = diamond.Bottom + 1, j = diamond.Center.x; i >= diamond.Center.y; i--, j--)
+            {
+                if (i > 0 && j > 0 && i <= maximum && j <= maximum)
+                    outline.Add((j, i));
+            }
+            for (long j = diamond.Left - 1, i = diamond.Center.y; j <= diamond.Center.x; j++, i--)
+            {
+                if (i > 0 && j > 0 && i <= maximum && j <= maximum)
+                    outline.Add((j, i));
+            }
+
+            return outline;
+        }
+
+        private static long GetTuningFrequency((long x, long y) beacon)
+        {
+            return beacon.x * 4000000 + beacon.y;
+        }
+
+        private static ISet<(long x, long y)> BlockedPositions(long row, List<SensorBeaconPair> sensorBeaconPairs)
         {
             var blockedPositions = new SortedSet<(long x, long y)>();
 
-            foreach(var pair in pairs)
+            foreach(var pair in sensorBeaconPairs)
             {
-                var distance = ManhattanDistance(pair.Sensor, pair.Beacon);
+                var distance = pair.Distance;
 
                 var perpendicularBase = (pair.Sensor.x, row);
                 var perpendicularDistanceToRow = ManhattanDistance(pair.Sensor, perpendicularBase);
@@ -42,16 +121,16 @@
                 }
             }
 
-            blockedPositions = RemoveBeaconsFromSet(blockedPositions, pairs);
+            blockedPositions = RemoveBeaconsFromSet(blockedPositions, sensorBeaconPairs);
 
             return blockedPositions;
         }
 
-        private static SortedSet<(long x, long y)> RemoveBeaconsFromSet(SortedSet<(long x, long y)> set, List<SensorBeaconPair> pairs)
+        private static SortedSet<(long x, long y)> RemoveBeaconsFromSet(SortedSet<(long x, long y)> set, List<SensorBeaconPair> sensorBeaconPairs)
         {
             var newSet = new SortedSet<(long x, long y)>(set);
 
-            foreach(var pair in pairs)
+            foreach(var pair in sensorBeaconPairs)
             {
                 newSet.Remove(pair.Beacon);
             }
@@ -59,9 +138,29 @@
             return newSet;
         }
 
+        private static List<BlockedDiamond> CreateDiamonds(List<SensorBeaconPair> pairs)
+        {
+            var diamonds = new List<BlockedDiamond>();
+
+            foreach(var pair in pairs)
+            {
+                var diamond = new BlockedDiamond(
+                        pair.Sensor,
+                        pair.Sensor.y - (long)pair.Distance,
+                        pair.Sensor.y + (long)pair.Distance,
+                        pair.Sensor.x - (long)pair.Distance,
+                        pair.Sensor.x + (long)pair.Distance
+                    );
+
+                diamonds.Add(diamond);
+            }
+
+            return diamonds;
+        }
+
         private static List<SensorBeaconPair> ReadSensorsAndBeacons()
         {
-            var pairs = new List<SensorBeaconPair>();
+            var sensorBeaconPairs = new List<SensorBeaconPair>();
             using TextReader read = Reader.GetInputFile(2022, 15);
             
             string? line;
@@ -82,17 +181,54 @@
                 (long x, long y) source = (values[0], values[1]);
                 (long x, long y) beacon = (values[2], values[3]);
 
-                pairs.Add(new SensorBeaconPair(source, beacon));
+                sensorBeaconPairs.Add(new SensorBeaconPair(source, beacon));
             }
 
-            return pairs;
+            return sensorBeaconPairs;
+        }
+
+        private record struct BlockedDiamond((long x, long y) Center, long Top, long Bottom, long Left, long Right)
+        {
+            public bool Contains((long x, long y) point)
+            {
+                if(point.y < Center.y)
+                {
+                    if(point.x > Center.x)
+                    {
+                        return CalculateDirection((Center.x, Top), (Right, Center.y), point) <= 0;
+                    }
+                    else
+                    {
+                        return CalculateDirection((Center.x, Top), (Left, Center.y), point) >= 0;
+                    }
+                }
+                else
+                {
+                    if (point.x > Center.x)
+                    {
+                        return CalculateDirection((Center.x, Bottom), (Right, Center.y), point) >= 0;
+                    }
+                    else
+                    {
+                        return CalculateDirection((Center.x, Bottom), (Left, Center.y), point) <= 0;
+                    }
+                }
+            }
+
+            private static long CalculateDirection((long x, long y) linePointA, (long x, long y) linePointB, (long x, long y) externalPoint)
+            {
+                return (externalPoint.x - linePointA.x) * (linePointB.y - linePointA.y) - (externalPoint.y - linePointA.y) * (linePointB.x - linePointA.x);
+            }
+        }
+
+        private record struct SensorBeaconPair((long x, long y) Sensor, (long x, long y) Beacon)
+        {
+            public double Distance => ManhattanDistance(Sensor, Beacon);
         }
 
         private static double ManhattanDistance((long x, long y) point1, (long x, long y) point2)
         {
             return (Math.Abs(point1.x - point2.x) + Math.Abs(point1.y - point2.y));
         }
-
-        private record struct SensorBeaconPair((long x, long y) Sensor, (long x, long y) Beacon);
     }
 }

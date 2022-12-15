@@ -122,73 +122,13 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         }
     }
 
-    class CavePath : IComparable, IComparable<CavePath>
+    class CavePath
     {
         public List<string> path { get; }
 
         public CavePath(List<string> path)
         {
             this.path = path;
-        }
-
-        public int CompareTo(object obj)
-        {
-            if (obj == null) return 1;
-            CavePath other = obj as CavePath;
-            if (other == null)
-                throw new ArgumentException("A Path object is required for comparison.", "obj");
-
-            return CompareTo(other);
-        }
-
-        public int CompareTo([AllowNull] CavePath other)
-        {
-            if (other == null)
-                return 1;
-
-            if (other.path.Count != path.Count)
-                return path.Count.CompareTo(other.path.Count);
-
-            for (int i = 0; i < path.Count; i++)
-            {
-                if (path[i].CompareTo(other.path[i]) != 0)
-                {
-                    return path[i].CompareTo(other.path[i]);
-                }
-            }
-           
-            return 0;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-                return false;
-
-            var other = obj as CavePath;
-            if (other == null)
-                return false;
-
-            if (other.path.Count != path.Count)
-                return false;
-
-            for (int i = 0; i < path.Count; i++)
-            {
-                if (!path[i].Equals(other.path[i]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public override string ToString()
-        {
-            string toReturn = "";
-            foreach (var x in path)
-                toReturn += x + " ";
-            return toReturn;
         }
     }
 }
