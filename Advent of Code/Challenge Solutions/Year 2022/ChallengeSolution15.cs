@@ -10,7 +10,7 @@
 
             var row = IsTesting ? 10 : 2000000;
 
-            Console.WriteLine(BlockedPositions(row, pairs).Count);
+            Console.WriteLine(GetBlockedPositions(row, pairs).Count);
         }
 
         public void SolveSecondPart()
@@ -20,30 +20,44 @@
 
             var maximum = IsTesting ? 20 : 4000000;
 
+            Console.WriteLine(GetTuningFrequency(FindDistressBeacon(diamonds, maximum)));
+        }
+
+        private static (long, long) FindDistressBeacon(List<BlockedDiamond> diamonds, long maximum)
+        {
+            foreach (var outliner in GetOutliners(diamonds, maximum))
+            {
+                if (IsDistressBeacon(diamonds, outliner))
+                {
+                    return outliner;
+                }
+            }
+
+            throw new Exception("Distress beacon not found.");
+        }
+
+        private static bool IsDistressBeacon(List<BlockedDiamond> diamonds, (long, long) position)
+        {
+            foreach (var diamond in diamonds)
+            {
+                if (diamond.Contains(position))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        
+        private static ISet<(long, long)> GetOutliners(List<BlockedDiamond> diamonds, long maximum)
+        {
             var outliners = new HashSet<(long x, long y)>();
-            foreach(var outline in GetAllOutlines(diamonds, maximum))
+            foreach (var outline in GetAllOutlines(diamonds, maximum))
             {
                 outliners.UnionWith(outline);
             }
 
-            foreach(var outliner in outliners)
-            {
-                bool isBeacon = true;
-                foreach(var diamond in diamonds)
-                {
-                    if(diamond.Contains(outliner))
-                    {
-                        isBeacon = false;
-                        break;
-                    }
-                }
-
-                if(isBeacon)
-                {
-                    Console.WriteLine(GetTuningFrequency(outliner));
-                    break;
-                }    
-            }
+            return outliners;
         }
 
         private static List<ISet<(long, long)>> GetAllOutlines(List<BlockedDiamond> diamonds, long maximum)
@@ -93,7 +107,7 @@
             return beacon.x * 4000000 + beacon.y;
         }
 
-        private static ISet<(long x, long y)> BlockedPositions(long row, List<SensorBeaconPair> sensorBeaconPairs)
+        private static ISet<(long, long)> GetBlockedPositions(long row, List<SensorBeaconPair> sensorBeaconPairs)
         {
             var blockedPositions = new SortedSet<(long x, long y)>();
 
@@ -126,7 +140,7 @@
             return blockedPositions;
         }
 
-        private static SortedSet<(long x, long y)> RemoveBeaconsFromSet(SortedSet<(long x, long y)> set, List<SensorBeaconPair> sensorBeaconPairs)
+        private static SortedSet<(long, long)> RemoveBeaconsFromSet(SortedSet<(long x, long y)> set, List<SensorBeaconPair> sensorBeaconPairs)
         {
             var newSet = new SortedSet<(long x, long y)>(set);
 
@@ -138,11 +152,11 @@
             return newSet;
         }
 
-        private static List<BlockedDiamond> CreateDiamonds(List<SensorBeaconPair> pairs)
+        private static List<BlockedDiamond> CreateDiamonds(List<SensorBeaconPair> sensorBeaconPairs)
         {
             var diamonds = new List<BlockedDiamond>();
 
-            foreach(var pair in pairs)
+            foreach(var pair in sensorBeaconPairs)
             {
                 var diamond = new BlockedDiamond(
                         pair.Sensor,
