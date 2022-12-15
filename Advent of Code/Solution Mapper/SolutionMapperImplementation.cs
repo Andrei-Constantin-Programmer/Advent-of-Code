@@ -88,6 +88,7 @@ namespace Advent_of_Code.Solution_Mapper
                     [12] = new Year2022.ChallengeSolution12(),
                     [13] = new Year2022.ChallengeSolution13(),
                     [14] = new Year2022.ChallengeSolution14(),
+                    [15] = new Year2022.ChallengeSolution15(),
                 },
             };
         }
