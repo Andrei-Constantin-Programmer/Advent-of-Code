@@ -1,10 +1,14 @@
 ﻿// Task: https://adventofcode.com/2022/day/15
 
+using System.Collections.Concurrent;
+using System.Diagnostics;
+
 namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution15 : ChallengeSolution
     {
         private const bool IsTesting = false;
+        private readonly ParallelOptions parallelOptions = new() { MaxDegreeOfParallelism = 12 };
 
         public void SolveFirstPart()
         {
@@ -25,9 +29,11 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(GetTuningFrequency(FindDistressBeacon(diamonds, maximum)));
         }
 
-        private static (long, long) FindDistressBeacon(List<BlockedDiamond> diamonds, long maximum)
+        private (long, long) FindDistressBeacon(List<BlockedDiamond> diamonds, long maximum)
         {
-            foreach (var outliner in GetOutliners(diamonds, maximum))
+            var outliners = GetOutliners(diamonds, maximum);
+
+            foreach (var outliner in outliners)
             {
                 if (IsDistressBeacon(diamonds, outliner))
                 {
@@ -51,30 +57,33 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return true;
         }
         
-        private static ISet<(long, long)> GetOutliners(List<BlockedDiamond> diamonds, long maximum)
+        private List<(long, long)> GetOutliners(List<BlockedDiamond> diamonds, long maximum)
         {
-            var outliners = new HashSet<(long x, long y)>();
-            foreach (var outline in GetAllOutlines(diamonds, maximum))
+            var outlines = GetAllOutlines(diamonds, maximum);
+
+            var outliners = new ConcurrentBag<(long, long)>();
+
+            foreach(var outline in outlines)
             {
-                outliners.UnionWith(outline);
+                Parallel.ForEach(outline, parallelOptions, outliner =>
+                {
+                    outliners.Add(outliner);
+                });
             }
 
-            return outliners;
+            return outliners.ToList();
         }
 
-        private static List<ISet<(long, long)>> GetAllOutlines(List<BlockedDiamond> diamonds, long maximum)
+        private List<ISet<(long, long)>> GetAllOutlines(List<BlockedDiamond> diamonds, long maximum)
         {
-            var diamondOutlines = new List<ISet<(long x, long y)>>();
+            var outlines = new ConcurrentBag<ISet<(long, long)>>();
 
-            for (int d = 0; d < diamonds.Count; d++)
+            Parallel.ForEach(diamonds, parallelOptions, diamond =>
             {
-                var diamond = diamonds[d];
-                var outline = GetDiamondOutline(diamond, maximum);
+                outlines.Add(GetDiamondOutline(diamond, maximum));
+            });
 
-                diamondOutlines.Add(outline);
-            }
-
-            return diamondOutlines;
+            return outlines.ToList();
         }
 
         private static ISet<(long, long)> GetDiamondOutline(BlockedDiamond diamond, long maximum)
