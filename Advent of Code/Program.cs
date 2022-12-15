@@ -2,6 +2,7 @@
 using Advent_of_Code.Challenge_Solutions.Year_2022;
 using Advent_of_Code.Utilities.ChallengeReader;
 using Advent_of_Code.Solution_Mapper;
+using System.Diagnostics;
 
 namespace Advent_of_Code
 {
@@ -43,14 +44,28 @@ namespace Advent_of_Code
 
         static void PrintSolution(ChallengeSolution solution)
         {
+            var watch = new Stopwatch();
+
             try
             {
                 Console.WriteLine("First part:");
+
+                watch.Start();
                 solution.SolveFirstPart();
+                watch.Stop();
+
+                Console.WriteLine("Time for solving first: " + watch.ElapsedMilliseconds + " ms");
+                Console.WriteLine();
                 try
                 {
                     Console.WriteLine("Second part:");
+
+                    watch.Start();
                     solution.SolveSecondPart();
+                    watch.Stop();
+
+                    Console.WriteLine("Time for solving second: " + watch.ElapsedMilliseconds + " ms");
+                    Console.WriteLine();
                     Console.WriteLine();
                 }
                 catch (NotImplementedException)
