@@ -4,7 +4,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution03 : ChallengeSolution
     {
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             var bits = Enumerable.Range(0, 12).Select(x => new BitAmmount { }).ToList();
 
@@ -31,7 +31,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             Console.WriteLine(Convert.ToInt32(gamma, 2) * Convert.ToInt32(epsilon, 2));
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             string[] lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2021, 3));
             var O2 = new List<string>(lines);

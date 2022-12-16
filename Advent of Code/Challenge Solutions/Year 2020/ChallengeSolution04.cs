@@ -16,12 +16,12 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             passports = text.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             Console.WriteLine(ValidPassports(passports));
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             Console.WriteLine(ValidPassportsValidated(passports));
         }

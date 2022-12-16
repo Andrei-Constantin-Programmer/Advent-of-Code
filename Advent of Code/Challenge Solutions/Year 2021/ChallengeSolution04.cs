@@ -6,7 +6,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
     {
         private const int n = 5;
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             using (TextReader read = Reader.GetInputFile(2021, 4))
             {
@@ -37,7 +37,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             }
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             using (TextReader read = Reader.GetInputFile(2021, 4))
             {

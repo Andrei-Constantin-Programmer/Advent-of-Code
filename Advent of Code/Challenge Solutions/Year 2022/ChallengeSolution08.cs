@@ -4,7 +4,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution08 : ChallengeSolution
     {
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             var grid = ReadTreeGrid();
 
@@ -14,7 +14,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(perimeter + visibleTrees);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             var grid = ReadTreeGrid();
 

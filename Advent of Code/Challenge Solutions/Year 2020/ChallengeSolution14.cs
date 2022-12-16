@@ -11,7 +11,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 14));
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             memory = new string[100000];
             string mask = "";
@@ -39,7 +39,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             Console.WriteLine(sum);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             memory2 = new Dictionary<long, string>();
             string mask = "";

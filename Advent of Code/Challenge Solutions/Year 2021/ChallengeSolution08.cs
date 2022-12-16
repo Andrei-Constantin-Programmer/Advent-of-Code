@@ -7,7 +7,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         Dictionary<byte, char[]> segmentsByDigit;
         Dictionary<char, char> positionsByChar;
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             GenerateInitialMapping();
 
@@ -34,7 +34,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             }
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             using (TextReader read = Reader.GetInputFile(2021, 8))
             {

@@ -20,7 +20,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             numbers.Add(numbers[numbers.Count - 1] + 3);
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             int oneJolt = 0, twoJolts = 0, threeJolts = 0;
             for (int i = 1; i < numbers.Count; i++)
@@ -37,7 +37,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             Console.WriteLine(oneJolt * threeJolts);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             var limit = numbers[numbers.Count - 1] + 1;
             long[] paths = new long[limit];

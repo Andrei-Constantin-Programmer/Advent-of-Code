@@ -25,7 +25,7 @@ namespace Advent_of_Code
                         {
                             var solution = reader.ReadChallenge(year);
                             Console.WriteLine();
-                            PrintSolution(solution);
+                            solution.PrintSolution();
                         } 
                         catch(Exception)
                         {
@@ -40,48 +40,5 @@ namespace Advent_of_Code
             }
         }
 
-
-        static void PrintSolution(ChallengeSolution solution)
-        {
-            var watch = new Stopwatch();
-
-            try
-            {
-                Console.WriteLine("First part:");
-
-                watch.Start();
-                solution.SolveFirstPart();
-                watch.Stop();
-
-                Console.WriteLine("Time for solving first: " + GetTimeElapsed(watch));
-                Console.WriteLine();
-                try
-                {
-                    Console.WriteLine("Second part:");
-
-                    watch.Start();
-                    solution.SolveSecondPart();
-                    watch.Stop();
-
-                    Console.WriteLine("Time for solving second: " + GetTimeElapsed(watch));
-                    Console.WriteLine();
-                    Console.WriteLine();
-                }
-                catch (NotImplementedException)
-                {
-                    Console.WriteLine("The second part of this challenge has not been solved yet.");
-                    Console.WriteLine();
-                }
-            }
-            catch (NotImplementedException)
-            {
-                Console.WriteLine("The first part of this challenge has not been solved yet.");
-            }
-        }
-
-        private static string GetTimeElapsed(Stopwatch watch)
-        {
-            return watch.Elapsed.TotalMilliseconds + " ms";
-        }
     }
 }

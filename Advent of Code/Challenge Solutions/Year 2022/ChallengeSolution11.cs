@@ -6,13 +6,13 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
     {
         private int limit;
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             var monkeys = ReadMonkeys();
             Console.WriteLine(FindMonkeyBusiness(monkeys, 20, (x) => x / 3));
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             limit = 1;
             var monkeys = ReadMonkeys();

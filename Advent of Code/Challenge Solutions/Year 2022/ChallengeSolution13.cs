@@ -4,7 +4,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution13 : ChallengeSolution
     {
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             var packetGroups = ReadPacketGroups();
 
@@ -20,7 +20,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(rightOrderIndexSum);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             var packets = GetAllPacketsFromPacketGroups(ReadPacketGroups());
             var dividers = CreateDividerPackets(new int[] { 2, 6 });

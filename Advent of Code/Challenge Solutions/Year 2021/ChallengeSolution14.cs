@@ -9,7 +9,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         private Dictionary<string, long> pairAppearances;
         private List<char> polymer;
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             ReadInput();
             for(int step=0; step<10; step++)
@@ -33,7 +33,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             Console.WriteLine(sorted[sorted.Count-1].Value - sorted[0].Value);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             ReadInput();
             for(int step=0; step<40; step++)

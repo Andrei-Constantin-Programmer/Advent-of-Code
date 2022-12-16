@@ -11,12 +11,12 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 3));
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             Console.WriteLine(CountTrees(lines));
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             int p = CountTreesDownOne(lines);
             p *= CountTreesDownTwo(lines);

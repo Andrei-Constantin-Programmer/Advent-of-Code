@@ -61,7 +61,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             }
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             int sum = 0;
             foreach (Ticket ticket in nearbyTickets)
@@ -77,7 +77,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             Console.WriteLine(sum);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             throw new NotImplementedException();
 

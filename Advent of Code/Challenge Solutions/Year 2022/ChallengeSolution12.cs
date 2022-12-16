@@ -14,14 +14,14 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             endPosition = GetPositionOf(0);
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             var distanceMap = CreateMatrix<int>(heightMap.Length, heightMap[0].Length);
 
             Console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a') + 1));
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             var distanceMap = CreateMatrix<int>(heightMap.Length, heightMap[0].Length);
 

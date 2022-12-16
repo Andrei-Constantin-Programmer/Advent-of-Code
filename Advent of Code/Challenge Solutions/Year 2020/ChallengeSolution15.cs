@@ -4,12 +4,12 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
     internal class ChallengeSolution15 : ChallengeSolution
     {
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             Solution(2020);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             Solution(30000000);
         }

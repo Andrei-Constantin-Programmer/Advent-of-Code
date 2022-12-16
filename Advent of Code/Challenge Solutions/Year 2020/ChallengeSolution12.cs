@@ -11,7 +11,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             actions = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 12));
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             horizontal = vertical = 0;
             direction = EAST;
@@ -24,7 +24,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             Console.WriteLine(Math.Abs(horizontal) + Math.Abs(vertical));
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             planeHorizontal = planeVertical = 0;
             wpHorizontal = 10;

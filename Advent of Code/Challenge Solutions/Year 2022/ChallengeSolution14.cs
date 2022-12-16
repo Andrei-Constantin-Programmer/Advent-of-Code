@@ -17,13 +17,13 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             paths = ReadRockPaths(out leftMargin, out rightMargin, out bottomMargin);
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             var cave = CreateCaveMap(paths, leftMargin, rightMargin, bottomMargin);
             Console.WriteLine(GrainsToFillCave(cave, leftMargin));
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             var cave = AddFloor(CreateCaveMap(paths, leftMargin, rightMargin, bottomMargin));
             Console.WriteLine(GrainsToPlugSource(cave, leftMargin));

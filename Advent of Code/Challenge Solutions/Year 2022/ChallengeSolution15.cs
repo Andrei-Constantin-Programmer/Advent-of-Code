@@ -10,7 +10,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         private const bool IsTesting = false;
         private readonly ParallelOptions parallelOptions = new() { MaxDegreeOfParallelism = 12 };
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             var pairs = ReadSensorsAndBeacons();
 
@@ -19,7 +19,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(GetBlockedPositions(row, pairs).Count);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             var sensorBeaconPairs = ReadSensorsAndBeacons();
             var diamonds = CreateDiamonds(sensorBeaconPairs);

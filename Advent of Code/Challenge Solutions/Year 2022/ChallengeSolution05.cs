@@ -4,7 +4,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution05 : ChallengeSolution
     {
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             var (stacks, moves) = ReadInput();
 
@@ -13,7 +13,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(String.Join("", stacks.Select(stack => stack.Peek())));
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             var (stacks, moves) = ReadInput();
 

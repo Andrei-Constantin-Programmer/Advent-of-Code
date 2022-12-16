@@ -13,7 +13,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             columns = lines[0].Length;
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             int[,] heightMap = ReadHeightMap();
             int sum = 0;
@@ -27,7 +27,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             Console.WriteLine(sum);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             var heightMap = ReadHeightMap();
             var lowPoints = GetLowPoints(heightMap);

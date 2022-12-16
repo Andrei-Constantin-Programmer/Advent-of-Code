@@ -4,7 +4,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution01 : ChallengeSolution
     {
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             int no = 0;
             using (TextReader read = Reader.GetInputFile(2021, 1))
@@ -22,7 +22,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             Console.WriteLine(no);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             List<int> depths = new List<int>(Array.ConvertAll(File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2021, 1)), int.Parse));
             List<int> sums = new List<int>(depths);

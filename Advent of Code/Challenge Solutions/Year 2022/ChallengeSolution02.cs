@@ -4,7 +4,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution02 : ChallengeSolution
     {
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             Console.WriteLine(
                 ReadRockPaperScissorsRounds()
@@ -13,7 +13,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 .Sum());
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             Console.WriteLine(
                 ReadRockPaperScissorsRounds()

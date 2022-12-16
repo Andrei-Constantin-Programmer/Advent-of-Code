@@ -7,7 +7,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         private Dictionary<string, List<string>>? caveConnections;
         private int paths;
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             paths = 0;
             GetCaves();
@@ -37,7 +37,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         private List<string> smallCaves;
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             paths = 0;
             GetCaves();

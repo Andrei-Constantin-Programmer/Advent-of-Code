@@ -19,7 +19,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 flattenedDisplay[i] = DARK;
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             var cpu = new CPU();
             var commands = ReadCommands();
@@ -32,7 +32,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(sumSignalStrengths);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             var cpu = new CPU();
             var commands = ReadCommands();

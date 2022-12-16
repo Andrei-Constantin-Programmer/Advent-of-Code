@@ -9,7 +9,7 @@
             adjacentValves = ReadValves();
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             throw new NotImplementedException();
 
@@ -39,7 +39,7 @@
             return accumulatedPressure + maximumPressure;
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             throw new NotImplementedException();
         }

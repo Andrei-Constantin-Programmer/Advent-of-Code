@@ -32,7 +32,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             }
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             accumulator = 0;
 
@@ -50,7 +50,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             Console.WriteLine(accumulator);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             accumulator = 0;
 

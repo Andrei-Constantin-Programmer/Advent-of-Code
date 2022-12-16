@@ -9,13 +9,13 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         private int[,] pathMatrix;
         Queue<KeyValuePair<int, int>> queue;
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             ReadMatrix();
             FindPath();
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             CreateBigMatrix();
             FindPath();

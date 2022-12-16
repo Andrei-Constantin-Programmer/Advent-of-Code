@@ -14,7 +14,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
                 a[i] = Convert.ToInt32(lines[i]);
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             for (int i = 0; i < a.Length; i++)
             {
@@ -26,7 +26,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             }
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             for (int i = 0; i < a.Length; i++)
             {

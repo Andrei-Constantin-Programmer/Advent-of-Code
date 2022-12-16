@@ -4,7 +4,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution02 : ChallengeSolution
     {
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             int depth = 0, horizontal = 0;
             using (TextReader read = Reader.GetInputFile(2021, 2))
@@ -26,7 +26,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             Console.WriteLine(depth*horizontal);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             int depth = 0, horizontal = 0, aim = 0;
 

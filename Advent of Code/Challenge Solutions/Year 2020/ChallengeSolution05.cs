@@ -12,7 +12,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             seats = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 5));
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             string[] mySeats = new string[seats.Length];
             seats.CopyTo(mySeats, 0);
@@ -20,7 +20,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             Console.WriteLine(GetHighestID(mySeats));
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             string[] mySeats = new string[seats.Length];
             seats.CopyTo(mySeats, 0);

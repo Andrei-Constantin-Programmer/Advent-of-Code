@@ -13,7 +13,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 2));
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             int no = 0;
 
@@ -41,7 +41,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             Console.WriteLine(no);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             int no = 0;
 

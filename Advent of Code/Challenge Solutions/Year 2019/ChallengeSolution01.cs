@@ -4,14 +4,14 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2019
 {
     internal class ChallengeSolution01 : ChallengeSolution
     {
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             Console.WriteLine(ReadModuleMasses()
                 .Select(mass => CalculateFuelForMass(mass))
                 .Sum());
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             Console.WriteLine(ReadModuleMasses()
                 .Select(mass =>

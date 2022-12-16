@@ -15,7 +15,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             busesIds = lines[1].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             var busIds = new string[busesIds.Length];
             busesIds.CopyTo(busIds, 0);
@@ -36,7 +36,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             Console.WriteLine(GetEarliestBus() * (earliestTimestamp - firstTimestamp));
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             var busIds = new string[busesIds.Length];
             busesIds.CopyTo(busIds, 0);

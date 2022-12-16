@@ -4,7 +4,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 {
     class ChallengeSolution06 : ChallengeSolution
     {
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             List<int> lanternfish = new List<int>(Array.ConvertAll(Reader.GetInputFile(2021, 6).ReadLine().Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
 
@@ -34,7 +34,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         }
 
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             long[] fish = new long[9];
             List<int> initialFish = new List<int>(Array.ConvertAll(Reader.GetInputFile(2021, 6).ReadLine().Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));

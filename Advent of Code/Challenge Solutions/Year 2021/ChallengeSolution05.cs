@@ -6,12 +6,12 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
     {
         private const int n = 1000;
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             Solution(false);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             Solution(true);
         }

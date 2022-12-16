@@ -20,7 +20,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             ReadFileSystem();
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {            
             int sum = 0;
 
@@ -31,7 +31,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(sum);
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             var orderedFolders = folders
                 .OrderBy(folder => folder.Size);

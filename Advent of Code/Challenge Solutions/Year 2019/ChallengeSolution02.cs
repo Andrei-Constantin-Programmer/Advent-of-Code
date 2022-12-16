@@ -4,13 +4,13 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2019
 {
     internal class ChallengeSolution02 : ChallengeSolution
     {
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             var opCodes = ReadOpCodes();
             Console.WriteLine(ResultForOpCodeCalculation(opCodes, 12, 2));
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             for(byte noun = 0; noun < 99; noun++)
             {

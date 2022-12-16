@@ -24,7 +24,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             {'F', "1111" },
         };
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             throw new NotImplementedException();
             using(TextReader read = Reader.GetInputFile(2021, 16))
@@ -34,7 +34,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             }
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             throw new NotImplementedException();
         }

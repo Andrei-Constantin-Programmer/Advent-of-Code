@@ -4,14 +4,14 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution06 : ChallengeSolution
     {
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             var buffer = ReadDatastreamBuffer();
 
             Console.WriteLine(FindFirstUniqueBufferPosition(buffer, 4));
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             var buffer = ReadDatastreamBuffer();
 

@@ -17,7 +17,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             }
         }
 
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             bool found = false;
             int pos = 0;
@@ -35,7 +35,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             }
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             bool found = false;
             int pos = 0;

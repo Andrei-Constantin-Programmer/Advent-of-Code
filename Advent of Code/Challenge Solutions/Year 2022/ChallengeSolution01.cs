@@ -4,12 +4,12 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution01 : ChallengeSolution
     {
-        public void SolveFirstPart()
+        protected override void SolveFirstPart()
         {
             Console.WriteLine(GetElfCaloriesList().First());
         }
 
-        public void SolveSecondPart()
+        protected override void SolveSecondPart()
         {
             Console.WriteLine(GetElfCaloriesList().GetRange(0, 3).Sum());
         }
