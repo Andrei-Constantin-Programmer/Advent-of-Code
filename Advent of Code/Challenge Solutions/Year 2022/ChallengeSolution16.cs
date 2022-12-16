@@ -2,7 +2,7 @@
 {
     internal class ChallengeSolution16 : ChallengeSolution
     {
-        private Dictionary<Valve, List<Valve>> adjacentValves;
+        private readonly Dictionary<Valve, List<Valve>> adjacentValves;
 
         public ChallengeSolution16()
         {
