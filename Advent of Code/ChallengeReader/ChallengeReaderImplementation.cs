@@ -31,6 +31,7 @@ namespace Advent_of_Code.Utilities.ChallengeReader
                         return year;
 
                     Console.WriteLine($"There are no solutions found for year {year}.");
+                    Console.WriteLine();
                 }
                 catch(QuitMenuException ex)
                 {
@@ -39,6 +40,7 @@ namespace Advent_of_Code.Utilities.ChallengeReader
                 catch (Exception)
                 {
                     Console.WriteLine("The value you have inputted is invalid.");
+                    Console.WriteLine();
                 }
             }
         }

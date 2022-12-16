@@ -42,6 +42,7 @@ namespace Advent_of_Code.Challenge_Solutions
             catch (NotImplementedException)
             {
                 Console.WriteLine("The first part of this challenge has not been solved yet.");
+                Console.WriteLine();
             }
         }
 
