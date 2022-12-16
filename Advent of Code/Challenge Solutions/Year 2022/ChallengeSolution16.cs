@@ -4,11 +4,14 @@
     {
         private Dictionary<Valve, List<Valve>> adjacentValves;
 
+        public ChallengeSolution16()
+        {
+            adjacentValves = ReadValves();
+        }
+
         public void SolveFirstPart()
         {
             throw new NotImplementedException();
-
-            adjacentValves = ReadValves();
 
             Console.WriteLine(GetMaximumPressure(adjacentValves.Keys.First(), 30, 0));
         }
