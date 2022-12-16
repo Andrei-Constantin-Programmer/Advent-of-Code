@@ -1,5 +1,7 @@
 ﻿// Task: https://adventofcode.com/2022/day/7
 
+using System.Diagnostics;
+
 namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution07 : ChallengeSolution
@@ -8,19 +10,22 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         private const int AVAILABLE = 70000000;
         private const int NEEDED = 30000000;
 
-        private Folder? root = null;
+        private Folder root;
+        private List<Folder> folders;
+
+        public ChallengeSolution07()
+        {
+            root = new Folder("/");
+            folders = new List<Folder>() { root };
+            ReadFileSystem();
+        }
 
         public void SolveFirstPart()
-        {
-            root ??= ReadFileSystem();
-            
+        {            
             int sum = 0;
-            if (root.Size <= MAX_SIZE)
-                sum += root.Size;
 
-            sum += root
-                .FindFolders(folder => folder.Size < MAX_SIZE)
-                .Select(folder => folder.Size)
+            sum += folders
+                .Select(folder => folder.Size < MAX_SIZE ? folder.Size : 0)
                 .Sum();
 
             Console.WriteLine(sum);
@@ -28,13 +33,10 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         public void SolveSecondPart()
         {
-            root = root ?? ReadFileSystem();
-
-            var folders = root
-                .FindFolders((_) => true)
+            var orderedFolders = folders
                 .OrderBy(folder => folder.Size);
 
-            foreach(var folder in folders)
+            foreach(var folder in orderedFolders)
             {
                 var used = root.Size - folder.Size;
                 if (AVAILABLE - used >= NEEDED)
@@ -48,44 +50,42 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         }
 
 
-        private static Folder ReadFileSystem()
+        private void ReadFileSystem()
         {
-            var root = new Folder("/");
+            using TextReader read = Reader.GetInputFile(2022, 7);
 
-            using (TextReader read = Reader.GetInputFile(2022, 7))
+            var currentFolder = root;
+            string? line;
+            while ((line = read.ReadLine()) != null && line.Trim().Length > 0)
             {
-                var currentFolder = root;
-                string? line;
-                while ((line = read.ReadLine()) != null && line.Trim().Length > 0)
+                var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                if (elements[0] == "$")
                 {
-                    var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-                    if (elements[0] == "$")
+                    if (elements[1] == "cd")
                     {
-                        if (elements[1] == "cd")
+                        currentFolder = elements[2] switch
                         {
-                            currentFolder = elements[2] switch
-                            {
-                                "/" => root,
-                                ".." => currentFolder!.Parent!,
-                                var name => currentFolder.FindFolder(elements[2])
-                            };
-                        }
+                            "/" => root,
+                            ".." => currentFolder!.Parent!,
+                            var name => currentFolder!.FindFolder(elements[2])
+                        };
+                    }
+                }
+                else
+                {
+                    if (elements[0] == "dir")
+                    {
+                        var newFolder = new Folder(elements[1], currentFolder);
+                        currentFolder!.AddFile(newFolder);
+
+                        folders.Add(newFolder);
                     }
                     else
                     {
-                        if (elements[0] == "dir")
-                        {
-                            currentFolder!.AddFile(new Folder(elements[1], currentFolder));
-                        }
-                        else
-                        {
-                            currentFolder!.AddFile(new TextFile(elements[1], Convert.ToInt32(elements[0]), currentFolder));
-                        }
+                        currentFolder!.AddFile(new TextFile(elements[1], Convert.ToInt32(elements[0]), currentFolder));
                     }
                 }
             }
-
-            return root;
         }
     }
 
@@ -146,27 +146,6 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 .Where(file => file.GetType() == typeof(Folder))
                 .FirstOrDefault(folder => folder.Name == name)
                 as Folder;
-        }
-
-        public List<Folder> FindFolders(Predicate<Folder> condition)
-        {
-            var folders = new List<Folder>();
-            foreach(var file in Files)
-            {
-                try
-                {
-                    var folder = (Folder)file;
-                    if (condition(folder))
-                        folders.Add(folder);
-                    folders.AddRange(folder.FindFolders(condition));
-                }
-                catch(Exception)
-                {
-                    continue;
-                }
-            }
-
-            return folders;
         }
 
         public override void Print()

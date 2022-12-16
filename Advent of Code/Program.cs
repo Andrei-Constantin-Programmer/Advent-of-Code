@@ -53,7 +53,7 @@ namespace Advent_of_Code
                 solution.SolveFirstPart();
                 watch.Stop();
 
-                Console.WriteLine("Time for solving first: " + watch.ElapsedMilliseconds + " ms");
+                Console.WriteLine("Time for solving first: " + GetTimeElapsed(watch));
                 Console.WriteLine();
                 try
                 {
@@ -63,7 +63,7 @@ namespace Advent_of_Code
                     solution.SolveSecondPart();
                     watch.Stop();
 
-                    Console.WriteLine("Time for solving second: " + watch.ElapsedMilliseconds + " ms");
+                    Console.WriteLine("Time for solving second: " + GetTimeElapsed(watch));
                     Console.WriteLine();
                     Console.WriteLine();
                 }
@@ -77,6 +77,11 @@ namespace Advent_of_Code
             {
                 Console.WriteLine("The first part of this challenge has not been solved yet.");
             }
+        }
+
+        private static string GetTimeElapsed(Stopwatch watch)
+        {
+            return watch.Elapsed.TotalMilliseconds + " ms";
         }
     }
 }
