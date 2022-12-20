@@ -97,6 +97,7 @@ namespace Advent_of_Code.Solution_Mapper
                     15 => new Year2022.ChallengeSolution15(),
                     16 => new Year2022.ChallengeSolution16(),
                     17 => new Year2022.ChallengeSolution17(),
+                    20 => new Year2022.ChallengeSolution20(),
 
                     _ => throw new Exception("Challenge unexistent")
                 },
