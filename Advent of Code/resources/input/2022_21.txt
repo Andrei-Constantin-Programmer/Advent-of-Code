@@ -2494,7 +2494,7 @@ jnhr: 2
 jpdm: jlsj + cchb
 qnrp: 2
 mffv: shfn * vdcs
-fqzp: cnrt + dcrs
+fqzp: cnrt + dcrs 
 jgqj: hpwz + csng
 bfbh: frsn - gsnq
 hpth: wwmr * wwlt
