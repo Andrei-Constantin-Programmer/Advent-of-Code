@@ -10,7 +10,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution02()
         {
-            lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 2));
+            lines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2020, 2));
         }
 
         protected override void SolveFirstPart()

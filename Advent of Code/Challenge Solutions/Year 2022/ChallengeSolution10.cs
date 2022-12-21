@@ -121,7 +121,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         private static string[] ReadCommands()
         {
-            return File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2022, 10));
+            return File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2022, 10));
         }
 
         private class CPU

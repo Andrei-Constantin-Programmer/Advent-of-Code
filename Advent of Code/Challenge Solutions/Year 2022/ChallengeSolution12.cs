@@ -100,7 +100,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         private static int[][] ReadHeightMap()
         {
-            return File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2022, 12))
+            return File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2022, 12))
                 .Select(line => line
                     .ToCharArray()
                     .Select(c =>

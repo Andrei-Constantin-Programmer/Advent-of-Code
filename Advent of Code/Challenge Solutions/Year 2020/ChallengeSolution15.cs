@@ -16,7 +16,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         private void Solution(int n)
         {
-            string input = File.ReadAllText(Reader.GetFileString(Reader.FileType.Input, 2020, 15));
+            string input = File.ReadAllText(Reader.GetFilePath(Reader.FileType.Input, 2020, 15));
             string[] inputSeparated = input.Split(new string(","), StringSplitOptions.RemoveEmptyEntries);
             var spokenNumbers = new Dictionary<ulong, uint>();
 

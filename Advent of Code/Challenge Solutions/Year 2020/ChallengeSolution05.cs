@@ -9,7 +9,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution05()
         {
-            seats = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 5));
+            seats = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2020, 5));
         }
 
         protected override void SolveFirstPart()

@@ -209,7 +209,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
         private static byte[][] ReadTreeGrid()
         {
-            var lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2022, 8));
+            var lines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2022, 8));
             var rows = lines.Length;
             var columns = lines[0].Length;
 

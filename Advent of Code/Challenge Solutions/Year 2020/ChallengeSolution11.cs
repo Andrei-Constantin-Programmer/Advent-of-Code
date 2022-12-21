@@ -8,7 +8,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution11()
         {
-            lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 11));
+            lines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2020, 11));
         }
 
         protected override void SolveFirstPart()
@@ -187,7 +187,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
             public void Solution()
             {
-                string[] lines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 11));
+                string[] lines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2020, 11));
                 seats = new char[lines.Length][];
                 prevSeats = new char[lines.Length][];
                 for (int i = 0; i < seats.Length; i++)

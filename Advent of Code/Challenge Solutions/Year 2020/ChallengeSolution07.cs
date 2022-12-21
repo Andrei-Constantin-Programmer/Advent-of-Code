@@ -25,7 +25,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             {
                 validBags = new List<Bag>();
                 allBags = new List<Bag>();
-                string[] rules = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 7));
+                string[] rules = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2020, 7));
                 foreach (string rule in rules)
                 {
                     string[] codes = rule.Split(new string[] { "contain" }, StringSplitOptions.RemoveEmptyEntries);
@@ -127,7 +127,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             {
                 validBags = new List<Bag>();
                 allBags = new List<Bag>();
-                string[] rules = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2020, 7));
+                string[] rules = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2020, 7));
                 foreach (string rule in rules)
                 {
                     string[] codes = rule.Split(new string[] { "contain" }, StringSplitOptions.RemoveEmptyEntries);

@@ -60,7 +60,7 @@
 
         private static List<Monkey> ReadMonkeys(bool separateRootMonkey)
         {
-            var splitLines = File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2022, 21))
+            var splitLines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2022, 21))
                 .Select(line => line.Split(':', StringSplitOptions.RemoveEmptyEntries))
                 .ToList();
 

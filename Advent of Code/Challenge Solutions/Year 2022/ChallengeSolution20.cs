@@ -110,7 +110,7 @@
 
         private static List<EncryptedValue> ReadInitialArrangement()
         {
-            return File.ReadAllLines(Reader.GetFileString(Reader.FileType.Input, 2022, 20))
+            return File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2022, 20))
                 .Select(x => new EncryptedValue(Convert.ToInt16(x)))
                 .ToList();
         }
