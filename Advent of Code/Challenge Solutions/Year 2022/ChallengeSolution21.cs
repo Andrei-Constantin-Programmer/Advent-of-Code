@@ -7,6 +7,8 @@
             var monkeys = ReadMonkeys(false);
             var root = FindMonkey(monkeys, "root");
 
+            Print(root, 0);
+
             Console.WriteLine(root.Value);
         }
 
@@ -17,6 +19,18 @@
             var human = FindMonkey(monkeys, "humn");
 
             Console.WriteLine(FindHumanCall(root, human));
+        }
+
+        private static void Print(Monkey monkey, int spaces)
+        {
+            for(int i = 0; i < spaces; i++)
+                Console.Write(" ");
+            Console.WriteLine(monkey.Name + " " + monkey.Value);
+            
+            if(monkey.LeftMonkey != null)
+                Print(monkey.LeftMonkey, spaces + 1);
+            if (monkey.RightMonkey != null)
+                Print(monkey.RightMonkey, spaces + 1);
         }
 
         private static long FindHumanCall(Monkey root, Monkey human)
