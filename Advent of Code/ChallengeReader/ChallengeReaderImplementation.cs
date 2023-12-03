@@ -8,9 +8,9 @@ namespace Advent_of_Code.Utilities.ChallengeReader
         private const int FIRST_CHALLENGE_DAY = 1;
         private const int LAST_CHALLENGE_DAY = 25;
 
-        private SolutionMapper mapper;
+        private ISolutionMapper mapper;
 
-        public ChallengeReaderImplementation(SolutionMapper mapper)
+        public ChallengeReaderImplementation(ISolutionMapper mapper)
         {
             this.mapper = mapper;
         }

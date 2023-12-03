@@ -9,7 +9,7 @@ namespace Advent_of_Code
     {
         static void Main(string[] args)
         {
-            SolutionMapper mapper = new SolutionMapperImplementation();
+            ISolutionMapper mapper = new SolutionMapper();
             ChallengeReader reader = new ChallengeReaderImplementation(mapper);
             
             while(true)
