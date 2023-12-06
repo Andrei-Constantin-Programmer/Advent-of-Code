@@ -108,6 +108,7 @@ internal class SolutionMapper : ISolutionMapper
             {
                 1 => new Year2023.ChallengeSolution01(),
                 2 => new Year2023.ChallengeSolution02(),
+                3 => new Year2023.ChallengeSolution03(),
 
                 _ => throw new NonexistentChallengeException(2023, day)
             }
