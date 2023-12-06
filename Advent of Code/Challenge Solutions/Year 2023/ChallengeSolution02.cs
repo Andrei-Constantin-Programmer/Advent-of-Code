@@ -8,7 +8,7 @@ internal class ChallengeSolution02 : ChallengeSolution
 
     protected override void SolveFirstPart()
     {
-        int idSum = 0;
+        int totalIdSum = 0;
 
         string? line;
         using TextReader read = Reader.GetInputFile(2023, 2);
@@ -20,16 +20,32 @@ internal class ChallengeSolution02 : ChallengeSolution
 
             if (isGamePossible)
             {
-                idSum += game.Id;
+                totalIdSum += game.Id;
             }
         }
 
-        Console.WriteLine(idSum);
+        Console.WriteLine(totalIdSum);
     }
 
     protected override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        long totalPowerSum = 0;
+
+        string? line;
+        using TextReader read = Reader.GetInputFile(2023, 2);
+        while ((line = read.ReadLine()) != null)
+        {
+            Game game = ReadGameFromInputLine(line);
+            long minimumSetPower = game.CubeSets
+                .SelectMany(cubeSet => cubeSet)
+                .GroupBy(cubeGroup => cubeGroup.Color)
+                .Select(colorGrouping => colorGrouping.Max(cubeGroup => cubeGroup.Count))
+                .Aggregate((acc, x) => acc * x);
+
+            totalPowerSum += minimumSetPower;
+        }
+
+        Console.WriteLine(totalPowerSum);
     }
 
     private static bool CubeGroupIsPossible(CubeGroup cubeGroup) => cubeGroup.Color switch
@@ -38,7 +54,7 @@ internal class ChallengeSolution02 : ChallengeSolution
         CubeColor.Green => cubeGroup.Count <= MAX_GREEN_CUBES,
         CubeColor.Blue => cubeGroup.Count <= MAX_BLUE_CUBES,
 
-        _ => throw new ArgumentException($"Unknown color {cubeGroup.Color}")
+        _ => throw new ArgumentException($"Unknown color {nameof(cubeGroup.Color)}")
     };
 
     private static Game ReadGameFromInputLine(string line)
