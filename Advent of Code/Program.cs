@@ -27,8 +27,9 @@ namespace Advent_of_Code
                             Console.WriteLine();
                             solution.PrintSolution();
                         } 
-                        catch(Exception)
+                        catch(Exception ex)
                         {
+                            Console.WriteLine($"Error: {ex.Message}");
                             break;
                         }
                     }
