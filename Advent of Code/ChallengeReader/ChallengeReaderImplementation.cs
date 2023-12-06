@@ -3,7 +3,7 @@ using Advent_of_Code.Solution_Mapper;
 
 namespace Advent_of_Code.Utilities.ChallengeReader
 {
-    internal class ChallengeReaderImplementation : ChallengeReader
+    internal partial class ChallengeReaderImplementation : ChallengeReader
     {
         private const int FIRST_CHALLENGE_DAY = 1;
         private const int LAST_CHALLENGE_DAY = 25;
@@ -117,7 +117,5 @@ namespace Advent_of_Code.Utilities.ChallengeReader
                 _ => 0
             };
         }
-
-        class QuitMenuException: Exception { }
     }
 }
