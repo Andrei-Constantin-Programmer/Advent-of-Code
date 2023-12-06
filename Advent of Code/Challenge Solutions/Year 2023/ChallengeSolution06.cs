@@ -6,7 +6,7 @@ internal class ChallengeSolution06 : ChallengeSolution
     {
         var races = ReadRaceInformation();
 
-        var winningPossibilityProduct = 1;
+        long winningPossibilityProduct = 1;
         foreach (var race in races)
         {
             winningPossibilityProduct *= ComputeWinniningPossibilityCount(race);
@@ -17,13 +17,16 @@ internal class ChallengeSolution06 : ChallengeSolution
 
     protected override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var lines = ReadInputLines();
+        KeyValuePair<long, long> race = new(ParseCombinedInputLine(lines[0]), ParseCombinedInputLine(lines[1]));
+
+        Console.WriteLine(ComputeWinniningPossibilityCount(race));
     }
 
-    private static int ComputeWinniningPossibilityCount(KeyValuePair<int, int> race) 
+    private static long ComputeWinniningPossibilityCount(KeyValuePair<long, long> race)
         => GetLastWinningCharge(race) - GetFirstWinningCharge(race) + 1;
 
-    private static int GetFirstWinningCharge(KeyValuePair<int, int> race)
+    private static long GetFirstWinningCharge(KeyValuePair<long, long> race)
     {
         for (var index = 1; index < race.Key; index++)
         {
@@ -36,7 +39,7 @@ internal class ChallengeSolution06 : ChallengeSolution
         return -1;
     }
 
-    private static int GetLastWinningCharge(KeyValuePair<int, int> race)
+    private static long GetLastWinningCharge(KeyValuePair<long, long> race)
     {
         for (var index = race.Key - 1; index >= 1; index--)
         {
@@ -49,15 +52,15 @@ internal class ChallengeSolution06 : ChallengeSolution
         return -1;
     }
 
-    private static int ComputeDistanceTravelled(int chargeTime, int timeAllowed) => (timeAllowed - chargeTime) * chargeTime;
+    private static long ComputeDistanceTravelled(long chargeTime, long timeAllowed) => (timeAllowed - chargeTime) * chargeTime;
 
-    private static Dictionary<int, int> ReadRaceInformation()
+    private static Dictionary<long, long> ReadRaceInformation()
     {
-        Dictionary<int, int> races = new();
+        Dictionary<long, long> races = new();
 
-        var lines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2023, 6));
-        var times = ParseInputLine(lines[0]);
-        var distances = ParseInputLine(lines[1]);
+        var lines = ReadInputLines();
+        var times = ParseSplitInputLine(lines[0]);
+        var distances = ParseSplitInputLine(lines[1]);
         for (var index = 0; index < times.Count; index++)
         {
             races.Add(times[index], distances[index]);
@@ -66,5 +69,17 @@ internal class ChallengeSolution06 : ChallengeSolution
         return races;
     }
 
-    private static List<int> ParseInputLine(string line) => line.Split(':', StringSplitOptions.RemoveEmptyEntries)[1].Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x.Trim())).ToList();
+    private static string[] ReadInputLines() => File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2023, 6));
+
+    private static long ParseCombinedInputLine(string line) => long.Parse(string.Concat(line
+        .Split(':', StringSplitOptions.RemoveEmptyEntries)[1]
+        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+        .Select(x => x.Trim())
+        ));
+
+    private static List<long> ParseSplitInputLine(string line) => line
+        .Split(':', StringSplitOptions.RemoveEmptyEntries)[1]
+        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+        .Select(x => long.Parse(x.Trim()))
+        .ToList();
 }
