@@ -4,6 +4,33 @@ internal class ChallengeSolution07 : ChallengeSolution
 {
     protected override void SolveFirstPart()
     {
+        Console.WriteLine(GetTotalWinnings(false));
+    }
+
+    protected override void SolveSecondPart()
+    {
+        Console.WriteLine(GetTotalWinnings(true));
+    }
+
+    private static int GetTotalWinnings(bool includeJokers)
+    {
+        var hands = ReadCamelCardsHands(includeJokers);
+
+        hands = hands
+            .OrderBy(hand => hand)
+            .ToList();
+
+        var totalWinnings = 0;
+        for (var rank = 1; rank <= hands.Count; rank++)
+        {
+            totalWinnings += hands[rank - 1].Bid * rank;
+        }
+
+        return totalWinnings;
+    }
+
+    private static List<Hand> ReadCamelCardsHands(bool includeJokers)
+    {
         List<Hand> hands = new();
 
         string? line;
@@ -12,86 +39,49 @@ internal class ChallengeSolution07 : ChallengeSolution
         {
             var elements = line.Split(' ');
             var cards = elements[0]
-                .Select(card => ParseCard(card, includeJokers: false))
+                .Select(card => ParseCard(card, includeJokers))
                 .ToArray();
             var bid = int.Parse(elements[1]);
 
-            hands.Add(new(cards, bid));
+            hands.Add(includeJokers ? new JokerHand(cards, bid) : new Hand(cards, bid));
         }
 
-        hands = hands.OrderBy(hand => hand).ToList();
-
-        var totalWinnings = 0;
-        for (var rank = 1; rank <= hands.Count; rank++)
-        {
-            totalWinnings += hands[rank - 1].Bid * rank;
-        }
-
-        Console.WriteLine(totalWinnings);
+        return hands;
     }
 
-    protected override void SolveSecondPart()
+    private static CamelCard ParseCard(char character, bool includeJokers) => character switch
     {
-        List<JokerHand> hands = new();
-
-        string? line;
-        using TextReader read = Reader.GetInputFile(2023, 7);
-        while ((line = read.ReadLine()) != null)
-        {
-            var elements = line.Split(' ');
-            var cards = elements[0]
-                .Select(card => ParseCard(card, includeJokers: true))
-                .ToArray();
-            var bid = int.Parse(elements[1]);
-
-            hands.Add(new(cards, bid));
-        }
-
-        hands = hands.OrderBy(hand => hand).ToList();
-
-        var totalWinnings = 0;
-        for (var rank = 1; rank <= hands.Count; rank++)
-        {
-            totalWinnings += hands[rank - 1].Bid * rank;
-        }
-
-        Console.WriteLine(totalWinnings);
-
-    }
-
-    private static Card ParseCard(char character, bool includeJokers) => character switch
-    {
-        '2' => Card.Two,
-        '3' => Card.Three,
-        '4' => Card.Four,
-        '5' => Card.Five,
-        '6' => Card.Six,
-        '7' => Card.Seven,
-        '8' => Card.Eight,
-        '9' => Card.Nine,
-        'T' => Card.T,
-        'J' => includeJokers ? Card.Joker : Card.J,
-        'Q' => Card.Q,
-        'K' => Card.K,
-        'A' => Card.A,
+        '2' => CamelCard.Two,
+        '3' => CamelCard.Three,
+        '4' => CamelCard.Four,
+        '5' => CamelCard.Five,
+        '6' => CamelCard.Six,
+        '7' => CamelCard.Seven,
+        '8' => CamelCard.Eight,
+        '9' => CamelCard.Nine,
+        'T' => CamelCard.T,
+        'J' => includeJokers ? CamelCard.Joker : CamelCard.J,
+        'Q' => CamelCard.Q,
+        'K' => CamelCard.K,
+        'A' => CamelCard.A,
 
         _ => throw new ArgumentException($"Unknown Card label {character}"),
     };
 
     private record JokerHand : Hand
     {
-        public JokerHand(Card[] cards, int bid) : base(cards, bid, GetHandTypeWithJokers(cards)) { }
+        public JokerHand(CamelCard[] cards, int bid) : base(cards, bid, GetHandTypeWithJokers(cards)) { }
 
-        protected static HandType GetHandTypeWithJokers(Card[] cards)
+        protected static HandType GetHandTypeWithJokers(CamelCard[] cards)
         {
-            var jokerCount = cards.Count(card => card == Card.Joker);
+            var jokerCount = cards.Count(card => card == CamelCard.Joker);
             if (jokerCount == 0)
             {
                 return GetHandType(cards);
             }
 
             var groupedCards = cards
-                .Where(card => card != Card.Joker)
+                .Where(card => card != CamelCard.Joker)
                 .GroupBy(card => card)
                 .OrderBy(group => group.Count())
                 .ToArray();
@@ -143,13 +133,13 @@ internal class ChallengeSolution07 : ChallengeSolution
 
     private record Hand : IComparable<Hand>
     {
-        public Card[] Cards { get; }
+        public CamelCard[] Cards { get; }
         public int Bid { get; }
         public HandType Type { get; }
 
-        public Hand(Card[] cards, int bid) : this(cards, bid, GetHandType(cards)) { }
+        public Hand(CamelCard[] cards, int bid) : this(cards, bid, GetHandType(cards)) { }
 
-        protected Hand(Card[] cards, int bid, HandType type)
+        protected Hand(CamelCard[] cards, int bid, HandType type)
         {
             if (cards.Length != 5)
             {
@@ -181,7 +171,7 @@ internal class ChallengeSolution07 : ChallengeSolution
             return cardComparison;
         }
 
-        protected static HandType GetHandType(Card[] cards)
+        protected static HandType GetHandType(CamelCard[] cards)
         {
             var groupedCards = cards.GroupBy(card => card).ToArray();
 
@@ -206,7 +196,7 @@ internal class ChallengeSolution07 : ChallengeSolution
         HighCard, OnePair, TwoPair, ThreeOfAKind, FullHouse, FourOfAKind, FiveOfAKind
     }
 
-    private enum Card
+    private enum CamelCard
     {
         Joker, Two, Three, Four, Five, Six, Seven, Eight, Nine, T, J, Q, K, A
     }
