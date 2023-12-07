@@ -93,6 +93,9 @@ csharp_style_expression_bodied_accessors = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = true:suggestion
 
+# IDE0008: Use explicit type
+dotnet_diagnostic.IDE0008.severity = none
+
 [*.vb]
 #### Naming styles ####
 
