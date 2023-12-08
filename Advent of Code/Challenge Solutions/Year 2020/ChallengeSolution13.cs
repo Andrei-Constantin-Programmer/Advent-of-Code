@@ -13,7 +13,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution13()
         {
-            lines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2020, 13));
+            lines = Reader.ReadLines(this);
             busesIds = lines[1].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
         }
 

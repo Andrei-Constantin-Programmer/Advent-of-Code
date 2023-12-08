@@ -209,9 +209,9 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return 2 * (rows + columns) - 4;
         }
 
-        private static byte[][] ReadTreeGrid()
+        private byte[][] ReadTreeGrid()
         {
-            var lines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2022, 8));
+            var lines = Reader.ReadLines(this);
             var rows = lines.Length;
             var columns = lines[0].Length;
 

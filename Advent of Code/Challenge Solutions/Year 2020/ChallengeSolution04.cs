@@ -14,7 +14,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution04()
         {
-            text = File.ReadAllText(Reader.GetFilePath(Reader.FileType.Input, 2020, 4));
+            text = string.Join(Environment.NewLine, Reader.ReadLines(this));
             passports = text.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         }
 

@@ -141,9 +141,9 @@ internal class ChallengeSolution03 : ChallengeSolution
         return false;
     }
 
-    private static char[,] ReadEngineSchematic()
+    private char[,] ReadEngineSchematic()
     {
-        string[] lines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2023, 3));
+        string[] lines = Reader.ReadLines(this);
 
         char[,] schematic = new char[lines.Length, lines[0].Length];
 

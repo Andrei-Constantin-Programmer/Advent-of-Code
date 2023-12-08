@@ -115,10 +115,10 @@ internal class ChallengeSolution05 : ChallengeSolution
         .Select(long.Parse)
         .ToList();
 
-    private static List<string> ReadInputLines()
+    private List<string> ReadInputLines()
     {
-        var lines = File
-            .ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2023, 5))
+        var lines = Reader
+            .ReadLines(this)
             .Where(x => !string.IsNullOrEmpty(x))
             .Select(x => x.Trim())
             .ToList();

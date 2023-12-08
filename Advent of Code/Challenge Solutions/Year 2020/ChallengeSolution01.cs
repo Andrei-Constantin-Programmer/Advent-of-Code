@@ -10,7 +10,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution01()
         {
-            string[] lines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2020, 1));
+            string[] lines = Reader.ReadLines(this);
             a = new int[lines.Length];
             for (int i = 0; i < lines.Length; i++)
                 a[i] = Convert.ToInt32(lines[i]);

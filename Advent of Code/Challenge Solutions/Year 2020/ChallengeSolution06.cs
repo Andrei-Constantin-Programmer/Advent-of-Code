@@ -12,7 +12,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution06()
         {
-            string lines = File.ReadAllText(Reader.GetFilePath(Reader.FileType.Input, 2020, 6));
+            string lines = string.Join(Environment.NewLine, Reader.ReadLines(this));
             groups = lines.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         }
 

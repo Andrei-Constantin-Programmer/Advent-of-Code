@@ -22,7 +22,7 @@ internal class Reader
 
     public static StreamWriter GetOutputFile(int year, int day) => new(GetFilePath(FileType.Output, year, day));
 
-    public static string GetFilePath(FileType fileType, int year, int day) =>
+    private static string GetFilePath(FileType fileType, int year, int day) =>
         Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.FullName + @$"\resources\{fileType.ToString().ToLower()}\{year}_{day}.txt";
 
     public enum FileType

@@ -56,7 +56,7 @@ internal class ChallengeSolution06 : ChallengeSolution
 
     private static long ComputeDistanceTravelled(long chargeTime, long timeAllowed) => (timeAllowed - chargeTime) * chargeTime;
 
-    private static Dictionary<long, long> ReadRaceInformation()
+    private Dictionary<long, long> ReadRaceInformation()
     {
         Dictionary<long, long> races = new();
 
@@ -71,7 +71,7 @@ internal class ChallengeSolution06 : ChallengeSolution
         return races;
     }
 
-    private static string[] ReadInputLines() => File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2023, 6));
+    private string[] ReadInputLines() => Reader.ReadLines(this);
 
     private static long ParseCombinedInputLine(string line) => long.Parse(string.Concat(line
         .Split(':', StringSplitOptions.RemoveEmptyEntries)[1]

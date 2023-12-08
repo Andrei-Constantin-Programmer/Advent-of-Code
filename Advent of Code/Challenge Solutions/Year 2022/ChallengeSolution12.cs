@@ -100,9 +100,9 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             throw new ArgumentException("The height map doesn't have a starting position");
         }
 
-        private static int[][] ReadHeightMap()
+        private int[][] ReadHeightMap()
         {
-            return File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2022, 12))
+            return Reader.ReadLines(this)
                 .Select(line => line
                     .ToCharArray()
                     .Select(c =>

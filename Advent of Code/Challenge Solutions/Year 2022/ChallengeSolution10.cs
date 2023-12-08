@@ -121,9 +121,9 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return cycle == 20;
         }
 
-        private static string[] ReadCommands()
+        private string[] ReadCommands()
         {
-            return File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2022, 10));
+            return Reader.ReadLines(this);
         }
 
         private class CPU

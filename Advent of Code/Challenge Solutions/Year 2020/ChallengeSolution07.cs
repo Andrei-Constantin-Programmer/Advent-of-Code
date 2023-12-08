@@ -8,12 +8,12 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
     {
         protected override void SolveFirstPart()
         {
-            new FirstPart().Solution();
+            new FirstPart().Solution(Reader.ReadLines(this));
         }
 
         protected override void SolveSecondPart()
         {
-            new SecondPart().Solution();
+            new SecondPart().Solution(Reader.ReadLines(this));
         }
 
 
@@ -23,11 +23,10 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             private static List<Bag> validBags;
             private static string sg = "shiny gold";
 
-            public void Solution()
+            public void Solution(string[] rules)
             {
                 validBags = new List<Bag>();
                 allBags = new List<Bag>();
-                string[] rules = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2020, 7));
                 foreach (string rule in rules)
                 {
                     string[] codes = rule.Split(new string[] { "contain" }, StringSplitOptions.RemoveEmptyEntries);
@@ -125,11 +124,10 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
             private static List<Bag> validBags;
             private static string sg = "shiny gold";
 
-            public void Solution()
+            public void Solution(string[] rules)
             {
                 validBags = new List<Bag>();
                 allBags = new List<Bag>();
-                string[] rules = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2020, 7));
                 foreach (string rule in rules)
                 {
                     string[] codes = rule.Split(new string[] { "contain" }, StringSplitOptions.RemoveEmptyEntries);

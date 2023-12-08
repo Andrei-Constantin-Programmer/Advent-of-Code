@@ -10,7 +10,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         public ChallengeSolution09()
         {
-            string[] lines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2021, 9));
+            string[] lines = Reader.ReadLines(this);
             rows = lines.Length;
             columns = lines[0].Length;
         }

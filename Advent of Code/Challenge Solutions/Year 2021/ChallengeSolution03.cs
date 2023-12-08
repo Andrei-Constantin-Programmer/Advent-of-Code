@@ -35,7 +35,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         protected override void SolveSecondPart()
         {
-            string[] lines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2021, 3));
+            string[] lines = Reader.ReadLines(this);
             var O2 = new List<string>(lines);
             var CO2 = new List<string>(lines);
 

@@ -87,7 +87,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             smallCaves = new List<string>();
             using (TextReader read = Reader.GetInputFile(2021, 12))
             {
-                string line;
+                string? line;
                 while ((line = read.ReadLine()) != null)
                 {
                     string[] caves = line.Split("-", StringSplitOptions.RemoveEmptyEntries);

@@ -9,7 +9,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             var monkeys = ReadMonkeys(false);
             var root = FindMonkey(monkeys, "root");
 
-            Print(root, 0);
+            //Print(root, 0);
 
             Console.WriteLine(root.Value);
         }
@@ -74,9 +74,9 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             throw new Exception("Human not found");
         }
 
-        private static List<Monkey> ReadMonkeys(bool separateRootMonkey)
+        private List<Monkey> ReadMonkeys(bool separateRootMonkey)
         {
-            var splitLines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2022, 21))
+            var splitLines = Reader.ReadLines(this)
                 .Select(line => line.Split(':', StringSplitOptions.RemoveEmptyEntries))
                 .ToList();
 

@@ -110,9 +110,9 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 element.Value *= DECRYPTION_KEY;
         }
 
-        private static List<EncryptedValue> ReadInitialArrangement()
+        private List<EncryptedValue> ReadInitialArrangement()
         {
-            return File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2022, 20))
+            return Reader.ReadLines(this)
                 .Select(x => new EncryptedValue(Convert.ToInt16(x)))
                 .ToList();
         }

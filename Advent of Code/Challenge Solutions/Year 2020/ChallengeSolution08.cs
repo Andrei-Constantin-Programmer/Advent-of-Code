@@ -11,7 +11,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution08()
         {
-            var lines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2020, 8));
+            var lines = Reader.ReadLines(this);
 
             foreach (string instruction in lines)
             {

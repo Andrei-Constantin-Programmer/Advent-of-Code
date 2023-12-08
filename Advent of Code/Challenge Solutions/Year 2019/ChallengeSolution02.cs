@@ -55,7 +55,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2019
 
         private long[] ReadOpCodes()
         {
-            return string.Join(",", File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2019, 2)))
+            return string.Join(",", Reader.ReadLines(this))
                 .Split(",", StringSplitOptions.RemoveEmptyEntries)
                 .Select(stringValue => Convert.ToInt64(stringValue))
                 .ToArray();

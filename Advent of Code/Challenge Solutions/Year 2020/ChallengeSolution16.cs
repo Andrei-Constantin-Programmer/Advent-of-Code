@@ -18,7 +18,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2020
 
         public ChallengeSolution16()
         {
-            string[] lines = File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2020, 16));
+            string[] lines = Reader.ReadLines(this);
 
             int nearbyTicketsPos = 0;
 

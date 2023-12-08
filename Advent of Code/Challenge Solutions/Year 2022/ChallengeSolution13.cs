@@ -76,9 +76,9 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return packets;
         }
 
-        private static List<(Packet, Packet)> ReadPacketGroups()
+        private List<(Packet, Packet)> ReadPacketGroups()
         {
-            var lines = string.Join("\n", File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2022, 13)));
+            var lines = string.Join("\n", Reader.ReadLines(this));
 
             return lines
                 .Split("\n\n", StringSplitOptions.RemoveEmptyEntries)
