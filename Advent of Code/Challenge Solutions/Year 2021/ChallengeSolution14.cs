@@ -95,30 +95,26 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
             insertionRules = new Dictionary<string, char>();
             appearances = new Dictionary<char, long>();
             pairAppearances = new Dictionary<string, long>();
-            using (TextReader read = Reader.GetInputFile(2021, 14))
+            var lines = Reader.ReadLines(this);
+            polymer = new List<char>(lines[0].ToCharArray());
+            foreach (var c in polymer)
             {
-                polymer = new List<char>(read.ReadLine().ToCharArray());
-                foreach(var c in polymer)
-                {
-                    if (appearances.ContainsKey(c))
-                        appearances[c]++;
-                    else
-                        appearances.Add(c, 1);
-                }
+                if (appearances.ContainsKey(c))
+                    appearances[c]++;
+                else
+                    appearances.Add(c, 1);
+            }
 
-                for(int i=0; i<polymer.Count-1; i++)
-                {
-                    string pair = polymer[i] + "" + polymer[i + 1];
-                    AddPair(pairAppearances, pair, 1);
-                }
+            for (int i = 0; i < polymer.Count - 1; i++)
+            {
+                string pair = polymer[i] + "" + polymer[i + 1];
+                AddPair(pairAppearances, pair, 1);
+            }
 
-                read.ReadLine();
-                string line;
-                while ((line = read.ReadLine()) != null)
-                {
-                    string[] result = line.Split(" -> ", StringSplitOptions.RemoveEmptyEntries);
-                    insertionRules.Add(result[0], result[1][0]);
-                }
+            foreach (var line in lines[2..])
+            {
+                string[] result = line.Split(" -> ", StringSplitOptions.RemoveEmptyEntries);
+                insertionRules.Add(result[0], result[1][0]);
             }
         }
     }

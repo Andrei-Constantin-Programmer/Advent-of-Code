@@ -11,62 +11,65 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         protected override void SolveFirstPart()
         {
-            using(TextReader read = Reader.GetInputFile(2021, 13))
+            var points = new List<Point>();
+
+            var lines = Reader.ReadLines(this);
+            var foldPosition = lines.ToList().IndexOf(string.Empty);
+            var pointLines = lines[..foldPosition];
+            var foldLines = lines[(foldPosition + 1)..];
+
+            foreach (var line in pointLines)
             {
-                var points = new List<Point>();
-                string line;
-                while((line=read.ReadLine())!=null)
-                {
-                    if (line.Trim().Equals(""))
-                        break;
-                    string[] values = line.Split(",", StringSplitOptions.RemoveEmptyEntries);
-                    points.Add(new Point(int.Parse(values[1]), int.Parse(values[0])));
-                }
-
-                CreateMatrix(points);
-
-                SolveFold(read.ReadLine());
-
-                int dots = 0;
-                for (int i = 0; i < n; i++)
-                    for (int j = 0; j < m; j++)
-                        if (matrix[i, j] == '#')
-                            dots++;
-
-                Console.WriteLine(dots);
+                if (line.Trim().Equals(""))
+                    break;
+                string[] values = line.Split(",", StringSplitOptions.RemoveEmptyEntries);
+                points.Add(new Point(int.Parse(values[1]), int.Parse(values[0])));
             }
+
+            CreateMatrix(points);
+
+            SolveFold(foldLines[0]);
+
+            int dots = 0;
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < m; j++)
+                    if (matrix[i, j] == '#')
+                        dots++;
+
+            Console.WriteLine(dots);
         }
 
         protected override void SolveSecondPart()
         {
-            using (TextReader read = Reader.GetInputFile(2021, 13))
+            var points = new List<Point>();
+            var lines = Reader.ReadLines(this);
+            var foldPosition = lines.ToList().IndexOf(string.Empty);
+            var pointLines = lines[..foldPosition];
+            var foldLines = lines[(foldPosition + 1)..];
+
+            foreach (var line in pointLines)
             {
-                var points = new List<Point>();
-                string line;
-                while ((line = read.ReadLine()) != null)
+                if (line.Trim().Equals(""))
+                    break;
+
+                string[] values = line.Split(",", StringSplitOptions.RemoveEmptyEntries);
+                points.Add(new Point(int.Parse(values[1]), int.Parse(values[0])));
+            }
+
+            CreateMatrix(points);
+
+            foreach (var line in foldLines)
+                SolveFold(line);
+
+            for (int i = 0; i < n; i++)
+            {
+                string l = "";
+                for (int j = 0; j < m; j++)
                 {
-                    if (line.Trim().Equals(""))
-                        break;
-                    string[] values = line.Split(",", StringSplitOptions.RemoveEmptyEntries);
-                    points.Add(new Point(int.Parse(values[1]), int.Parse(values[0])));
+                    l += matrix[i, j] == '.' ? " " : "#" + "";
                 }
 
-                CreateMatrix(points);
-
-                while ((line = read.ReadLine()) != null)
-                    SolveFold(line);
-
-
-                for (int i = 0; i < n; i++)
-                {
-                    string l = "";
-                    for (int j = 0; j < m; j++)
-                    {
-                        l += matrix[i, j] == '.' ? " " : "#" + "";
-                    }
-
-                    Console.WriteLine(l);
-                }
+                Console.WriteLine(l);
             }
         }
 

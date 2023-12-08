@@ -22,24 +22,20 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         {
             var diagram = new int[n, n];
 
-            using (TextReader read = Reader.GetInputFile(2021, 5))
+            foreach (var line in Reader.ReadLines(this))
             {
-                string line;
-                while ((line = read.ReadLine()) != null)
-                {
-                    string[] coordinates = line.Split("->", StringSplitOptions.RemoveEmptyEntries);
-                    string[] coordinateStart = coordinates[0].Split(",");
-                    string[] coordinateEnd = coordinates[1].Split(",");
-                    int x1 = Convert.ToInt32(coordinateStart[0]);
-                    int y1 = Convert.ToInt32(coordinateStart[1]);
-                    int x2 = Convert.ToInt32(coordinateEnd[0]);
-                    int y2 = Convert.ToInt32(coordinateEnd[1]);
+                string[] coordinates = line.Split("->", StringSplitOptions.RemoveEmptyEntries);
+                string[] coordinateStart = coordinates[0].Split(",");
+                string[] coordinateEnd = coordinates[1].Split(",");
+                int x1 = Convert.ToInt32(coordinateStart[0]);
+                int y1 = Convert.ToInt32(coordinateStart[1]);
+                int x2 = Convert.ToInt32(coordinateEnd[0]);
+                int y2 = Convert.ToInt32(coordinateEnd[1]);
 
-                    AddToDiagram(diagram, x1, y1, x2, y2, diagonal);
-                }
-
-                Console.WriteLine(GetOverlappingPoints(diagram));
+                AddToDiagram(diagram, x1, y1, x2, y2, diagonal);
             }
+
+            Console.WriteLine(GetOverlappingPoints(diagram));
         }
 
         private void AddToDiagram(int[,] diagram, int x1, int y1, int x2, int y2, bool diagonal)

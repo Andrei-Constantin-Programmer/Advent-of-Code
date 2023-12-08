@@ -10,67 +10,66 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         protected override void SolveFirstPart()
         {
-            using (TextReader read = Reader.GetInputFile(2021, 4))
+            using TextReader read = Reader.GetInputFile(2021, 4);
+            var drawn = Array.ConvertAll(read.ReadLine()!.Split(","), int.Parse);
+            var boards = GetBingoBoards(read);
+
+            bool found = false;
+            int winNumber = 0;
+            var winBoard = new BingoBoard(null);
+
+            for(int i=0; i<drawn.Length && !found; i++)
             {
-                var drawn = Array.ConvertAll(read.ReadLine().Split(","), int.Parse);
-                var boards = GetBingoBoards(read);
+                int x = drawn[i];
 
-                bool found = false;
-                int winNumber = 0;
-                var winBoard = new BingoBoard(null);
-
-                for(int i=0; i<drawn.Length && !found; i++)
+                for(int j=0; j<boards.Count && !found; j++)
                 {
-                    int x = drawn[i];
-
-                    for(int j=0; j<boards.Count && !found; j++)
+                    boards[j].MarkChecked(x);
+                    if(boards[j].CheckWin())
                     {
-                        boards[j].MarkChecked(x);
-                        if(boards[j].CheckWin())
-                        {
-                            winNumber = x;
-                            winBoard = boards[j];
-                            found = true;
-                        }
+                        winNumber = x;
+                        winBoard = boards[j];
+                        found = true;
                     }
                 }
-
-                Console.WriteLine(winNumber * winBoard.SumUnchecked());
             }
+
+            Console.WriteLine(winNumber * winBoard.SumUnchecked());
+            
         }
 
         protected override void SolveSecondPart()
         {
-            using (TextReader read = Reader.GetInputFile(2021, 4))
+            using TextReader read = Reader.GetInputFile(2021, 4);
+            
+            var drawn = Array.ConvertAll(read.ReadLine()!.Split(","), int.Parse);
+            var boards = GetBingoBoards(read);
+
+            bool foundLast = false;
+
+            for (int i = 0; i < drawn.Length && !foundLast; i++)
             {
-                var drawn = Array.ConvertAll(read.ReadLine().Split(","), int.Parse);
-                var boards = GetBingoBoards(read);
+                int x = drawn[i];
 
-                bool foundLast = false;
-
-                for (int i = 0; i < drawn.Length && !foundLast; i++)
+                for (int j = 0; j < boards.Count && !foundLast; j++)
                 {
-                    int x = drawn[i];
-
-                    for (int j = 0; j < boards.Count && !foundLast; j++)
+                    boards[j].MarkChecked(x);
+                    if (boards[j].CheckWin())
                     {
-                        boards[j].MarkChecked(x);
-                        if (boards[j].CheckWin())
+                        if (boards.Count > 1)
                         {
-                            if (boards.Count > 1)
-                            {
-                                boards.RemoveAt(j);
-                                j--;
-                            }
-                            else
-                            {
-                                foundLast = true;
-                                Console.WriteLine(x * boards[0].SumUnchecked());
-                            }
+                            boards.RemoveAt(j);
+                            j--;
+                        }
+                        else
+                        {
+                            foundLast = true;
+                            Console.WriteLine(x * boards[0].SumUnchecked());
                         }
                     }
                 }
             }
+            
         }
 
         private List<BingoBoard> GetBingoBoards(TextReader read)

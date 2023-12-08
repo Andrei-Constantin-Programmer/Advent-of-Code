@@ -29,11 +29,8 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         protected override void SolveFirstPart()
         {
             throw new NotImplementedException();
-            using(TextReader read = Reader.GetInputFile(2021, 16))
-            {
-                string transmission = read.ReadLine();
-                string binary = ConvertToBinary(transmission);
-            }
+            string transmission = Reader.ReadLines(this)[0];
+            string binary = ConvertToBinary(transmission);
         }
 
         protected override void SolveSecondPart()

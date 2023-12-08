@@ -10,18 +10,15 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         {
             var bits = Enumerable.Range(0, 12).Select(x => new BitAmmount { }).ToList();
 
-            using (TextReader read = Reader.GetInputFile(2021, 3))
+            foreach (var line in Reader.ReadLines(this))
             {
-                string line;
-                while ((line = read.ReadLine()) != null)
-                {
-                    for (int i = 0; i < line.Length; i++)
-                        if (line[i] == '0')
-                            bits[i].zeroes++;
-                        else
-                            bits[i].ones++;
-                }
+                for (int i = 0; i < line.Length; i++)
+                    if (line[i] == '0')
+                        bits[i].zeroes++;
+                    else
+                        bits[i].ones++;
             }
+            
 
             string gamma="", epsilon="";
             foreach(var bit in bits)

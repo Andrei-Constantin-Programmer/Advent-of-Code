@@ -15,63 +15,55 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
             var uniqueSegmentsDigits = new List<byte>(){1, 4, 7, 8};
 
-            using(TextReader read = Reader.GetInputFile(2021, 8))
+            int no = 0;
+            foreach (var line in Reader.ReadLines(this))
             {
-                int no = 0;
-                string line;
-                while ((line = read.ReadLine()) != null)
+                string[] parts = line.Split("|", StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var digit in parts[1].Split(" ", StringSplitOptions.RemoveEmptyEntries))
                 {
-                    string[] parts = line.Split("|", StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (var digit in parts[1].Split(" ", StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        int segments = digit.Length;
-                        foreach(var x in uniqueSegmentsDigits)
-                            if (segmentsByDigit[x].Length == segments)
-                                no++;
-                    }
+                    int segments = digit.Length;
+                    foreach (var x in uniqueSegmentsDigits)
+                        if (segmentsByDigit[x].Length == segments)
+                            no++;
                 }
-
-                Console.WriteLine(no);
             }
+
+            Console.WriteLine(no);
         }
 
         protected override void SolveSecondPart()
         {
-            using (TextReader read = Reader.GetInputFile(2021, 8))
+            int sum = 0;
+            foreach (var line in Reader.ReadLines(this))
             {
-                int sum = 0;
-                string line;
-                while ((line = read.ReadLine()) != null)
+                string[] parts = line.Split("|", StringSplitOptions.RemoveEmptyEntries);
+                string[] wiring = parts[0].Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+
+                positionsByChar = GetPositionsByChar(wiring);
+                segmentsByDigit = GetSegmentsByDigit(positionsByChar);
+
+                int number = 0;
+                foreach (var digit in parts[1].Split(" ", StringSplitOptions.RemoveEmptyEntries))
                 {
-                    string[] parts = line.Split("|", StringSplitOptions.RemoveEmptyEntries);
-                    string[] wiring = parts[0].Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-
-                    positionsByChar = GetPositionsByChar(wiring);
-                    segmentsByDigit = GetSegmentsByDigit(positionsByChar);
-
-                    int number = 0;
-                    foreach (var digit in parts[1].Split(" ", StringSplitOptions.RemoveEmptyEntries))
+                    char[] digitArray = digit.ToCharArray();
+                    Array.Sort(digitArray);
+                    bool found = false;
+                    for (byte i = 0; i < segmentsByDigit.Count && !found; i++)
                     {
-                        char[] digitArray = digit.ToCharArray();
-                        Array.Sort(digitArray);
-                        bool found = false;
-                        for (byte i = 0; i < segmentsByDigit.Count && !found; i++)
+                        if (segmentsByDigit[i].SequenceEqual(digitArray))
                         {
-                            if (segmentsByDigit[i].SequenceEqual(digitArray))
-                            {
-                                number = number * 10 + i;
-                                found = true;
-                            }
+                            number = number * 10 + i;
+                            found = true;
                         }
                     }
-
-                    sum += number;
                 }
 
-                Console.WriteLine(sum);
+                sum += number;
             }
+
+            Console.WriteLine(sum);
         }
 
         private Dictionary<char, char> GetPositionsByChar(string[] wiring)

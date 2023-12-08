@@ -13,14 +13,12 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         public ChallengeSolution11()
         {
             originalEnergy = new int[n, n];
-            using (TextReader read = Reader.GetInputFile(2021, 11))
+            var lines = Reader.ReadLines(this);
+            for (int i = 0; i < n; i++)
             {
-                for (int i = 0; i < n; i++)
-                {
-                    int[] energyLevels = Array.ConvertAll(read.ReadLine().ToCharArray(), character => (int)Char.GetNumericValue(character));
-                    for (int j = 0; j < n; j++)
-                        originalEnergy[i, j] = energyLevels[j];
-                }
+                int[] energyLevels = Array.ConvertAll(lines[i].ToCharArray(), character => (int)Char.GetNumericValue(character));
+                for (int j = 0; j < n; j++)
+                    originalEnergy[i, j] = energyLevels[j];
             }
         }
 

@@ -162,18 +162,16 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         private int[,] ReadHeightMap()
         {
             var heightMap = new int[rows, columns];
-            using (TextReader read = Reader.GetInputFile(2021, 9))
+            var lines = Reader.ReadLines(this);
+            for (int i = 0; i < rows; i++)
             {
-                for (int i = 0; i < rows; i++)
-                {
-                    char[] heightsAsChar = read.ReadLine().ToCharArray();
-                    byte[] heights = Array.ConvertAll(heightsAsChar, character => (byte)Char.GetNumericValue(character));
-                    for (int j = 0; j < columns; j++)
-                        heightMap[i, j] = heights[j];
-                }
-
-                return heightMap;
+                char[] heightsAsChar = lines[i].ToCharArray();
+                byte[] heights = Array.ConvertAll(heightsAsChar, character => (byte)Char.GetNumericValue(character));
+                for (int j = 0; j < columns; j++)
+                    heightMap[i, j] = heights[j];
             }
+
+            return heightMap;
         }
 
         private record Coordinate(int Row, int Column);
