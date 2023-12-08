@@ -14,7 +14,7 @@ internal class ChallengeSolution07 : ChallengeSolution
         Console.WriteLine(GetTotalWinnings(true));
     }
 
-    private static int GetTotalWinnings(bool includeJokers)
+    private int GetTotalWinnings(bool includeJokers)
     {
         var hands = ReadCamelCardsHands(includeJokers);
 
@@ -31,13 +31,11 @@ internal class ChallengeSolution07 : ChallengeSolution
         return totalWinnings;
     }
 
-    private static List<Hand> ReadCamelCardsHands(bool includeJokers)
+    private List<Hand> ReadCamelCardsHands(bool includeJokers)
     {
         List<Hand> hands = new();
 
-        string? line;
-        using TextReader read = Reader.GetInputFile(2023, 7);
-        while ((line = read.ReadLine()) != null)
+        foreach (var line in Reader.ReadLines(this))
         {
             var elements = line.Split(' ');
             var cards = elements[0]

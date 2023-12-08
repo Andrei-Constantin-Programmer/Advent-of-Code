@@ -36,9 +36,7 @@ internal class ChallengeSolution01 : ChallengeSolution
     {
         int calibrationSum = 0;
 
-        string? line;
-        using TextReader read = Reader.GetInputFile(2023, 1);
-        while ((line = read.ReadLine()) != null)
+        foreach (var line in Reader.ReadLines(this))
         {
             calibrationSum += ComputeCalibrationValue(line, includeWords);
         }

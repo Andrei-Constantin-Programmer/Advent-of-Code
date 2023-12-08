@@ -12,9 +12,7 @@ internal class ChallengeSolution02 : ChallengeSolution
     {
         int totalIdSum = 0;
 
-        string? line;
-        using TextReader read = Reader.GetInputFile(2023, 2);
-        while ((line = read.ReadLine()) != null)
+        foreach (var line in Reader.ReadLines(this))
         {
             Game game = ReadGameFromInputLine(line);
 
@@ -33,11 +31,10 @@ internal class ChallengeSolution02 : ChallengeSolution
     {
         long totalPowerSum = 0;
 
-        string? line;
-        using TextReader read = Reader.GetInputFile(2023, 2);
-        while ((line = read.ReadLine()) != null)
+        foreach (var line in Reader.ReadLines(this))
         {
             Game game = ReadGameFromInputLine(line);
+
             long minimumSetPower = game.CubeSets
                 .SelectMany(cubeSet => cubeSet)
                 .GroupBy(cubeGroup => cubeGroup.Color)

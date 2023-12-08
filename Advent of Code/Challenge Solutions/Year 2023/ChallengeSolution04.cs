@@ -8,9 +8,7 @@ internal class ChallengeSolution04 : ChallengeSolution
     {
         double totalPointsSum = 0;
 
-        string? line;
-        using TextReader read = Reader.GetInputFile(2023, 4);
-        while ((line = read.ReadLine()) != null)
+        foreach (var line in Reader.ReadLines(this))
         {
             var winningGameNumberCount = GetCard(line).MatchingValues;
 
@@ -28,14 +26,7 @@ internal class ChallengeSolution04 : ChallengeSolution
 
     protected override void SolveSecondPart()
     {
-        List<Card> cards = new();
-
-        string? line;
-        using TextReader read = Reader.GetInputFile(2023, 4);
-        while ((line = read.ReadLine()) != null)
-        {
-            cards.Add(GetCard(line));
-        }
+        var cards = Reader.ReadLines(this).Select(GetCard).ToList();
 
         Queue<Card> cardQueue = new(cards);
         int cardCount = 0;
