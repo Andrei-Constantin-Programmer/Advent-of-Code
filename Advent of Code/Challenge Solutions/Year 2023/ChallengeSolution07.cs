@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2023;
+﻿using Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
 internal class ChallengeSolution07 : ChallengeSolution
 {

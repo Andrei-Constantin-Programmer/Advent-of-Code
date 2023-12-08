@@ -1,5 +1,6 @@
 ﻿// Task: https://adventofcode.com/2020/day/2
 
+using Advent_of_Code.Utilities;
 using System.Text;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020

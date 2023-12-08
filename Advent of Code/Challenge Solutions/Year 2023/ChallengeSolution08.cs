@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.Challenge_Solutions.Year_2023;
+﻿using Advent_of_Code.Utilities;
+
+namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
 internal class ChallengeSolution08 : ChallengeSolution
 {
@@ -76,7 +78,7 @@ internal class ChallengeSolution08 : ChallengeSolution
     private static long LowestCommonMultiple(long a, long b) => (a * b) / GreatestCommonDivisor(a, b);
     private static long GreatestCommonDivisor(long a, long b) => a == 0 ? b : GreatestCommonDivisor(b % a, a);
 
-    private static (List<Instruction> instructions, List<Node> nodes) ReadInput()
+    private (List<Instruction> instructions, List<Node> nodes) ReadInput()
     {
         Dictionary<Node, (string left, string right)> nodeMap = new();
         var lines = ReadInputLines();
@@ -104,7 +106,7 @@ internal class ChallengeSolution08 : ChallengeSolution
         return (instructions, nodes);
     }
 
-    private static string[] ReadInputLines() => File.ReadAllLines(Reader.GetFilePath(Reader.FileType.Input, 2023, 8));
+    private string[] ReadInputLines() => Reader.ReadLines(this);
 
     private class Node
     {

@@ -1,5 +1,7 @@
 ﻿// Task: https://adventofcode.com/2022/day/8
 
+using Advent_of_Code.Utilities;
+
 namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
     internal class ChallengeSolution08 : ChallengeSolution

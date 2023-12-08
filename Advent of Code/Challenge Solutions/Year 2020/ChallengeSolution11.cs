@@ -1,5 +1,7 @@
 ﻿// Task: https://adventofcode.com/2020/day/11
 
+using Advent_of_Code.Utilities;
+
 namespace Advent_of_Code.Challenge_Solutions.Year_2020
 {
     internal class ChallengeSolution11 : ChallengeSolution
