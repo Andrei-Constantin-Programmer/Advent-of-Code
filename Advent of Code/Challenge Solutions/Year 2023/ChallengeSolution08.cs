@@ -2,42 +2,79 @@
 
 internal class ChallengeSolution08 : ChallengeSolution
 {
+    private const string START_LABEL = "AAA";
+    private const string END_LABEL = "ZZZ";
+
     protected override void SolveFirstPart()
     {
-        var steps = 0;
-
         var (instructions, nodes) = ReadInput();
 
-        Node currentNode = nodes.First(node => node.Label == "AAA");
-
-        for (var i = 0; ; i++, steps++)
-        {
-            if (currentNode.Label == "ZZZ")
-            {
-                break;
-            }
-
-            if (i == instructions.Count)
-            {
-                i = 0;
-            }
-
-            currentNode = instructions[i] switch
-            {
-                Instruction.Left => currentNode.Left!,
-                Instruction.Right => currentNode.Right!,
-
-                _ => throw new Exception($"Unknown instruction {instructions[i]}"),
-            };
-        }
-
-        Console.WriteLine(steps);
+        Console.WriteLine(ComputeStepsFromSourceToDestination(instructions, nodes));
     }
 
     protected override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var (instructions, nodes) = ReadInput();
+
+        var steps = ComputeStepsFromSourcesToDestinations(
+            instructions,
+            nodes,
+            startingCondition: node => node.Label.EndsWith('A'),
+            endCondition: node => node.Label.EndsWith('Z')
+        );
+
+        Console.WriteLine(steps);
     }
+
+    private static long ComputeStepsFromSourceToDestination(List<Instruction> instructions, List<Node> nodes)
+    {
+        Node startingNode = nodes.First(node => node.Label == START_LABEL);
+
+        var steps = ComputeStepsToCondition(instructions, startingNode, node => node.Label == END_LABEL);
+
+        return steps;
+    }
+
+    private static long ComputeStepsFromSourcesToDestinations(
+        List<Instruction> instructions,
+        List<Node> nodes,
+        Func<Node, bool> startingCondition,
+        Func<Node, bool> endCondition)
+    {
+        var startingNodes = nodes
+            .Where(startingCondition)
+            .ToList();
+
+        var stepsToZ = startingNodes
+            .Select(node => ComputeStepsToCondition(instructions, node, endCondition));
+
+        return stepsToZ.Aggregate(1L, (lcm, x) => LowestCommonMultiple(lcm, x));
+    }
+
+    private static long ComputeStepsToCondition(List<Instruction> instructions, Node startingNode, Func<Node, bool> condition)
+    {
+        var currentNode = startingNode;
+        var steps = 0;
+
+        while (!condition(currentNode))
+        {
+            currentNode = instructions
+                .Select(instruction => instruction switch
+                {
+                    Instruction.Left => currentNode.Left!,
+                    Instruction.Right => currentNode.Right!,
+                    _ => throw new Exception($"Unknown instruction {instruction}"),
+                })
+                .ElementAt(steps % instructions.Count);
+
+            steps++;
+        }
+
+        return steps;
+    }
+
+    private static long LowestCommonMultiple(long a, long b) => (a * b) / GreatestCommonDivisor(a, b);
+    private static long GreatestCommonDivisor(long a, long b) => a == 0 ? b : GreatestCommonDivisor(b % a, a);
 
     private static (List<Instruction> instructions, List<Node> nodes) ReadInput()
     {
