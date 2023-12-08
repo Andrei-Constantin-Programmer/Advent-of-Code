@@ -2,60 +2,59 @@
 
 using Advent_of_Code.Utilities;
 
-namespace Advent_of_Code.Challenge_Solutions.Year_2020
+namespace Advent_of_Code.Challenge_Solutions.Year_2020;
+
+internal class ChallengeSolution10 : ChallengeSolution
 {
-    internal class ChallengeSolution10 : ChallengeSolution
+    private static List<long> numbers = new List<long>();
+
+    public ChallengeSolution10()
     {
-        private static List<long> numbers = new List<long>();
+        var lines = Reader.ReadLines(this);
+        numbers.Add(0);
 
-        public ChallengeSolution10()
+        foreach (string line in lines)
         {
-            var lines = Reader.ReadLines(this);
-            numbers.Add(0);
-
-            foreach (string line in lines)
-            {
-                numbers.Add(Convert.ToInt64(line));
-            }
-
-            numbers.Sort();
-            numbers.Add(numbers[numbers.Count - 1] + 3);
+            numbers.Add(Convert.ToInt64(line));
         }
 
-        protected override void SolveFirstPart()
-        {
-            int oneJolt = 0, twoJolts = 0, threeJolts = 0;
-            for (int i = 1; i < numbers.Count; i++)
-            {
-                long dif = numbers[i] - numbers[i - 1];
-                if (dif == 1)
-                    oneJolt++;
-                else if (dif == 2)
-                    twoJolts++;
-                else if (dif == 3)
-                    threeJolts++;
-            }
+        numbers.Sort();
+        numbers.Add(numbers[numbers.Count - 1] + 3);
+    }
 
-            Console.WriteLine(oneJolt * threeJolts);
+    protected override void SolveFirstPart()
+    {
+        int oneJolt = 0, twoJolts = 0, threeJolts = 0;
+        for (int i = 1; i < numbers.Count; i++)
+        {
+            long dif = numbers[i] - numbers[i - 1];
+            if (dif == 1)
+                oneJolt++;
+            else if (dif == 2)
+                twoJolts++;
+            else if (dif == 3)
+                threeJolts++;
         }
 
-        protected override void SolveSecondPart()
+        Console.WriteLine(oneJolt * threeJolts);
+    }
+
+    protected override void SolveSecondPart()
+    {
+        var limit = numbers[numbers.Count - 1] + 1;
+        long[] paths = new long[limit];
+        paths[0] = 1;
+
+        for (var i = 0; i < limit; i++)
         {
-            var limit = numbers[numbers.Count - 1] + 1;
-            long[] paths = new long[limit];
-            paths[0] = 1;
-
-            for (var i = 0; i < limit; i++)
+            for (var x = 1; x <= 3; x++)
             {
-                for (var x = 1; x <= 3; x++)
-                {
-                    var sum = i - x;
-                    if (numbers.Contains(sum))
-                        paths[i] += paths[sum];
-                }
+                var sum = i - x;
+                if (numbers.Contains(sum))
+                    paths[i] += paths[sum];
             }
-
-            Console.WriteLine(paths[paths.Length - 1]);
         }
+
+        Console.WriteLine(paths[paths.Length - 1]);
     }
 }

@@ -2,143 +2,142 @@
 
 using Advent_of_Code.Utilities;
 
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+namespace Advent_of_Code.Challenge_Solutions.Year_2022;
+
+internal class ChallengeSolution10 : ChallengeSolution
 {
-    internal class ChallengeSolution10 : ChallengeSolution
+    private const int DISPLAY_WIDTH = 40, DISPLAY_HEIGHT = 6;
+    private const char LIT = '#', DARK = ' ';
+
+    private int sumSignalStrengths;
+    private char[] flattenedDisplay;
+
+    public ChallengeSolution10()
     {
-        private const int DISPLAY_WIDTH = 40, DISPLAY_HEIGHT = 6;
-        private const char LIT = '#', DARK = ' ';
+        sumSignalStrengths = 0;
 
-        private int sumSignalStrengths;
-        private char[] flattenedDisplay;
+        flattenedDisplay = new char[DISPLAY_HEIGHT * DISPLAY_WIDTH];
+        for (int i = 0; i < flattenedDisplay.Length; i++)
+            flattenedDisplay[i] = DARK;
+    }
 
-        public ChallengeSolution10()
+    protected override void SolveFirstPart()
+    {
+        var cpu = new CPU();
+        var commands = ReadCommands();
+
+        foreach (var command in commands)
         {
-            sumSignalStrengths = 0;
-
-            flattenedDisplay = new char[DISPLAY_HEIGHT * DISPLAY_WIDTH];
-            for (int i = 0; i < flattenedDisplay.Length; i++)
-                flattenedDisplay[i] = DARK;
+            RunCommand(cpu, command, AddSignalStrengthIfInteresting);
         }
 
-        protected override void SolveFirstPart()
-        {
-            var cpu = new CPU();
-            var commands = ReadCommands();
+        Console.WriteLine(sumSignalStrengths);
+    }
 
-            foreach(var command in commands)
+    protected override void SolveSecondPart()
+    {
+        var cpu = new CPU();
+        var commands = ReadCommands();
+
+        foreach (var command in commands)
+        {
+            RunCommand(cpu, command, DrawCycle);
+        }
+
+        PrintDisplay();
+    }
+
+    private void PrintDisplay()
+    {
+        var display = UnflattenDisplay(flattenedDisplay);
+
+        for (int i = 0; i < DISPLAY_HEIGHT; i++)
+        {
+            for (int j = 0; j < DISPLAY_WIDTH; j++)
             {
-                RunCommand(cpu, command, AddSignalStrengthIfInteresting);
+                Console.Write(display[i][j]);
             }
+            Console.WriteLine();
+        }
+    }
 
-            Console.WriteLine(sumSignalStrengths);
+    private static char[][] UnflattenDisplay(char[] flattenedDisplay)
+    {
+        char[][] display = new char[DISPLAY_HEIGHT][];
+
+        for (int i = 0; i < DISPLAY_HEIGHT; i++)
+        {
+            display[i] = flattenedDisplay.ToList().GetRange(i * DISPLAY_WIDTH, DISPLAY_WIDTH).ToArray();
         }
 
-        protected override void SolveSecondPart()
+        return display;
+    }
+
+    private void AddSignalStrengthIfInteresting(CPU cpu)
+    {
+        if (IsInterestingCycle(cpu.Cycles))
         {
-            var cpu = new CPU();
-            var commands = ReadCommands();
-
-            foreach(var command in commands)
-            {
-                RunCommand(cpu, command, DrawCycle);
-            }
-
-            PrintDisplay();
+            sumSignalStrengths += cpu.SignalStrength;
         }
+    }
 
-        private void PrintDisplay()
+    private void DrawCycle(CPU cpu)
+    {
+        var currentPosition = cpu.Cycles - 1;
+
+        if (Math.Abs(cpu.Register - currentPosition % 40) <= 1 && currentPosition < flattenedDisplay.Length)
         {
-            var display = UnflattenDisplay(flattenedDisplay);
-
-            for (int i = 0; i < DISPLAY_HEIGHT; i++)
-            {
-                for (int j = 0; j < DISPLAY_WIDTH; j++)
-                {
-                    Console.Write(display[i][j]);
-                }
-                Console.WriteLine();
-            }
+            flattenedDisplay[currentPosition] = LIT;
         }
+    }
 
-        private static char[][] UnflattenDisplay(char[] flattenedDisplay)
+    private static void RunCommand(CPU cpu, string command, Action<CPU> cycleEvent)
+    {
+        var elements = command.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+        switch (elements[0])
         {
-            char[][] display = new char[DISPLAY_HEIGHT][];
-
-            for(int i = 0; i < DISPLAY_HEIGHT; i++)
-            {
-                display[i] = flattenedDisplay.ToList().GetRange(i * DISPLAY_WIDTH, DISPLAY_WIDTH).ToArray();
-            }
-
-            return display;
+            case "noop":
+                cycleEvent(cpu);
+                cpu.Cycles++;
+                break;
+            case "addx":
+                cycleEvent(cpu);
+                cpu.Cycles++;
+                cycleEvent(cpu);
+                cpu.Register += Convert.ToInt32(elements[1]);
+                cpu.Cycles++;
+                break;
+            default:
+                throw new ArgumentException("Command unrecognised");
         }
+    }
 
-        private void AddSignalStrengthIfInteresting(CPU cpu)
+    private static bool IsInterestingCycle(int cycle)
+    {
+        while (cycle > 20)
+            cycle -= 40;
+
+        return cycle == 20;
+    }
+
+    private string[] ReadCommands()
+    {
+        return Reader.ReadLines(this);
+    }
+
+    private class CPU
+    {
+        public int Register { get; set; }
+
+        public int Cycles { get; set; }
+
+        public int SignalStrength => Register * Cycles;
+
+        public CPU()
         {
-            if (IsInterestingCycle(cpu.Cycles))
-            {
-                sumSignalStrengths += cpu.SignalStrength;
-            }
-        }
-
-        private void DrawCycle(CPU cpu)
-        {
-            var currentPosition = cpu.Cycles - 1;
-
-            if(Math.Abs(cpu.Register - currentPosition % 40) <= 1 && currentPosition < flattenedDisplay.Length)
-            {
-                flattenedDisplay[currentPosition] = LIT;
-            }
-        }
-
-        private static void RunCommand(CPU cpu, string command, Action<CPU> cycleEvent)
-        {
-            var elements = command.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-            switch (elements[0])
-            {
-                case "noop":
-                    cycleEvent(cpu);
-                    cpu.Cycles++;
-                    break;
-                case "addx":
-                    cycleEvent(cpu);
-                    cpu.Cycles++;
-                    cycleEvent(cpu);
-                    cpu.Register += Convert.ToInt32(elements[1]);
-                    cpu.Cycles++;
-                    break;
-                default:
-                    throw new ArgumentException("Command unrecognised");
-            }
-        }
-
-        private static bool IsInterestingCycle(int cycle)
-        {
-            while (cycle > 20)
-                cycle -= 40;
-
-            return cycle == 20;
-        }
-
-        private string[] ReadCommands()
-        {
-            return Reader.ReadLines(this);
-        }
-
-        private class CPU
-        {
-            public int Register { get; set; }
-
-            public int Cycles { get; set; }
-
-            public int SignalStrength => Register * Cycles;
-
-            public CPU()
-            {
-                Register = 1;
-                Cycles = 1;
-            }
+            Register = 1;
+            Cycles = 1;
         }
     }
 }

@@ -2,140 +2,139 @@
 
 using Advent_of_Code.Utilities;
 
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+namespace Advent_of_Code.Challenge_Solutions.Year_2022;
+
+internal class ChallengeSolution11 : ChallengeSolution
 {
-    internal class ChallengeSolution11 : ChallengeSolution
+    private int limit;
+
+    protected override void SolveFirstPart()
     {
-        private int limit;
+        var monkeys = ReadMonkeys();
+        Console.WriteLine(FindMonkeyBusiness(monkeys, 20, (x) => x / 3));
+    }
 
-        protected override void SolveFirstPart()
+    protected override void SolveSecondPart()
+    {
+        limit = 1;
+        var monkeys = ReadMonkeys();
+        Console.WriteLine(FindMonkeyBusiness(monkeys, 10000, (x) => x % limit));
+    }
+
+    private static long FindMonkeyBusiness(List<Monkey> monkeys, int rounds, Func<long, long> modifier)
+    {
+        var totalItemsInspected = new long[monkeys.Count];
+
+        for (int round = 0; round < rounds; round++)
         {
-            var monkeys = ReadMonkeys();
-            Console.WriteLine(FindMonkeyBusiness(monkeys, 20, (x) => x / 3));
-        }
+            var inspectedThisRound = PlayRoundAndReturnInspected(monkeys, modifier);
 
-        protected override void SolveSecondPart()
-        {
-            limit = 1;
-            var monkeys = ReadMonkeys();
-            Console.WriteLine(FindMonkeyBusiness(monkeys, 10000, (x) => x % limit));
-        }
-
-        private static long FindMonkeyBusiness(List<Monkey> monkeys, int rounds, Func<long, long> modifier)
-        {
-            var totalItemsInspected = new long[monkeys.Count];
-
-            for(int round = 0; round < rounds; round++)
+            for (int monkeyIndex = 0; monkeyIndex < monkeys.Count; monkeyIndex++)
             {
-                var inspectedThisRound = PlayRoundAndReturnInspected(monkeys, modifier);
-
-                for (int monkeyIndex = 0; monkeyIndex < monkeys.Count; monkeyIndex++)
-                {
-                    totalItemsInspected[monkeyIndex] += inspectedThisRound[monkeyIndex];
-                }
+                totalItemsInspected[monkeyIndex] += inspectedThisRound[monkeyIndex];
             }
-
-            return totalItemsInspected
-                .ToList()
-                .OrderByDescending(x => x)
-                .Take(2)
-                .Aggregate((x, y) => x * y);
         }
 
-        private static long[] PlayRoundAndReturnInspected(List<Monkey> monkeys, Func<long, long> modifier)
+        return totalItemsInspected
+            .ToList()
+            .OrderByDescending(x => x)
+            .Take(2)
+            .Aggregate((x, y) => x * y);
+    }
+
+    private static long[] PlayRoundAndReturnInspected(List<Monkey> monkeys, Func<long, long> modifier)
+    {
+        var itemsInspected = new List<long>();
+        foreach (var monkey in monkeys)
         {
-            var itemsInspected = new List<long>();
-            foreach (var monkey in monkeys)
+            itemsInspected.Add(monkey.Items.Count);
+
+            for (int i = 0; i < monkey.Items.Count; i++)
             {
-                itemsInspected.Add(monkey.Items.Count);
-
-                for (int i = 0; i < monkey.Items.Count; i++)
-                {
-                    var item = monkey.Items[i];
-                    item = monkey.Operation(item);
-                    item = modifier(item);
-                    monkeys[monkey.ThrowToMonkey(item)].Items.Add(item);
-                }
-                monkey.Items.Clear();
+                var item = monkey.Items[i];
+                item = monkey.Operation(item);
+                item = modifier(item);
+                monkeys[monkey.ThrowToMonkey(item)].Items.Add(item);
             }
-
-            return itemsInspected.ToArray();
+            monkey.Items.Clear();
         }
 
-        private List<Monkey> ReadMonkeys()
+        return itemsInspected.ToArray();
+    }
+
+    private List<Monkey> ReadMonkeys()
+    {
+        var monkeys = new List<Monkey>();
+
+        var currentItems = new List<long>();
+        Func<long, long>? currentOperation = null;
+        Func<long, int>? currentTest = null;
+
+        using TextReader read = Reader.GetInputFile(this);
+        string? line;
+        while (true)
         {
-            var monkeys = new List<Monkey>();
+            line = read.ReadLine();
+            line = line?.Trim();
 
-            var currentItems = new List<long>();
-            Func<long, long>? currentOperation = null;
-            Func<long, int>? currentTest = null;
-
-            using TextReader read = Reader.GetInputFile(this);
-            string? line;
-            while (true)
+            if (line == null || line.Length == 0)
             {
-                line = read.ReadLine();
-                line = line?.Trim();
+                monkeys.Add(new Monkey(currentItems, currentOperation!, currentTest!));
+                currentItems = new List<long>();
+                currentOperation = null;
+                currentTest = null;
 
-                if(line == null || line.Length == 0)
-                {
-                    monkeys.Add(new Monkey(currentItems, currentOperation!, currentTest!));
-                    currentItems = new List<long>();
-                    currentOperation = null;
-                    currentTest = null;
-
-                    if (line == null)
-                        break;
-                }
-                else if(line.StartsWith("Starting items"))
-                {
-                    currentItems.AddRange(line
-                        .Split(":", StringSplitOptions.RemoveEmptyEntries)[1]
-                        .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                        .Select(x => Convert.ToInt64(x))
-                        .ToList()
-                        );
-                }
-                else if(line.StartsWith("Operation"))
-                {
-                    var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-                    var value = elements[5];
-
-                    if (elements[4] == "+")
-                        currentOperation = (old) => old + ((value == "old") ? old : Convert.ToInt32(value));
-                    else
-                        currentOperation = (old) => old * ((value == "old") ? old : Convert.ToInt32(value));
-                }
-                else if(line.StartsWith("Test"))
-                {
-                    var trueLine = read.ReadLine()!.Trim();
-                    var falseLine = read.ReadLine()!.Trim();
-                    var divisibleBy = Convert.ToInt32(line.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
-
-                    var trueValue = Convert.ToInt32(trueLine!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
-                    var falseValue = Convert.ToInt32(falseLine!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
-
-                    limit *= divisibleBy;
-                    currentTest = (value) => value % divisibleBy == 0 ? trueValue : falseValue;
-                }
+                if (line == null)
+                    break;
             }
-            
-            return monkeys;
+            else if (line.StartsWith("Starting items"))
+            {
+                currentItems.AddRange(line
+                    .Split(":", StringSplitOptions.RemoveEmptyEntries)[1]
+                    .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                    .Select(x => Convert.ToInt64(x))
+                    .ToList()
+                    );
+            }
+            else if (line.StartsWith("Operation"))
+            {
+                var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+                var value = elements[5];
+
+                if (elements[4] == "+")
+                    currentOperation = (old) => old + ((value == "old") ? old : Convert.ToInt32(value));
+                else
+                    currentOperation = (old) => old * ((value == "old") ? old : Convert.ToInt32(value));
+            }
+            else if (line.StartsWith("Test"))
+            {
+                var trueLine = read.ReadLine()!.Trim();
+                var falseLine = read.ReadLine()!.Trim();
+                var divisibleBy = Convert.ToInt32(line.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
+
+                var trueValue = Convert.ToInt32(trueLine!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
+                var falseValue = Convert.ToInt32(falseLine!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
+
+                limit *= divisibleBy;
+                currentTest = (value) => value % divisibleBy == 0 ? trueValue : falseValue;
+            }
         }
 
-        private class Monkey
-        {
-            public List<long> Items { get; set; }
-            public Func<long, long> Operation { get; init; }
-            public Func<long, int> ThrowToMonkey { get; init; }
+        return monkeys;
+    }
 
-            public Monkey(List<long> items, Func<long, long> operation, Func<long, int> throwTest)
-            {
-                Items = items;
-                Operation = operation;
-                ThrowToMonkey = throwTest;
-            }
+    private class Monkey
+    {
+        public List<long> Items { get; set; }
+        public Func<long, long> Operation { get; init; }
+        public Func<long, int> ThrowToMonkey { get; init; }
+
+        public Monkey(List<long> items, Func<long, long> operation, Func<long, int> throwTest)
+        {
+            Items = items;
+            Operation = operation;
+            ThrowToMonkey = throwTest;
         }
     }
 }

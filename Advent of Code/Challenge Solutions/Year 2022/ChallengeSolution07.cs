@@ -2,162 +2,161 @@
 
 using Advent_of_Code.Utilities;
 
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+namespace Advent_of_Code.Challenge_Solutions.Year_2022;
+
+internal class ChallengeSolution07 : ChallengeSolution
 {
-    internal class ChallengeSolution07 : ChallengeSolution
+    private const int MAX_SIZE = 100000;
+    private const int AVAILABLE = 70000000;
+    private const int NEEDED = 30000000;
+
+    private Folder root;
+    private List<Folder> folders;
+
+    public ChallengeSolution07()
     {
-        private const int MAX_SIZE = 100000;
-        private const int AVAILABLE = 70000000;
-        private const int NEEDED = 30000000;
+        root = new Folder("/");
+        folders = new List<Folder>() { root };
+        ReadFileSystem();
+    }
 
-        private Folder root;
-        private List<Folder> folders;
+    protected override void SolveFirstPart()
+    {
+        int sum = 0;
 
-        public ChallengeSolution07()
+        sum += folders
+            .Select(folder => folder.Size < MAX_SIZE ? folder.Size : 0)
+            .Sum();
+
+        Console.WriteLine(sum);
+    }
+
+    protected override void SolveSecondPart()
+    {
+        var orderedFolders = folders
+            .OrderBy(folder => folder.Size);
+
+        foreach (var folder in orderedFolders)
         {
-            root = new Folder("/");
-            folders = new List<Folder>() { root };
-            ReadFileSystem();
-        }
-
-        protected override void SolveFirstPart()
-        {            
-            int sum = 0;
-
-            sum += folders
-                .Select(folder => folder.Size < MAX_SIZE ? folder.Size : 0)
-                .Sum();
-
-            Console.WriteLine(sum);
-        }
-
-        protected override void SolveSecondPart()
-        {
-            var orderedFolders = folders
-                .OrderBy(folder => folder.Size);
-
-            foreach(var folder in orderedFolders)
+            var used = root.Size - folder.Size;
+            if (AVAILABLE - used >= NEEDED)
             {
-                var used = root.Size - folder.Size;
-                if (AVAILABLE - used >= NEEDED)
+                Console.WriteLine(folder.Size);
+                return;
+            }
+        }
+
+        Console.WriteLine(root);
+    }
+
+    private void ReadFileSystem()
+    {
+        var currentFolder = root;
+        foreach (var line in Reader.ReadLines(this))
+        {
+            var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            if (elements[0] == "$")
+            {
+                if (elements[1] == "cd")
                 {
-                    Console.WriteLine(folder.Size);
-                    return;
+                    currentFolder = elements[2] switch
+                    {
+                        "/" => root,
+                        ".." => currentFolder!.Parent!,
+                        var name => currentFolder!.FindFolder(elements[2])
+                    };
                 }
             }
-
-            Console.WriteLine(root);
-        }
-
-        private void ReadFileSystem()
-        {
-            var currentFolder = root;
-            foreach (var line in Reader.ReadLines(this))
+            else
             {
-                var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-                if (elements[0] == "$")
+                if (elements[0] == "dir")
                 {
-                    if (elements[1] == "cd")
-                    {
-                        currentFolder = elements[2] switch
-                        {
-                            "/" => root,
-                            ".." => currentFolder!.Parent!,
-                            var name => currentFolder!.FindFolder(elements[2])
-                        };
-                    }
+                    var newFolder = new Folder(elements[1], currentFolder);
+                    currentFolder!.AddFile(newFolder);
+
+                    folders.Add(newFolder);
                 }
                 else
                 {
-                    if (elements[0] == "dir")
-                    {
-                        var newFolder = new Folder(elements[1], currentFolder);
-                        currentFolder!.AddFile(newFolder);
-
-                        folders.Add(newFolder);
-                    }
-                    else
-                    {
-                        currentFolder!.AddFile(new TextFile(elements[1], Convert.ToInt32(elements[0]), currentFolder));
-                    }
+                    currentFolder!.AddFile(new TextFile(elements[1], Convert.ToInt32(elements[0]), currentFolder));
                 }
             }
         }
     }
+}
 
-    abstract class FileSystemObject
+abstract class FileSystemObject
+{
+    public string Name { get; }
+    public Folder? Parent { get; }
+    public abstract int Size { get; }
+
+    public FileSystemObject(string name, Folder? parent = null)
     {
-        public string Name { get; }
-        public Folder? Parent { get; }
-        public abstract int Size { get; }
-
-        public FileSystemObject(string name, Folder? parent = null)
-        {
-            Name = name;
-            Parent = parent;
-        }
-
-        public virtual void Print()
-        {
-            if (Parent != null)
-                Console.Write($" ");
-        }
+        Name = name;
+        Parent = parent;
     }
 
-    class TextFile : FileSystemObject
+    public virtual void Print()
     {
-        public override int Size { get; }
+        if (Parent != null)
+            Console.Write($" ");
+    }
+}
 
-        public TextFile(string name, int size, Folder? parent = null) : base(name, parent)
-        {
-            Size = size;
-        }
+class TextFile : FileSystemObject
+{
+    public override int Size { get; }
 
-        public override void Print()
-        {
-            base.Print();
-            Console.WriteLine($"- {Name} (file, size = {Size})");
-        }
+    public TextFile(string name, int size, Folder? parent = null) : base(name, parent)
+    {
+        Size = size;
     }
 
-    class Folder : FileSystemObject
+    public override void Print()
     {
-        List<FileSystemObject> Files { get; init; }
+        base.Print();
+        Console.WriteLine($"- {Name} (file, size = {Size})");
+    }
+}
 
-        public override int Size => Files.Select(file => file.Size).Sum();
+class Folder : FileSystemObject
+{
+    List<FileSystemObject> Files { get; init; }
 
-        public Folder(string name, Folder? parent = null) : base(name, parent)
+    public override int Size => Files.Select(file => file.Size).Sum();
+
+    public Folder(string name, Folder? parent = null) : base(name, parent)
+    {
+        Files = new List<FileSystemObject>();
+    }
+
+    public void AddFile(FileSystemObject file)
+    {
+        Files.Add(file);
+    }
+
+    public Folder? FindFolder(string name)
+    {
+        return Files
+            .Where(file => file.GetType() == typeof(Folder))
+            .FirstOrDefault(folder => folder.Name == name)
+            as Folder;
+    }
+
+    public override void Print()
+    {
+        base.Print();
+        Console.WriteLine($"- {Name} (dir)");
+        foreach (var file in Files)
         {
-            Files = new List<FileSystemObject>();
-        }
-
-        public void AddFile(FileSystemObject file)
-        {
-            Files.Add(file);
-        }
-
-        public Folder? FindFolder(string name)
-        {
-            return Files
-                .Where(file => file.GetType() == typeof(Folder))
-                .FirstOrDefault(folder => folder.Name == name)
-                as Folder;
-        }
-
-        public override void Print()
-        {
-            base.Print();
-            Console.WriteLine($"- {Name} (dir)");
-            foreach(var file in Files)
+            var parent = Parent;
+            while (parent != null)
             {
-                var parent = Parent;
-                while(parent != null)
-                {
-                    Console.Write(" ");
-                    parent = parent.Parent;
-                }
-                file.Print();
+                Console.Write(" ");
+                parent = parent.Parent;
             }
+            file.Print();
         }
     }
 }

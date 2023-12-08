@@ -1,52 +1,51 @@
-﻿using System.Diagnostics;
-using Advent_of_Code.Utilities;
+﻿using Advent_of_Code.Utilities;
+using System.Diagnostics;
 
-namespace Advent_of_Code.Challenge_Solutions
+namespace Advent_of_Code.Challenge_Solutions;
+
+public abstract class ChallengeSolution
 {
-    public abstract class ChallengeSolution
+    public ChallengeSolution() { }
+
+    public void PrintSolution()
     {
-        public ChallengeSolution(){}
+        var watch = new Stopwatch();
 
-        public void PrintSolution()
+        try
         {
-            var watch = new Stopwatch();
+            Console.WriteLine("First part:");
 
+            watch.Start();
+            SolveFirstPart();
+            watch.Stop();
+
+            Console.WriteLine("Time for solving first: " + TimeUtils.GetTimeElapsed(watch));
+            Console.WriteLine();
             try
             {
-                Console.WriteLine("First part:");
+                Console.WriteLine("Second part:");
 
                 watch.Start();
-                SolveFirstPart();
+                SolveSecondPart();
                 watch.Stop();
 
-                Console.WriteLine("Time for solving first: " + TimeUtils.GetTimeElapsed(watch));
+                Console.WriteLine("Time for solving second: " + TimeUtils.GetTimeElapsed(watch));
                 Console.WriteLine();
-                try
-                {
-                    Console.WriteLine("Second part:");
-
-                    watch.Start();
-                    SolveSecondPart();
-                    watch.Stop();
-
-                    Console.WriteLine("Time for solving second: " + TimeUtils.GetTimeElapsed(watch));
-                    Console.WriteLine();
-                    Console.WriteLine();
-                }
-                catch (NotImplementedException)
-                {
-                    Console.WriteLine("The second part of this challenge has not been solved yet.");
-                    Console.WriteLine();
-                }
+                Console.WriteLine();
             }
             catch (NotImplementedException)
             {
-                Console.WriteLine("The first part of this challenge has not been solved yet.");
+                Console.WriteLine("The second part of this challenge has not been solved yet.");
                 Console.WriteLine();
             }
         }
-
-        protected abstract void SolveFirstPart();
-        protected abstract void SolveSecondPart();
+        catch (NotImplementedException)
+        {
+            Console.WriteLine("The first part of this challenge has not been solved yet.");
+            Console.WriteLine();
+        }
     }
+
+    protected abstract void SolveFirstPart();
+    protected abstract void SolveSecondPart();
 }

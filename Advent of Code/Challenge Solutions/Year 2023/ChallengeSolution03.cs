@@ -77,7 +77,7 @@ internal class ChallengeSolution03 : ChallengeSolution
         digitSequence.Any(digit => IsAdjacentToSymbol(row, digit.index))
             ? int.Parse(string.Concat(digitSequence.Select(digit => digit.character)))
             : 0;
-    
+
     private bool IsAdjacentToSymbol(int row, int column)
     {
         int rows = _engineSchematic.GetLength(0);
@@ -87,7 +87,7 @@ internal class ChallengeSolution03 : ChallengeSolution
         {
             for (int neighbourColumn = Math.Max(0, column - 1); neighbourColumn <= Math.Min(columns - 1, column + 1); neighbourColumn++)
             {
-                if ((neighbourRow != row || neighbourColumn != column) 
+                if ((neighbourRow != row || neighbourColumn != column)
                     && IsSymbol(_engineSchematic[neighbourRow, neighbourColumn]))
                 {
                     return true;

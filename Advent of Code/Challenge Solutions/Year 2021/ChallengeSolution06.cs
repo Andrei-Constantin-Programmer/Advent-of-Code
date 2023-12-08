@@ -2,65 +2,64 @@
 
 using Advent_of_Code.Utilities;
 
-namespace Advent_of_Code.Challenge_Solutions.Year_2021
+namespace Advent_of_Code.Challenge_Solutions.Year_2021;
+
+class ChallengeSolution06 : ChallengeSolution
 {
-    class ChallengeSolution06 : ChallengeSolution
+    protected override void SolveFirstPart()
     {
-        protected override void SolveFirstPart()
+        List<int> lanternfish = new List<int>(Array.ConvertAll(Reader.ReadLines(this)[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
+
+        int days = 0;
+
+        while (days < 80)
         {
-            List<int> lanternfish = new List<int>(Array.ConvertAll(Reader.ReadLines(this)[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
-
-            int days = 0;
-
-            while (days < 80)
+            List<int> newFish = new List<int>();
+            for (int i = 0; i < lanternfish.Count; i++)
             {
-                List<int> newFish = new List<int>();
-                for (int i = 0; i < lanternfish.Count; i++)
+                if (lanternfish[i] == 0)
                 {
-                    if (lanternfish[i] == 0)
-                    {
-                        lanternfish[i] = 6;
-                        newFish.Add(8);
-                    }
-                    else
-                        lanternfish[i]--;
+                    lanternfish[i] = 6;
+                    newFish.Add(8);
                 }
-
-                foreach (var fish in newFish)
-                    lanternfish.Add(fish);
-
-                days++;
+                else
+                    lanternfish[i]--;
             }
 
-            Console.WriteLine(lanternfish.Count);
+            foreach (var fish in newFish)
+                lanternfish.Add(fish);
+
+            days++;
         }
 
-        protected override void SolveSecondPart()
+        Console.WriteLine(lanternfish.Count);
+    }
+
+    protected override void SolveSecondPart()
+    {
+        long[] fish = new long[9];
+        List<int> initialFish = new List<int>(Array.ConvertAll(Reader.ReadLines(this)[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
+        foreach (var f in initialFish)
+            fish[f]++;
+
+        int days = 0;
+        while (days < 256)
         {
-            long[] fish = new long[9];
-            List<int> initialFish = new List<int>(Array.ConvertAll(Reader.ReadLines(this)[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
-            foreach (var f in initialFish)
-                fish[f]++;
+            long birthingFish = fish[0];
+            for (int i = 0; i < 8; i++)
+                fish[i] = fish[i + 1];
+            fish[8] = 0;
 
-            int days = 0;
-            while(days<256)
-            {
-                long birthingFish = fish[0];
-                for (int i = 0; i < 8; i++)
-                    fish[i] = fish[i + 1];
-                fish[8] = 0;
+            fish[6] += birthingFish;
+            fish[8] += birthingFish;
 
-                fish[6] += birthingFish;
-                fish[8] += birthingFish;
-
-                days++;
-            }
-
-            long sum = 0;
-            foreach(var f in fish)
-                sum+=f;
-
-            Console.WriteLine(sum);
+            days++;
         }
+
+        long sum = 0;
+        foreach (var f in fish)
+            sum += f;
+
+        Console.WriteLine(sum);
     }
 }

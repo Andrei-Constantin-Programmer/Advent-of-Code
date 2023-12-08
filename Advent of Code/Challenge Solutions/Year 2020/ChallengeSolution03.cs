@@ -2,106 +2,105 @@
 
 using Advent_of_Code.Utilities;
 
-namespace Advent_of_Code.Challenge_Solutions.Year_2020
+namespace Advent_of_Code.Challenge_Solutions.Year_2020;
+
+internal class ChallengeSolution03 : ChallengeSolution
 {
-    internal class ChallengeSolution03 : ChallengeSolution
+    private string[] lines;
+
+    public ChallengeSolution03()
     {
-        private string[] lines;
+        lines = Reader.ReadLines(this);
+    }
 
-        public ChallengeSolution03()
+    protected override void SolveFirstPart()
+    {
+        Console.WriteLine(CountTrees(lines));
+    }
+
+    protected override void SolveSecondPart()
+    {
+        int p = CountTreesDownOne(lines);
+        p *= CountTreesDownTwo(lines);
+        Console.WriteLine(p);
+    }
+
+    private static int CountTrees(string[] lines)
+    {
+        int n = lines.Length, m = lines[0].Length;
+        int trees = 0;
+        int pos = 0;
+
+        for (int line = 0; line < n; line++)
         {
-            lines = Reader.ReadLines(this);
-        }
-
-        protected override void SolveFirstPart()
-        {
-            Console.WriteLine(CountTrees(lines));
-        }
-
-        protected override void SolveSecondPart()
-        {
-            int p = CountTreesDownOne(lines);
-            p *= CountTreesDownTwo(lines);
-            Console.WriteLine(p);
-        }
-
-        private static int CountTrees(string[] lines)
-        {
-            int n = lines.Length, m = lines[0].Length;
-            int trees = 0;
-            int pos = 0;
-
-            for (int line = 0; line < n; line++)
+            pos = pos >= m ? pos - m : pos;
+            if (lines[line][pos] == '#')
             {
-                pos = pos >= m ? pos - m : pos;
-                if (lines[line][pos] == '#')
-                {
-                    trees++;
-                }
-
-                pos += 3;
+                trees++;
             }
 
-            return trees;
+            pos += 3;
         }
 
-        private static int CountTreesDownOne(string[] lines)
+        return trees;
+    }
+
+    private static int CountTreesDownOne(string[] lines)
+    {
+        int n = lines.Length, m = lines[0].Length;
+        int trees1 = 0, trees3 = 0, trees5 = 0, trees7 = 0;
+        int pos1 = 0, pos3 = 0, pos5 = 0, pos7 = 0;
+
+        for (int line = 0; line < n; line++)
         {
-            int n = lines.Length, m = lines[0].Length;
-            int trees1 = 0, trees3 = 0, trees5 = 0, trees7 = 0;
-            int pos1 = 0, pos3 = 0, pos5 = 0, pos7 = 0;
+            pos1 = pos1 >= m ? pos1 - m : pos1;
+            pos3 = pos3 >= m ? pos3 - m : pos3;
+            pos5 = pos5 >= m ? pos5 - m : pos5;
+            pos7 = pos7 >= m ? pos7 - m : pos7;
 
-            for (int line = 0; line < n; line++)
+            if (lines[line][pos1] == '#')
             {
-                pos1 = pos1 >= m ? pos1 - m : pos1;
-                pos3 = pos3 >= m ? pos3 - m : pos3;
-                pos5 = pos5 >= m ? pos5 - m : pos5;
-                pos7 = pos7 >= m ? pos7 - m : pos7;
-
-                if (lines[line][pos1] == '#')
-                {
-                    trees1++;
-                }
-                if (lines[line][pos3] == '#')
-                {
-                    trees3++;
-                }
-                if (lines[line][pos5] == '#')
-                {
-                    trees5++;
-                }
-                if (lines[line][pos7] == '#')
-                {
-                    trees7++;
-                }
-
-                pos1++;
-                pos3 += 3;
-                pos5 += 5;
-                pos7 += 7;
+                trees1++;
+            }
+            if (lines[line][pos3] == '#')
+            {
+                trees3++;
+            }
+            if (lines[line][pos5] == '#')
+            {
+                trees5++;
+            }
+            if (lines[line][pos7] == '#')
+            {
+                trees7++;
             }
 
-            return trees1 * trees3 * trees5 * trees7;
+            pos1++;
+            pos3 += 3;
+            pos5 += 5;
+            pos7 += 7;
         }
 
-        private static int CountTreesDownTwo(string[] lines)
+        return trees1 * trees3 * trees5 * trees7;
+    }
+
+    private static int CountTreesDownTwo(string[] lines)
+    {
+        int n = lines.Length, m = lines[0].Length;
+        int trees = 0;
+        int pos = 0;
+
+        for (int line = 0; line < n; line += 2)
         {
-            int n = lines.Length, m = lines[0].Length;
-            int trees = 0;
-            int pos = 0;
-
-            for (int line = 0; line < n; line += 2)
+            pos = pos >= m ? pos - m : pos;
+            if (lines[line][pos] == '#')
             {
-                pos = pos >= m ? pos - m : pos;
-                if (lines[line][pos] == '#')
-                {
-                    trees++;
-                }
-
-                pos++;
+                trees++;
             }
 
-            return trees;
+            pos++;
         }
+
+        return trees;
     }
 }

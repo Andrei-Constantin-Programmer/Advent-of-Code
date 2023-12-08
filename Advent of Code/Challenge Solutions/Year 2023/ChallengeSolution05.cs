@@ -36,7 +36,7 @@ internal class ChallengeSolution05 : ChallengeSolution
     protected override void SolveSecondPart()
     {
         List<MappingRange> seedRanges = ParseSeedRanges(_lines[0]);
-        
+
         foreach (var mappingList in _mappingLists)
         {
             foreach (var range in seedRanges)

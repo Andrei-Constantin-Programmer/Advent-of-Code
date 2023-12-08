@@ -1,135 +1,134 @@
 ﻿using Advent_of_Code.Utilities;
 
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+namespace Advent_of_Code.Challenge_Solutions.Year_2022;
+
+internal class ChallengeSolution20 : ChallengeSolution
 {
-    internal class ChallengeSolution20 : ChallengeSolution
+    private const long DECRYPTION_KEY = 811589153;
+
+    protected override void SolveFirstPart()
     {
-        private const long DECRYPTION_KEY = 811589153;
+        var arrangement = ReadInitialArrangement();
 
-        protected override void SolveFirstPart()
-        {
-            var arrangement = ReadInitialArrangement();
+        arrangement = UnmixArrangement(arrangement, 1);
+        arrangement = RotateArrangementToZero(arrangement);
 
-            arrangement = UnmixArrangement(arrangement, 1);
-            arrangement = RotateArrangementToZero(arrangement);
+        Console.WriteLine(GetGroveCoordinatesSum(arrangement));
+    }
 
-            Console.WriteLine(GetGroveCoordinatesSum(arrangement));
-        }
+    protected override void SolveSecondPart()
+    {
+        var arrangement = ReadInitialArrangement();
+        ApplyDecriptionKey(arrangement);
 
-        protected override void SolveSecondPart()
-        {
-            var arrangement = ReadInitialArrangement();
-            ApplyDecriptionKey(arrangement);
-
-            arrangement = UnmixArrangement(arrangement, 10);
-            arrangement = RotateArrangementToZero(arrangement);
+        arrangement = UnmixArrangement(arrangement, 10);
+        arrangement = RotateArrangementToZero(arrangement);
 
 
-            Console.WriteLine(GetGroveCoordinatesSum(arrangement));
-        }
+        Console.WriteLine(GetGroveCoordinatesSum(arrangement));
+    }
 
-        private static List<EncryptedValue> UnmixArrangement(List<EncryptedValue> arrangement, byte timesToUnmix)
-        {
-            var newArrangement = new List<EncryptedValue>(arrangement);
+    private static List<EncryptedValue> UnmixArrangement(List<EncryptedValue> arrangement, byte timesToUnmix)
+    {
+        var newArrangement = new List<EncryptedValue>(arrangement);
 
-            for(var mix = 0; mix < timesToUnmix; mix++)
-            {
-                foreach(var element in arrangement)
-                {
-                    var index = newArrangement.IndexOf(element);
-
-                    var nextPosition = GetNextPosition(newArrangement, index);
-
-                    MoveElements(newArrangement, index, nextPosition);
-                    newArrangement[nextPosition] = element;
-                }
-            }
-
-            return newArrangement;
-        }
-
-        private static int GetNextPosition(List<EncryptedValue> arrangement, int currentPosition)
-        {
-            var nextPosition = currentPosition + arrangement[currentPosition].Value;
-
-            while(nextPosition <= 0 || nextPosition >= arrangement.Count)
-            {
-                if (nextPosition <= 0)
-                {
-                    nextPosition += Math.Max(1, Math.Abs(nextPosition) / (arrangement.Count - 1)) * (arrangement.Count - 1);
-                }
-                else if (nextPosition >= arrangement.Count)
-                {
-                    nextPosition -= (nextPosition / arrangement.Count) * (arrangement.Count - 1);
-                }
-            }
-
-            return (int)nextPosition;
-        }
-
-        private static void MoveElements(List<EncryptedValue> arrangement, int startPosition, int endPosition)
-        {
-            if (startPosition < endPosition)
-            {
-                for (var i = startPosition; i < endPosition; i++)
-                {
-                    arrangement[i] = arrangement[i + 1];
-                }
-            }
-            else
-            {
-                for (var i = startPosition; i > endPosition; i--)
-                {
-                    arrangement[i] = arrangement[i - 1];
-                }
-            }
-        }
-
-        private static List<EncryptedValue> RotateArrangementToZero(List<EncryptedValue> arrangement)
-        {
-            var zeroIndex = arrangement.IndexOf(arrangement.First(x => x.Value == 0));
-
-            var array = arrangement.ToArray();
-            var elementsToValue = array[0..zeroIndex];
-            var elementsFromValue = array[zeroIndex..];
-
-            return elementsFromValue.Concat(elementsToValue).ToList();
-        }
-
-        private static long GetGroveCoordinatesSum(List<EncryptedValue> arrangement)
-        {
-            return
-                arrangement[1000 % arrangement.Count].Value +
-                arrangement[2000 % arrangement.Count].Value +
-                arrangement[3000 % arrangement.Count].Value;
-        }
-
-        private static void ApplyDecriptionKey(List<EncryptedValue> arrangement)
+        for (var mix = 0; mix < timesToUnmix; mix++)
         {
             foreach (var element in arrangement)
-                element.Value *= DECRYPTION_KEY;
+            {
+                var index = newArrangement.IndexOf(element);
+
+                var nextPosition = GetNextPosition(newArrangement, index);
+
+                MoveElements(newArrangement, index, nextPosition);
+                newArrangement[nextPosition] = element;
+            }
         }
 
-        private List<EncryptedValue> ReadInitialArrangement()
+        return newArrangement;
+    }
+
+    private static int GetNextPosition(List<EncryptedValue> arrangement, int currentPosition)
+    {
+        var nextPosition = currentPosition + arrangement[currentPosition].Value;
+
+        while (nextPosition <= 0 || nextPosition >= arrangement.Count)
         {
-            return Reader.ReadLines(this)
-                .Select(x => new EncryptedValue(Convert.ToInt16(x)))
-                .ToList();
+            if (nextPosition <= 0)
+            {
+                nextPosition += Math.Max(1, Math.Abs(nextPosition) / (arrangement.Count - 1)) * (arrangement.Count - 1);
+            }
+            else if (nextPosition >= arrangement.Count)
+            {
+                nextPosition -= (nextPosition / arrangement.Count) * (arrangement.Count - 1);
+            }
         }
 
-        private class EncryptedValue
+        return (int)nextPosition;
+    }
+
+    private static void MoveElements(List<EncryptedValue> arrangement, int startPosition, int endPosition)
+    {
+        if (startPosition < endPosition)
         {
-            public long Value { get; set; }
-
-            public EncryptedValue(long value)
+            for (var i = startPosition; i < endPosition; i++)
             {
-                Value = value;
+                arrangement[i] = arrangement[i + 1];
             }
-
-            public override string ToString()
+        }
+        else
+        {
+            for (var i = startPosition; i > endPosition; i--)
             {
-                return Value.ToString();
+                arrangement[i] = arrangement[i - 1];
             }
+        }
+    }
+
+    private static List<EncryptedValue> RotateArrangementToZero(List<EncryptedValue> arrangement)
+    {
+        var zeroIndex = arrangement.IndexOf(arrangement.First(x => x.Value == 0));
+
+        var array = arrangement.ToArray();
+        var elementsToValue = array[0..zeroIndex];
+        var elementsFromValue = array[zeroIndex..];
+
+        return elementsFromValue.Concat(elementsToValue).ToList();
+    }
+
+    private static long GetGroveCoordinatesSum(List<EncryptedValue> arrangement)
+    {
+        return
+            arrangement[1000 % arrangement.Count].Value +
+            arrangement[2000 % arrangement.Count].Value +
+            arrangement[3000 % arrangement.Count].Value;
+    }
+
+    private static void ApplyDecriptionKey(List<EncryptedValue> arrangement)
+    {
+        foreach (var element in arrangement)
+            element.Value *= DECRYPTION_KEY;
+    }
+
+    private List<EncryptedValue> ReadInitialArrangement()
+    {
+        return Reader.ReadLines(this)
+            .Select(x => new EncryptedValue(Convert.ToInt16(x)))
+            .ToList();
+    }
+
+    private class EncryptedValue
+    {
+        public long Value { get; set; }
+
+        public EncryptedValue(long value)
+        {
+            Value = value;
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
         }
     }
 }

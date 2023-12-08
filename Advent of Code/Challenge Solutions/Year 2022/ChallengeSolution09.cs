@@ -2,216 +2,215 @@
 
 using Advent_of_Code.Utilities;
 
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+namespace Advent_of_Code.Challenge_Solutions.Year_2022;
+
+internal class ChallengeSolution09 : ChallengeSolution
 {
-    internal class ChallengeSolution09 : ChallengeSolution
+    protected override void SolveFirstPart()
     {
-        protected override void SolveFirstPart()
+        var commands = ReadCommands();
+
+        var head = new Knot(new Coordinate(0, 0));
+        var tail = new Knot(new Coordinate(0, 0));
+        ComputeCommands(head, tail, commands);
+
+        Console.WriteLine(tail.History.Count);
+    }
+
+    protected override void SolveSecondPart()
+    {
+        var commands = ReadCommands();
+        var knots = CreateKnots();
+
+        ComputeCommands(knots[0], knots.Skip(1).ToList(), commands);
+
+        Console.WriteLine(knots.Last().History.Count);
+    }
+
+    private static void ComputeCommands(Knot head, Knot tail, List<Command> commands)
+    {
+        ComputeCommands(head, new List<Knot>() { tail }, commands);
+    }
+
+    private static void ComputeCommands(Knot head, List<Knot> trailingKnots, List<Command> commands)
+    {
+        foreach (var command in commands)
         {
-            var commands = ReadCommands();
+            (head, trailingKnots) = MoveRope(head, trailingKnots, command);
+        }
+    }
 
-            var head = new Knot(new Coordinate(0, 0));
-            var tail = new Knot(new Coordinate(0, 0));
-            ComputeCommands(head, tail, commands);
-
-            Console.WriteLine(tail.History.Count);
+    private static (Knot, List<Knot>) MoveRope(Knot head, List<Knot> trailingKnots, Command command)
+    {
+        if (command.Steps == 0)
+        {
+            return (head, trailingKnots);
         }
 
-        protected override void SolveSecondPart()
+        head = MoveHead(head, command.Direction);
+        for (int i = 0; i < trailingKnots.Count; i++)
         {
-            var commands = ReadCommands();
-            var knots = CreateKnots();
-
-            ComputeCommands(knots[0], knots.Skip(1).ToList(), commands);
-
-            Console.WriteLine(knots.Last().History.Count);
+            if (i == 0)
+                trailingKnots[i] = MoveTail(head, trailingKnots[i]);
+            else
+                trailingKnots[i] = MoveTail(trailingKnots[i - 1], trailingKnots[i]);
         }
 
-        private static void ComputeCommands(Knot head, Knot tail, List<Command> commands)
-        {
-            ComputeCommands(head, new List<Knot>() { tail }, commands);
-        }
+        return MoveRope(head, trailingKnots, new Command(command.Direction, command.Steps - 1));
+    }
 
-        private static void ComputeCommands(Knot head, List<Knot> trailingKnots, List<Command> commands)
+    private static Knot MoveTail(Knot head, Knot tail)
+    {
+        if (AreTouching(head.Position, tail.Position))
+            return tail;
+
+        var newTailPosition = new Coordinate(tail.Position.Row, tail.Position.Column);
+
+        var headRow = head.Position.Row;
+        var headColumn = head.Position.Column;
+        var tailRow = tail.Position.Row;
+        var tailColumn = tail.Position.Column;
+
+        if (headRow == tailRow)
         {
-            foreach(var command in commands)
+            if (headColumn > tailColumn)
+                newTailPosition.Column++;
+            else if (headColumn < tailColumn)
+                newTailPosition.Column--;
+        }
+        else if (headColumn == tailColumn)
+        {
+            if (headRow > tailRow)
+                newTailPosition.Row++;
+            else if (headRow < tailRow)
+                newTailPosition.Row--;
+        }
+        else
+        {
+            if (headRow < tailRow && headColumn < tailColumn)
             {
-                (head, trailingKnots) = MoveRope(head, trailingKnots, command);
+                newTailPosition.Row--;
+                newTailPosition.Column--;
             }
-        }
-
-        private static (Knot, List<Knot>) MoveRope(Knot head, List<Knot> trailingKnots, Command command)
-        {
-            if (command.Steps == 0)
+            else if (headRow < tailRow && headColumn > tailColumn)
             {
-                return (head, trailingKnots);
+                newTailPosition.Row--;
+                newTailPosition.Column++;
             }
-
-            head = MoveHead(head, command.Direction);
-            for(int i = 0; i < trailingKnots.Count; i++)
+            else if (headRow > tailRow && headColumn < tailColumn)
             {
-                if (i == 0)
-                    trailingKnots[i] = MoveTail(head, trailingKnots[i]);
-                else
-                    trailingKnots[i] = MoveTail(trailingKnots[i - 1], trailingKnots[i]);
-            }
-
-            return MoveRope(head, trailingKnots, new Command(command.Direction, command.Steps - 1));
-        }
-
-        private static Knot MoveTail(Knot head, Knot tail)
-        {
-            if (AreTouching(head.Position, tail.Position))
-                return tail;
-
-            var newTailPosition = new Coordinate(tail.Position.Row, tail.Position.Column);
-
-            var headRow = head.Position.Row;
-            var headColumn = head.Position.Column;
-            var tailRow = tail.Position.Row;
-            var tailColumn = tail.Position.Column;
-
-            if(headRow == tailRow)
-            {
-                if (headColumn > tailColumn)
-                    newTailPosition.Column++;
-                else if (headColumn < tailColumn)
-                    newTailPosition.Column--;
-            }
-            else if(headColumn == tailColumn)
-            {
-                if (headRow > tailRow)
-                    newTailPosition.Row++;
-                else if (headRow < tailRow)
-                    newTailPosition.Row--;
+                newTailPosition.Row++;
+                newTailPosition.Column--;
             }
             else
             {
-                if(headRow < tailRow && headColumn < tailColumn)
-                {
-                    newTailPosition.Row--;
-                    newTailPosition.Column--;
-                }
-                else if (headRow < tailRow && headColumn > tailColumn)
-                {
-                    newTailPosition.Row--;
-                    newTailPosition.Column++;
-                }
-                else if (headRow > tailRow && headColumn < tailColumn)
-                {
-                    newTailPosition.Row++;
-                    newTailPosition.Column--;
-                }
-                else
-                {
-                    newTailPosition.Row++;
-                    newTailPosition.Column++;
-                }
+                newTailPosition.Row++;
+                newTailPosition.Column++;
             }
-
-            tail.History.Add(newTailPosition);
-
-            return new Knot(newTailPosition, tail.History);
         }
 
-        private static bool AreTouching(Coordinate head, Coordinate tail)
-        {
-            if (head == tail)
-                return true;
+        tail.History.Add(newTailPosition);
 
-            int horizontalDistance = head.Column - tail.Column;
-            int verticalDistance = head.Row - tail.Row;
+        return new Knot(newTailPosition, tail.History);
+    }
 
-            if (Math.Abs(horizontalDistance) > 1)
-                return false;
-            if (Math.Abs(verticalDistance) > 1)
-                return false;
-
+    private static bool AreTouching(Coordinate head, Coordinate tail)
+    {
+        if (head == tail)
             return true;
-        }
 
-        private static Knot MoveHead(Knot head, Direction direction)
+        int horizontalDistance = head.Column - tail.Column;
+        int verticalDistance = head.Row - tail.Row;
+
+        if (Math.Abs(horizontalDistance) > 1)
+            return false;
+        if (Math.Abs(verticalDistance) > 1)
+            return false;
+
+        return true;
+    }
+
+    private static Knot MoveHead(Knot head, Direction direction)
+    {
+        var newHead = new Knot(new Coordinate(head.Position.Row, head.Position.Column));
+        switch (direction)
         {
-            var newHead = new Knot(new Coordinate(head.Position.Row, head.Position.Column));
-            switch (direction)
-            {
-                case Direction.Up:
-                    newHead.Position = new Coordinate(head.Position.Row - 1, head.Position.Column);
-                    break;
-                case Direction.Down:
-                    newHead.Position = new Coordinate(head.Position.Row + 1, head.Position.Column);
-                    break;
-                case Direction.Left:
-                    newHead.Position = new Coordinate(head.Position.Row, head.Position.Column - 1);
-                    break;
-                case Direction.Right:
-                    newHead.Position = new Coordinate(head.Position.Row, head.Position.Column + 1);
-                    break;
-            }
-
-            return newHead;
+            case Direction.Up:
+                newHead.Position = new Coordinate(head.Position.Row - 1, head.Position.Column);
+                break;
+            case Direction.Down:
+                newHead.Position = new Coordinate(head.Position.Row + 1, head.Position.Column);
+                break;
+            case Direction.Left:
+                newHead.Position = new Coordinate(head.Position.Row, head.Position.Column - 1);
+                break;
+            case Direction.Right:
+                newHead.Position = new Coordinate(head.Position.Row, head.Position.Column + 1);
+                break;
         }
 
-        private static List<Knot> CreateKnots()
+        return newHead;
+    }
+
+    private static List<Knot> CreateKnots()
+    {
+        var knots = new List<Knot>();
+
+        for (int i = 0; i < 10; i++)
+            knots.Add(new Knot(new Coordinate(0, 0)));
+
+        return knots;
+    }
+
+    private List<Command> ReadCommands()
+    {
+        var commands = new List<Command>();
+        foreach (var line in Reader.ReadLines(this))
         {
-            var knots = new List<Knot>();
-
-            for(int i = 0; i < 10; i++)
-                knots.Add(new Knot(new Coordinate(0, 0)));
-
-            return knots;
+            var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            commands.Add(new Command(
+                elements[0] switch
+                {
+                    "R" => Direction.Right,
+                    "L" => Direction.Left,
+                    "U" => Direction.Up,
+                    "D" => Direction.Down,
+                    _ => throw new ArgumentException()
+                },
+                Convert.ToInt32(elements[1])));
         }
 
-        private List<Command> ReadCommands()
+
+        return commands;
+    }
+
+    private class Knot
+    {
+        public Coordinate Position { get; set; }
+        public HashSet<Coordinate> History { get; set; }
+
+        public Knot(Coordinate initialPosition)
         {
-            var commands = new List<Command>();
-            foreach (var line in Reader.ReadLines(this))
-            {
-                var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-                commands.Add(new Command(
-                    elements[0] switch
-                    {
-                        "R" => Direction.Right,
-                        "L" => Direction.Left,
-                        "U" => Direction.Up,
-                        "D" => Direction.Down,
-                        _ => throw new ArgumentException()
-                    },
-                    Convert.ToInt32(elements[1])));
-            }
-            
-
-            return commands;
+            Position = initialPosition;
+            History = new HashSet<Coordinate>() { initialPosition };
         }
 
-        private class Knot
+        public Knot(Coordinate position, HashSet<Coordinate> history)
         {
-            public Coordinate Position { get; set; }
-            public HashSet<Coordinate> History { get; set; }
-
-            public Knot(Coordinate initialPosition)
-            {
-                Position = initialPosition;
-                History = new HashSet<Coordinate>() { initialPosition };
-            }
-
-            public Knot(Coordinate position, HashSet<Coordinate> history)
-            {
-                Position = position;
-                History = history;
-            }
+            Position = position;
+            History = history;
         }
+    }
 
-        private record struct Coordinate(int Row, int Column);
+    private record struct Coordinate(int Row, int Column);
 
-        private record struct Command(Direction Direction, int Steps);
+    private record struct Command(Direction Direction, int Steps);
 
-        private enum Direction
-        {
-            Right,
-            Up,
-            Left,
-            Down
-        }
+    private enum Direction
+    {
+        Right,
+        Up,
+        Left,
+        Down
     }
 }

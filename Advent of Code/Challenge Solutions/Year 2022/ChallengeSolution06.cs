@@ -2,63 +2,62 @@
 
 using Advent_of_Code.Utilities;
 
-namespace Advent_of_Code.Challenge_Solutions.Year_2022
+namespace Advent_of_Code.Challenge_Solutions.Year_2022;
+
+internal class ChallengeSolution06 : ChallengeSolution
 {
-    internal class ChallengeSolution06 : ChallengeSolution
+    protected override void SolveFirstPart()
     {
-        protected override void SolveFirstPart()
+        var buffer = ReadDatastreamBuffer();
+
+        Console.WriteLine(FindFirstUniqueBufferPosition(buffer, 4));
+    }
+
+    protected override void SolveSecondPart()
+    {
+        var buffer = ReadDatastreamBuffer();
+
+        Console.WriteLine(FindFirstUniqueBufferPosition(buffer, 14));
+    }
+
+    private static int FindFirstUniqueBufferPosition(string buffer, int bufferSize)
+    {
+        char[] recent = new char[bufferSize];
+
+        recent = buffer.Substring(0, bufferSize).ToCharArray();
+        int count = bufferSize;
+        while (ContainsDuplicateCharacter(recent))
         {
-            var buffer = ReadDatastreamBuffer();
-
-            Console.WriteLine(FindFirstUniqueBufferPosition(buffer, 4));
-        }
-
-        protected override void SolveSecondPart()
-        {
-            var buffer = ReadDatastreamBuffer();
-
-            Console.WriteLine(FindFirstUniqueBufferPosition(buffer, 14));
-        }
-
-        private static int FindFirstUniqueBufferPosition(string buffer, int bufferSize)
-        {
-            char[] recent = new char[bufferSize];
-
-            recent = buffer.Substring(0, bufferSize).ToCharArray();
-            int count = bufferSize;
-            while (ContainsDuplicateCharacter(recent))
+            for (int i = 0; i < bufferSize - 1; i++)
             {
-                for (int i = 0; i < bufferSize - 1; i++)
-                {
-                    recent[i] = recent[i + 1];
-                }
-
-                recent[bufferSize - 1] = buffer[count];
-                count++;
+                recent[i] = recent[i + 1];
             }
 
-            return count;
+            recent[bufferSize - 1] = buffer[count];
+            count++;
         }
 
-        private static bool ContainsDuplicateCharacter(char[] array)
+        return count;
+    }
+
+    private static bool ContainsDuplicateCharacter(char[] array)
+    {
+        for (int i = 0; i < array.Length - 1; i++)
         {
-            for (int i = 0; i < array.Length - 1; i++)
+            for (int j = i + 1; j < array.Length; j++)
             {
-                for (int j = i + 1; j < array.Length; j++)
+                if (array[i] == array[j])
                 {
-                    if (array[i] == array[j])
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
-
-            return false;
         }
 
-        private string ReadDatastreamBuffer()
-        {
-            return String.Join(Environment.NewLine, Reader.ReadLines(this));
-        }
+        return false;
+    }
+
+    private string ReadDatastreamBuffer()
+    {
+        return String.Join(Environment.NewLine, Reader.ReadLines(this));
     }
 }
