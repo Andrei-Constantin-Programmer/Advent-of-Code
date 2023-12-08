@@ -24,13 +24,10 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine("There is no second part to this challenge!");
         }
 
-        private static List<long> ReadFuelRequirements()
+        private List<long> ReadFuelRequirements()
         {
             var fuelRequirements = new List<long>();
-            using TextReader read = Reader.GetInputFile(2022, 25);
-
-            string? line;
-            while((line = read.ReadLine()) != null)
+            foreach (var line in Reader.ReadLines(this))
             {
                 fuelRequirements.Add(SnafuToDecimal(line));
             }

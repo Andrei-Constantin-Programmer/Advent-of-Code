@@ -25,17 +25,12 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 .Sum());
         }
 
-        private static List<(char, char)> ReadRockPaperScissorsRounds()
+        private List<(char, char)> ReadRockPaperScissorsRounds()
         {
             var rounds = new List<(char, char)>();
-            using (TextReader read = Reader.GetInputFile(2022, 2))
+            foreach (var line in Reader.ReadLines(this).Select(line => line.ToUpper()))
             {
-                string? line;
-                while((line = read.ReadLine()) != null)
-                {
-                    line = line.ToUpper();
-                    rounds.Add((line[0], line[2]));
-                }
+                rounds.Add((line[0], line[2]));
             }
 
             return rounds;

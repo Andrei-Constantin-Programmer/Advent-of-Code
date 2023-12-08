@@ -46,15 +46,12 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             throw new NotImplementedException();
         }
 
-        private static Dictionary<Valve, List<Valve>> ReadValves()
+        private Dictionary<Valve, List<Valve>> ReadValves()
         {
             var valves = new List<Valve>();
             var valveNeighbours = new Dictionary<Valve, string[]>();
 
-            using TextReader read = Reader.GetInputFile(2022, 16);
-
-            string? line;
-            while ((line = read.ReadLine()) != null)
+            foreach (var line in Reader.ReadLines(this))
             {
                 var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
                 var valveLabel = elements[1];

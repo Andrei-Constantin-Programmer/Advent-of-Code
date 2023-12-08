@@ -184,13 +184,10 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return diamonds;
         }
 
-        private static List<SensorBeaconPair> ReadSensorsAndBeacons()
+        private List<SensorBeaconPair> ReadSensorsAndBeacons()
         {
             var sensorBeaconPairs = new List<SensorBeaconPair>();
-            using TextReader read = Reader.GetInputFile(2022, 15);
-            
-            string? line;
-            while ((line = read.ReadLine()) != null)
+            foreach (var line in Reader.ReadLines(this))
             {
                 var values = line
                     .Split(" ", StringSplitOptions.RemoveEmptyEntries)

@@ -66,64 +66,61 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
         {
             var monkeys = new List<Monkey>();
 
-            using(TextReader read = Reader.GetInputFile(2022, 11))
+            var currentItems = new List<long>();
+            Func<long, long>? currentOperation = null;
+            Func<long, int>? currentTest = null;
+
+            using TextReader read = Reader.GetInputFile(2022, 11);
+            string? line;
+            while (true)
             {
-                string? line;
+                line = read.ReadLine();
+                line = line?.Trim();
 
-                var currentItems = new List<long>();
-                Func<long, long>? currentOperation = null;
-                Func<long, int>? currentTest = null;
-
-                while (true)
+                if(line == null || line.Length == 0)
                 {
-                    line = read.ReadLine();
-                    line = line?.Trim();
+                    monkeys.Add(new Monkey(currentItems, currentOperation!, currentTest!));
+                    currentItems = new List<long>();
+                    currentOperation = null;
+                    currentTest = null;
 
-                    if(line == null || line.Length == 0)
-                    {
-                        monkeys.Add(new Monkey(currentItems, currentOperation!, currentTest!));
-                        currentItems = new List<long>();
-                        currentOperation = null;
-                        currentTest = null;
+                    if (line == null)
+                        break;
+                }
+                else if(line.StartsWith("Starting items"))
+                {
+                    currentItems.AddRange(line
+                        .Split(":", StringSplitOptions.RemoveEmptyEntries)[1]
+                        .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                        .Select(x => Convert.ToInt64(x))
+                        .ToList()
+                        );
+                }
+                else if(line.StartsWith("Operation"))
+                {
+                    var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
-                        if (line == null)
-                            break;
-                    }
-                    else if(line.StartsWith("Starting items"))
-                    {
-                        currentItems.AddRange(line
-                            .Split(":", StringSplitOptions.RemoveEmptyEntries)[1]
-                            .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                            .Select(x => Convert.ToInt64(x))
-                            .ToList()
-                            );
-                    }
-                    else if(line.StartsWith("Operation"))
-                    {
-                        var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                    var value = elements[5];
 
-                        var value = elements[5];
+                    if (elements[4] == "+")
+                        currentOperation = (old) => old + ((value == "old") ? old : Convert.ToInt32(value));
+                    else
+                        currentOperation = (old) => old * ((value == "old") ? old : Convert.ToInt32(value));
+                }
+                else if(line.StartsWith("Test"))
+                {
+                    var trueLine = read.ReadLine()!.Trim();
+                    var falseLine = read.ReadLine()!.Trim();
+                    var divisibleBy = Convert.ToInt32(line.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
 
-                        if (elements[4] == "+")
-                            currentOperation = (old) => old + ((value == "old") ? old : Convert.ToInt32(value));
-                        else
-                            currentOperation = (old) => old * ((value == "old") ? old : Convert.ToInt32(value));
-                    }
-                    else if(line.StartsWith("Test"))
-                    {
-                        var trueLine = read.ReadLine()!.Trim();
-                        var falseLine = read.ReadLine()!.Trim();
-                        var divisibleBy = Convert.ToInt32(line.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
+                    var trueValue = Convert.ToInt32(trueLine!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
+                    var falseValue = Convert.ToInt32(falseLine!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
 
-                        var trueValue = Convert.ToInt32(trueLine!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
-                        var falseValue = Convert.ToInt32(falseLine!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
-
-                        limit *= divisibleBy;
-                        currentTest = (value) => value % divisibleBy == 0 ? trueValue : falseValue;
-                    }
+                    limit *= divisibleBy;
+                    currentTest = (value) => value % divisibleBy == 0 ? trueValue : falseValue;
                 }
             }
-
+            
             return monkeys;
         }
 

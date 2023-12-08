@@ -52,30 +52,24 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             }
         }
 
-        private static (List<Stack<char>>, List<MoveOperation>) ReadInput()
+        private (List<Stack<char>>, List<MoveOperation>) ReadInput()
         {
             var stacks = new List<Stack<char>>();
             var moves = new List<MoveOperation>();
 
-            using (TextReader read = Reader.GetInputFile(2022, 5))
+            var lines = Reader.ReadLines(this);
+            var movesPosition = lines.ToList().IndexOf(string.Empty);
+            var stackInput = lines[..movesPosition].ToList();
+            stacks = GetStacksFromInput(stackInput);
+
+            var moveLines = lines[(movesPosition + 1)..];
+            foreach (var line in moveLines)
             {
-                var stackInput = new List<string>();
-                string? line;
-                while ((line = read.ReadLine()) != null && line.Trim().Length > 0)
-                {
-                    stackInput.Add(line);
-                }
-
-                stacks = GetStacksFromInput(stackInput);
-
-                while ((line = read.ReadLine()) != null)
-                {
-                    var splitLine = line
-                        .Split(new string[] { "move", "from", "to" }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(value => Convert.ToInt32(value))
-                        .ToList();
-                    moves.Add(new MoveOperation(splitLine[1] - 1, splitLine[2] - 1, splitLine[0]));
-                }
+                var splitLine = line
+                    .Split(new string[] { "move", "from", "to" }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(value => Convert.ToInt32(value))
+                    .ToList();
+                moves.Add(new MoveOperation(splitLine[1] - 1, splitLine[2] - 1, splitLine[0]));
             }
 
             return (stacks, moves);

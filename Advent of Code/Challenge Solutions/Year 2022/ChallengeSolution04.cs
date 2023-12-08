@@ -22,26 +22,22 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
                 .Count());
         }
 
-        private static List<Pair> ReadPairRanges()
+        private List<Pair> ReadPairRanges()
         {
             var pairs = new List<Pair>();
 
-            using (TextReader read = Reader.GetInputFile(2022, 4))
+            foreach (var line in Reader.ReadLines(this))
             {
-                string? line;
-                while ((line = read.ReadLine()) != null)
-                {
-                    var ranges = line
-                        .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                        .Select(elf =>
-                        {
-                            var rangeValues = elf.Split("-", StringSplitOptions.RemoveEmptyEntries);
-                            return new Range(Convert.ToByte(rangeValues[0]), Convert.ToByte(rangeValues[1]));
-                        })
-                        .ToList();
+                var ranges = line
+                    .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                    .Select(elf =>
+                    {
+                        var rangeValues = elf.Split("-", StringSplitOptions.RemoveEmptyEntries);
+                        return new Range(Convert.ToByte(rangeValues[0]), Convert.ToByte(rangeValues[1]));
+                    })
+                    .ToList();
 
-                    pairs.Add(new Pair(ranges[0], ranges[1]));
-                }
+                pairs.Add(new Pair(ranges[0], ranges[1]));
             }
 
             return pairs;

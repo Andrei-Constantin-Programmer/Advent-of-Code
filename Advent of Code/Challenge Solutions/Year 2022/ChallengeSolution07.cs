@@ -1,7 +1,6 @@
 ﻿// Task: https://adventofcode.com/2022/day/7
 
 using Advent_of_Code.Utilities;
-using System.Diagnostics;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022
 {
@@ -50,14 +49,10 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(root);
         }
 
-
         private void ReadFileSystem()
         {
-            using TextReader read = Reader.GetInputFile(2022, 7);
-
             var currentFolder = root;
-            string? line;
-            while ((line = read.ReadLine()) != null && line.Trim().Length > 0)
+            foreach (var line in Reader.ReadLines(this))
             {
                 var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
                 if (elements[0] == "$")

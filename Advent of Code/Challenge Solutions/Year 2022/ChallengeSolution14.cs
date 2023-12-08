@@ -201,7 +201,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return (position.x - leftMargin, position.y);
         }
 
-        private static List<(int x, int y)[]> ReadRockPaths(out int leftMargin, out int rightMargin, out int bottomMargin)
+        private List<(int x, int y)[]> ReadRockPaths(out int leftMargin, out int rightMargin, out int bottomMargin)
         {
             int leftMost = int.MaxValue;
             int rightMost = 0;
@@ -209,31 +209,28 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
 
             var paths = new List<(int x, int y)[]>();
 
-            using (TextReader read = Reader.GetInputFile(2022, 14))
+            foreach (var line in Reader.ReadLines(this))
             {
-                string? line;
-                while((line = read.ReadLine()) != null)
-                {
-                    paths.Add(line
-                        .Split("->", StringSplitOptions.RemoveEmptyEntries)
-                        .Select(point =>
-                        {
-                            var coordinates = point.Split(",", StringSplitOptions.RemoveEmptyEntries);
-                            var x = Convert.ToInt32(coordinates[0]);
-                            var y = Convert.ToInt32(coordinates[1]);
+                paths.Add(line
+                    .Split("->", StringSplitOptions.RemoveEmptyEntries)
+                    .Select(point =>
+                    {
+                        var coordinates = point.Split(",", StringSplitOptions.RemoveEmptyEntries);
+                        var x = Convert.ToInt32(coordinates[0]);
+                        var y = Convert.ToInt32(coordinates[1]);
 
-                            if (x < leftMost)
-                                leftMost = x;
-                            if (x > rightMost)
-                                rightMost = x;
-                            if (y > bottomMost)
-                                bottomMost = y;
+                        if (x < leftMost)
+                            leftMost = x;
+                        if (x > rightMost)
+                            rightMost = x;
+                        if (y > bottomMost)
+                            bottomMost = y;
 
-                            return (x, y);
-                        })
-                        .ToArray());
-                }
+                        return (x, y);
+                    })
+                    .ToArray());
             }
+            
 
             leftMargin = leftMost;
             rightMargin = rightMost;

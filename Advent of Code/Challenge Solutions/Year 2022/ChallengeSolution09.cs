@@ -162,27 +162,24 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             return knots;
         }
 
-        private static List<Command> ReadCommands()
+        private List<Command> ReadCommands()
         {
             var commands = new List<Command>();
-            using(TextReader read = Reader.GetInputFile(2022, 9))
+            foreach (var line in Reader.ReadLines(this))
             {
-                string? line;
-                while((line = read.ReadLine()) != null)
-                {
-                    var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-                    commands.Add(new Command(
-                        elements[0] switch
-                        {
-                            "R" => Direction.Right,
-                            "L" => Direction.Left,
-                            "U" => Direction.Up,
-                            "D" => Direction.Down,
-                            _ => throw new ArgumentException()
-                        },
-                        Convert.ToInt32(elements[1])));
-                }
+                var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                commands.Add(new Command(
+                    elements[0] switch
+                    {
+                        "R" => Direction.Right,
+                        "L" => Direction.Left,
+                        "U" => Direction.Up,
+                        "D" => Direction.Down,
+                        _ => throw new ArgumentException()
+                    },
+                    Convert.ToInt32(elements[1])));
             }
+            
 
             return commands;
         }

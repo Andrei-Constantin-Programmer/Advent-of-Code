@@ -26,21 +26,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(sum);
         }
 
-        private static string[] ReadRucksacks()
-        {
-            var rucksackList = new List<string>();
-
-            using (TextReader read = Reader.GetInputFile(2022, 3))
-            {
-                string? line;
-                while ((line = read.ReadLine()) != null)
-                {
-                    rucksackList.Add(line);
-                }
-            }
-
-            return rucksackList.ToArray();
-        }
+        private string[] ReadRucksacks() => Reader.ReadLines(this);
 
         private static char GetCommonItemType(string rucksack)
         {

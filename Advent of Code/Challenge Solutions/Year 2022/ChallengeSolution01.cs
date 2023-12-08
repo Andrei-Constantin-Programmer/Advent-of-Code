@@ -16,25 +16,20 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Console.WriteLine(GetElfCaloriesList().GetRange(0, 3).Sum());
         }
 
-        private static List<int> GetElfCaloriesList()
+        private List<int> GetElfCaloriesList()
         {
             var elfCalories = new List<int>();
-            using (TextReader read = Reader.GetInputFile(2022, 1))
+            int currentCaloriesSum = 0;
+            foreach (var line in Reader.ReadLines(this).Select(line => line.Trim()))
             {
-                int currentCaloriesSum = 0;
-                string? line;
-                while ((line = read.ReadLine()) != null)
+                if (line.Length == 0)
                 {
-                    line = line.Trim();
-                    if (line.Length == 0)
-                    {
-                        elfCalories.Add(currentCaloriesSum);
-                        currentCaloriesSum = 0;
-                    }
-                    else
-                    {
-                        currentCaloriesSum += Convert.ToInt32(line);
-                    }
+                    elfCalories.Add(currentCaloriesSum);
+                    currentCaloriesSum = 0;
+                }
+                else
+                {
+                    currentCaloriesSum += Convert.ToInt32(line);
                 }
             }
 
