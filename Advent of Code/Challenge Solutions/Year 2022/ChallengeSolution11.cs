@@ -70,7 +70,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2022
             Func<long, long>? currentOperation = null;
             Func<long, int>? currentTest = null;
 
-            using TextReader read = Reader.GetInputFile(2022, 11);
+            using TextReader read = Reader.GetInputFile(this);
             string? line;
             while (true)
             {

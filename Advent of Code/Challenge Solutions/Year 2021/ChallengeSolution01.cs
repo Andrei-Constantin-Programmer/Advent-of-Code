@@ -9,7 +9,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
         protected override void SolveFirstPart()
         {
             int no = 0;
-            using (TextReader read = Reader.GetInputFile(2021, 1))
+            using (TextReader read = Reader.GetInputFile(this))
             {
                 int prev = Convert.ToInt32(read.ReadLine());
                 int x = 0;

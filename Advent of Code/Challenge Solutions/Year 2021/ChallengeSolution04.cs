@@ -10,7 +10,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         protected override void SolveFirstPart()
         {
-            using TextReader read = Reader.GetInputFile(2021, 4);
+            using TextReader read = Reader.GetInputFile(this);
             var drawn = Array.ConvertAll(read.ReadLine()!.Split(","), int.Parse);
             var boards = GetBingoBoards(read);
 
@@ -40,7 +40,7 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2021
 
         protected override void SolveSecondPart()
         {
-            using TextReader read = Reader.GetInputFile(2021, 4);
+            using TextReader read = Reader.GetInputFile(this);
             
             var drawn = Array.ConvertAll(read.ReadLine()!.Split(","), int.Parse);
             var boards = GetBingoBoards(read);

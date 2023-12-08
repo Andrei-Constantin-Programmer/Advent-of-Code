@@ -6,6 +6,20 @@ internal class Reader
 {
     public static string[] ReadLines(ChallengeSolution solution)
     {
+        var (year, day) = GetYearAndDayFromSolution(solution);
+
+        return File.ReadAllLines(GetFilePath(FileType.Input, year, day));
+    }
+
+    public static TextReader GetInputFile(ChallengeSolution solution)
+    {
+        var (year, day) = GetYearAndDayFromSolution(solution);
+
+        return File.OpenText(GetFilePath(FileType.Input, year, day));
+    }
+
+    private static (int year, int day) GetYearAndDayFromSolution(ChallengeSolution solution)
+    {
         Type solutionType = solution.GetType();
         var year = int.Parse(solutionType.Namespace![^4..]);
         var day = int.Parse(new string(
@@ -15,10 +29,8 @@ internal class Reader
             .Reverse()
             .ToArray()));
 
-        return File.ReadAllLines(GetFilePath(FileType.Input, year, day));
+        return (year, day);
     }
-
-    public static TextReader GetInputFile(int year, int day) => File.OpenText(GetFilePath(FileType.Input, year, day));
 
     public static StreamWriter GetOutputFile(int year, int day) => new(GetFilePath(FileType.Output, year, day));
 
