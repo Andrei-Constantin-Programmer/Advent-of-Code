@@ -11,7 +11,7 @@ internal class ChallengeSolution09 : ChallengeSolution
 
     protected override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        Console.WriteLine(ComputePredictionSum(ExtrapolationDirection.Backwards));
     }
 
     private long ComputePredictionSum(ExtrapolationDirection direction)
@@ -22,34 +22,35 @@ internal class ChallengeSolution09 : ChallengeSolution
         foreach (var line in lines)
         {
             var values = line.Split(' ').Select(long.Parse).ToList();
-            var lastElements = GetLastElements(values);
-
-            predictionSum += ComputePrediction(lastElements, direction);
+            var terminalElements = GetTerminalElements(values, direction);
+            predictionSum += ComputePrediction(terminalElements, direction);
         }
 
         return predictionSum;
     }
 
-    private static long ComputePrediction(List<long> finalElements, ExtrapolationDirection? direction)
+    private static long ComputePrediction(List<long> terminalElements, ExtrapolationDirection? direction)
     {
         long prediction = 0;
         
-        for (var i = finalElements.Count - 1; i >= 0; i--)
+        for (var i = terminalElements.Count - 1; i >= 0; i--)
         {
             prediction = direction switch
             {
-                ExtrapolationDirection.Backwards => prediction - finalElements[i],
-                _ => prediction + finalElements[i]
+                ExtrapolationDirection.Forwards => terminalElements[i] + prediction,
+                ExtrapolationDirection.Backwards => terminalElements[i] - prediction,
+
+                _ => throw new ArgumentException($"Unknown direction {direction}")
             };
         }
 
         return prediction;
     }
 
-    private static List<long> GetLastElements(List<long> initialValues)
+    private static List<long> GetTerminalElements(List<long> initialValues, ExtrapolationDirection direction)
     {
         var values = new List<long>(initialValues);
-        List<long> lastElements = new() { values[^1] };
+        List<long> terminalElements = new() { GetTerminalValue(values, direction) };
 
         while (values.Any(x => x != 0))
         {
@@ -59,11 +60,19 @@ internal class ChallengeSolution09 : ChallengeSolution
             }
 
             values.RemoveAt(0);
-            lastElements.Add(values[^1]);
+            terminalElements.Add(GetTerminalValue(values, direction));
         }
 
-        return lastElements;
+        return terminalElements;
     }
+
+    private static long GetTerminalValue(List<long> values, ExtrapolationDirection direction) => direction switch
+    {
+        ExtrapolationDirection.Forwards => values[^1],
+        ExtrapolationDirection.Backwards => values[0],
+
+        _ => throw new ArgumentException($"Unknown direction {direction}")
+    };
 
     private enum ExtrapolationDirection
     {
