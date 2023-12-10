@@ -109,9 +109,15 @@ internal class ChallengeSolution10 : ChallengeSolution
 
     private Tile ReadStartTile()
     {
-        Tile? start = null;
-
         var grid = ReadInputGrid();
+        InitialiseNeighbours(grid, out var start);
+
+        return start ?? throw new Exception("Input grid features no start position S");
+    }
+
+    private static void InitialiseNeighbours(Tile[,] grid, out Tile? startTile)
+    {
+        startTile = null;
 
         for (var i = 0; i < grid.GetLength(0); i++)
         {
@@ -121,7 +127,7 @@ internal class ChallengeSolution10 : ChallengeSolution
 
                 if (currentTile.Shape is TileShape.Start)
                 {
-                    start = currentTile;
+                    startTile = currentTile;
                 }
 
                 var neighbours = GetNeighbours(grid, i, j);
@@ -133,8 +139,6 @@ internal class ChallengeSolution10 : ChallengeSolution
                 }
             }
         }
-
-        return start ?? throw new Exception("Input grid features no start position S");
     }
 
     private Tile[,] ReadInputGrid()
