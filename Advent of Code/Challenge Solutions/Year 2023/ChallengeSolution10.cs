@@ -7,8 +7,8 @@ internal class ChallengeSolution10 : ChallengeSolution
     protected override void SolveFirstPart()
     {
         Tile startTile = ReadStartTile();
-
-        Console.WriteLine(GetStepsToFarthestElement(startTile));
+        
+        Console.WriteLine(ComputeStepsToFarthestElement(startTile));
     }
 
     protected override void SolveSecondPart()
@@ -16,9 +16,37 @@ internal class ChallengeSolution10 : ChallengeSolution
         throw new NotImplementedException();
     }
 
-    private static int GetStepsToFarthestElement(Tile startNode)
+    private static int ComputeStepsToFarthestElement(Tile startTile)
     {
-        throw new NotImplementedException();
+        Tile previousTile1 = startTile;
+        Tile previousTile2 = startTile;
+        Tile tile1 = startTile.Neighbour1!;
+        Tile tile2 = startTile.Neighbour2!;
+
+        var maxDistance = 0;
+        while (tile1 != tile2)
+        {
+            maxDistance++;
+
+            UpdateTiles(ref tile1, ref previousTile1);
+            UpdateTiles(ref tile2, ref previousTile2);
+        }
+
+        if (tile1 == tile2)
+        {
+            maxDistance++;
+        }
+
+        return maxDistance;
+
+        static void UpdateTiles(ref Tile currentTile, ref Tile previousTile)
+        {
+            var tempTile = currentTile;
+            currentTile = currentTile.Neighbour1 == previousTile
+                ? currentTile.Neighbour2!
+                : currentTile.Neighbour1!;
+            previousTile = tempTile;
+        }
     }
 
     private static List<Tile> GetNeighbours(Tile[,] grid, int row, int column)
@@ -90,7 +118,7 @@ internal class ChallengeSolution10 : ChallengeSolution
             for (var j = 0; j < grid.GetLength(1); j++)
             {
                 var currentTile = grid[i, j];
-                
+
                 if (currentTile.Shape is TileShape.Start)
                 {
                     start = currentTile;
@@ -98,10 +126,10 @@ internal class ChallengeSolution10 : ChallengeSolution
 
                 var neighbours = GetNeighbours(grid, i, j);
 
-                foreach (var neighbor in neighbours)
+                foreach (var neighbour in neighbours)
                 {
-                    currentTile.Neighbours.Add(neighbor);
-                    neighbor.Neighbours.Add(currentTile);
+                    currentTile.AddNeighbour(neighbour);
+                    neighbour.AddNeighbour(currentTile);
                 }
             }
         }
@@ -130,11 +158,11 @@ internal class ChallengeSolution10 : ChallengeSolution
     private class Tile
     {
         public TileShape Shape { get; }
-        public HashSet<Tile> Neighbours { get; }
+        public Tile? Neighbour1 { get; private set; }
+        public Tile? Neighbour2 { get; private set; }
 
         public Tile(char tileShape)
         {
-            Neighbours = new();
             Shape = tileShape switch
             {
                 '.' => TileShape.Empty,
@@ -148,6 +176,18 @@ internal class ChallengeSolution10 : ChallengeSolution
 
                 _ => throw new ArgumentException($"Unknown tile shape {tileShape}")
             };
+        }
+
+        public void AddNeighbour(Tile tile)
+        {
+            if (Neighbour1 is null)
+            {
+                Neighbour1 = tile;
+            }
+            else if (Neighbour1 != tile)
+            {
+                Neighbour2 = tile;
+            }
         }
     }
 
