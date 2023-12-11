@@ -12,6 +12,7 @@ The solutions to each year are in their own folder under Challenge Solutions. Be
 | 2020 | [Advent of Code 2020](https://adventofcode.com/2020) | [Solutions 2020](https://github.com/Andrei-Constantin-Programmer/Advent-of-Code/tree/master/Advent%20of%20Code/Challenge%20Solutions/Year%202020) |
 | 2021 | [Advent of Code 2021](https://adventofcode.com/2021) | [Solutions 2021](https://github.com/Andrei-Constantin-Programmer/Advent-of-Code/tree/master/Advent%20of%20Code/Challenge%20Solutions/Year%202021) |
 | 2022 | [Advent of Code 2022](https://adventofcode.com/2022) | [Solutions 2022](https://github.com/Andrei-Constantin-Programmer/Advent-of-Code/tree/master/Advent%20of%20Code/Challenge%20Solutions/Year%202022) |
+| 2023 | [Advent of Code 2023](https://adventofcode.com/2023) | [Solutions 2023](https://github.com/Andrei-Constantin-Programmer/Advent-of-Code/tree/master/Advent%20of%20Code/Challenge%20Solutions/Year%202023) |
 
 ## Installation
 Open [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) (or newer)  
