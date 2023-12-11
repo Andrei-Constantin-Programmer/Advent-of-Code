@@ -1,6 +1,5 @@
 ﻿using Advent_of_Code.Utilities;
 using System.Data;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
@@ -31,7 +30,8 @@ internal class ChallengeSolution10 : ChallengeSolution
 
     private static void RemoveJunkPipes(Tile[,] tileGrid, Tile startTile, char[,] knotGrid)
     {
-        var tilesInLoop = GetTilesInLoop(startTile).ToList();
+        var tilesInLoop = GetTilesInLoop(startTile);
+        
         for (var i = 0; i < knotGrid.GetLength(0); i++)
         {
             for (var j = 0; j < knotGrid.GetLength(1); j++)
@@ -44,19 +44,20 @@ internal class ChallengeSolution10 : ChallengeSolution
         }
     }
 
-    private static IEnumerable<Tile> GetTilesInLoop(Tile startTile)
+    private static HashSet<Tile> GetTilesInLoop(Tile startTile)
     {
-        yield return startTile;
+        HashSet<Tile> tiles = new() { startTile };
 
         Tile previousTile = startTile;
         Tile currentTile = startTile.Neighbour1!;
 
         while (currentTile != startTile)
         {
-            yield return currentTile;
-
+            tiles.Add(currentTile);
             UpdateTiles(ref currentTile, ref previousTile);
         }
+
+        return tiles;
     }
 
     private static int FindEnclosedTileCount(char[,] knotGrid)
