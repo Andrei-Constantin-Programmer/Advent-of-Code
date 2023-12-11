@@ -1,4 +1,5 @@
 ﻿using Advent_of_Code.Utilities;
+using System.Diagnostics;
 using System.Text;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
@@ -9,18 +10,8 @@ internal class ChallengeSolution11 : ChallengeSolution
 
     protected override void SolveFirstPart()
     {
-        var originalGalaxy = Reader.ReadLines(this).ToList();
-        var expandedGalaxy = ExpandGalaxy(originalGalaxy);
-        HashSet<Point> galaxyPositions = GetGalaxies(expandedGalaxy);
-
-        var manhattanDistanceSum = 0;
-        for (var i = 0; i < galaxyPositions.Count - 1; i++)
-        {
-            for (var j = i + 1; j < galaxyPositions.Count; j++)
-            {
-                manhattanDistanceSum += ManhattanDistance(galaxyPositions.ElementAt(i), galaxyPositions.ElementAt(j));
-            }
-        }
+        var galaxy = Reader.ReadLines(this).ToList();
+        var manhattanDistanceSum = GetManhattanDistanceSum(galaxy, 2);
 
         Console.WriteLine(manhattanDistanceSum);
     }
@@ -28,52 +19,59 @@ internal class ChallengeSolution11 : ChallengeSolution
     protected override void SolveSecondPart()
     {
         var galaxy = Reader.ReadLines(this).ToList();
-        HashSet<Point> galaxyPositions = GetGalaxies(galaxy);
-        HashSet<int> emptyRows = GetEmptyRows(galaxy);
-        HashSet<int> emptyCols = GetEmptyRows(TransposeGalaxy(galaxy));
-
-        long manhattanDistanceSum = 0;
-        for (var i = 0; i < galaxyPositions.Count - 1; i++)
-        {
-            for (var j = i + 1; j < galaxyPositions.Count; j++)
-            {
-                manhattanDistanceSum += ManhattanDistancePath(galaxy, galaxyPositions.ElementAt(i), galaxyPositions.ElementAt(j),
-                    out var rowsPassedThrough,
-                    out var columnsPassedThrough);
-                
-                manhattanDistanceSum += 999_999 * rowsPassedThrough.Count(row => emptyRows.Contains(row));
-                manhattanDistanceSum += 999_999 * columnsPassedThrough.Count(col => emptyCols.Contains(col));
-            }
-        }
+        var manhattanDistanceSum = GetManhattanDistanceSum(galaxy, 1_000_000);
 
         Console.WriteLine(manhattanDistanceSum);
     }
 
-    private static int ManhattanDistancePath(List<string> galaxy, Point a, Point b, out List<int> rows, out List<int> columns)
+    private static long GetManhattanDistanceSum(List<string> galaxy, int expansionRate)
     {
-        var distance = ManhattanDistance(a, b);
+        List<Point> galaxyPositions = GetGalaxies(galaxy);
+        HashSet<int> emptyRows = GetEmptyRows(galaxy);
+        HashSet<int> emptyCols = GetEmptyRows(TransposeGalaxy(galaxy));
 
-        rows = Enumerable
-            .Range(0, Math.Abs(a.Row - b.Row))
-            .Select(row => Math.Min(a.Row, b.Row) + row)
-            .ToList();
+        long manhattanDistanceSum = 0;
 
-        columns = Enumerable
-            .Range(0, Math.Abs(a.Col - b.Col))
-            .Select(col => Math.Min(a.Col, b.Col) + col)
-            .ToList();
+        for (var i = 0; i < galaxyPositions.Count - 1; i++)
+        {
+            for (var j = i + 1; j < galaxyPositions.Count; j++)
+            {
+                var distance = ManhattanDistance(galaxyPositions[i], galaxyPositions[j]);
+                manhattanDistanceSum += distance;
 
-        return distance;
+                if (distance > 0)
+                {
+                    for (var row = Math.Min(galaxyPositions[i].Row, galaxyPositions[j].Row);
+                        row < Math.Max(galaxyPositions[i].Row, galaxyPositions[j].Row);
+                        row++)
+                    {
+                        manhattanDistanceSum += (expansionRate - 1) * (emptyRows.Contains(row) ? 1 : 0);
+                    }
+
+                    for (var col =
+                        Math.Min(galaxyPositions[i].Col, galaxyPositions[j].Col);
+                        col < Math.Max(galaxyPositions[i].Col, galaxyPositions[j].Col);
+                        col++)
+                    {
+                        manhattanDistanceSum += (expansionRate - 1) * (emptyCols.Contains(col) ? 1 : 0);
+                    }
+                }
+            }
+        }
+
+        return manhattanDistanceSum;
     }
+
+    private static int ManhattanDistance(Point a, Point b) => Math.Abs(a.Row - b.Row) + Math.Abs(a.Col - b.Col);
 
     private static HashSet<int> GetEmptyRows(List<string> galaxy) =>
         Enumerable.Range(0, galaxy.Count)
         .Where(row => !galaxy[row].Contains(GALAXY))
         .ToHashSet();
 
-    private static HashSet<Point> GetGalaxies(List<string> galaxy)
+    private static List<Point> GetGalaxies(List<string> galaxy)
     {
-        HashSet<Point> galaxyPositions = new();
+        List<Point> galaxyPositions = new();
         for (var row = 0; row < galaxy.Count; row++)
         {
             for (var col = 0; col < galaxy[0].Length; col++)
@@ -86,30 +84,6 @@ internal class ChallengeSolution11 : ChallengeSolution
         }
 
         return galaxyPositions;
-    }
-
-    private static List<string> ExpandGalaxy(List<string> originalGalaxy)
-    {
-        var rowExpanded = ExpandRows(originalGalaxy);
-        var transposed = TransposeGalaxy(rowExpanded);
-        var fullyExpanded = TransposeGalaxy(ExpandRows(transposed));
-
-        return fullyExpanded;
-
-        static List<string> ExpandRows(List<string> galaxy)
-        {
-            List<string> expandedGalaxy = new(galaxy);
-            for (int row = 0, currentRow = 0; row < galaxy.Count; row++, currentRow++)
-            {
-                var line = galaxy[row];
-                if (!line.Contains(GALAXY))
-                {
-                    expandedGalaxy.Insert(currentRow++, line);
-                }
-            }
-
-            return expandedGalaxy;
-        }
     }
 
     private static List<string> TransposeGalaxy(List<string> galaxy)
@@ -129,8 +103,6 @@ internal class ChallengeSolution11 : ChallengeSolution
 
         return transposedGalaxy;
     }
-
-    private static int ManhattanDistance(Point a, Point b) => Math.Abs(a.Row - b.Row) + Math.Abs(a.Col - b.Col);
 
     private record Point(int Row, int Col);
 }
