@@ -20,7 +20,7 @@ internal class ChallengeSolution10 : ChallengeSolution
         var lines = Reader.ReadLines(this);
         var tileGrid = GetInputGrid(lines);
         var startTile = GetStartTile(tileGrid, out var startPosition);
-        var knotGrid = GetKnotFormForGrid(lines, tileGrid, startTile, startPosition);
+        var knotGrid = ConvertTileGridToKnotGrid(lines, tileGrid, startPosition);
         RemoveJunkPipes(tileGrid, startTile, knotGrid);
 
         var enclosedTiles = FindEnclosedTileCount(knotGrid);
@@ -28,49 +28,17 @@ internal class ChallengeSolution10 : ChallengeSolution
         Console.WriteLine(enclosedTiles);
     }
 
-    private static void RemoveJunkPipes(Tile[,] tileGrid, Tile startTile, char[,] knotGrid)
-    {
-        var tilesInLoop = GetTilesInLoop(startTile);
-        
-        for (var i = 0; i < knotGrid.GetLength(0); i++)
-        {
-            for (var j = 0; j < knotGrid.GetLength(1); j++)
-            {
-                if (!tilesInLoop.Contains(tileGrid[i, j]))
-                {
-                    knotGrid[i, j] = (char)TileShape.Empty;
-                }
-            }
-        }
-    }
-
-    private static HashSet<Tile> GetTilesInLoop(Tile startTile)
-    {
-        HashSet<Tile> tiles = new() { startTile };
-
-        Tile previousTile = startTile;
-        Tile currentTile = startTile.Neighbour1!;
-
-        while (currentTile != startTile)
-        {
-            tiles.Add(currentTile);
-            UpdateTiles(ref currentTile, ref previousTile);
-        }
-
-        return tiles;
-    }
-
     private static int FindEnclosedTileCount(char[,] knotGrid)
     {
         var enclosedTiles = 0;
 
-        for (var i = 0; i < knotGrid.GetLength(0); i++)
+        for (var row = 0; row < knotGrid.GetLength(0); row++)
         {
             var knotsCrossed = 0;
 
-            for (var j = 0; j < knotGrid.GetLength(1); j++)
+            for (var col = 0; col < knotGrid.GetLength(1); col++)
             {
-                var character = knotGrid[i, j];
+                var character = knotGrid[row, col];
                 if (IsWall(character))
                 {
                     knotsCrossed++;
@@ -94,24 +62,56 @@ internal class ChallengeSolution10 : ChallengeSolution
             or TileShape.TopRightCorner;
     }
 
-    private static char[,] GetKnotFormForGrid(string[] lines, Tile[,] grid, Tile startTile, (int row, int column) startPosition)
+    private static void RemoveJunkPipes(Tile[,] tileGrid, Tile startTile, char[,] knotGrid)
     {
-        TileShape startShape = GetStartTileShape(grid, startTile, startPosition);
+        var tilesInLoop = GetTilesInLoop(startTile);
+
+        for (var row = 0; row < knotGrid.GetLength(0); row++)
+        {
+            for (var col = 0; col < knotGrid.GetLength(1); col++)
+            {
+                if (!tilesInLoop.Contains(tileGrid[row, col]))
+                {
+                    knotGrid[row, col] = (char)TileShape.Empty;
+                }
+            }
+        }
+
+        static HashSet<Tile> GetTilesInLoop(Tile startTile)
+        {
+            HashSet<Tile> tiles = new() { startTile };
+
+            Tile previousTile = startTile;
+            Tile currentTile = startTile.Neighbour1!;
+
+            while (currentTile != startTile)
+            {
+                tiles.Add(currentTile);
+                UpdateTiles(ref currentTile, ref previousTile);
+            }
+
+            return tiles;
+        }
+    }
+
+    private static char[,] ConvertTileGridToKnotGrid(string[] lines, Tile[,] grid, (int row, int column) startPosition)
+    {
+        TileShape startShape = GetStartTileShape(grid, startPosition.row, startPosition.column);
 
         List<string> knotLines = new(lines);
-        for (var i = 0; i < knotLines.Count; i++)
+        for (var row = 0; row < knotLines.Count; row++)
         {
-            knotLines[i] = knotLines[i].Replace((char)TileShape.Start, (char)startShape);
-            knotLines[i] = RemoveNarrowCorridors(knotLines[i]);
-            knotLines[i] = CollapseClosingHorizontalPipeSegments(knotLines[i]);
+            knotLines[row] = knotLines[row].Replace((char)TileShape.Start, (char)startShape);
+            knotLines[row] = RemoveNarrowCorridors(knotLines[row]);
+            knotLines[row] = CollapseClosingPipeSegments(knotLines[row]);
         }
 
         var knotGrid = new char[knotLines.Count, knotLines[0].Length];
-        for (var i = 0; i < knotGrid.GetLength(0); i++)
+        for (var row = 0; row < knotGrid.GetLength(0); row++)
         {
-            for (var j = 0; j < knotGrid.GetLength(1); j++)
+            for (var col = 0; col < knotGrid.GetLength(1); col++)
             {
-                knotGrid[i, j] = knotLines[i][j];
+                knotGrid[row, col] = knotLines[row][col];
             }
         }
 
@@ -120,16 +120,18 @@ internal class ChallengeSolution10 : ChallengeSolution
         static string RemoveNarrowCorridors(string line) =>
             Regex.Replace(line, "F-*7|L-*J", match => new string(' ', match.Length));
 
-        static string CollapseClosingHorizontalPipeSegments(string line) =>
+        static string CollapseClosingPipeSegments(string line) =>
             Regex.Replace(line, "F-*J|L-*7", match => $"|{new string(' ', match.Length - 1)}");
     }
 
-    private static TileShape GetStartTileShape(Tile[,] grid, Tile startTile, (int row, int column) startPosition)
+    private static TileShape GetStartTileShape(Tile[,] grid, int startRow, int startColumn)
     {
-        Tile? leftNeighbour = startPosition.column - 1 >= 0 ? grid[startPosition.row, startPosition.column - 1] : null;
-        Tile? rightNeighbour = startPosition.column + 1 < grid.GetLength(1) ? grid[startPosition.row, startPosition.column + 1] : null;
-        Tile? topNeighbour = startPosition.row - 1 >= 0 ? grid[startPosition.row - 1, startPosition.column] : null;
-        Tile? bottomNeighbour = startPosition.row + 1 < grid.GetLength(0) ? grid[startPosition.row + 1, startPosition.column] : null;
+        var startTile = grid[startRow, startColumn];
+
+        Tile? leftNeighbour = GetNeighbour(grid, startRow, startColumn, 0, -1);
+        Tile? rightNeighbour = GetNeighbour(grid, startRow, startColumn, 0, +1);
+        Tile? topNeighbour = GetNeighbour(grid, startRow, startColumn, -1, 0);
+        Tile? bottomNeighbour = GetNeighbour(grid, startRow, startColumn, +1, 0);
 
         var hasLeftNeighbour = leftNeighbour == startTile.Neighbour1 || leftNeighbour == startTile.Neighbour2;
         var hasRightNeighbour = rightNeighbour == startTile.Neighbour1 || rightNeighbour == startTile.Neighbour2;
@@ -188,90 +190,67 @@ internal class ChallengeSolution10 : ChallengeSolution
 
         position = start.position;
         return start.tile ?? throw new Exception("Input grid features no start position S");
+    }
 
-        static void InitialiseNeighbours(Tile[,] grid, out (Tile tile, (int row, int column) position) start)
+    private static void InitialiseNeighbours(Tile[,] grid, out (Tile tile, (int row, int column) position) start)
+    {
+        start = (grid[0, 0], (0, 0));
+        for (var row = 0; row < grid.GetLength(0); row++)
         {
-            start = (grid[0, 0], (0, 0));
-            for (var i = 0; i < grid.GetLength(0); i++)
+            for (var col = 0; col < grid.GetLength(1); col++)
             {
-                for (var j = 0; j < grid.GetLength(1); j++)
+                var currentTile = grid[row, col];
+
+                if (currentTile.Shape is TileShape.Start)
                 {
-                    var currentTile = grid[i, j];
+                    start = (currentTile, (row, col));
+                }
 
-                    if (currentTile.Shape is TileShape.Start)
-                    {
-                        start = (currentTile, (i, j));
-                    }
+                var neighbours = GetNeighbours(grid, row, col);
 
-                    var neighbours = GetNeighbours(grid, i, j);
-
-                    foreach (var neighbour in neighbours)
-                    {
-                        currentTile.AddNeighbour(neighbour);
-                        neighbour.AddNeighbour(currentTile);
-                    }
+                foreach (var neighbour in neighbours)
+                {
+                    currentTile.AddNeighbour(neighbour);
+                    neighbour.AddNeighbour(currentTile);
                 }
             }
         }
+    }
 
-        static List<Tile> GetNeighbours(Tile[,] grid, int row, int column)
+    private static List<Tile> GetNeighbours(Tile[,] grid, int row, int column)
+    {
+        (Tile?, Predicate<TileShape>) topNeighbour = (GetNeighbour(grid, row, column, -1, 0), IsBottomLinked);
+        (Tile?, Predicate<TileShape>) bottomNeighbour = (GetNeighbour(grid, row, column, +1, 0), IsTopLinked);
+        (Tile?, Predicate<TileShape>) leftNeighbour = (GetNeighbour(grid, row, column, 0, -1), IsRightLinked);
+        (Tile?, Predicate<TileShape>) rightNeighbour = (GetNeighbour(grid, row, column, 0, +1), IsLeftLinked);
+
+        return grid[row, column].Shape switch
         {
-            (Tile?, Predicate<TileShape>) topNeighbour = (
-                row - 1 >= 0 ? grid[row - 1, column] : null,
-                IsBottomLinked);
-            (Tile?, Predicate<TileShape>) bottomNeighbour = (
-                row + 1 < grid.GetLength(0) ? grid[row + 1, column] : null,
-                IsTopLinked);
-            (Tile?, Predicate<TileShape>) leftNeighbour = (
-                column - 1 >= 0 ? grid[row, column - 1] : null,
-                IsRightLinked);
-            (Tile?, Predicate<TileShape>) rightNeighbour = (
-                column + 1 < grid.GetLength(1) ? grid[row, column + 1] : null,
-                IsLeftLinked);
+            TileShape.VerticalPipe => GetLinkedNeighbours(new() { topNeighbour, bottomNeighbour }),
+            TileShape.HorizontalPipe => GetLinkedNeighbours(new() { leftNeighbour, rightNeighbour }),
+            TileShape.BottomLeftCorner => GetLinkedNeighbours(new() { topNeighbour, rightNeighbour }),
+            TileShape.BottomRightCorner => GetLinkedNeighbours(new() { topNeighbour, leftNeighbour }),
+            TileShape.TopLeftCorner => GetLinkedNeighbours(new() { bottomNeighbour, rightNeighbour }),
+            TileShape.TopRightCorner => GetLinkedNeighbours(new() { bottomNeighbour, leftNeighbour }),
 
-            return grid[row, column].Shape switch
-            {
-                TileShape.VerticalPipe => GetLinkedNeighbours(new() { topNeighbour, bottomNeighbour }),
-                TileShape.HorizontalPipe => GetLinkedNeighbours(new() { leftNeighbour, rightNeighbour }),
-                TileShape.BottomLeftCorner => GetLinkedNeighbours(new() { topNeighbour, rightNeighbour }),
-                TileShape.BottomRightCorner => GetLinkedNeighbours(new() { topNeighbour, leftNeighbour }),
-                TileShape.TopLeftCorner => GetLinkedNeighbours(new() { bottomNeighbour, rightNeighbour }),
-                TileShape.TopRightCorner => GetLinkedNeighbours(new() { bottomNeighbour, leftNeighbour }),
+            _ => new()
+        };
+    }
 
-                _ => new()
-            };
+    private static Tile? GetNeighbour(Tile[,] grid, int row, int column, int rowOffset, int columnOffset)
+    {
+        var newRow = row + rowOffset;
+        var newColumn = column + columnOffset;
+
+        if (newRow >= 0
+         && newRow < grid.GetLength(0)
+         && newColumn >= 0
+         && newColumn < grid.GetLength(1))
+        {
+            return grid[newRow, newColumn];
         }
 
-        static List<Tile> GetLinkedNeighbours(List<(Tile? tile, Predicate<TileShape> condition)> neighbours) => neighbours
-            .Where(neighbour => neighbour.tile is not null
-                && neighbour.condition(neighbour.tile.Shape))
-            .Select(neighbour => neighbour.tile!)
-            .ToList();
-
-        static bool IsTopLinked(TileShape shape) =>
-            shape is TileShape.Start
-            or TileShape.VerticalPipe
-            or TileShape.BottomRightCorner
-            or TileShape.BottomLeftCorner;
-
-        static bool IsBottomLinked(TileShape shape) =>
-            shape is TileShape.Start
-            or TileShape.VerticalPipe
-            or TileShape.TopRightCorner
-            or TileShape.TopLeftCorner;
-
-        static bool IsLeftLinked(TileShape shape) =>
-            shape is TileShape.Start
-            or TileShape.HorizontalPipe
-            or TileShape.BottomRightCorner
-            or TileShape.TopRightCorner;
-
-        static bool IsRightLinked(TileShape shape) =>
-            shape is TileShape.Start
-            or TileShape.HorizontalPipe
-            or TileShape.BottomLeftCorner
-            or TileShape.TopLeftCorner;
-
+        return null;
     }
 
     private static Tile[,] GetInputGrid(string[] lines)
@@ -280,28 +259,55 @@ internal class ChallengeSolution10 : ChallengeSolution
         var columns = lines[0].Length;
         var grid = new Tile[rows, columns];
 
-        var counter = 0;
-        for (var i = 0; i < rows; i++)
+        for (var row = 0; row < rows; row++)
         {
-            for (var j = 0; j < columns; j++)
+            for (var col = 0; col < columns; col++)
             {
-                grid[i, j] = new Tile(counter++, lines[i][j]);
+                grid[row, col] = new Tile(lines[row][col]);
             }
         }
 
         return grid;
     }
 
+    private static bool IsRightLinked(TileShape shape) =>
+        shape is TileShape.Start
+        or TileShape.HorizontalPipe
+        or TileShape.BottomLeftCorner
+        or TileShape.TopLeftCorner;
+
+    private static bool IsLeftLinked(TileShape shape) =>
+        shape is TileShape.Start
+        or TileShape.HorizontalPipe
+        or TileShape.BottomRightCorner
+        or TileShape.TopRightCorner;
+
+    private static bool IsBottomLinked(TileShape shape) =>
+        shape is TileShape.Start
+        or TileShape.VerticalPipe
+        or TileShape.TopRightCorner
+        or TileShape.TopLeftCorner;
+
+    private static bool IsTopLinked(TileShape shape) =>
+        shape is TileShape.Start
+        or TileShape.VerticalPipe
+        or TileShape.BottomRightCorner
+        or TileShape.BottomLeftCorner;
+
+    private static List<Tile> GetLinkedNeighbours(List<(Tile? tile, Predicate<TileShape> condition)> neighbours) => neighbours
+                .Where(neighbour => neighbour.tile is not null
+                    && neighbour.condition(neighbour.tile.Shape))
+                .Select(neighbour => neighbour.tile!)
+                .ToList();
+
     private class Tile
     {
-        public int Id { get; }
         public TileShape Shape { get; }
         public Tile? Neighbour1 { get; private set; }
         public Tile? Neighbour2 { get; private set; }
 
-        public Tile(int id, char tileShape)
+        public Tile(char tileShape)
         {
-            Id = id;
             Shape = (TileShape)tileShape;
         }
 
