@@ -6,7 +6,6 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 internal class ChallengeSolution11 : ChallengeSolution
 {
     private const char GALAXY = '#';
-    private const char SPACE = '#';
 
     protected override void SolveFirstPart()
     {
@@ -28,8 +27,49 @@ internal class ChallengeSolution11 : ChallengeSolution
 
     protected override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var galaxy = Reader.ReadLines(this).ToList();
+        HashSet<Point> galaxyPositions = GetGalaxies(galaxy);
+        HashSet<int> emptyRows = GetEmptyRows(galaxy);
+        HashSet<int> emptyCols = GetEmptyRows(TransposeGalaxy(galaxy));
+
+        long manhattanDistanceSum = 0;
+        for (var i = 0; i < galaxyPositions.Count - 1; i++)
+        {
+            for (var j = i + 1; j < galaxyPositions.Count; j++)
+            {
+                manhattanDistanceSum += ManhattanDistancePath(galaxy, galaxyPositions.ElementAt(i), galaxyPositions.ElementAt(j),
+                    out var rowsPassedThrough,
+                    out var columnsPassedThrough);
+                
+                manhattanDistanceSum += 999_999 * rowsPassedThrough.Count(row => emptyRows.Contains(row));
+                manhattanDistanceSum += 999_999 * columnsPassedThrough.Count(col => emptyCols.Contains(col));
+            }
+        }
+
+        Console.WriteLine(manhattanDistanceSum);
     }
+
+    private static int ManhattanDistancePath(List<string> galaxy, Point a, Point b, out List<int> rows, out List<int> columns)
+    {
+        var distance = ManhattanDistance(a, b);
+
+        rows = Enumerable
+            .Range(0, Math.Abs(a.Row - b.Row))
+            .Select(row => Math.Min(a.Row, b.Row) + row)
+            .ToList();
+
+        columns = Enumerable
+            .Range(0, Math.Abs(a.Col - b.Col))
+            .Select(col => Math.Min(a.Col, b.Col) + col)
+            .ToList();
+
+        return distance;
+    }
+
+    private static HashSet<int> GetEmptyRows(List<string> galaxy) =>
+        Enumerable.Range(0, galaxy.Count)
+        .Where(row => !galaxy[row].Contains(GALAXY))
+        .ToHashSet();
 
     private static HashSet<Point> GetGalaxies(List<string> galaxy)
     {
