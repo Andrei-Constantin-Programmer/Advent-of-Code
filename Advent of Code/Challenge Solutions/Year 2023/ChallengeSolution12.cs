@@ -4,6 +4,10 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
 internal class ChallengeSolution12 : ChallengeSolution
 {
+    private const char OPERATIONAL = '.';
+    private const char DAMAGED = '#';
+    private const char UNKNOWN = '?';
+        
     protected override void SolveFirstPart()
     {
         var conditionRecords = ReadConditionRecords();
@@ -18,7 +22,7 @@ internal class ChallengeSolution12 : ChallengeSolution
         // Console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
     }
     
-    private static long GetSumOfFittingArrangements(List<(SpringCondition[], int[])> conditionRecords)
+    private static long GetSumOfFittingArrangements(List<(string, int[])> conditionRecords)
     {
         var arrangementSum = 0;
 
@@ -31,41 +35,40 @@ internal class ChallengeSolution12 : ChallengeSolution
         return arrangementSum;
     }
 
-    private static List<SpringCondition[]> GenerateFittingArrangements(SpringCondition[] conditions, int[] groupSizes)
+    private static List<string> GenerateFittingArrangements(string conditions, int[] groupSizes)
     {
-        List<SpringCondition[]> result = new();
+        List<string> result = new();
         GenerateArrangements(conditions, groupSizes, -1, 0, 0, result);
         return result;
 
-        static void GenerateArrangements(SpringCondition[] conditions, int[] groupSizes, int groupCount, int groupSize, int index, List<SpringCondition[]> result)
+        static void GenerateArrangements(string conditions, int[] groupSizes, int groupCount, int groupSize, int index, List<string> result)
         {
             if (index == conditions.Length)
             {
                 if (groupCount == groupSizes.Length - 1
                     && (groupSize == 0 || groupSize == groupSizes[groupCount]))
                 {
-                    result.Add((SpringCondition[])conditions.Clone());
+                    result.Add(conditions);
                 }
 
                 return;
             }
 
-            if (conditions[index] == SpringCondition.Unknown)
+            if (conditions[index] == UNKNOWN)
             {
-                conditions[index] = SpringCondition.Operational;
+                var newConditions = conditions.ToCharArray();
+                newConditions[index] = OPERATIONAL;
                 if (groupSize == 0 || (groupCount < groupSizes.Length && groupSize == groupSizes[groupCount]))
                 {
-                    GenerateArrangements(conditions, groupSizes, groupCount, 0, index + 1, result);
+                    GenerateArrangements(new(newConditions), groupSizes, groupCount, 0, index + 1, result);
                 }
 
-                conditions[index] = SpringCondition.Damaged;
-                GenerateArrangements(conditions, groupSizes, groupSize == 0 ? groupCount + 1 : groupCount, groupSize + 1, index + 1, result);
-
-                conditions[index] = SpringCondition.Unknown;
+                newConditions[index] = DAMAGED;
+                GenerateArrangements(new(newConditions), groupSizes, groupSize == 0 ? groupCount + 1 : groupCount, groupSize + 1, index + 1, result);
             }
             else
             {
-                if (conditions[index] == SpringCondition.Damaged)
+                if (conditions[index] == DAMAGED)
                 {
                     groupCount = groupSize++ == 0 ? groupCount + 1 : groupCount;
                 }
@@ -84,14 +87,12 @@ internal class ChallengeSolution12 : ChallengeSolution
         }
     }
 
-    private List<(SpringCondition[], int[])> ReadConditionRecords(int multiplier = 1) => Reader.ReadLines(this)
+    private List<(string, int[])> ReadConditionRecords(int multiplier = 1) => Reader.ReadLines(this)
         .Select(line =>
         {
             var elements = line.Split(' ');
             var springConditions = string.Join('?',
-                Enumerable.Repeat(elements[0], multiplier))
-                .Select(condition => (SpringCondition)condition)
-                .ToArray();
+                Enumerable.Repeat(elements[0], multiplier));
 
             var contiguousDamageGroupSizes = string.Join(',',
                 Enumerable.Repeat(elements[1], multiplier))
@@ -102,11 +103,4 @@ internal class ChallengeSolution12 : ChallengeSolution
             return (springConditions, contiguousDamageGroupSizes);
         })
         .ToList();
-
-    private enum SpringCondition
-    {
-        Operational = '.',
-        Damaged = '#',
-        Unknown = '?'
-    }
 }
