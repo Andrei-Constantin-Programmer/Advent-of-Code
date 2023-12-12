@@ -20,56 +20,55 @@ internal class ChallengeSolution12 : ChallengeSolution
     {
         var conditionRecords = ReadConditionRecords(multiplier: 5);
         
-        // Console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
+        //Console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
     }
     
     private static long GetSumOfFittingArrangements(List<(string, int[])> conditionRecords)
     {
-        var arrangementSum = 0;
+        long arrangementSum = 0;
 
         foreach (var (conditions, groupSizes) in conditionRecords)
         {
-            var fittingArrangements = GenerateFittingArrangements(conditions, groupSizes);
-            arrangementSum += fittingArrangements.Count;
+            arrangementSum += GetFittingArrangementCount(conditions, groupSizes);
         }
 
         return arrangementSum;
     }
 
-    private static List<string> GenerateFittingArrangements(string conditions, int[] groupSizes)
+    private static long GetFittingArrangementCount(string arrangement, int[] groupSizes)
     {
-        List<string> result = new();
-        GenerateArrangements(conditions, groupSizes, -1, 0, 0, result);
-        return result;
+        List<bool> arrangementFitness = new();
+        GetFittingArrangementCount(arrangement, groupSizes, -1, 0, 0, arrangementFitness);
+        return arrangementFitness.Count(isFit => isFit);
 
-        static void GenerateArrangements(string conditions, int[] groupSizes, int groupCount, int groupSize, int index, List<string> result)
+        static void GetFittingArrangementCount(string arrangement, int[] groupSizes, int groupCount, int groupSize, int index, List<bool> result)
         {
-            if (index == conditions.Length)
+            if (index == arrangement.Length)
             {
                 if (groupCount == groupSizes.Length - 1
                     && (groupSize == 0 || groupSize == groupSizes[groupCount]))
                 {
-                    result.Add(conditions);
+                    result.Add(true);
                 }
 
                 return;
             }
 
-            if (conditions[index] == UNKNOWN)
+            if (arrangement[index] == UNKNOWN)
             {
-                var newConditions = conditions.ToCharArray();
-                newConditions[index] = OPERATIONAL;
+                var newArrangement = arrangement.ToCharArray();
+                newArrangement[index] = OPERATIONAL;
                 if (groupSize == 0 || (groupCount < groupSizes.Length && groupSize == groupSizes[groupCount]))
                 {
-                    GenerateArrangements(new(newConditions), groupSizes, groupCount, 0, index + 1, result);
+                    GetFittingArrangementCount(new(newArrangement), groupSizes, groupCount, 0, index + 1, result);
                 }
 
-                newConditions[index] = DAMAGED;
-                GenerateArrangements(new(newConditions), groupSizes, groupSize == 0 ? groupCount + 1 : groupCount, groupSize + 1, index + 1, result);
+                newArrangement[index] = DAMAGED;
+                GetFittingArrangementCount(new(newArrangement), groupSizes, groupSize == 0 ? groupCount + 1 : groupCount, groupSize + 1, index + 1, result);
             }
             else
             {
-                if (conditions[index] == DAMAGED)
+                if (arrangement[index] == DAMAGED)
                 {
                     groupCount = groupSize++ == 0 ? groupCount + 1 : groupCount;
                 }
@@ -83,7 +82,7 @@ internal class ChallengeSolution12 : ChallengeSolution
                     groupSize = 0;
                 }
 
-                GenerateArrangements(conditions, groupSizes, groupCount, groupSize, index + 1, result);
+                GetFittingArrangementCount(arrangement, groupSizes, groupCount, groupSize, index + 1, result);
             }
         }
     }
