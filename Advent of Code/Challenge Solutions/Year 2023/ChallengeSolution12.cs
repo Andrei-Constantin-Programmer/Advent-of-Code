@@ -8,102 +8,93 @@ internal class ChallengeSolution12 : ChallengeSolution
     {
         var conditionRecords = ReadConditionRecords();
 
-        var arrangementSum = 0;
-
-        foreach (var (conditions, groupSizes) in conditionRecords)
-        {
-            var arrangements = GenerateArrangements(conditions);
-            foreach (var arrangement in arrangements)
-            {
-                if (FitsGroupSizes(arrangement, groupSizes))
-                {
-                    arrangementSum++;
-                }
-            }
-        }
-
-        Console.WriteLine(arrangementSum);
+        Console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
     }
 
     protected override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var conditionRecords = ReadConditionRecords(multiplier: 5);
+        
+        // Console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
     }
-
-    private static bool FitsGroupSizes(SpringCondition[] arrangement, int[] groupSizes)
+    
+    private static long GetSumOfFittingArrangements(List<(SpringCondition[], int[])> conditionRecords)
     {
-        var groupCount = -1;
-        var currentSize = 0;
+        var arrangementSum = 0;
 
-        var fitsGroupSizes = true;
-        for (var i = 0; i < arrangement.Length && fitsGroupSizes; i++)
+        foreach (var (conditions, groupSizes) in conditionRecords)
         {
-            if (arrangement[i] == SpringCondition.Damaged)
-            {
-                if (currentSize++ == 0)
-                {
-                    groupCount++;
-                }
-            }
-            else if (currentSize > 0)
-            {
-                if (groupCount >= groupSizes.Length || currentSize != groupSizes[groupCount])
-                {
-                    fitsGroupSizes = false;
-                }
-                currentSize = 0;
-            }
-        }
-        if (currentSize > 0 && (groupCount >= groupSizes.Length || currentSize != groupSizes[groupCount]))
-        {
-            fitsGroupSizes = false;
-        }
-        if (groupCount < groupSizes.Length - 1)
-        {
-            fitsGroupSizes = false;
+            var fittingArrangements = GenerateFittingArrangements(conditions, groupSizes);
+            arrangementSum += fittingArrangements.Count;
         }
 
-        return fitsGroupSizes;
+        return arrangementSum;
     }
 
-    private static List<SpringCondition[]> GenerateArrangements(SpringCondition[] conditions)
+    private static List<SpringCondition[]> GenerateFittingArrangements(SpringCondition[] conditions, int[] groupSizes)
     {
         List<SpringCondition[]> result = new();
-        GenerateArrangements(conditions, 0, result);
+        GenerateArrangements(conditions, groupSizes, -1, 0, 0, result);
         return result;
 
-        static void GenerateArrangements(SpringCondition[] conditions, int index, List<SpringCondition[]> result)
+        static void GenerateArrangements(SpringCondition[] conditions, int[] groupSizes, int groupCount, int groupSize, int index, List<SpringCondition[]> result)
         {
             if (index == conditions.Length)
             {
-                result.Add((SpringCondition[])conditions.Clone());
+                if (groupCount == groupSizes.Length - 1
+                    && (groupSize == 0 || groupSize == groupSizes[groupCount]))
+                {
+                    result.Add((SpringCondition[])conditions.Clone());
+                }
+
                 return;
             }
 
             if (conditions[index] == SpringCondition.Unknown)
             {
                 conditions[index] = SpringCondition.Operational;
-                GenerateArrangements(conditions, index + 1, result);
+                if (groupSize == 0 || (groupCount < groupSizes.Length && groupSize == groupSizes[groupCount]))
+                {
+                    GenerateArrangements(conditions, groupSizes, groupCount, 0, index + 1, result);
+                }
+
                 conditions[index] = SpringCondition.Damaged;
-                GenerateArrangements(conditions, index + 1, result);
+                GenerateArrangements(conditions, groupSizes, groupSize == 0 ? groupCount + 1 : groupCount, groupSize + 1, index + 1, result);
+
                 conditions[index] = SpringCondition.Unknown;
             }
             else
             {
-                GenerateArrangements(conditions, index + 1, result);
+                if (conditions[index] == SpringCondition.Damaged)
+                {
+                    groupCount = groupSize++ == 0 ? groupCount + 1 : groupCount;
+                }
+                else if (groupSize > 0)
+                {
+                    if (groupCount >= groupSizes.Length || groupSize != groupSizes[groupCount])
+                    {
+                        return;
+                    }
+
+                    groupSize = 0;
+                }
+
+                GenerateArrangements(conditions, groupSizes, groupCount, groupSize, index + 1, result);
             }
         }
     }
 
-    private List<(SpringCondition[], int[])> ReadConditionRecords() => Reader.ReadLines(this)
+    private List<(SpringCondition[], int[])> ReadConditionRecords(int multiplier = 1) => Reader.ReadLines(this)
         .Select(line =>
         {
             var elements = line.Split(' ');
-            var springConditions = elements[0]
+            var springConditions = string.Join('?',
+                Enumerable.Repeat(elements[0], multiplier))
                 .Select(condition => (SpringCondition)condition)
                 .ToArray();
 
-            var contiguousDamageGroupSizes = elements[1]
+            var contiguousDamageGroupSizes = string.Join(',',
+                Enumerable.Repeat(elements[1], multiplier))
                 .Split(',')
                 .Select(int.Parse)
                 .ToArray();
