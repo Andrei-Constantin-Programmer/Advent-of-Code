@@ -1,5 +1,6 @@
 ﻿using Advent_of_Code.Utilities;
 using System.Collections.Immutable;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
@@ -45,8 +46,8 @@ internal class ChallengeSolution12 : ChallengeSolution
             {
                 OPERATIONAL => GetArrangementCount(arrangement[1..], groupSizes, memo),
                 DAMAGED => ProcessDamagedSpring(arrangement, groupSizes, memo),
-                UNKNOWN => GetArrangementCount($"{OPERATIONAL}{arrangement[1..]}", groupSizes, memo)
-                            + GetArrangementCount($"{DAMAGED}{arrangement[1..]}", groupSizes, memo),
+                UNKNOWN => GetArrangementCount(ReplaceFirstWith(arrangement, OPERATIONAL), groupSizes, memo)
+                            + GetArrangementCount(ReplaceFirstWith(arrangement, DAMAGED), groupSizes, memo),
 
                 _ => groupSizes.Any() ? 0 : 1
             };
@@ -66,9 +67,8 @@ internal class ChallengeSolution12 : ChallengeSolution
             var groupSize = groupSizes.Peek();
             groupSizes = groupSizes.Pop();
 
-            var maybeDamagedSprings = arrangement
-                .TakeWhile(c => c != OPERATIONAL)
-                .Count();
+            var firstOperationalSpring = arrangement.IndexOf(OPERATIONAL);
+            var maybeDamagedSprings = firstOperationalSpring > -1 ? firstOperationalSpring : arrangement.Length;
 
             if (maybeDamagedSprings < groupSize)
             {
@@ -85,6 +85,11 @@ internal class ChallengeSolution12 : ChallengeSolution
 
             return GetArrangementCount(arrangement[(groupSize + 1)..], groupSizes, memo);
         }
+
+        static string ReplaceFirstWith(string arrangement, char character) => new StringBuilder()
+            .Append(character)
+            .Append(arrangement, 1, arrangement.Length - 1)
+            .ToString();
     }
 
     private List<(string, ImmutableStack<int>)> ReadConditionRecords(int multiplier = 1) => Reader.ReadLines(this)
