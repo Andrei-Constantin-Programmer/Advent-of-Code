@@ -1,4 +1,5 @@
 ﻿using Advent_of_Code.Utilities;
+using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
@@ -20,49 +21,54 @@ internal class ChallengeSolution12 : ChallengeSolution
     {
         var conditionRecords = ReadConditionRecords(multiplier: 5);
         
-        //Console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
+        Console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
     }
     
-    private static long GetSumOfFittingArrangements(List<(string, int[])> conditionRecords)
+    private static long GetSumOfFittingArrangements(List<(string, ImmutableStack<int>)> conditionRecords)
     {
+        Dictionary<(string, ImmutableStack<int>), long> memo = new();
         long arrangementSum = 0;
 
         foreach (var (conditions, groupSizes) in conditionRecords)
         {
-            arrangementSum += GetArrangementCount(conditions, groupSizes);
+            arrangementSum += GetArrangementCount(conditions, groupSizes, memo);
         }
 
         return arrangementSum;
     }
 
-    private static long GetArrangementCount(string arrangement, int[] groupSizes)
+    private static long GetArrangementCount(string arrangement, ImmutableStack<int> groupSizes, Dictionary<(string, ImmutableStack<int>), long> memo)
     {
-        return GetArrangementCountInner(arrangement, groupSizes);
-
-        static long GetArrangementCountInner(string arrangement, int[] groupSizes)
+        if (!memo.TryGetValue((arrangement, groupSizes), out var count))
         {
-            return arrangement.FirstOrDefault() switch
+            count = arrangement.FirstOrDefault() switch
             {
-                OPERATIONAL => GetArrangementCountInner(arrangement[1..], groupSizes),
-                DAMAGED => ProcessDamagedSpring(arrangement, groupSizes),
-                UNKNOWN => GetArrangementCountInner($"{OPERATIONAL}{arrangement[1..]}", groupSizes)
-                           + GetArrangementCountInner($"{DAMAGED}{arrangement[1..]}", groupSizes),
+                OPERATIONAL => GetArrangementCount(arrangement[1..], groupSizes, memo),
+                DAMAGED => ProcessDamagedSpring(arrangement, groupSizes, memo),
+                UNKNOWN => GetArrangementCount($"{OPERATIONAL}{arrangement[1..]}", groupSizes, memo)
+                            + GetArrangementCount($"{DAMAGED}{arrangement[1..]}", groupSizes, memo),
 
-                _ => groupSizes.Length == 0 ? 1 : 0
+                _ => groupSizes.Any() ? 0 : 1
             };
+
+            memo.Add((arrangement, groupSizes), count);
         }
 
-        static long ProcessDamagedSpring(string arrangement, int[] groupSizes)
+        return count;
+
+        static long ProcessDamagedSpring(string arrangement, ImmutableStack<int> groupSizes, Dictionary<(string, ImmutableStack<int>), long> memo)
         {
-            if (groupSizes.Length == 0)
+            if (!groupSizes.Any())
             {
                 return 0;
             }
 
-            var groupSize = groupSizes[0];
-            groupSizes = groupSizes[1..];
+            var groupSize = groupSizes.Peek();
+            groupSizes = groupSizes.Pop();
 
-            var maybeDamagedSprings = arrangement.TakeWhile(c => c != OPERATIONAL).Count();
+            var maybeDamagedSprings = arrangement
+                .TakeWhile(c => c != OPERATIONAL)
+                .Count();
 
             if (maybeDamagedSprings < groupSize)
             {
@@ -70,18 +76,18 @@ internal class ChallengeSolution12 : ChallengeSolution
             }
             if (arrangement.Length == groupSize)
             {
-                return GetArrangementCountInner(string.Empty, groupSizes);
+                return GetArrangementCount(string.Empty, groupSizes, memo);
             }
             if (arrangement[groupSize] == DAMAGED)
             {
                 return 0;
             }
 
-            return GetArrangementCountInner(arrangement[(groupSize + 1)..], groupSizes);
+            return GetArrangementCount(arrangement[(groupSize + 1)..], groupSizes, memo);
         }
     }
 
-    private List<(string, int[])> ReadConditionRecords(int multiplier = 1) => Reader.ReadLines(this)
+    private List<(string, ImmutableStack<int>)> ReadConditionRecords(int multiplier = 1) => Reader.ReadLines(this)
         .Select(line =>
         {
             var elements = line.Split(' ');
@@ -91,11 +97,11 @@ internal class ChallengeSolution12 : ChallengeSolution
                 $"({Regex.Escape(OPERATIONAL.ToString())})\\\\i+",
                 "$1");
 
-            var contiguousDamageGroupSizes = string.Join(',',
+            var contiguousDamageGroupSizes = ImmutableStack.CreateRange(string.Join(',',
                 Enumerable.Repeat(elements[1], multiplier))
                 .Split(',')
                 .Select(int.Parse)
-                .ToArray();
+                .Reverse());
 
             return (springConditions, contiguousDamageGroupSizes);
         })
