@@ -1,4 +1,5 @@
 ﻿using Advent_of_Code.Utilities;
+using System.Text.RegularExpressions;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -11,7 +12,7 @@ internal class ChallengeSolution12 : ChallengeSolution
     protected override void SolveFirstPart()
     {
         var conditionRecords = ReadConditionRecords();
-
+        
         Console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
     }
 
@@ -91,8 +92,11 @@ internal class ChallengeSolution12 : ChallengeSolution
         .Select(line =>
         {
             var elements = line.Split(' ');
-            var springConditions = string.Join('?',
-                Enumerable.Repeat(elements[0], multiplier));
+            var springConditions = Regex.Replace(
+                string.Join(UNKNOWN,
+                    Enumerable.Repeat(elements[0], multiplier)),
+                $"({Regex.Escape(OPERATIONAL.ToString())})\\\\i+",
+                "$1");
 
             var contiguousDamageGroupSizes = string.Join(',',
                 Enumerable.Repeat(elements[1], multiplier))
