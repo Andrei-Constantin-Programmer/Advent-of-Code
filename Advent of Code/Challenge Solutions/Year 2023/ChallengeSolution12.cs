@@ -29,61 +29,55 @@ internal class ChallengeSolution12 : ChallengeSolution
 
         foreach (var (conditions, groupSizes) in conditionRecords)
         {
-            arrangementSum += GetFittingArrangementCount(conditions, groupSizes);
+            arrangementSum += GetArrangementCount(conditions, groupSizes);
         }
 
         return arrangementSum;
     }
 
-    private static long GetFittingArrangementCount(string arrangement, int[] groupSizes)
+    private static long GetArrangementCount(string arrangement, int[] groupSizes)
     {
-        List<bool> arrangementFitness = new();
-        GetFittingArrangementCount(arrangement, groupSizes, -1, 0, 0, arrangementFitness);
-        return arrangementFitness.Count(isFit => isFit);
+        return GetArrangementCountInner(arrangement, groupSizes);
 
-        static void GetFittingArrangementCount(string arrangement, int[] groupSizes, int groupCount, int groupSize, int index, List<bool> result)
+        static long GetArrangementCountInner(string arrangement, int[] groupSizes)
         {
-            if (index == arrangement.Length)
+            return arrangement.FirstOrDefault() switch
             {
-                if (groupCount == groupSizes.Length - 1
-                    && (groupSize == 0 || groupSize == groupSizes[groupCount]))
-                {
-                    result.Add(true);
-                }
+                OPERATIONAL => GetArrangementCountInner(arrangement[1..], groupSizes),
+                DAMAGED => ProcessDamagedSpring(arrangement, groupSizes),
+                UNKNOWN => GetArrangementCountInner($"{OPERATIONAL}{arrangement[1..]}", groupSizes)
+                           + GetArrangementCountInner($"{DAMAGED}{arrangement[1..]}", groupSizes),
 
-                return;
+                _ => groupSizes.Length == 0 ? 1 : 0
+            };
+        }
+
+        static long ProcessDamagedSpring(string arrangement, int[] groupSizes)
+        {
+            if (groupSizes.Length == 0)
+            {
+                return 0;
             }
 
-            if (arrangement[index] == UNKNOWN)
+            var groupSize = groupSizes[0];
+            groupSizes = groupSizes[1..];
+
+            var maybeDamagedSprings = arrangement.TakeWhile(c => c != OPERATIONAL).Count();
+
+            if (maybeDamagedSprings < groupSize)
             {
-                var newArrangement = arrangement.ToCharArray();
-                newArrangement[index] = OPERATIONAL;
-                if (groupSize == 0 || (groupCount < groupSizes.Length && groupSize == groupSizes[groupCount]))
-                {
-                    GetFittingArrangementCount(new(newArrangement), groupSizes, groupCount, 0, index + 1, result);
-                }
-
-                newArrangement[index] = DAMAGED;
-                GetFittingArrangementCount(new(newArrangement), groupSizes, groupSize == 0 ? groupCount + 1 : groupCount, groupSize + 1, index + 1, result);
+                return 0;
             }
-            else
+            if (arrangement.Length == groupSize)
             {
-                if (arrangement[index] == DAMAGED)
-                {
-                    groupCount = groupSize++ == 0 ? groupCount + 1 : groupCount;
-                }
-                else if (groupSize > 0)
-                {
-                    if (groupCount >= groupSizes.Length || groupSize != groupSizes[groupCount])
-                    {
-                        return;
-                    }
-
-                    groupSize = 0;
-                }
-
-                GetFittingArrangementCount(arrangement, groupSizes, groupCount, groupSize, index + 1, result);
+                return GetArrangementCountInner(string.Empty, groupSizes);
             }
+            if (arrangement[groupSize] == DAMAGED)
+            {
+                return 0;
+            }
+
+            return GetArrangementCountInner(arrangement[(groupSize + 1)..], groupSizes);
         }
     }
 
