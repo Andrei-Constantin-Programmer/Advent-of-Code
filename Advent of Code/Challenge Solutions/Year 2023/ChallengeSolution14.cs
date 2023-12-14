@@ -5,7 +5,6 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 internal class ChallengeSolution14 : ChallengeSolution
 {
     private const char ROUND_ROCK = 'O';
-    private const char CUBE_ROCK = '#';
     private const char EMPTY = '.';
 
     protected override void SolveFirstPart()
@@ -18,11 +17,13 @@ internal class ChallengeSolution14 : ChallengeSolution
         {
             for (var col = 0; col < platform.GetLength(1); col++)
             {
+                Console.Write(platform[row, col]);
                 if (platform[row, col] == ROUND_ROCK)
                 {
                     totalLoad += platform.GetLength(0) - row;
                 }
             }
+            Console.WriteLine();
         }
 
         Console.WriteLine(totalLoad);
@@ -52,6 +53,81 @@ internal class ChallengeSolution14 : ChallengeSolution
                     {
                         platform[row, col] = EMPTY;
                         platform[shiftRow + 1, col] = ROUND_ROCK;
+                    }
+                }
+            }
+        }
+    }
+
+    private static void TiltSouth(char[,] platform)
+    {
+        for (var row = platform.GetLength(0) - 1; row >= 0; row--)
+        {
+            for (var col = 0; col < platform.GetLength(1); col++)
+            {
+                if (platform[row, col] == ROUND_ROCK)
+                {
+                    var canMove = false;
+                    int shiftRow;
+                    for (shiftRow = row + 1; shiftRow < platform.GetLength(0) && platform[shiftRow, col] == EMPTY; shiftRow++)
+                    {
+                        canMove = true;
+                    }
+
+                    if (canMove)
+                    {
+                        platform[row, col] = EMPTY;
+                        platform[shiftRow - 1, col] = ROUND_ROCK;
+                    }
+                }
+            }
+        }
+    }
+
+    private static void TiltWest(char[,] platform)
+    {
+        for (var col = 0; col < platform.GetLength(1); col++)
+        {
+            for (var row = 0; row < platform.GetLength(0); row++)
+            {
+                if (platform[row, col] == ROUND_ROCK)
+                {
+                    var canMove = false;
+                    int shiftCol;
+                    for (shiftCol = col - 1; shiftCol >= 0 && platform[row, shiftCol] == EMPTY; shiftCol--)
+                    {
+                        canMove = true;
+                    }
+
+                    if (canMove)
+                    {
+                        platform[row, col] = EMPTY;
+                        platform[row, shiftCol + 1] = ROUND_ROCK;
+                    }
+                }
+            }
+        }
+    }
+
+    private static void TiltEast(char[,] platform)
+    {
+        for (var col = platform.GetLength(1) - 1; col >= 0; col--)
+        {
+            for (var row = 0; row < platform.GetLength(0); row++)
+            {
+                if (platform[row, col] == ROUND_ROCK)
+                {
+                    var canMove = false;
+                    int shiftCol;
+                    for (shiftCol = col + 1; shiftCol < platform.GetLength(1) && platform[row, shiftCol] == EMPTY; shiftCol++)
+                    {
+                        canMove = true;
+                    }
+
+                    if (canMove)
+                    {
+                        platform[row, col] = EMPTY;
+                        platform[row, shiftCol - 1] = ROUND_ROCK;
                     }
                 }
             }
