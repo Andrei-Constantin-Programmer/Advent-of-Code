@@ -12,26 +12,55 @@ internal class ChallengeSolution14 : ChallengeSolution
         var platform = ReadPlatform();
         TiltNorth(platform);
 
+        Console.WriteLine(GetTotalLoad(platform));
+    }
+
+    protected override void SolveSecondPart()
+    {
+        var platform = ReadPlatform();
+        CharArrayComparer comparer = new();
+        HashSet<char[,]> cycles = new(comparer);
+
+        do
+        {
+            var platformCopy = new char[platform.GetLength(0), platform.GetLength(1)];
+            Array.Copy(platform, platformCopy, platform.Length);
+            cycles.Add(platformCopy);
+            PerformTiltCycle(platform);
+        } while (!cycles.Contains(platform));
+
+        var repeatingIndex = cycles
+            .ToList()
+            .FindIndex(x => comparer.Equals(x, platform));
+        var repeatingCount = cycles.Count - repeatingIndex;
+        var billionthCycleIndex = (1_000_000_000 - repeatingIndex) % repeatingCount;
+
+        Console.WriteLine(GetTotalLoad(cycles.ToArray()[repeatingIndex..].ElementAt(billionthCycleIndex)));
+    }
+
+    private static long GetTotalLoad(char[,] platform)
+    {
         var totalLoad = 0;
         for (var row = 0; row < platform.GetLength(0); row++)
         {
             for (var col = 0; col < platform.GetLength(1); col++)
             {
-                Console.Write(platform[row, col]);
                 if (platform[row, col] == ROUND_ROCK)
                 {
                     totalLoad += platform.GetLength(0) - row;
                 }
             }
-            Console.WriteLine();
         }
 
-        Console.WriteLine(totalLoad);
+        return totalLoad;
     }
 
-    protected override void SolveSecondPart()
+    private static void PerformTiltCycle(char[,] platform)
     {
-        throw new NotImplementedException();
+        TiltNorth(platform);
+        TiltWest(platform);
+        TiltSouth(platform);
+        TiltEast(platform);
     }
 
     private static void TiltNorth(char[,] platform)
@@ -148,5 +177,55 @@ internal class ChallengeSolution14 : ChallengeSolution
         }
 
         return platform;
+    }
+
+    private class CharArrayComparer : IEqualityComparer<char[,]>
+    {
+        public bool Equals(char[,]? x, char[,]? y)
+        {
+            if (x is null || y is null)
+            {
+                return x == y;
+            }
+
+            if (x.GetLength(0) != y.GetLength(0) 
+                || x.GetLength(1) != y.GetLength(1))
+            {
+                return false;
+            }
+
+            for (var row = 0; row < x.GetLength(0); row++)
+            {
+                for (var col = 0; col < x.GetLength(1); col++)
+                {
+                    if (x[row, col] != y[row, col])
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public int GetHashCode(char[,] obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
+            var hash = 17;
+
+            for (var row = 0; row < obj.GetLength(0); row++)
+            {
+                for (var col = 0; col < obj.GetLength(1); col++)
+                {
+                    hash = (hash * 31) + obj[row, col].GetHashCode();
+                }
+            }
+
+            return hash;
+        }
     }
 }
