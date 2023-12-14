@@ -8,30 +8,36 @@ internal class ChallengeSolution13 : ChallengeSolution
     protected override void SolveFirstPart()
     {
         var patterns = ReadPatterns();
-
-        var noteSummary = 0;
-        foreach (var pattern in patterns)
-        {
-            var aboveHorizontalMirror = GetRowsAboveMirror(pattern);
-            var beforeVerticalMirror = aboveHorizontalMirror == 0 ? GetRowsAboveMirror(Transpose(pattern)) : 0;
-
-            noteSummary += beforeVerticalMirror + (100 * aboveHorizontalMirror);
-        }
-
-        Console.WriteLine(noteSummary);
+        Console.WriteLine(GetNoteSummary(patterns));
     }
 
     protected override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var patterns = ReadPatterns();
+        Console.WriteLine(GetNoteSummary(patterns, includeSmudge: true));
     }
 
-    private static int GetRowsAboveMirror(string[] pattern)
+    private static int GetNoteSummary(List<string[]> patterns, bool includeSmudge = false)
+    {
+        var noteSummary = 0;
+        foreach (var pattern in patterns)
+        {
+            var aboveHorizontalMirror = GetRowsAboveMirror(pattern, includeSmudge);
+            var beforeVerticalMirror = aboveHorizontalMirror == 0 ? GetRowsAboveMirror(Transpose(pattern), includeSmudge) : 0;
+
+            Console.WriteLine(beforeVerticalMirror + " " + (100 * aboveHorizontalMirror));
+            noteSummary += beforeVerticalMirror + (100 * aboveHorizontalMirror);
+        }
+
+        return noteSummary;
+    }
+
+    private static int GetRowsAboveMirror(string[] pattern, bool includeSmudge)
     {
         var mirrorRow = -1;
         for (var row = 0; row < pattern.Length - 1 && mirrorRow == -1; row++)
         {
-            if (IsMirrorRow(pattern, row))
+            if (IsMirrorRow(pattern, row, includeSmudge))
             {
                 mirrorRow = row;
             }
@@ -40,9 +46,10 @@ internal class ChallengeSolution13 : ChallengeSolution
         return mirrorRow >= 0 ? mirrorRow + 1 : 0;
     }
 
-    private static bool IsMirrorRow(string[] pattern, int mirrorRow)
+    private static bool IsMirrorRow(string[] pattern, int mirrorRow, bool includeSmudge)
     {
-        var isMirror = pattern[mirrorRow] == pattern[mirrorRow + 1];
+        var isMirror = AreRowsEqual(pattern[mirrorRow], pattern[mirrorRow + 1], includeSmudge, out var cleanedSmudge);
+        var wasSmudgeCleaned = cleanedSmudge;
 
         if (!isMirror)
         {
@@ -53,9 +60,38 @@ internal class ChallengeSolution13 : ChallengeSolution
             rightRow < pattern.Length && leftRow >= 0;
             rightRow++, leftRow--)
         {
-            if (pattern[rightRow] != pattern[leftRow])
+            if (!AreRowsEqual(pattern[rightRow], pattern[leftRow], includeSmudge && !cleanedSmudge, out cleanedSmudge))
             {
                 return false;
+            }
+
+            if (cleanedSmudge)
+            {
+                wasSmudgeCleaned = true;
+            }
+        }
+
+        return includeSmudge ? wasSmudgeCleaned : true;
+    }
+
+    private static bool AreRowsEqual(string row1, string row2, bool includeSmudge, out bool cleanedSmudge)
+    {
+        cleanedSmudge = false;
+        if (!includeSmudge)
+        {
+            return row1 == row2;
+        }
+
+        for (var col = 0; col < row1.Length; col++)
+        {
+            if (row1[col] != row2[col])
+            {
+                if (cleanedSmudge)
+                {
+                    return false;
+                }
+
+                cleanedSmudge = true;
             }
         }
 
