@@ -25,7 +25,6 @@ internal class ChallengeSolution13 : ChallengeSolution
             var aboveHorizontalMirror = GetRowsAboveMirror(pattern, includeSmudge);
             var beforeVerticalMirror = aboveHorizontalMirror == 0 ? GetRowsAboveMirror(Transpose(pattern), includeSmudge) : 0;
 
-            Console.WriteLine(beforeVerticalMirror + " " + (100 * aboveHorizontalMirror));
             noteSummary += beforeVerticalMirror + (100 * aboveHorizontalMirror);
         }
 
