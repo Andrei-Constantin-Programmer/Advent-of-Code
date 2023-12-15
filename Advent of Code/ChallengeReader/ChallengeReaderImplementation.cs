@@ -1,9 +1,9 @@
 ﻿using Advent_of_Code.Challenge_Solutions;
 using Advent_of_Code.Solution_Mapper;
 
-namespace Advent_of_Code.Utilities.ChallengeReader;
+namespace Advent_of_Code.ChallengeReader;
 
-internal partial class ChallengeReaderImplementation : ChallengeReader
+internal partial class ChallengeReaderImplementation : IChallengeReader
 {
     private const int FIRST_CHALLENGE_DAY = 1;
     private const int LAST_CHALLENGE_DAY = 25;
@@ -23,9 +23,9 @@ internal partial class ChallengeReaderImplementation : ChallengeReader
             Console.WriteLine("Choose a year: ");
             try
             {
-                string line = Console.ReadLine()!;
+                var line = Console.ReadLine()!;
                 CheckQuitSymbol(line);
-                int year = Convert.ToInt32(line);
+                var year = Convert.ToInt32(line);
 
                 if (mapper.DoesYearExist(year))
                     return year;
@@ -54,7 +54,7 @@ internal partial class ChallengeReaderImplementation : ChallengeReader
             Console.WriteLine($"Select a challenge ({FIRST_CHALLENGE_DAY}-{LAST_CHALLENGE_DAY}): ");
             try
             {
-                int challengeDay = ReadChallengeDay();
+                var challengeDay = ReadChallengeDay();
                 ChallengeSolution solution = GetChallengeSolution(year, challengeDay);
 
                 return solution;
@@ -78,9 +78,9 @@ internal partial class ChallengeReaderImplementation : ChallengeReader
 
     private int ReadChallengeDay()
     {
-        string line = Console.ReadLine()!;
+        var line = Console.ReadLine()!;
         CheckQuitSymbol(line);
-        int challengeDay = Convert.ToInt32(line);
+        var challengeDay = Convert.ToInt32(line);
         if (challengeDay < FIRST_CHALLENGE_DAY || challengeDay > LAST_CHALLENGE_DAY)
         {
             throw new ArgumentException($"The challenge must be between {FIRST_CHALLENGE_DAY} and {LAST_CHALLENGE_DAY}");

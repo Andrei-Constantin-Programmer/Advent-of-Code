@@ -1,4 +1,4 @@
-﻿namespace Advent_of_Code.Utilities.ChallengeReader;
+﻿namespace Advent_of_Code.ChallengeReader;
 
 public class QuitMenuException : Exception { }
 

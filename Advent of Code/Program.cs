@@ -1,8 +1,8 @@
-﻿using Advent_of_Code.Solution_Mapper;
-using Advent_of_Code.Utilities.ChallengeReader;
+﻿using Advent_of_Code.ChallengeReader;
+using Advent_of_Code.Solution_Mapper;
 
 ISolutionMapper mapper = new SolutionMapper();
-ChallengeReader reader = new ChallengeReaderImplementation(mapper);
+IChallengeReader reader = new ChallengeReaderImplementation(mapper);
 
 while (true)
 {
