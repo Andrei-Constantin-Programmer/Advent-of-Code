@@ -5,6 +5,10 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 internal class ChallengeSolution16 : ChallengeSolution
 {
     private const char EMPTY = '.';
+    private const char CONCAVE_MIRROR = '/';
+    private const char CONVEX_MIRROR = '\\';
+    private const char HORIZONTAL_SPLITTER = '|';
+    private const char VERTICAL_SPLITTER = '-';
 
     protected override void SolveFirstPart()
     {
@@ -17,8 +21,14 @@ internal class ChallengeSolution16 : ChallengeSolution
     protected override void SolveSecondPart()
     {
         var mirrorGrid = Reader.ReadLines(this).ToList();
+        var maxEnergiseLevel = FindMaximumEnergiseLevel(mirrorGrid);
 
-        long maxEnergiseLevel = 0;
+        Console.WriteLine(maxEnergiseLevel);
+    }
+
+    private static int FindMaximumEnergiseLevel(List<string> mirrorGrid)
+    {
+        var maxEnergiseLevel = 0;
 
         for (var row = 0; row < mirrorGrid.Count; row++)
         {
@@ -36,15 +46,14 @@ internal class ChallengeSolution16 : ChallengeSolution
             maxEnergiseLevel = Math.Max(maxEnergiseLevel, Math.Max(downwardLevel, upwardLevel));
         }
 
-        Console.WriteLine(maxEnergiseLevel);
+        return maxEnergiseLevel;
     }
 
-
-    private long ComputeEnergiseLevel(List<string> mirrorGrid, Beam startingBeam)
+    private static int ComputeEnergiseLevel(List<string> mirrorGrid, Beam startingBeam)
     {
         var energiseGrid = CreateEnergiseGrid(mirrorGrid, startingBeam);
 
-        long energiseLevel = 0;
+        var energiseLevel = 0;
         for (var row = 0; row < energiseGrid.GetLength(0); row++)
         {
             for (var col = 0; col < energiseGrid.GetLength(1); col++)
@@ -56,136 +65,91 @@ internal class ChallengeSolution16 : ChallengeSolution
         return energiseLevel;
     }
 
-    private bool[,] CreateEnergiseGrid(List<string> mirrorGrid, Beam startingBeam)
+    private static bool[,] CreateEnergiseGrid(List<string> mirrorGrid, Beam startingBeam)
     {
         var energiseGrid = new bool[mirrorGrid.Count, mirrorGrid[0].Length];
         energiseGrid[startingBeam.Row, startingBeam.Column] = true;
 
-        HashSet<Beam> beams = new();
-        Reflect(mirrorGrid, energiseGrid, startingBeam, beams);
+        Reflect(mirrorGrid, energiseGrid, startingBeam);
         return energiseGrid;
     }
 
-    private void Reflect(List<string> mirrorGrid, bool[,] energiseGrid, Beam beam, HashSet<Beam> beams)
+    private static void Reflect(List<string> mirrorGrid, bool[,] energiseGrid, Beam beam)
     {
-        if (!beams.Add(beam))
-        {
-            return;
-        }
-        
-        if (beam.Direction is Direction.East)
-        {
-            for (var col = beam.Column; col < mirrorGrid[0].Length; col++)
-            {
-                energiseGrid[beam.Row, col] = true;
+        ReflectRecursive(mirrorGrid, energiseGrid, beam, new());
 
-                var currentCharacter = mirrorGrid[beam.Row][col];
-                if (currentCharacter != EMPTY)
-                {
-                    if (currentCharacter == '/')
-                    {
-                        Reflect(mirrorGrid, energiseGrid, new(beam.Row - 1, col, Direction.North), beams);
-                        break;
-                    }
-                    if (currentCharacter == '\\')
-                    {
-                        Reflect(mirrorGrid, energiseGrid, new(beam.Row + 1, col, Direction.South), beams);
-                        break;
-                    }
-                    if (currentCharacter == '|')
-                    {
-                        Reflect(mirrorGrid, energiseGrid, new(beam.Row - 1, col, Direction.North), beams);
-                        Reflect(mirrorGrid, energiseGrid, new(beam.Row + 1, col, Direction.South), beams);
-                        break;
-                    }
-                }
+        static void ReflectRecursive(List<string> mirrorGrid, bool[,] energiseGrid, Beam beam, HashSet<Beam> beams)
+        {
+            if (!beams.Add(beam))
+            {
+                return;
             }
-        }
-        else if (beam.Direction is Direction.West)
-        {
-            for (var col = beam.Column; col >= 0; col--)
-            {
-                energiseGrid[beam.Row, col] = true;
 
-                var currentCharacter = mirrorGrid[beam.Row][col];
-                if (currentCharacter != EMPTY)
+            var isHorizontalRay = beam.Direction is Direction.East or Direction.West;
+            var rayStart = isHorizontalRay ? beam.Column : beam.Row;
+            var (rayEnd, rayIncrement) = beam.Direction switch
+            {
+                Direction.East => (mirrorGrid[0].Length, 1),
+                Direction.South => (mirrorGrid.Count, 1),
+                Direction.West or Direction.North => (0, -1),
+
+                _ => throw new Exception($"Unknown direction {beam.Direction}")
+            };
+
+            for (var ray = rayStart; rayIncrement > 0 ? (ray < rayEnd) : (ray >= rayEnd); ray += rayIncrement)
+            {
+                var row = isHorizontalRay ? beam.Row : ray;
+                var col = isHorizontalRay ? ray : beam.Column;
+
+                energiseGrid[row, col] = true;
+                var currentCharacter = mirrorGrid[row][col];
+                if (currentCharacter == EMPTY)
                 {
-                    if (currentCharacter == '/')
-                    {
-                        Reflect(mirrorGrid, energiseGrid, new(beam.Row + 1, col, Direction.South), beams);
-                        break;
-                    }
-                    if (currentCharacter == '\\')
-                    {
-                        Reflect(mirrorGrid, energiseGrid, new(beam.Row - 1, col, Direction.North), beams);
-                        break;
-                    }
-                    if (currentCharacter == '|')
-                    {
-                        Reflect(mirrorGrid, energiseGrid, new(beam.Row + 1, col, Direction.South), beams);
-                        Reflect(mirrorGrid, energiseGrid, new(beam.Row - 1, col, Direction.North), beams);
-                        break;
-                    }
+                    continue;
                 }
-            }
-        }
-        else if (beam.Direction is Direction.North)
-        {
-            for (var row = beam.Row; row >= 0; row--)
-            {
-                energiseGrid[row, beam.Column] = true;
 
-                var currentCharacter = mirrorGrid[row][beam.Column];
-                if (currentCharacter != EMPTY)
+                if (currentCharacter == CONCAVE_MIRROR)
                 {
-                    if (currentCharacter == '/')
-                    {
-                        Reflect(mirrorGrid, energiseGrid, new(row, beam.Column + 1, Direction.East), beams);
-                        break;
-                    }
-                    if (currentCharacter == '\\')
-                    {
-                        Reflect(mirrorGrid, energiseGrid, new(row, beam.Column - 1, Direction.West), beams);
-                        break;
-                    }
-                    if (currentCharacter == '-')
-                    {
-                        Reflect(mirrorGrid, energiseGrid, new(row, beam.Column + 1, Direction.East), beams);
-                        Reflect(mirrorGrid, energiseGrid, new(row, beam.Column - 1, Direction.West), beams);
-                        break;
-                    }
+                    ReflectRecursive(mirrorGrid, energiseGrid, GetNextConcaveBeam(beam.Direction, row, col), beams);
+                    break;
                 }
-            }
-        }
-        else if (beam.Direction is Direction.South)
-        {
-            for (var row = beam.Row; row < mirrorGrid.Count; row++)
-            {
-                energiseGrid[row, beam.Column] = true;
 
-                var currentCharacter = mirrorGrid[row][beam.Column];
-                if (currentCharacter != EMPTY)
+                if (currentCharacter == CONVEX_MIRROR)
                 {
-                    if (currentCharacter == '/')
-                    {
-                        Reflect(mirrorGrid, energiseGrid, new(row, beam.Column - 1, Direction.West), beams);
-                        break;
-                    }
-                    if (currentCharacter == '\\')
-                    {
-                        Reflect(mirrorGrid, energiseGrid, new(row, beam.Column + 1, Direction.East), beams);
-                        break;
-                    }
-                    if (currentCharacter == '-')
-                    {
-                        Reflect(mirrorGrid, energiseGrid, new(row, beam.Column - 1, Direction.West), beams);
-                        Reflect(mirrorGrid, energiseGrid, new(row, beam.Column + 1, Direction.East), beams);
-                        break;
-                    }
+                    ReflectRecursive(mirrorGrid, energiseGrid, GetNextConvexBeam(beam.Direction, row, col), beams);
+                    break;
+                }
+
+                var splitter = isHorizontalRay ? HORIZONTAL_SPLITTER : VERTICAL_SPLITTER;
+                if (currentCharacter == splitter)
+                {
+                    ReflectRecursive(mirrorGrid, energiseGrid, GetNextConcaveBeam(beam.Direction, row, col), beams);
+                    ReflectRecursive(mirrorGrid, energiseGrid, GetNextConvexBeam(beam.Direction, row, col), beams);
+                    break;
                 }
             }
         }
     }
+
+    private static Beam GetNextConcaveBeam(Direction currentDirection, int row, int col) => currentDirection switch
+    {
+        Direction.East => new(row - 1, col, Direction.North),
+        Direction.West => new(row + 1, col, Direction.South),
+        Direction.North => new(row, col + 1, Direction.East),
+        Direction.South => new(row, col - 1, Direction.West),
+
+        _ => throw new Exception($"Unknown direction {currentDirection}")
+    };
+
+    private static Beam GetNextConvexBeam(Direction currentDirection, int row, int col) => currentDirection switch
+    {
+        Direction.East => new(row + 1, col, Direction.South),
+        Direction.West => new(row - 1, col, Direction.North),
+        Direction.North => new(row, col - 1, Direction.West),
+        Direction.South => new(row, col + 1, Direction.East),
+
+        _ => throw new Exception($"Unknown direction {currentDirection}")
+    };
 
     private record Beam(int Row, int Column, Direction Direction);
 
