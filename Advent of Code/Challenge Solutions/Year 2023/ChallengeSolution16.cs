@@ -9,20 +9,40 @@ internal class ChallengeSolution16 : ChallengeSolution
     protected override void SolveFirstPart()
     {
         var mirrorGrid = Reader.ReadLines(this).ToList();
-        var energiseLevel = ComputeEnergiseLevel(mirrorGrid);
+        var energiseLevel = ComputeEnergiseLevel(mirrorGrid, new(0, 0, Direction.East));
 
         Console.WriteLine(energiseLevel);
     }
 
     protected override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var mirrorGrid = Reader.ReadLines(this).ToList();
+
+        long maxEnergiseLevel = 0;
+
+        for (var row = 0; row < mirrorGrid.Count; row++)
+        {
+            var leftwardLevel = ComputeEnergiseLevel(mirrorGrid, new(row, 0, Direction.East));
+            var rightwardLevel = ComputeEnergiseLevel(mirrorGrid, new(row, mirrorGrid[0].Length - 1, Direction.West));
+
+            maxEnergiseLevel = Math.Max(maxEnergiseLevel, Math.Max(leftwardLevel, rightwardLevel));
+        }
+
+        for (var col = 0; col < mirrorGrid[0].Length; col++)
+        {
+            var downwardLevel = ComputeEnergiseLevel(mirrorGrid, new(0, col, Direction.South));
+            var upwardLevel = ComputeEnergiseLevel(mirrorGrid, new(mirrorGrid.Count - 1, col, Direction.North));
+
+            maxEnergiseLevel = Math.Max(maxEnergiseLevel, Math.Max(downwardLevel, upwardLevel));
+        }
+
+        Console.WriteLine(maxEnergiseLevel);
     }
 
 
-    private long ComputeEnergiseLevel(List<string> mirrorGrid)
+    private long ComputeEnergiseLevel(List<string> mirrorGrid, Beam startingBeam)
     {
-        var energiseGrid = CreateEnergiseGrid(mirrorGrid, new(0, 0, Direction.East));
+        var energiseGrid = CreateEnergiseGrid(mirrorGrid, startingBeam);
 
         long energiseLevel = 0;
         for (var row = 0; row < energiseGrid.GetLength(0); row++)
@@ -39,7 +59,7 @@ internal class ChallengeSolution16 : ChallengeSolution
     private bool[,] CreateEnergiseGrid(List<string> mirrorGrid, Beam startingBeam)
     {
         var energiseGrid = new bool[mirrorGrid.Count, mirrorGrid[0].Length];
-        energiseGrid[0, 0] = true;
+        energiseGrid[startingBeam.Row, startingBeam.Column] = true;
 
         HashSet<Beam> beams = new();
         Reflect(mirrorGrid, energiseGrid, startingBeam, beams);
