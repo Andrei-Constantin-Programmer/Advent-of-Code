@@ -7,17 +7,20 @@ internal class ChallengeSolution17 : ChallengeSolution
     protected override void SolveFirstPart()
     {
         var heatLossMap = ReadHeatLossMap();
-        var leastSpillage = FindLeastSpillage(heatLossMap);
+        var leastSpillage = FindLeastSpillage(heatLossMap, new(0, 3));
 
         Console.WriteLine(leastSpillage);
     }
 
     protected override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var heatLossMap = ReadHeatLossMap();
+        var leastSpillage = FindLeastSpillage(heatLossMap, new(4, 10));
+
+        Console.WriteLine(leastSpillage);
     }
 
-    private static int FindLeastSpillage(byte[,] heatLossMap)
+    private static int FindLeastSpillage(byte[,] heatLossMap, Crucible crucible)
     {
         Point finalPoint = new(heatLossMap.GetLength(0) - 1, heatLossMap.GetLength(1) - 1);
 
@@ -29,12 +32,18 @@ internal class ChallengeSolution17 : ChallengeSolution
 
         while (blocksBySpillage.TryDequeue(out var block, out var spillage))
         {
-            if (block.Point == finalPoint)
+            var hasReachedMinimumTurningPoint = block.ConsecutiveSteps + 1 >= crucible.MinimumTurningBlocks;
+
+            if (block.Point == finalPoint && hasReachedMinimumTurningPoint)
             {
                 return spillage;
             }
 
             var neighbours = GetNeighbouringBlocks(heatLossMap, block);
+            if (!hasReachedMinimumTurningPoint)
+            {
+                neighbours.RemoveAll(neighbour => neighbour.direction != block.Direction);
+            }
 
             foreach (var (nextPoint, nextDirection) in neighbours)
             {
@@ -42,7 +51,7 @@ internal class ChallengeSolution17 : ChallengeSolution
                     ? block.ConsecutiveSteps + 1
                     : 0;
 
-                if (consecutiveSteps == 3)
+                if (consecutiveSteps >= crucible.MaximumTurningBlocks)
                 {
                     continue;
                 }
@@ -123,4 +132,6 @@ internal class ChallengeSolution17 : ChallengeSolution
     }
 
     private record Point(int Row, int Column);
+
+    private record Crucible(int MinimumTurningBlocks, int MaximumTurningBlocks);
 }
