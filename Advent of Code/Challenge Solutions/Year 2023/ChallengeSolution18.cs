@@ -55,17 +55,9 @@ internal class ChallengeSolution18 : ChallengeSolution
 
                 _ => throw new Exception($"Malformed instruction {instruction}")
             };
+
             var edgeLength = Convert.ToInt64(instruction[2..^2], fromBase: 16);
-
-            Point endPoint = direction switch
-            {
-                Direction.Right => new(currentPoint.Row, currentPoint.Column + edgeLength),
-                Direction.Left => new(currentPoint.Row, currentPoint.Column - edgeLength),
-                Direction.Up => new(currentPoint.Row - edgeLength, currentPoint.Column),
-                Direction.Down => new(currentPoint.Row + edgeLength, currentPoint.Column),
-
-                _ => throw new Exception($"Unknown direction {direction}")
-            };
+            Point endPoint = GetEndPoint(currentPoint, direction, edgeLength);
 
             corners.Add(currentPoint);
             corners.Add(endPoint);
@@ -89,15 +81,7 @@ internal class ChallengeSolution18 : ChallengeSolution
             var direction = (Direction)elements[0][0];
             var edgeLength = int.Parse(elements[1]);
             
-            Point endPoint = direction switch
-            {
-                Direction.Right => new(currentPoint.Row, currentPoint.Column + edgeLength),
-                Direction.Left => new(currentPoint.Row, currentPoint.Column - edgeLength),
-                Direction.Up => new(currentPoint.Row - edgeLength, currentPoint.Column),
-                Direction.Down => new(currentPoint.Row + edgeLength, currentPoint.Column),
-
-                _ => throw new Exception($"Unknown direction {direction}")
-            };
+            Point endPoint = GetEndPoint(currentPoint, direction, edgeLength);
 
             corners.Add(currentPoint);
             corners.Add(endPoint);
@@ -108,6 +92,16 @@ internal class ChallengeSolution18 : ChallengeSolution
 
         return corners;
     }
+
+    private static Point GetEndPoint(Point currentPoint, Direction direction, long edgeLength) => direction switch
+    {
+        Direction.Right => new(currentPoint.Row, currentPoint.Column + edgeLength),
+        Direction.Left => new(currentPoint.Row, currentPoint.Column - edgeLength),
+        Direction.Up => new(currentPoint.Row - edgeLength, currentPoint.Column),
+        Direction.Down => new(currentPoint.Row + edgeLength, currentPoint.Column),
+
+        _ => throw new Exception($"Unknown direction {direction}")
+    };
 
     private record Point(long Row, long Column);
 
