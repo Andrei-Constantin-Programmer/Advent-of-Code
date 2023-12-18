@@ -7,13 +7,27 @@ internal class ChallengeSolution18 : ChallengeSolution
     protected override void SolveFirstPart()
     {
         var lines = Reader.ReadLines(this);
-        var edges = GetEdges(lines, out var perimeter);
-        var corners = edges.Keys
+        var edges = GetEdgesWithLeftInstructions(lines, out var perimeter);
+        
+        Console.WriteLine(GetLavaStorageAmount(edges, perimeter));
+    }
+
+    protected override void SolveSecondPart()
+    {
+        var lines = Reader.ReadLines(this);
+        var edges = GetEdgesWithRightInstructions(lines, out var perimeter);
+
+        Console.WriteLine(GetLavaStorageAmount(edges, perimeter));
+    }
+
+    private static long GetLavaStorageAmount(HashSet<(Point start, Point end)> edges, long perimeter)
+    {
+        var corners = edges
             .SelectMany(edge => new[] { edge.start, edge.end })
             .Distinct()
-            .ToList();
+        .ToList();
 
-        Console.WriteLine(GetPolygonArea(corners) + (perimeter / 2) + 1);
+        return (long)GetPolygonArea(corners) + (perimeter / 2) + 1;
     }
 
     private static double GetPolygonArea(List<Point> corners)
@@ -30,18 +44,25 @@ internal class ChallengeSolution18 : ChallengeSolution
         return Math.Abs(area);
     }
 
-    private static Dictionary<(Point start, Point end), string> GetEdges(string[] lines, out int perimeter)
+    private static HashSet<(Point start, Point end)> GetEdgesWithRightInstructions(string[] lines, out long perimeter)
     {
-        Dictionary<(Point start, Point end), string> edges = new();
+        HashSet<(Point start, Point end)> edges = new();
         Point currentPoint = new(0, 0);
 
         perimeter = 0;
         foreach (var line in lines)
         {
-            var elements = line.Split(' ');
-            var direction = (Direction)elements[0][0];
-            var edgeLength = int.Parse(elements[1]);
-            var color = elements[2][1..^1];
+            var instruction = line.Split(' ')[2];
+            var direction = instruction[^2] switch
+            {
+                '0' => Direction.Right,
+                '1' => Direction.Down,
+                '2' => Direction.Left,
+                '3' => Direction.Up,
+
+                _ => throw new Exception($"Malformed instruction {instruction}")
+            };
+            var edgeLength = Convert.ToInt64(instruction[2..^2], fromBase: 16);
 
             Point endPoint = direction switch
             {
@@ -52,8 +73,8 @@ internal class ChallengeSolution18 : ChallengeSolution
 
                 _ => throw new Exception($"Unknown direction {direction}")
             };
-            
-            edges.Add((currentPoint, endPoint), color);
+
+            edges.Add((currentPoint, endPoint));
             perimeter += edgeLength;
 
             currentPoint = endPoint;
@@ -62,12 +83,38 @@ internal class ChallengeSolution18 : ChallengeSolution
         return edges;
     }
 
-    protected override void SolveSecondPart()
+    private static HashSet<(Point start, Point end)> GetEdgesWithLeftInstructions(string[] lines, out int perimeter)
     {
-        throw new NotImplementedException();
+        HashSet<(Point start, Point end)> edges = new();
+        Point currentPoint = new(0, 0);
+
+        perimeter = 0;
+        foreach (var line in lines)
+        {
+            var elements = line.Split(' ');
+            var direction = (Direction)elements[0][0];
+            var edgeLength = int.Parse(elements[1]);
+            
+            Point endPoint = direction switch
+            {
+                Direction.Right => new(currentPoint.Row, currentPoint.Column + edgeLength),
+                Direction.Left => new(currentPoint.Row, currentPoint.Column - edgeLength),
+                Direction.Up => new(currentPoint.Row - edgeLength, currentPoint.Column),
+                Direction.Down => new(currentPoint.Row + edgeLength, currentPoint.Column),
+
+                _ => throw new Exception($"Unknown direction {direction}")
+            };
+
+            edges.Add((currentPoint, endPoint));
+            perimeter += edgeLength;
+
+            currentPoint = endPoint;
+        }
+
+        return edges;
     }
 
-    private record Point(int Row, int Column);
+    private record Point(long Row, long Column);
 
     private enum Direction
     {
