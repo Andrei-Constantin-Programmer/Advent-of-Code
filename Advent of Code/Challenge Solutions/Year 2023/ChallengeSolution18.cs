@@ -7,28 +7,21 @@ internal class ChallengeSolution18 : ChallengeSolution
     protected override void SolveFirstPart()
     {
         var lines = Reader.ReadLines(this);
-        var edges = GetEdgesWithLeftInstructions(lines, out var perimeter);
+        var corners = GetCornersWithLeftInstructions(lines, out var perimeter);
         
-        Console.WriteLine(GetLavaStorageAmount(edges, perimeter));
+        Console.WriteLine(GetLavaStorageAmount(corners, perimeter));
     }
 
     protected override void SolveSecondPart()
     {
         var lines = Reader.ReadLines(this);
-        var edges = GetEdgesWithRightInstructions(lines, out var perimeter);
+        var corners = GetCornersWithRightInstructions(lines, out var perimeter);
 
-        Console.WriteLine(GetLavaStorageAmount(edges, perimeter));
+        Console.WriteLine(GetLavaStorageAmount(corners, perimeter));
     }
 
-    private static long GetLavaStorageAmount(HashSet<(Point start, Point end)> edges, long perimeter)
-    {
-        var corners = edges
-            .SelectMany(edge => new[] { edge.start, edge.end })
-            .Distinct()
-        .ToList();
-
-        return (long)GetPolygonArea(corners) + (perimeter / 2) + 1;
-    }
+    private static long GetLavaStorageAmount(List<Point> corners, long perimeter)
+        => (long)GetPolygonArea(corners) + (perimeter / 2) + 1;
 
     private static double GetPolygonArea(List<Point> corners)
     {
@@ -44,9 +37,9 @@ internal class ChallengeSolution18 : ChallengeSolution
         return Math.Abs(area);
     }
 
-    private static HashSet<(Point start, Point end)> GetEdgesWithRightInstructions(string[] lines, out long perimeter)
+    private static List<Point> GetCornersWithRightInstructions(string[] lines, out long perimeter)
     {
-        HashSet<(Point start, Point end)> edges = new();
+        List<Point> corners = new();
         Point currentPoint = new(0, 0);
 
         perimeter = 0;
@@ -74,18 +67,19 @@ internal class ChallengeSolution18 : ChallengeSolution
                 _ => throw new Exception($"Unknown direction {direction}")
             };
 
-            edges.Add((currentPoint, endPoint));
+            corners.Add(currentPoint);
+            corners.Add(endPoint);
             perimeter += edgeLength;
 
             currentPoint = endPoint;
         }
 
-        return edges;
+        return corners;
     }
 
-    private static HashSet<(Point start, Point end)> GetEdgesWithLeftInstructions(string[] lines, out int perimeter)
+    private static List<Point> GetCornersWithLeftInstructions(string[] lines, out int perimeter)
     {
-        HashSet<(Point start, Point end)> edges = new();
+        List<Point> corners = new();
         Point currentPoint = new(0, 0);
 
         perimeter = 0;
@@ -105,13 +99,14 @@ internal class ChallengeSolution18 : ChallengeSolution
                 _ => throw new Exception($"Unknown direction {direction}")
             };
 
-            edges.Add((currentPoint, endPoint));
-            perimeter += edgeLength;
+            corners.Add(currentPoint);
+            corners.Add(endPoint);
 
+            perimeter += edgeLength;
             currentPoint = endPoint;
         }
 
-        return edges;
+        return corners;
     }
 
     private record Point(long Row, long Column);
