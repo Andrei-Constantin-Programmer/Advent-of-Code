@@ -9,8 +9,7 @@ internal class ChallengeSolution19 : ChallengeSolution
 
     protected override void SolveFirstPart()
     {
-        var lines = Reader.ReadLines(this);
-        var (workflows, parts) = ReadInput(lines);
+        var (workflows, parts) = ReadInput();
 
         var startWorkflow = workflows.First(w => w.Label == "in");
         long ratingNumberSum = 0;
@@ -28,7 +27,117 @@ internal class ChallengeSolution19 : ChallengeSolution
 
     protected override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var (workflows, _) = ReadInput();
+
+        var startWorkflow = workflows.First(w => w.Label == "in");
+        var ranges = GetFittingRanges(startWorkflow, workflows);
+
+        long possibleCombinations = 0;
+        foreach (var (lowBound, highBound) in ranges)
+        {
+            possibleCombinations +=
+                (highBound.X - lowBound.X + 1) *
+                (highBound.M - lowBound.M + 1) *
+                (highBound.A - lowBound.A + 1) *
+                (highBound.S - lowBound.S + 1);
+        }
+
+        Console.WriteLine(possibleCombinations);
+    }
+
+    private static List<(Part lowBound, Part highBound)> GetFittingRanges(Workflow workflow, List<Workflow> workflows)
+    {
+        List<(Part lowBound, Part highBound)> ranges = new();
+
+        (Part lowBound, Part highBound) currentBounds = (new(1, 1, 1, 1), new(4001, 4001, 4001, 4001));
+
+        foreach (var rule in workflow.Rules)
+        {
+            List<(Part lowBound, Part highBound)> nextRanges = GetNextRanges(rule, workflows);
+
+            foreach ((Part lowBound, Part highBound) in nextRanges)
+            {
+                if (rule.Category is not null)
+                {
+                    ModifyBounds(rule, lowBound, highBound);
+                }
+
+                lowBound.X = Math.Max(lowBound.X, currentBounds.lowBound.X);
+                lowBound.M = Math.Max(lowBound.M, currentBounds.lowBound.M);
+                lowBound.A = Math.Max(lowBound.A, currentBounds.lowBound.A);
+                lowBound.S = Math.Max(lowBound.S, currentBounds.lowBound.S);
+
+                highBound.X = Math.Min(highBound.X, currentBounds.highBound.X);
+                highBound.M = Math.Min(highBound.M, currentBounds.highBound.M);
+                highBound.A = Math.Min(highBound.A, currentBounds.highBound.A);
+                highBound.S = Math.Min(highBound.S, currentBounds.highBound.S);
+
+                if (lowBound.X < highBound.X
+                    && lowBound.M < highBound.M
+                    && lowBound.A < highBound.A
+                    && lowBound.S < highBound.S)
+                {
+                    ranges.Add((lowBound, highBound));
+                }
+            }
+
+            if (rule.Symbol == '>')
+            {
+                ModifyBound(rule, currentBounds.highBound, Math.Min, +1);
+            }
+            else
+            {
+                ModifyBound(rule, currentBounds.lowBound, Math.Max, -1);
+            }
+        }
+
+        Console.WriteLine(workflow.Label);
+        Console.WriteLine($"{string.Join(Environment.NewLine, ranges.Select(r => $"{r.lowBound} - {r.highBound}"))}");
+        return ranges;
+    }
+
+    private static void ModifyBounds(Rule rule, Part lowBound, Part highBound)
+    {
+        if (rule.Symbol == '>')
+        {
+            ModifyBound(rule, lowBound, Math.Max);
+        }
+        else
+        {
+            ModifyBound(rule, highBound, Math.Min);
+        }
+    }
+
+    private static void ModifyBound(Rule rule, Part bound, Func<int, int, int> chooserFunction, int modifier = 0)
+    {
+        switch (rule.Category)
+        {
+            case 'x':
+                bound.X = chooserFunction(bound.X, rule.ConditionValue!.Value) + modifier;
+                break;
+            case 'm':
+                bound.M = chooserFunction(bound.M, rule.ConditionValue!.Value) + modifier;
+                break;
+            case 'a':
+                bound.A = chooserFunction(bound.A, rule.ConditionValue!.Value) + modifier;
+                break;
+            case 's':
+                bound.S = chooserFunction(bound.S, rule.ConditionValue!.Value) + modifier;
+                break;
+        }
+    }
+
+    private static List<(Part lowBound, Part highBound)> GetNextRanges(Rule rule, List<Workflow> workflows)
+    {
+        Part fullLowBound = new(1, 1, 1, 1);
+        Part fullHighBound = new(4001, 4001, 4001, 4001);
+
+        return rule.Destination switch
+        {
+            "A" => new() { (fullLowBound, fullHighBound) },
+            "R" => new(),
+            _ => GetFittingRanges(workflows.First(w => w.Label == rule.Destination), workflows)
+        };
     }
 
     private static char GetAcceptance(Part part, Workflow workflow, List<Workflow> workflows)
@@ -49,8 +158,9 @@ internal class ChallengeSolution19 : ChallengeSolution
         return REJECTED;
     }
 
-    private static (List<Workflow> workflows, List<Part> parts) ReadInput(string[] lines)
+    private (List<Workflow> workflows, List<Part> parts) ReadInput()
     {
+        var lines = Reader.ReadLines(this);
         var workflowLines = lines
                     .TakeWhile(line => !string.IsNullOrWhiteSpace(line))
                     .ToList();
@@ -107,11 +217,11 @@ internal class ChallengeSolution19 : ChallengeSolution
                     var value = int.Parse(ruleString[2..separatorPosition]);
                     var destination = ruleString[(separatorPosition + 1)..];
 
-                    rule = new(GetRuleCondition(category, symbol, value), destination);
+                    rule = new(category, symbol, value, destination);
                 }
                 else
                 {
-                    rule = new(_ => true, ruleString);
+                    rule = new(null, null, null, ruleString);
                 }
 
                 newWorkflow.Rules.Add(rule);
@@ -121,6 +231,39 @@ internal class ChallengeSolution19 : ChallengeSolution
         }
 
         return workflows;
+    }
+
+    private class Workflow
+    {
+        public string Label { get; }
+        public List<Rule> Rules { get; }
+
+        public Workflow(string label)
+        {
+            Label = label;
+            Rules = new();
+        }
+    }
+
+    private class Rule
+    {
+        public Predicate<Part> Condition { get; }
+        public char? Category { get; }
+        public char? Symbol { get; set; }
+        public int? ConditionValue { get; set; }
+        public string Destination { get; }
+
+        public Rule(char? category, char? symbol, int? conditionValue, string destination)
+        {
+            Category = category;
+            Destination = destination;
+            Symbol = symbol;
+            ConditionValue = conditionValue;
+
+            Condition = category is null || symbol is null || conditionValue is null
+                ? _ => true
+                : GetRuleCondition(category.Value, symbol.Value, conditionValue.Value);
+        }
     }
 
     private static Predicate<Part> GetRuleCondition(char category, char symbol, int value)
@@ -146,32 +289,23 @@ internal class ChallengeSolution19 : ChallengeSolution
         };
     }
 
-    private class Workflow
+    private class Part
     {
-        public string Label { get; }
-        public List<Rule> Rules { get; }
+        public int X { get; set; }
+        public int M { get; set; }
+        public int A { get; set; }
+        public int S { get; set; }
 
-        public Workflow(string label)
-        {
-            Label = label;
-            Rules = new();
-        }
-    }
-
-    private class Rule
-    {
-        public Predicate<Part> Condition { get; }
-        public string Destination { get; }
-
-        public Rule(Predicate<Part> condition, string destination)
-        {
-            Condition = condition;
-            Destination = destination;
-        }
-    }
-
-    private record Part(int X, int M, int A, int S)
-    {
         public long Xmas => X + M + A + S;
+
+        public Part(int x, int m, int a, int s)
+        {
+            X = x;
+            M = m;
+            A = a;
+            S = s;
+        }
+
+        public override string ToString() => $"{X} {M} {A} {S}";
     }
 }
