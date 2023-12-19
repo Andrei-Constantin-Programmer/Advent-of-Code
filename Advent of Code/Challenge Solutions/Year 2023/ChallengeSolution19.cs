@@ -15,34 +15,21 @@ internal class ChallengeSolution19 : ChallengeSolution
     protected override void SolveFirstPart()
     {
         var (workflows, parts) = ReadInput();
-
         var startWorkflow = workflows.First(w => w.Label == STARTING_WORKFLOW);
-        long ratingNumberSum = 0;
-        foreach (var part in parts)
-        {
-            var isAccepted = GetAcceptance(part, startWorkflow, workflows) == ACCEPTED;
-            if (isAccepted)
-            {
-                ratingNumberSum += part.Xmas;
-            }
-        }
 
+        var ratingNumberSum = parts
+            .Where(part => GetAcceptance(part, startWorkflow, workflows) == ACCEPTED)
+            .Sum(part => part.Xmas);
         Console.WriteLine(ratingNumberSum);
     }
 
     protected override void SolveSecondPart()
     {
         var (workflows, _) = ReadInput();
-
         var startWorkflow = workflows.First(w => w.Label == STARTING_WORKFLOW);
+
         var ranges = GetFittingRanges(startWorkflow, workflows);
-
-        long possibleCombinations = 0;
-        foreach (var range in ranges)
-        {
-            possibleCombinations += range.CombinationCount;
-        }
-
+        var possibleCombinations = ranges.Sum(range => range.CombinationCount);
         Console.WriteLine(possibleCombinations);
     }
 
@@ -62,7 +49,7 @@ internal class ChallengeSolution19 : ChallengeSolution
             {
                 if (rule.Category is not null)
                 {
-                    ModifyRange(rule, range);
+                    ModifyRangeToFitRule(rule, range);
                 }
 
                 LimitRangeToWorkflowRange(range, workflowRange);
@@ -73,14 +60,7 @@ internal class ChallengeSolution19 : ChallengeSolution
                 }
             }
 
-            if (rule.Symbol == GREATER_THAN)
-            {
-                ModifyBound(rule, workflowRange.End, Math.Min, +1);
-            }
-            else
-            {
-                ModifyBound(rule, workflowRange.Start, Math.Max, -1);
-            }
+            UpdateWorkflowRangeToFitRule(rule, workflowRange);
         }
 
         return ranges;
@@ -99,7 +79,19 @@ internal class ChallengeSolution19 : ChallengeSolution
         }
     }
 
-    private static void ModifyRange(Rule rule, RatingRange range)
+    private static void UpdateWorkflowRangeToFitRule(Rule rule, RatingRange workflowRange)
+    {
+        if (rule.Symbol == GREATER_THAN)
+        {
+            ModifyBound(rule, workflowRange.End, Math.Min, +1);
+        }
+        else
+        {
+            ModifyBound(rule, workflowRange.Start, Math.Max, -1);
+        }
+    }
+
+    private static void ModifyRangeToFitRule(Rule rule, RatingRange range)
     {
         if (rule.Symbol == GREATER_THAN)
         {
