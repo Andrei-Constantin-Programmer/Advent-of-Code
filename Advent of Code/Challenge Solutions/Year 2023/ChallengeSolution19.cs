@@ -6,6 +6,8 @@ internal class ChallengeSolution19 : ChallengeSolution
 {
     private const char ACCEPTED = 'A';
     private const char REJECTED = 'R';
+    private static readonly int _minimumRating = 0;
+    private static readonly int _maximumRating = 4001;
 
     protected override void SolveFirstPart()
     {
@@ -35,13 +37,10 @@ internal class ChallengeSolution19 : ChallengeSolution
         long possibleCombinations = 0;
         foreach (var (lowBound, highBound) in ranges)
         {
-            Console.WriteLine($"{lowBound} - {highBound}");
-
-            var x = highBound.X - lowBound.X + 1;
-            var m = highBound.M - lowBound.M + 1;
-            var a = highBound.A - lowBound.A + 1;
-            var s = highBound.S - lowBound.S + 1;
-            //Console.WriteLine($"{x} {m} {a} {s}");
+            var x = highBound.X - lowBound.X - 1;
+            var m = highBound.M - lowBound.M - 1;
+            var a = highBound.A - lowBound.A - 1;
+            var s = highBound.S - lowBound.S - 1;
             possibleCombinations += x * m * a * s;
         }
 
@@ -52,7 +51,7 @@ internal class ChallengeSolution19 : ChallengeSolution
     {
         List<(Part lowBound, Part highBound)> ranges = new();
 
-        (Part lowBound, Part highBound) currentBounds = (new(1, 1, 1, 1), new(4000, 4000, 4000, 4000));
+        (Part lowBound, Part highBound) currentBounds = (new(_minimumRating, _minimumRating, _minimumRating, _minimumRating), new(_maximumRating, _maximumRating, _maximumRating, _maximumRating));
 
         foreach (var rule in workflow.Rules)
         {
@@ -94,8 +93,6 @@ internal class ChallengeSolution19 : ChallengeSolution
             }
         }
 
-        //Console.WriteLine(workflow.Label);
-        //Console.WriteLine($"{string.Join(Environment.NewLine, ranges.Select(r => $"{r.lowBound} - {r.highBound}"))}");
         return ranges;
     }
 
@@ -130,18 +127,12 @@ internal class ChallengeSolution19 : ChallengeSolution
         }
     }
 
-    private static List<(Part lowBound, Part highBound)> GetNextRanges(Rule rule, List<Workflow> workflows)
+    private static List<(Part lowBound, Part highBound)> GetNextRanges(Rule rule, List<Workflow> workflows) => rule.Destination switch
     {
-        Part fullLowBound = new(1, 1, 1, 1);
-        Part fullHighBound = new(4000, 4000, 4000, 4000);
-
-        return rule.Destination switch
-        {
-            "A" => new() { (fullLowBound, fullHighBound) },
-            "R" => new(),
-            _ => GetFittingRanges(workflows.First(w => w.Label == rule.Destination), workflows)
-        };
-    }
+        "A" => new() { (new(_minimumRating, _minimumRating, _minimumRating, _minimumRating), new(_maximumRating, _maximumRating, _maximumRating, _maximumRating)) },
+        "R" => new(),
+        _ => GetFittingRanges(workflows.First(w => w.Label == rule.Destination), workflows)
+    };
 
     private static char GetAcceptance(Part part, Workflow workflow, List<Workflow> workflows)
     {
