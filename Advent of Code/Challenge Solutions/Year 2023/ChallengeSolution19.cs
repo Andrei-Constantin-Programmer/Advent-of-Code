@@ -6,6 +6,9 @@ internal class ChallengeSolution19 : ChallengeSolution
 {
     private const char ACCEPTED = 'A';
     private const char REJECTED = 'R';
+    private const char GREATER_THAN = '>';
+    private const string STARTING_WORKFLOW = "in";
+    
     private static readonly int _minimumRating = 0;
     private static readonly int _maximumRating = 4001;
 
@@ -13,7 +16,7 @@ internal class ChallengeSolution19 : ChallengeSolution
     {
         var (workflows, parts) = ReadInput();
 
-        var startWorkflow = workflows.First(w => w.Label == "in");
+        var startWorkflow = workflows.First(w => w.Label == STARTING_WORKFLOW);
         long ratingNumberSum = 0;
         foreach (var part in parts)
         {
@@ -31,80 +34,80 @@ internal class ChallengeSolution19 : ChallengeSolution
     {
         var (workflows, _) = ReadInput();
 
-        var startWorkflow = workflows.First(w => w.Label == "in");
+        var startWorkflow = workflows.First(w => w.Label == STARTING_WORKFLOW);
         var ranges = GetFittingRanges(startWorkflow, workflows);
 
         long possibleCombinations = 0;
-        foreach (var (lowBound, highBound) in ranges)
+        foreach (var range in ranges)
         {
-            var x = highBound.X - lowBound.X - 1;
-            var m = highBound.M - lowBound.M - 1;
-            var a = highBound.A - lowBound.A - 1;
-            var s = highBound.S - lowBound.S - 1;
-            possibleCombinations += x * m * a * s;
+            possibleCombinations += range.CombinationCount;
         }
 
         Console.WriteLine(possibleCombinations);
     }
 
-    private static List<(Part lowBound, Part highBound)> GetFittingRanges(Workflow workflow, List<Workflow> workflows)
+    private static List<RatingRange> GetFittingRanges(Workflow workflow, List<Workflow> workflows)
     {
-        List<(Part lowBound, Part highBound)> ranges = new();
+        List<RatingRange> ranges = new();
 
-        (Part lowBound, Part highBound) currentBounds = (new(_minimumRating, _minimumRating, _minimumRating, _minimumRating), new(_maximumRating, _maximumRating, _maximumRating, _maximumRating));
+        RatingRange workflowRange = new(
+            new(_minimumRating, _minimumRating, _minimumRating, _minimumRating),
+            new(_maximumRating, _maximumRating, _maximumRating, _maximumRating));
 
         foreach (var rule in workflow.Rules)
         {
-            List<(Part lowBound, Part highBound)> nextRanges = GetNextRanges(rule, workflows);
+            var nextRanges = GetNextRanges(rule, workflows);
 
-            foreach ((Part lowBound, Part highBound) in nextRanges)
+            foreach (var range in nextRanges)
             {
                 if (rule.Category is not null)
                 {
-                    ModifyBounds(rule, lowBound, highBound);
+                    ModifyRange(rule, range);
                 }
 
-                lowBound.X = Math.Max(lowBound.X, currentBounds.lowBound.X);
-                lowBound.M = Math.Max(lowBound.M, currentBounds.lowBound.M);
-                lowBound.A = Math.Max(lowBound.A, currentBounds.lowBound.A);
-                lowBound.S = Math.Max(lowBound.S, currentBounds.lowBound.S);
+                LimitRangeToWorkflowRange(range, workflowRange);
 
-                highBound.X = Math.Min(highBound.X, currentBounds.highBound.X);
-                highBound.M = Math.Min(highBound.M, currentBounds.highBound.M);
-                highBound.A = Math.Min(highBound.A, currentBounds.highBound.A);
-                highBound.S = Math.Min(highBound.S, currentBounds.highBound.S);
-
-                if (lowBound.X < highBound.X
-                    && lowBound.M < highBound.M
-                    && lowBound.A < highBound.A
-                    && lowBound.S < highBound.S)
+                if (range.IsValid)
                 {
-                    ranges.Add((lowBound, highBound));
+                    ranges.Add(range);
                 }
             }
 
-            if (rule.Symbol == '>')
+            if (rule.Symbol == GREATER_THAN)
             {
-                ModifyBound(rule, currentBounds.highBound, Math.Min, +1);
+                ModifyBound(rule, workflowRange.End, Math.Min, +1);
             }
             else
             {
-                ModifyBound(rule, currentBounds.lowBound, Math.Max, -1);
+                ModifyBound(rule, workflowRange.Start, Math.Max, -1);
             }
         }
 
         return ranges;
+
+        static void LimitRangeToWorkflowRange(RatingRange range, RatingRange workflowRange)
+        {
+            range.Start.X = Math.Max(range.Start.X, workflowRange.Start.X);
+            range.Start.M = Math.Max(range.Start.M, workflowRange.Start.M);
+            range.Start.A = Math.Max(range.Start.A, workflowRange.Start.A);
+            range.Start.S = Math.Max(range.Start.S, workflowRange.Start.S);
+
+            range.End.X = Math.Min(range.End.X, workflowRange.End.X);
+            range.End.M = Math.Min(range.End.M, workflowRange.End.M);
+            range.End.A = Math.Min(range.End.A, workflowRange.End.A);
+            range.End.S = Math.Min(range.End.S, workflowRange.End.S);
+        }
     }
 
-    private static void ModifyBounds(Rule rule, Part lowBound, Part highBound)
+    private static void ModifyRange(Rule rule, RatingRange range)
     {
-        if (rule.Symbol == '>')
+        if (rule.Symbol == GREATER_THAN)
         {
-            ModifyBound(rule, lowBound, Math.Max);
+            ModifyBound(rule, range.Start, Math.Max);
         }
         else
         {
-            ModifyBound(rule, highBound, Math.Min);
+            ModifyBound(rule, range.End, Math.Min);
         }
     }
 
@@ -124,13 +127,20 @@ internal class ChallengeSolution19 : ChallengeSolution
             case 's':
                 bound.S = chooserFunction(bound.S, rule.ConditionValue!.Value) + modifier;
                 break;
+            default:
+                break;
         }
     }
 
-    private static List<(Part lowBound, Part highBound)> GetNextRanges(Rule rule, List<Workflow> workflows) => rule.Destination switch
+    private static List<RatingRange> GetNextRanges(Rule rule, List<Workflow> workflows) => rule.Destination[0] switch
     {
-        "A" => new() { (new(_minimumRating, _minimumRating, _minimumRating, _minimumRating), new(_maximumRating, _maximumRating, _maximumRating, _maximumRating)) },
-        "R" => new(),
+        ACCEPTED => new()
+        {
+            new RatingRange(
+                new Part(_minimumRating, _minimumRating, _minimumRating, _minimumRating),
+                new Part(_maximumRating, _maximumRating, _maximumRating, _maximumRating))
+        },
+        REJECTED => new(),
         _ => GetFittingRanges(workflows.First(w => w.Label == rule.Destination), workflows)
     };
 
@@ -140,10 +150,10 @@ internal class ChallengeSolution19 : ChallengeSolution
         {
             if (rule.Condition(part))
             {
-                return rule.Destination switch
+                return rule.Destination[0] switch
                 {
-                    "A" => ACCEPTED,
-                    "R" => REJECTED,
+                    ACCEPTED => ACCEPTED,
+                    REJECTED => REJECTED,
                     _ => GetAcceptance(part, workflows.First(w => w.Label == rule.Destination), workflows)
                 };
             }
@@ -156,8 +166,8 @@ internal class ChallengeSolution19 : ChallengeSolution
     {
         var lines = Reader.ReadLines(this);
         var workflowLines = lines
-                    .TakeWhile(line => !string.IsNullOrWhiteSpace(line))
-                    .ToList();
+            .TakeWhile(line => !string.IsNullOrWhiteSpace(line))
+            .ToList();
         var partLines = lines
             .SkipWhile(line => !string.IsNullOrWhiteSpace(line))
             .Skip(1)
@@ -281,6 +291,21 @@ internal class ChallengeSolution19 : ChallengeSolution
 
             _ => throw new ArgumentException($"Unknown symbol {symbol}")
         };
+    }
+
+    private record RatingRange(Part Start, Part End)
+    {
+        public long CombinationCount =>
+            (End.X - Start.X - 1) *
+            (End.M - Start.M - 1) *
+            (End.A - Start.A - 1) *
+            (End.S - Start.S - 1);
+
+        public bool IsValid =>
+               Start.X < End.X
+            && Start.M < End.M
+            && Start.A < End.A
+            && Start.S < End.S;
     }
 
     private class Part
