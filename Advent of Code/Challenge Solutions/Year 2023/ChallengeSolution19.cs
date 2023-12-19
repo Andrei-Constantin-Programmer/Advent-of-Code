@@ -12,12 +12,41 @@ internal class ChallengeSolution19 : ChallengeSolution
         var lines = Reader.ReadLines(this);
         var (workflows, parts) = ReadInput(lines);
 
+        var startWorkflow = workflows.First(w => w.Label == "in");
+        long ratingNumberSum = 0;
+        foreach (var part in parts)
+        {
+            var isAccepted = GetAcceptance(part, startWorkflow, workflows) == ACCEPTED;
+            if (isAccepted)
+            {
+                ratingNumberSum += part.Xmas;
+            }
+        }
 
+        Console.WriteLine(ratingNumberSum);
     }
 
     protected override void SolveSecondPart()
     {
         throw new NotImplementedException();
+    }
+
+    private static char GetAcceptance(Part part, Workflow workflow, List<Workflow> workflows)
+    {
+        foreach (var rule in workflow.Rules)
+        {
+            if (rule.Condition(part))
+            {
+                return rule.Destination switch
+                {
+                    "A" => ACCEPTED,
+                    "R" => REJECTED,
+                    _ => GetAcceptance(part, workflows.First(w => w.Label == rule.Destination), workflows)
+                };
+            }
+        }
+
+        return REJECTED;
     }
 
     private static (List<Workflow> workflows, List<Part> parts) ReadInput(string[] lines)
@@ -85,7 +114,7 @@ internal class ChallengeSolution19 : ChallengeSolution
                     rule = new(_ => true, ruleString);
                 }
 
-                newWorkflow.Rules.Enqueue(rule);
+                newWorkflow.Rules.Add(rule);
             }
 
             workflows.Add(newWorkflow);
@@ -120,7 +149,7 @@ internal class ChallengeSolution19 : ChallengeSolution
     private class Workflow
     {
         public string Label { get; }
-        public Queue<Rule> Rules { get; }
+        public List<Rule> Rules { get; }
 
         public Workflow(string label)
         {
@@ -141,5 +170,8 @@ internal class ChallengeSolution19 : ChallengeSolution
         }
     }
 
-    private record Part(int X, int M, int A, int S);
+    private record Part(int X, int M, int A, int S)
+    {
+        public long Xmas => X + M + A + S;
+    }
 }
