@@ -35,11 +35,14 @@ internal class ChallengeSolution19 : ChallengeSolution
         long possibleCombinations = 0;
         foreach (var (lowBound, highBound) in ranges)
         {
-            possibleCombinations +=
-                (highBound.X - lowBound.X + 1) *
-                (highBound.M - lowBound.M + 1) *
-                (highBound.A - lowBound.A + 1) *
-                (highBound.S - lowBound.S + 1);
+            Console.WriteLine($"{lowBound} - {highBound}");
+
+            var x = highBound.X - lowBound.X + 1;
+            var m = highBound.M - lowBound.M + 1;
+            var a = highBound.A - lowBound.A + 1;
+            var s = highBound.S - lowBound.S + 1;
+            //Console.WriteLine($"{x} {m} {a} {s}");
+            possibleCombinations += x * m * a * s;
         }
 
         Console.WriteLine(possibleCombinations);
@@ -49,7 +52,7 @@ internal class ChallengeSolution19 : ChallengeSolution
     {
         List<(Part lowBound, Part highBound)> ranges = new();
 
-        (Part lowBound, Part highBound) currentBounds = (new(1, 1, 1, 1), new(4001, 4001, 4001, 4001));
+        (Part lowBound, Part highBound) currentBounds = (new(1, 1, 1, 1), new(4000, 4000, 4000, 4000));
 
         foreach (var rule in workflow.Rules)
         {
@@ -91,8 +94,8 @@ internal class ChallengeSolution19 : ChallengeSolution
             }
         }
 
-        Console.WriteLine(workflow.Label);
-        Console.WriteLine($"{string.Join(Environment.NewLine, ranges.Select(r => $"{r.lowBound} - {r.highBound}"))}");
+        //Console.WriteLine(workflow.Label);
+        //Console.WriteLine($"{string.Join(Environment.NewLine, ranges.Select(r => $"{r.lowBound} - {r.highBound}"))}");
         return ranges;
     }
 
@@ -108,7 +111,7 @@ internal class ChallengeSolution19 : ChallengeSolution
         }
     }
 
-    private static void ModifyBound(Rule rule, Part bound, Func<int, int, int> chooserFunction, int modifier = 0)
+    private static void ModifyBound(Rule rule, Part bound, Func<long, long, long> chooserFunction, int modifier = 0)
     {
         switch (rule.Category)
         {
@@ -130,7 +133,7 @@ internal class ChallengeSolution19 : ChallengeSolution
     private static List<(Part lowBound, Part highBound)> GetNextRanges(Rule rule, List<Workflow> workflows)
     {
         Part fullLowBound = new(1, 1, 1, 1);
-        Part fullHighBound = new(4001, 4001, 4001, 4001);
+        Part fullHighBound = new(4000, 4000, 4000, 4000);
 
         return rule.Destination switch
         {
@@ -249,8 +252,8 @@ internal class ChallengeSolution19 : ChallengeSolution
     {
         public Predicate<Part> Condition { get; }
         public char? Category { get; }
-        public char? Symbol { get; set; }
-        public int? ConditionValue { get; set; }
+        public char? Symbol { get; }
+        public int? ConditionValue { get; }
         public string Destination { get; }
 
         public Rule(char? category, char? symbol, int? conditionValue, string destination)
@@ -280,7 +283,7 @@ internal class ChallengeSolution19 : ChallengeSolution
             _ => throw new ArgumentException($"Unknown category {category}")
         };
 
-        static Predicate<int> GetMathematicalCondition(char symbol, int value) => symbol switch
+        static Predicate<long> GetMathematicalCondition(char symbol, long value) => symbol switch
         {
             '<' => rating => rating < value,
             '>' => rating => rating > value,
@@ -291,14 +294,14 @@ internal class ChallengeSolution19 : ChallengeSolution
 
     private class Part
     {
-        public int X { get; set; }
-        public int M { get; set; }
-        public int A { get; set; }
-        public int S { get; set; }
+        public long X { get; set; }
+        public long M { get; set; }
+        public long A { get; set; }
+        public long S { get; set; }
 
         public long Xmas => X + M + A + S;
 
-        public Part(int x, int m, int a, int s)
+        public Part(long x, long m, long a, long s)
         {
             X = x;
             M = m;
