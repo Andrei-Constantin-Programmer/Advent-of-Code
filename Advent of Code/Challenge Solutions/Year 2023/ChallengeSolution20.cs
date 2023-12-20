@@ -6,6 +6,7 @@ internal class ChallengeSolution20 : ChallengeSolution
 {
     private const char FLIP_FLOP_PREFIX = '%';
     private const char CONJUNCTION_PREFIX = '&';
+    private const int HIGH_PULSE_NOT_FOUND = -1;
 
     protected override void SolveFirstPart()
     {
@@ -29,42 +30,50 @@ internal class ChallengeSolution20 : ChallengeSolution
         var rxModule = modules
             .FirstOrDefault(mod => mod.Name == "rx") as TestModule
             ?? throw new NotImplementedException();
-        var rxConjunction = (ConjunctionModule)modules
+
+        var rxInput = (ConjunctionModule)modules
             .First(mod => mod.DestinationModules.Contains(rxModule));
 
-        long buttonPress;
+        var inputPresses = FindPressesToHighPulse(broadcaster, rxInput.InputModules.Keys);
 
-        Dictionary<IModule, long> cycleLengths = new();
-        foreach (var inputModule in rxConjunction.InputModules.Keys)
+        var pressesToLowPulseToRx = inputPresses.Values.Aggregate(1L, (aggregator, presses) => aggregator * presses);
+        Console.WriteLine(pressesToLowPulseToRx);
+    }
+
+    private static Dictionary<IModule, long> FindPressesToHighPulse(BroadcasterModule broadcaster, IEnumerable<IModule> inputModules)
+    {
+        Dictionary<IModule, long> pressesToHighPulse = new();
+        foreach (var inputModule in inputModules)
         {
-            cycleLengths.Add(inputModule, -1);
+            pressesToHighPulse.Add(inputModule, HIGH_PULSE_NOT_FOUND);
         }
 
+        long buttonPress;
         for (buttonPress = 1; ; buttonPress++)
         {
-            if (cycleLengths.All(cycle => cycle.Value > -1))
+            if (pressesToHighPulse.All(cycle => cycle.Value > HIGH_PULSE_NOT_FOUND))
             {
                 break;
             }
 
-            Queue<(IModule? sender, IModule receiver, bool strength)> pulses = new();
-            pulses.Enqueue((null, broadcaster, false));
+            Queue<Pulse> pulses = new();
+            pulses.Enqueue(new(null, broadcaster, false));
 
             while (pulses.TryDequeue(out var pulse))
             {
-                if (pulse.sender is not null
-                    && cycleLengths.ContainsKey(pulse.sender)
-                    && cycleLengths[pulse.sender] == -1
-                    && pulse.strength)
+                if (pulse.Sender is not null
+                    && pressesToHighPulse.ContainsKey(pulse.Sender)
+                    && pressesToHighPulse[pulse.Sender] == HIGH_PULSE_NOT_FOUND
+                    && pulse.Strength)
                 {
-                    cycleLengths[pulse.sender] = buttonPress;
+                    pressesToHighPulse[pulse.Sender] = buttonPress;
                 }
 
                 HandleButtonPress(pulses, pulse);
             }
         }
 
-        Console.WriteLine(cycleLengths.Values.Aggregate(1L, (x, y) => x * y));
+        return pressesToHighPulse;
     }
 
     private static (int lowPulses, int highPulses) FindPulseCounts(BroadcasterModule broadcaster)
@@ -72,12 +81,12 @@ internal class ChallengeSolution20 : ChallengeSolution
         var lowPulses = 0;
         var highPulses = 0;
 
-        Queue<(IModule? sender, IModule receiver, bool strength)> pulses = new();
-        pulses.Enqueue((null, broadcaster, false));
+        Queue<Pulse> pulses = new();
+        pulses.Enqueue(new(null, broadcaster, false));
 
         while (pulses.TryDequeue(out var pulse))
         {
-            if (pulse.strength)
+            if (pulse.Strength)
             {
                 highPulses++;
             }
@@ -92,12 +101,12 @@ internal class ChallengeSolution20 : ChallengeSolution
         return (lowPulses, highPulses);
     }
 
-    private static void HandleButtonPress(Queue<(IModule? sender, IModule receiver, bool strength)> pulses, (IModule? sender, IModule receiver, bool strength) pulse)
+    private static void HandleButtonPress(Queue<Pulse> pulses, Pulse pulse)
     {
-        switch (pulse.receiver)
+        switch (pulse.Receiver)
         {
             case FlipFlopModule flipFlopModule:
-                if (pulse.strength)
+                if (pulse.Strength)
                 {
                     return;
                 }
@@ -105,23 +114,23 @@ internal class ChallengeSolution20 : ChallengeSolution
                 flipFlopModule.IsActivated = !flipFlopModule.IsActivated;
                 foreach (var module in flipFlopModule.DestinationModules)
                 {
-                    pulses.Enqueue((flipFlopModule, module, flipFlopModule.IsActivated));
+                    pulses.Enqueue(new(flipFlopModule, module, flipFlopModule.IsActivated));
                 }
 
                 break;
             case ConjunctionModule conjunctionModule:
-                conjunctionModule.InputModules[pulse.sender!] = pulse.strength;
+                conjunctionModule.InputModules[pulse.Sender!] = pulse.Strength;
                 var pulseStrength = !conjunctionModule.InputModules.Values.All(pulse => pulse);
                 foreach (var module in conjunctionModule.DestinationModules)
                 {
-                    pulses.Enqueue((conjunctionModule, module, pulseStrength));
+                    pulses.Enqueue(new(conjunctionModule, module, pulseStrength));
                 }
 
                 break;
             case BroadcasterModule broadcasterModule:
-                foreach (var module in pulse.receiver.DestinationModules)
+                foreach (var module in pulse.Receiver.DestinationModules)
                 {
-                    pulses.Enqueue((broadcasterModule, module, pulse.strength));
+                    pulses.Enqueue(new(broadcasterModule, module, pulse.Strength));
                 }
 
                 break;
@@ -181,6 +190,8 @@ internal class ChallengeSolution20 : ChallengeSolution
         broadcaster = (BroadcasterModule)modules.First(module => module is BroadcasterModule);
         return modules;
     }
+
+    private record Pulse(IModule? Sender, IModule Receiver, bool Strength);
 
     private class BroadcasterModule : IModule
     {
