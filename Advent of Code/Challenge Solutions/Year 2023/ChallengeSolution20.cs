@@ -144,7 +144,7 @@ internal class ChallengeSolution20 : ChallengeSolution
     {
         var lines = Reader.ReadLines(this);
         List<IModule> modules = new();
-        Dictionary<IModule, string[]> destinations = new();
+        Dictionary<IModule, HashSet<string>> destinations = new();
         foreach (var line in lines)
         {
             IModule module = line[0] switch
@@ -155,7 +155,7 @@ internal class ChallengeSolution20 : ChallengeSolution
             };
 
             modules.Add(module);
-            destinations.Add(module, line.Split("-> ")[1].Split(", "));
+            destinations.Add(module, new(line.Split("-> ")[1].Split(", ")));
         }
 
         modules.AddRange(destinations.Values
@@ -176,7 +176,9 @@ internal class ChallengeSolution20 : ChallengeSolution
                 .ToList();
         }
 
-        foreach (ConjunctionModule conjunctionModule in modules.Where(module => module is ConjunctionModule))
+        foreach (ConjunctionModule conjunctionModule in modules
+            .Where(module => module is ConjunctionModule)
+            .Cast<ConjunctionModule>())
         {
             foreach (var module in modules)
             {
