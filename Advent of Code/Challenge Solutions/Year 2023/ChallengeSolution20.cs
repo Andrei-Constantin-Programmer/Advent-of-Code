@@ -60,39 +60,7 @@ internal class ChallengeSolution20 : ChallengeSolution
                     cycleLengths[pulse.sender] = buttonPress;
                 }
 
-                if (pulse.receiver is FlipFlopModule flipFlop && !pulse.strength)
-                {
-                    flipFlop.IsActivated = !flipFlop.IsActivated;
-                    foreach (var module in flipFlop.DestinationModules)
-                    {
-                        pulses.Enqueue((flipFlop, module, flipFlop.IsActivated));
-                    }
-                }
-                else if (pulse.receiver is ConjunctionModule conjunction)
-                {
-                    conjunction.InputModules[pulse.sender!] = pulse.strength;
-                    if (conjunction.InputModules.Values.All(pulse => pulse))
-                    {
-                        foreach (var module in conjunction.DestinationModules)
-                        {
-                            pulses.Enqueue((conjunction, module, false));
-                        }
-                    }
-                    else
-                    {
-                        foreach (var module in conjunction.DestinationModules)
-                        {
-                            pulses.Enqueue((conjunction, module, true));
-                        }
-                    }
-                }
-                else if (pulse.receiver is BroadcasterModule broadcasterModule)
-                {
-                    foreach (var module in pulse.receiver.DestinationModules)
-                    {
-                        pulses.Enqueue((broadcasterModule, module, pulse.strength));
-                    }
-                }
+                HandleButtonPress(pulses, pulse);
             }
         }
 
@@ -118,42 +86,49 @@ internal class ChallengeSolution20 : ChallengeSolution
                 lowPulses++;
             }
 
-            if (pulse.receiver is FlipFlopModule flipFlop && !pulse.strength)
-            {
-                flipFlop.IsActivated = !flipFlop.IsActivated;
-                foreach (var module in flipFlop.DestinationModules)
+            HandleButtonPress(pulses, pulse);
+        }
+
+        return (lowPulses, highPulses);
+    }
+
+    private static void HandleButtonPress(Queue<(IModule? sender, IModule receiver, bool strength)> pulses, (IModule? sender, IModule receiver, bool strength) pulse)
+    {
+        switch (pulse.receiver)
+        {
+            case FlipFlopModule flipFlopModule:
+                if (pulse.strength)
                 {
-                    pulses.Enqueue((flipFlop, module, flipFlop.IsActivated));
+                    return;
                 }
-            }
-            else if (pulse.receiver is ConjunctionModule conjunction)
-            {
-                conjunction.InputModules[pulse.sender!] = pulse.strength;
-                if (conjunction.InputModules.Values.All(pulse => pulse))
+
+                flipFlopModule.IsActivated = !flipFlopModule.IsActivated;
+                foreach (var module in flipFlopModule.DestinationModules)
                 {
-                    foreach (var module in conjunction.DestinationModules)
-                    {
-                        pulses.Enqueue((conjunction, module, false));
-                    }
+                    pulses.Enqueue((flipFlopModule, module, flipFlopModule.IsActivated));
                 }
-                else
+
+                break;
+            case ConjunctionModule conjunctionModule:
+                conjunctionModule.InputModules[pulse.sender!] = pulse.strength;
+                var pulseStrength = !conjunctionModule.InputModules.Values.All(pulse => pulse);
+                foreach (var module in conjunctionModule.DestinationModules)
                 {
-                    foreach (var module in conjunction.DestinationModules)
-                    {
-                        pulses.Enqueue((conjunction, module, true));
-                    }
+                    pulses.Enqueue((conjunctionModule, module, pulseStrength));
                 }
-            }
-            else if (pulse.receiver is BroadcasterModule broadcasterModule)
-            {
+
+                break;
+            case BroadcasterModule broadcasterModule:
                 foreach (var module in pulse.receiver.DestinationModules)
                 {
                     pulses.Enqueue((broadcasterModule, module, pulse.strength));
                 }
-            }
-        }
 
-        return (lowPulses, highPulses);
+                break;
+
+            default:
+                break;
+        }
     }
 
     private List<IModule> ReadModules(out BroadcasterModule broadcaster)
@@ -240,7 +215,6 @@ internal class ChallengeSolution20 : ChallengeSolution
     private class TestModule : IModule
     {
         public string Name { get; }
-        public bool LastSent { get; set; } = true;
         public List<IModule> DestinationModules { get; set; } = new();
 
         public TestModule(string name)
