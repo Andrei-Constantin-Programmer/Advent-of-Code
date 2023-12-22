@@ -6,20 +6,28 @@ internal class ChallengeSolution22 : ChallengeSolution
 {
     protected override void SolveFirstPart()
     {
-        var bricks = ReadBricks();
-        var stabilisedBricks = DropBricks(bricks);
-
-        Console.WriteLine(GetDisintegratableBricks(stabilisedBricks));
+        Console.WriteLine(
+            ReadToppledCounts()
+            .Count(toppleCount => toppleCount == 0));
     }
 
     protected override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        Console.WriteLine(
+            ReadToppledCounts()
+            .Sum());
     }
 
-    private static int GetDisintegratableBricks(List<Brick> bricks)
+    private List<int> ReadToppledCounts()
     {
-        var disintegratableBricks = 0;
+        var bricks = ReadBricks();
+        var stabilisedBricks = DropBricks(bricks);
+        return GetToppledCountsAfterDisintegration(stabilisedBricks);
+    }
+
+    private static List<int> GetToppledCountsAfterDisintegration(List<Brick> bricks)
+    {
+        List<int> toppledCounts = new();
 
         GetSupportBricks(bricks, out var supports, out var supported);
 
@@ -42,13 +50,10 @@ internal class ChallengeSolution22 : ChallengeSolution
                 }
             }
 
-            if (removedBricks.Count - 1 == 0)
-            {
-                disintegratableBricks++;
-            }
+            toppledCounts.Add(removedBricks.Count - 1);
         }
 
-        return disintegratableBricks;
+        return toppledCounts;
     }
 
     private static void GetSupportBricks(
@@ -79,7 +84,7 @@ internal class ChallengeSolution22 : ChallengeSolution
     private static List<Brick> DropBricks(List<Brick> bricks)
     {
         var bricksAfterDrop = bricks
-            .OrderBy(block => block.Bottom)
+            .OrderBy(brick => brick.Bottom)
             .ToList();
 
         for (var level = 0; level < bricksAfterDrop.Count; level++)
