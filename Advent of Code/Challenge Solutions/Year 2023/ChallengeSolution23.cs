@@ -7,6 +7,27 @@ internal class ChallengeSolution23 : ChallengeSolution
     protected override void SolveFirstPart()
     {
         var hikingTrails = ReadHikingTrails();
+        Console.WriteLine(FindLongestTrail(hikingTrails));
+    }
+
+    protected override void SolveSecondPart()
+    {
+        var hikingTrails = ReadHikingTrails();
+        for (var i = 0; i < hikingTrails.Length; i++)
+        {
+            hikingTrails[i] = hikingTrails[i]
+                .Replace((char)Trail.SlopeNorth, (char)Trail.Path)
+                .Replace((char)Trail.SlopeSouth, (char)Trail.Path)
+                .Replace((char)Trail.SlopeWest, (char)Trail.Path)
+                .Replace((char)Trail.SlopeEast, (char)Trail.Path);
+        }
+
+        throw new NotImplementedException();
+        Console.WriteLine(FindLongestTrail(hikingTrails));
+    }
+
+    private static int FindLongestTrail(string[] hikingTrails)
+    {
         Point start = new(0, 1);
         Point end = new(hikingTrails.Length - 1, hikingTrails[0].Length - 2);
 
@@ -14,25 +35,19 @@ internal class ChallengeSolution23 : ChallengeSolution
 
         var longestTrail = FindLongestTrail(hikingTrails, start, end, visited, 0);
 
-        Console.WriteLine(longestTrail);
-    }
-
-    protected override void SolveSecondPart()
-    {
-        throw new NotImplementedException();
+        return longestTrail;
     }
 
     private static int FindLongestTrail(string[] hikingTrails, Point start, Point end, HashSet<Point> visited, int currentLength)
     {
-        visited.Add(start);
-        currentLength++;
-
         if (start == end)
         {
             return currentLength;
         }
 
-        var maxLength = currentLength;
+        currentLength++;
+        visited.Add(start);
+        var maxLength = 0;
 
         List<Point> nextMoves = GetNextTrailMoves(hikingTrails, start);
         foreach (var nextMove in nextMoves)
