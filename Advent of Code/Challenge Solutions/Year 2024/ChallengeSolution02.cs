@@ -7,15 +7,7 @@ public class ChallengeSolution02 : ChallengeSolution
     protected override void SolveFirstPart()
     {
         var reports = ReadReports();
-        var safeReports = 0;
-
-        foreach (var report in reports)
-        {
-            if (IsSafeReport(report))
-            {
-                safeReports++;
-            }
-        }
+        var safeReports = reports.Count(r => IsSafeReport(r));
 
         Console.WriteLine($"Safe reports: {safeReports}");
     }
@@ -49,12 +41,7 @@ public class ChallengeSolution02 : ChallengeSolution
 
     private static bool IsSafeReport(List<int> report, int? skipIndex = null)
     {
-        var isSafe = true;
-
-        var isIncreasing =
-            skipIndex is 0 ? report[1] < report[2] :
-            skipIndex is 1 ? report[0] < report[2] :
-                             report[0] < report[1];
+        var isIncreasing = DetermineTrend(report, skipIndex);
 
         for (var level = 0; level < report.Count - 1; level++)
         {
@@ -65,15 +52,10 @@ public class ChallengeSolution02 : ChallengeSolution
 
             if (skipIndex == level + 1)
             {
-                if (level + 2 >= report.Count)
+                if (level + 2 < report.Count
+                    && IsUnsafeLevelDifference(isIncreasing, report[level], report[level + 2]))
                 {
-                    continue;
-                }
-
-                if (IsUnsafeLevelDifference(isIncreasing, report[level], report[level + 2]))
-                {
-                    isSafe = false;
-                    break;
+                    return false;
                 }
 
                 continue;
@@ -81,12 +63,11 @@ public class ChallengeSolution02 : ChallengeSolution
 
             if (IsUnsafeLevelDifference(isIncreasing, report[level], report[level + 1]))
             {
-                isSafe = false;
-                break;
+                return false;
             }
         }
 
-        return isSafe;
+        return true;
     }
 
     private static bool IsUnsafeLevelDifference(bool isIncreasing, int level1, int level2)
@@ -105,20 +86,22 @@ public class ChallengeSolution02 : ChallengeSolution
         return difference is 0 or > 3;
     }
 
-    private List<List<int>> ReadReports()
-    {
-        List<List<int>> reports = [];
+    private static bool DetermineTrend(List<int> report, int? skipIndex) =>
+        skipIndex switch
+        {
+            0 => report[1] < report[2],
+            1 => report[0] < report[2],
+            _ => report[0] < report[1],
+        };
 
+    private IEnumerable<List<int>> ReadReports()
+    {
         foreach (var line in Reader.ReadLines(this))
         {
-            var levels = line
+            yield return line
                 .Split(' ', StringSplitOptions.RemoveEmptyEntries)
                 .Select(int.Parse)
                 .ToList();
-
-            reports.Add(levels);
         }
-
-        return reports;
     }
 }
