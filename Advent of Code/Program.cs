@@ -1,21 +1,21 @@
 ﻿using Advent_of_Code.ChallengeReader;
 using Advent_of_Code.Solution_Mapper;
 
-ISolutionMapper mapper = new SolutionMapper();
-IChallengeReader reader = new ChallengeReaderImplementation(mapper);
+ISolutionMapper _mapper = new SolutionMapper();
+IChallengeReader _reader = new ChallengeReader(_mapper);
 
 while (true)
 {
     try
     {
-        var year = reader.ReadYear();
+        var year = _reader.ReadYear();
         Console.WriteLine();
 
         while (true)
         {
             try
             {
-                var solution = reader.ReadChallenge(year);
+                var solution = _reader.ReadChallenge(year);
                 Console.WriteLine();
                 solution.PrintSolution();
             }

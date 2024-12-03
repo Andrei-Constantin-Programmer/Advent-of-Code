@@ -3,16 +3,16 @@ using Advent_of_Code.Solution_Mapper;
 
 namespace Advent_of_Code.ChallengeReader;
 
-internal partial class ChallengeReaderImplementation : IChallengeReader
+internal class ChallengeReader : IChallengeReader
 {
     private const int FIRST_CHALLENGE_DAY = 1;
     private const int LAST_CHALLENGE_DAY = 25;
 
-    private ISolutionMapper mapper;
+    private ISolutionMapper _mapper;
 
-    public ChallengeReaderImplementation(ISolutionMapper mapper)
+    public ChallengeReader(ISolutionMapper mapper)
     {
-        this.mapper = mapper;
+        _mapper = mapper;
     }
 
     public int ReadYear()
@@ -27,7 +27,7 @@ internal partial class ChallengeReaderImplementation : IChallengeReader
                 CheckQuitSymbol(line);
                 var year = Convert.ToInt32(line);
 
-                if (mapper.DoesYearExist(year))
+                if (_mapper.DoesYearExist(year))
                     return year;
 
                 Console.WriteLine($"There are no solutions found for year {year}.");
@@ -76,12 +76,13 @@ internal partial class ChallengeReaderImplementation : IChallengeReader
         }
     }
 
-    private int ReadChallengeDay()
+    private static int ReadChallengeDay()
     {
         var line = Console.ReadLine()!;
         CheckQuitSymbol(line);
         var challengeDay = Convert.ToInt32(line);
-        if (challengeDay < FIRST_CHALLENGE_DAY || challengeDay > LAST_CHALLENGE_DAY)
+
+        if (challengeDay is < FIRST_CHALLENGE_DAY or > LAST_CHALLENGE_DAY)
         {
             throw new ArgumentException($"The challenge must be between {FIRST_CHALLENGE_DAY} and {LAST_CHALLENGE_DAY}");
         }
@@ -93,7 +94,7 @@ internal partial class ChallengeReaderImplementation : IChallengeReader
     {
         try
         {
-            var solution = mapper.GetChallengeSolution(year, challengeDay);
+            var solution = _mapper.GetChallengeSolution(year, challengeDay);
             return solution;
         }
         catch (Exception)
@@ -102,19 +103,12 @@ internal partial class ChallengeReaderImplementation : IChallengeReader
         }
     }
 
-    private void PrintQuit()
-    {
-        Console.WriteLine("Press 'Q' or 'quit' to close this menu.");
-    }
+    private static void PrintQuit() => Console.WriteLine("Press 'Q' or 'quit' to close this menu.");
 
-    private void CheckQuitSymbol(string symbol)
+    private static void CheckQuitSymbol(string symbol) => _ = symbol.ToLower() switch
     {
-        symbol = symbol.ToLower();
-        _ = symbol switch
-        {
-            "q" => throw new QuitMenuException(),
-            "quit" => throw new QuitMenuException(),
-            _ => 0
-        };
-    }
+        "q" => throw new QuitMenuException(),
+        "quit" => throw new QuitMenuException(),
+        _ => 0
+    };
 }

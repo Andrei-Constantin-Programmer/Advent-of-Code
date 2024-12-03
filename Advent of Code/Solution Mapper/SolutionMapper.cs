@@ -1,4 +1,5 @@
 ﻿using Advent_of_Code.Challenge_Solutions;
+using Advent_of_Code.Utilities;
 using System.Reflection;
 
 namespace Advent_of_Code.Solution_Mapper;
@@ -24,7 +25,7 @@ internal class SolutionMapper : ISolutionMapper
 
     public ChallengeSolution GetChallengeSolution(int year, int day)
     {
-        string challengeClassName = $"ChallengeSolution{(day < 10 ? $"0{day}" : $"{day}")}";
+        string challengeClassName = $"ChallengeSolution{Reader.FormatDay(day)}";
         string fullClassName = $"{GetChallengeYearNamespace(year)}.{challengeClassName}";
 
         var type = Type.GetType(fullClassName);

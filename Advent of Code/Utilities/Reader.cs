@@ -35,11 +35,13 @@ internal class Reader
     public static StreamWriter GetOutputFile(int year, int day) => new(GetFilePath(FileType.Output, year, day));
 
     private static string GetFilePath(FileType fileType, int year, int day) =>
-        Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.FullName + @$"\resources\{fileType.ToString().ToLower()}\{year}_{day}.txt";
+        Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.FullName + @$"\resources\{fileType.ToString().ToLower()}\{year}\{FormatDay(day)}.txt";
 
     public enum FileType
     {
         Input,
         Output,
     }
+
+    public static string FormatDay(int day) => day < 10 ? $"0{day}" : $"{day}";
 }
