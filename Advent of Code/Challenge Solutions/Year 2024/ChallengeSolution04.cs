@@ -98,7 +98,62 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
 
     public override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var wordSearch = ReadWordSearch();
+
+        var count = 0;
+
+        for (var i = 1; i < wordSearch.Length - 1; i++)
+        {
+            for (var j = 1; j < wordSearch[i].Length - 1; j++)
+            {
+                if (wordSearch[i][j] != 'A')
+                {
+                    continue;
+                }
+
+                if (wordSearch[i - 1][j - 1] == wordSearch[i - 1][j + 1]
+                    && wordSearch[i - 1][j - 1] == 'M')
+                {
+                    if (wordSearch[i + 1][j - 1] == wordSearch[i + 1][j + 1]
+                        && wordSearch[i + 1][j - 1] == 'S')
+                    {
+                        count++;
+                    }
+                }
+
+                if (wordSearch[i - 1][j + 1] == wordSearch[i + 1][j + 1]
+                    && wordSearch[i - 1][j + 1] == 'M')
+                {
+                    if (wordSearch[i + 1][j - 1] == wordSearch[i - 1][j - 1]
+                        && wordSearch[i + 1][j - 1] == 'S')
+                    {
+                        count++;
+                    }
+                }
+
+                if (wordSearch[i + 1][j + 1] == wordSearch[i + 1][j - 1]
+                    && wordSearch[i + 1][j + 1] == 'M')
+                {
+                    if (wordSearch[i - 1][j - 1] == wordSearch[i - 1][j + 1]
+                        && wordSearch[i - 1][j - 1] == 'S')
+                    {
+                        count++;
+                    }
+                }
+
+                if (wordSearch[i + 1][j - 1] == wordSearch[i - 1][j - 1]
+                    && wordSearch[i + 1][j - 1] == 'M')
+                {
+                    if (wordSearch[i - 1][j + 1] == wordSearch[i + 1][j + 1]
+                        && wordSearch[i - 1][j + 1] == 'S')
+                    {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        _console.WriteLine($"X-MAS Count: {count}");
     }
 
     private string[] ReadWordSearch() => _reader.ReadLines();

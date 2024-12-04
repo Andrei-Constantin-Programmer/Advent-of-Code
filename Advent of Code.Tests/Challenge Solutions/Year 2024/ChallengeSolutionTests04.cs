@@ -59,4 +59,28 @@ public class ChallengeSolutionTests04
         // Assert
         _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(2567)));
     }
+
+    [Fact]
+    public void SolveSecondPart_SampleInput()
+    {
+        // Arrange
+        _readerMock.ReadLines()
+            .Returns(_sampleInput);
+
+        // Act
+        _challengeSolution.SolveSecondPart();
+
+        // Assert
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(9)));
+    }
+
+    [Fact]
+    public void SolveSecondPart_RealInput()
+    {
+        // Act
+        _challengeSolution.SolveSecondPart();
+
+        // Assert
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(2029)));
+    }
 }
