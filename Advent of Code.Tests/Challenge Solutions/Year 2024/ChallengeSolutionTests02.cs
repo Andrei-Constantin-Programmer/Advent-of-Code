@@ -4,32 +4,32 @@ using NSubstitute;
 
 namespace Advent_of_Code.Tests.Challenge_Solutions.Year_2024;
 
-public class ChallengeSolutionTests01
+public class ChallengeSolutionTests02
 {
     protected IConsole _consoleMock;
-    protected ISolutionReader<ChallengeSolution01> _readerMock;
+    protected ISolutionReader<ChallengeSolution02> _readerMock;
 
-    private readonly ChallengeSolution01 _challengeSolution;
+    private readonly ChallengeSolution02 _challengeSolution;
 
     private readonly string[] _sampleInput =
     [
-        "3   4",
-        "4   3",
-        "2   5",
-        "1   3",
-        "3   9",
-        "3   3"
+        "7 6 4 2 1",
+        "1 2 7 8 9",
+        "9 7 6 2 1",
+        "1 3 2 4 5",
+        "8 6 4 4 1",
+        "1 3 6 7 9"
     ];
 
-    public ChallengeSolutionTests01()
+    public ChallengeSolutionTests02()
     {
         _consoleMock = Substitute.For<IConsole>();
-        _readerMock = Substitute.For<ISolutionReader<ChallengeSolution01>>();
+        _readerMock = Substitute.For<ISolutionReader<ChallengeSolution02>>();
 
         _readerMock.ReadLines()
-            .Returns(TestHelpers.GetInputFileContents(2024, 1));
+            .Returns(TestHelpers.GetInputFileContents(2024, 2));
 
-        _challengeSolution = new ChallengeSolution01(_consoleMock, _readerMock);
+        _challengeSolution = new ChallengeSolution02(_consoleMock, _readerMock);
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public class ChallengeSolutionTests01
         _challengeSolution.SolveFirstPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(11)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(2)));
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public class ChallengeSolutionTests01
         _challengeSolution.SolveFirstPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(1603498)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(326)));
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class ChallengeSolutionTests01
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(31)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(4)));
     }
 
     [Fact]
@@ -77,6 +77,6 @@ public class ChallengeSolutionTests01
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(25574739)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(381)));
     }
 }

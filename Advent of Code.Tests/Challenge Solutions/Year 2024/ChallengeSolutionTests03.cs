@@ -4,32 +4,22 @@ using NSubstitute;
 
 namespace Advent_of_Code.Tests.Challenge_Solutions.Year_2024;
 
-public class ChallengeSolutionTests01
+public class ChallengeSolutionTests03
 {
     protected IConsole _consoleMock;
-    protected ISolutionReader<ChallengeSolution01> _readerMock;
+    protected ISolutionReader<ChallengeSolution03> _readerMock;
 
-    private readonly ChallengeSolution01 _challengeSolution;
+    private readonly ChallengeSolution03 _challengeSolution;
 
-    private readonly string[] _sampleInput =
-    [
-        "3   4",
-        "4   3",
-        "2   5",
-        "1   3",
-        "3   9",
-        "3   3"
-    ];
-
-    public ChallengeSolutionTests01()
+    public ChallengeSolutionTests03()
     {
         _consoleMock = Substitute.For<IConsole>();
-        _readerMock = Substitute.For<ISolutionReader<ChallengeSolution01>>();
+        _readerMock = Substitute.For<ISolutionReader<ChallengeSolution03>>();
 
         _readerMock.ReadLines()
-            .Returns(TestHelpers.GetInputFileContents(2024, 1));
+            .Returns(TestHelpers.GetInputFileContents(2024, 3));
 
-        _challengeSolution = new ChallengeSolution01(_consoleMock, _readerMock);
+        _challengeSolution = new ChallengeSolution03(_consoleMock, _readerMock);
     }
 
     [Fact]
@@ -37,13 +27,13 @@ public class ChallengeSolutionTests01
     {
         // Arrange
         _readerMock.ReadLines()
-            .Returns(_sampleInput);
+            .Returns(["xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"]);
 
         // Act
         _challengeSolution.SolveFirstPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(11)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(161)));
     }
 
     [Fact]
@@ -53,7 +43,7 @@ public class ChallengeSolutionTests01
         _challengeSolution.SolveFirstPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(1603498)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(184576302)));
     }
 
     [Fact]
@@ -61,13 +51,13 @@ public class ChallengeSolutionTests01
     {
         // Arrange
         _readerMock.ReadLines()
-            .Returns(_sampleInput);
+            .Returns(["xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"]);
 
         // Act
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(31)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(48)));
     }
 
     [Fact]
@@ -75,8 +65,7 @@ public class ChallengeSolutionTests01
     {
         // Act
         _challengeSolution.SolveSecondPart();
-
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(25574739)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(118173507)));
     }
 }
