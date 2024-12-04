@@ -1,4 +1,6 @@
-﻿using Advent_of_Code.Utilities;
+﻿// Task: https://adventofcode.com/2023/day/13
+
+using Advent_of_Code.Utilities;
 using System.Text;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;

@@ -1,4 +1,6 @@
-﻿using Advent_of_Code.Utilities;
+﻿// Task: https://adventofcode.com/2023/day/10
+
+using Advent_of_Code.Utilities;
 using System.Data;
 using System.Text.RegularExpressions;
 

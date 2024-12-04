@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -9,4 +9,8 @@
     <LangVersion>12.0</LangVersion>
   </PropertyGroup>
 
+  <Target Name="AddTasks" BeforeTargets="Build">
+	  <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)..\AddTask.ps1&quot; -SolutionPath &quot;Challenge Solutions&quot;"/>
+	  <Message Text="Added links to Advent of Code" Importance="High" />
+  </Target>
 </Project>
