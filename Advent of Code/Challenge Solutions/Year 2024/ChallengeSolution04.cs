@@ -14,81 +14,53 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
 
         var count = 0;
 
-        for (var i = 0; i < wordSearch.Length; i++)
+        for (var row = 0; row < wordSearch.Length; row++)
         {
-            for (var j = 0; j < wordSearch[i].Length; j++)
+            for (var col = 0; col < wordSearch[row].Length; col++)
             {
-                var rowCanBeWord = j <= wordSearch[i].Length - word.Length;
-                var rowCanBeWordReverse = j >= word.Length - 1;
-                var columnCanBeWord = i < wordSearch.Length - word.Length + 1;
-                var columnCanBeWordReverse = i >= word.Length - 1;
+                var canFitHorizontally = col <= wordSearch[row].Length - word.Length;
+                var canFitHorizontallyReverse = col >= word.Length - 1;
+                var canFitVertically = row < wordSearch.Length - word.Length + 1;
+                var canFitVerticallyReverse = row >= word.Length - 1;
 
-                if (rowCanBeWord)
+                var canFitDiagonalBottomRight = canFitHorizontally && canFitVertically;
+                var canFitDiagonalTopRight = canFitHorizontally && canFitVerticallyReverse;
+                var canFitDiagonalBottomLeft = canFitHorizontallyReverse && canFitVertically;
+                var canFitDiagonalTopLeft = canFitHorizontallyReverse && canFitVerticallyReverse;
+
+                if (canFitHorizontally && wordSearch.GetWordHorizontally(row, col, word.Length) == word)
                 {
-                    var wordRow = wordSearch[i][j..(j + word.Length)];
-
-                    if (wordRow == word)
-                    {
-                        count++;
-                    }
-
-                    if (columnCanBeWord)
-                    {
-                        if (wordSearch.GetDiagonalBottomRight(i, j, word.Length) == word)
-                        {
-                            count++;
-                        }
-                    }
-
-                    if (columnCanBeWordReverse)
-                    {
-                        if (wordSearch.GetDiagonalTopRight(i, j, word.Length) == word)
-                        {
-                            count++;
-                        }
-                    }
+                    count++;
+                }
+                if (canFitHorizontallyReverse && wordSearch.GetWordHorizontallyReverse(row, col, word.Length) == word)
+                {
+                    count++;
                 }
 
-                if (rowCanBeWordReverse)
+                if (canFitVertically && wordSearch.GetWordVertically(row, col, word.Length) == word)
                 {
-                    var wordRowReverse = string.Concat(wordSearch[i][(j - word.Length + 1)..(j + 1)].Reverse());
-
-                    if (wordRowReverse == word)
-                    {
-                        count++;
-                    }
-
-                    if (columnCanBeWord)
-                    {
-                        if (wordSearch.GetDiagonalBottomLeft(i, j, word.Length) == word)
-                        {
-                            count++;
-                        }
-                    }
-
-                    if (columnCanBeWordReverse)
-                    {
-                        if (wordSearch.GetDiagonalTopLeft(i, j, word.Length) == word)
-                        {
-                            count++;
-                        }
-                    }
+                    count++;
+                }
+                if (canFitVerticallyReverse && wordSearch.GetWordVerticallyReverse(row, col, word.Length) == word)
+                {
+                    count++;
                 }
 
-                if (columnCanBeWord)
+                if (canFitDiagonalBottomRight && wordSearch.GetWordDiagonalBottomRight(row, col, word.Length) == word)
                 {
-                    if (wordSearch.GetColumn(i, j, word.Length) == word)
-                    {
-                        count++;
-                    }
+                    count++;
                 }
-
-                if (columnCanBeWordReverse)
+                if (canFitDiagonalBottomLeft && wordSearch.GetWordDiagonalBottomLeft(row, col, word.Length) == word)
                 {
-                    if (wordSearch.GetColumnReverse(i - word.Length + 1, j, word.Length) == word)
-                    {
-                        count++;
-                    }
+                    count++;
+                }
+                if (canFitDiagonalTopRight && wordSearch.GetWordDiagonalTopRight(row, col, word.Length) == word)
+                {
+                    count++;
+                }
+                if (canFitDiagonalTopLeft && wordSearch.GetWordDiagonalTopLeft(row, col, word.Length) == word)
+                {
+                    count++;
                 }
             }
         }
@@ -102,53 +74,39 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
 
         var count = 0;
 
-        for (var i = 1; i < wordSearch.Length - 1; i++)
+        for (var row = 1; row < wordSearch.Length - 1; row++)
         {
-            for (var j = 1; j < wordSearch[i].Length - 1; j++)
+            for (var col = 1; col < wordSearch[row].Length - 1; col++)
             {
-                if (wordSearch[i][j] != 'A')
+                if (wordSearch[row][col] != 'A')
                 {
                     continue;
                 }
 
-                if (wordSearch[i - 1][j - 1] == wordSearch[i - 1][j + 1]
-                    && wordSearch[i - 1][j - 1] == 'M')
-                {
-                    if (wordSearch[i + 1][j - 1] == wordSearch[i + 1][j + 1]
-                        && wordSearch[i + 1][j - 1] == 'S')
-                    {
-                        count++;
-                    }
-                }
+                var topLeft = wordSearch[row - 1][col - 1];
+                var topRight = wordSearch[row - 1][col + 1];
+                var bottomLeft = wordSearch[row + 1][col - 1];
+                var bottomRight = wordSearch[row + 1][col + 1];
 
-                if (wordSearch[i - 1][j + 1] == wordSearch[i + 1][j + 1]
-                    && wordSearch[i - 1][j + 1] == 'M')
+                if (topLeft == topRight && topLeft == 'M'
+                    && bottomLeft == bottomRight && bottomLeft == 'S')
                 {
-                    if (wordSearch[i + 1][j - 1] == wordSearch[i - 1][j - 1]
-                        && wordSearch[i + 1][j - 1] == 'S')
-                    {
-                        count++;
-                    }
+                    count++;
                 }
-
-                if (wordSearch[i + 1][j + 1] == wordSearch[i + 1][j - 1]
-                    && wordSearch[i + 1][j + 1] == 'M')
+                else if (topRight == bottomRight && topRight == 'M'
+                    && topLeft == bottomLeft && topLeft == 'S')
                 {
-                    if (wordSearch[i - 1][j - 1] == wordSearch[i - 1][j + 1]
-                        && wordSearch[i - 1][j - 1] == 'S')
-                    {
-                        count++;
-                    }
+                    count++;
                 }
-
-                if (wordSearch[i + 1][j - 1] == wordSearch[i - 1][j - 1]
-                    && wordSearch[i + 1][j - 1] == 'M')
+                else if (bottomRight == bottomLeft && bottomRight == 'M'
+                    && topRight == topLeft && topRight == 'S')
                 {
-                    if (wordSearch[i - 1][j + 1] == wordSearch[i + 1][j + 1]
-                        && wordSearch[i - 1][j + 1] == 'S')
-                    {
-                        count++;
-                    }
+                    count++;
+                }
+                else if (bottomLeft == topLeft && bottomLeft == 'M'
+                    && bottomRight == topRight && bottomRight == 'S')
+                {
+                    count++;
                 }
             }
         }
@@ -161,36 +119,40 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
 
 internal static class ChallengeSolution04Extensions
 {
-    public static string GetColumn(this string[] source, int start, int column, int count)
+    public static string GetWordHorizontally(this string[] source, int row, int col, int length)
+        => source[row][col..(col + length)];
+
+    public static string GetWordHorizontallyReverse(this string[] source, int row, int col, int length)
+        => string.Concat(source[row][(col - length + 1)..(col + 1)].Reverse());
+
+    public static string GetWordVertically(this string[] source, int row, int col, int length)
         => string.Concat(source
-            .Skip(start)
-            .Take(count)
-            .Select(row => row[column]));
+            .Skip(row)
+            .Take(length)
+            .Select(row => row[col]));
 
-    public static string GetColumnReverse(this string[] source, int start, int column, int count)
-        => string.Concat(source
-            .Skip(start)
-            .Take(count)
-            .Select(row => row[column])
-            .Reverse());
+    public static string GetWordVerticallyReverse(this string[] source, int row, int col, int length)
+        => new(Enumerable.Range(0, length)
+            .Select(k => source[row - k][col])
+            .ToArray());
 
-    public static string GetDiagonalBottomRight(this string[] source, int i, int j, int count) => new
-        (Enumerable.Range(0, count)
-        .Select(k => source[i + k][j + k])
-        .ToArray());
+    public static string GetWordDiagonalBottomRight(this string[] source, int row, int col, int length)
+        => new(Enumerable.Range(0, length)
+            .Select(k => source[row + k][col + k])
+            .ToArray());
 
-    public static string GetDiagonalTopRight(this string[] source, int i, int j, int count) => new
-        (Enumerable.Range(0, count)
-        .Select(k => source[i - k][j + k])
-        .ToArray());
+    public static string GetWordDiagonalTopRight(this string[] source, int row, int col, int length)
+        => new(Enumerable.Range(0, length)
+            .Select(k => source[row - k][col + k])
+            .ToArray());
 
-    public static string GetDiagonalBottomLeft(this string[] source, int i, int j, int count) => new
-        (Enumerable.Range(0, count)
-        .Select(k => source[i + k][j - k])
-        .ToArray());
+    public static string GetWordDiagonalBottomLeft(this string[] source, int row, int col, int length)
+        => new(Enumerable.Range(0, length)
+            .Select(k => source[row + k][col - k])
+            .ToArray());
 
-    public static string GetDiagonalTopLeft(this string[] source, int i, int j, int count) => new
-        (Enumerable.Range(0, count)
-        .Select(k => source[i - k][j - k])
-        .ToArray());
+    public static string GetWordDiagonalTopLeft(this string[] source, int row, int col, int length)
+        => new(Enumerable.Range(0, length)
+            .Select(k => source[row - k][col - k])
+            .ToArray());
 }
