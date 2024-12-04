@@ -19,7 +19,7 @@ public class ChallengeSolution05 : ChallengeSolution
         string[] mySeats = new string[seats.Length];
         seats.CopyTo(mySeats, 0);
         FillPlane(mySeats);
-        Console.WriteLine(GetHighestID(mySeats));
+        _console.WriteLine(GetHighestID(mySeats));
     }
 
     public override void SolveSecondPart()
@@ -38,7 +38,7 @@ public class ChallengeSolution05 : ChallengeSolution
             }
         }
 
-        Console.WriteLine("Look in file /resources/output/2020_5.txt");
+        _console.WriteLine("Look in file /resources/output/2020_5.txt");
     }
 
     private static int GetCorrect(string searchString, char lowChar, int low, int high)

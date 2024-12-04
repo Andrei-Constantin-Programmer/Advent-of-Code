@@ -13,7 +13,7 @@ public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
     {
         var (instructions, nodes) = ReadInput();
 
-        Console.WriteLine(ComputeStepsFromSourceToDestination(instructions, nodes));
+        _console.WriteLine(ComputeStepsFromSourceToDestination(instructions, nodes));
     }
 
     public override void SolveSecondPart()
@@ -27,7 +27,7 @@ public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
             endCondition: node => node.Label.EndsWith('Z')
         );
 
-        Console.WriteLine(steps);
+        _console.WriteLine(steps);
     }
 
     private static long ComputeStepsFromSourceToDestination(List<Instruction> instructions, List<Node> nodes)

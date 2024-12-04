@@ -13,14 +13,14 @@ public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
         int perimeter = CalculatePerimeter(grid.Length, grid[0].Length);
         int visibleTrees = GetVisibleTreeCount(grid);
 
-        Console.WriteLine(perimeter + visibleTrees);
+        _console.WriteLine(perimeter + visibleTrees);
     }
 
     public override void SolveSecondPart()
     {
         var grid = ReadTreeGrid();
 
-        Console.WriteLine(GetScenicScores(grid).Max());
+        _console.WriteLine(GetScenicScores(grid).Max());
     }
 
     private static List<int> GetScenicScores(byte[][] grid)

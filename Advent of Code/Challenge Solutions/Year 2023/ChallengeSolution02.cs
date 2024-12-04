@@ -26,7 +26,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
             }
         }
 
-        Console.WriteLine(totalIdSum);
+        _console.WriteLine(totalIdSum);
     }
 
     public override void SolveSecondPart()
@@ -46,7 +46,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
             totalPowerSum += minimumSetPower;
         }
 
-        Console.WriteLine(totalPowerSum);
+        _console.WriteLine(totalPowerSum);
     }
 
     private static bool CubeGroupIsPossible(CubeGroup cubeGroup) => cubeGroup.Color switch

@@ -8,12 +8,12 @@ public class ChallengeSolution07(IConsole console) : ChallengeSolution(console)
 {
     public override void SolveFirstPart()
     {
-        Console.WriteLine(GetTotalWinnings(false));
+        _console.WriteLine(GetTotalWinnings(false));
     }
 
     public override void SolveSecondPart()
     {
-        Console.WriteLine(GetTotalWinnings(true));
+        _console.WriteLine(GetTotalWinnings(true));
     }
 
     private int GetTotalWinnings(bool includeJokers)

@@ -15,7 +15,7 @@ public class ChallengeSolution20(IConsole console) : ChallengeSolution(console)
         arrangement = UnmixArrangement(arrangement, 1);
         arrangement = RotateArrangementToZero(arrangement);
 
-        Console.WriteLine(GetGroveCoordinatesSum(arrangement));
+        _console.WriteLine(GetGroveCoordinatesSum(arrangement));
     }
 
     public override void SolveSecondPart()
@@ -27,7 +27,7 @@ public class ChallengeSolution20(IConsole console) : ChallengeSolution(console)
         arrangement = RotateArrangementToZero(arrangement);
 
 
-        Console.WriteLine(GetGroveCoordinatesSum(arrangement));
+        _console.WriteLine(GetGroveCoordinatesSum(arrangement));
     }
 
     private static List<EncryptedValue> UnmixArrangement(List<EncryptedValue> arrangement, byte timesToUnmix)

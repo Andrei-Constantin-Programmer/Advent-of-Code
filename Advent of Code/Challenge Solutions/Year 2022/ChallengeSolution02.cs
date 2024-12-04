@@ -8,7 +8,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
 {
     public override void SolveFirstPart()
     {
-        Console.WriteLine(
+        _console.WriteLine(
             ReadRockPaperScissorsRounds()
             .Select((round) =>
             {
@@ -19,7 +19,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
 
     public override void SolveSecondPart()
     {
-        Console.WriteLine(
+        _console.WriteLine(
             ReadRockPaperScissorsRounds()
             .Select((round) =>
             {

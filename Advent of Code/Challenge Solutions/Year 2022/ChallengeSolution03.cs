@@ -8,7 +8,7 @@ public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
 {
     public override void SolveFirstPart()
     {
-        Console.WriteLine(ReadRucksacks()
+        _console.WriteLine(ReadRucksacks()
             .Select(rucksack => GetItemTypePriority(GetCommonItemType(rucksack)))
             .Sum()
             );
@@ -23,7 +23,7 @@ public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
             sum += GetItemTypePriority(GetCommonItemTypePerGroup(rucksacks[i], rucksacks[i + 1], rucksacks[i + 2]));
         }
 
-        Console.WriteLine(sum);
+        _console.WriteLine(sum);
     }
 
     private string[] ReadRucksacks() => Reader.ReadLines(this);

@@ -15,7 +15,7 @@ public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
             .Select(point => ManhattanDistance(_origin, point))
             .Min();
 
-        Console.WriteLine(lowestManhattanDistance);
+        _console.WriteLine(lowestManhattanDistance);
     }
 
     public override void SolveSecondPart()
@@ -24,7 +24,7 @@ public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
             ReadIntersections().Values
             .Min();
 
-        Console.WriteLine(fewestCombinedSteps);
+        _console.WriteLine(fewestCombinedSteps);
     }
 
     private Dictionary<Point, int> ReadIntersections()

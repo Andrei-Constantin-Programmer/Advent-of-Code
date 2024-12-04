@@ -23,7 +23,7 @@ public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
             totalPointsSum += pointValue;
         }
 
-        Console.WriteLine(totalPointsSum);
+        _console.WriteLine(totalPointsSum);
     }
 
     public override void SolveSecondPart()
@@ -49,7 +49,7 @@ public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
             }
         }
 
-        Console.WriteLine(cardCount);
+        _console.WriteLine(cardCount);
     }
 
     private static Card GetCard(string cardLine)

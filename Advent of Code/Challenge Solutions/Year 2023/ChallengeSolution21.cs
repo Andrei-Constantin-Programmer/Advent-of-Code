@@ -15,7 +15,7 @@ public class ChallengeSolution21(IConsole console) : ChallengeSolution(console)
         var garden = ReadGarden(out var startPlot);
         var latestPlotsReached = FindLastPlotsReached(garden, startPlot);
 
-        Console.WriteLine(latestPlotsReached);
+        _console.WriteLine(latestPlotsReached);
     }
 
     private static int FindLastPlotsReached(string[] garden, Point startPlot)
@@ -80,7 +80,7 @@ public class ChallengeSolution21(IConsole console) : ChallengeSolution(console)
     {
         var lines = Reader.ReadLines(this);
         start = new(-1, -1);
-        
+
         for (var row = 0; row < lines.Length && start.Row == -1; row++)
         {
             for (var col = 0; col < lines[row].Length && start.Row == -1; col++)

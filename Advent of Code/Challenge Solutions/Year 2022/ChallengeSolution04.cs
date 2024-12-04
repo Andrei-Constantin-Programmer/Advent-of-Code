@@ -8,7 +8,7 @@ public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
 {
     public override void SolveFirstPart()
     {
-        Console.WriteLine(
+        _console.WriteLine(
             ReadPairRanges()
             .Where(pair => ContainsRange(pair.FirstRange, pair.SecondRange) || ContainsRange(pair.SecondRange, pair.FirstRange))
             .Count());
@@ -16,7 +16,7 @@ public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
 
     public override void SolveSecondPart()
     {
-        Console.WriteLine(
+        _console.WriteLine(
             ReadPairRanges()
             .Where(pair => OverlapsRange(pair.FirstRange, pair.SecondRange))
             .Count());

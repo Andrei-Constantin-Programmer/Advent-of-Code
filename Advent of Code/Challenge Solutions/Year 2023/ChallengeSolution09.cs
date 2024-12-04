@@ -8,12 +8,12 @@ public class ChallengeSolution09(IConsole console) : ChallengeSolution(console)
 {
     public override void SolveFirstPart()
     {
-        Console.WriteLine(ComputePredictionSum(ExtrapolationDirection.Forwards));
+        _console.WriteLine(ComputePredictionSum(ExtrapolationDirection.Forwards));
     }
 
     public override void SolveSecondPart()
     {
-        Console.WriteLine(ComputePredictionSum(ExtrapolationDirection.Backwards));
+        _console.WriteLine(ComputePredictionSum(ExtrapolationDirection.Backwards));
     }
 
     private long ComputePredictionSum(ExtrapolationDirection direction)
@@ -34,7 +34,7 @@ public class ChallengeSolution09(IConsole console) : ChallengeSolution(console)
     private static long ComputePrediction(List<long> terminalElements, ExtrapolationDirection? direction)
     {
         long prediction = 0;
-        
+
         for (var i = terminalElements.Count - 1; i >= 0; i--)
         {
             prediction = direction switch

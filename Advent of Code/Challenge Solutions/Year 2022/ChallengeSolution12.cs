@@ -20,14 +20,14 @@ public class ChallengeSolution12 : ChallengeSolution
     {
         var distanceMap = CreateMatrix<int>(heightMap.Length, heightMap[0].Length);
 
-        Console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a') + 1));
+        _console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a') + 1));
     }
 
     public override void SolveSecondPart()
     {
         var distanceMap = CreateMatrix<int>(heightMap.Length, heightMap[0].Length);
 
-        Console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a')));
+        _console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a')));
     }
 
     private int ShortestPath(int[][] distanceMap, (int row, int column) position, int toBeReached)

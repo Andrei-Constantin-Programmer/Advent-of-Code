@@ -55,7 +55,7 @@ public class ChallengeSolution11 : ChallengeSolution
                     energy[i, j] = energy[i, j] == -1 ? 0 : energy[i, j];
         }
 
-        Console.WriteLine(flashes);
+        _console.WriteLine(flashes);
     }
 
     public override void SolveSecondPart()
@@ -105,7 +105,7 @@ public class ChallengeSolution11 : ChallengeSolution
             }
         }
 
-        Console.WriteLine(step);
+        _console.WriteLine(step);
     }
 
     private void Flash(int i, int j)

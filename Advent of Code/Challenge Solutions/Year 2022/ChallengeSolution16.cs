@@ -17,7 +17,7 @@ public class ChallengeSolution16 : ChallengeSolution
     {
         throw new NotImplementedException();
 
-        Console.WriteLine(GetMaximumPressure(adjacentValves.Keys.First(), 30, 0));
+        _console.WriteLine(GetMaximumPressure(adjacentValves.Keys.First(), 30, 0));
     }
 
     private int GetMaximumPressure(Valve valve, int minutes, int accumulatedPressure)
@@ -25,7 +25,7 @@ public class ChallengeSolution16 : ChallengeSolution
         if (minutes <= 0)
             return 0;
 
-        Console.WriteLine(valve.Label);
+        _console.WriteLine(valve.Label);
 
         int maximumPressure = 0;
         foreach (var v in adjacentValves[valve])
@@ -38,7 +38,7 @@ public class ChallengeSolution16 : ChallengeSolution
                 maximumPressure = pressure;
         }
 
-        Console.WriteLine(maximumPressure);
+        _console.WriteLine(maximumPressure);
 
         return accumulatedPressure + maximumPressure;
     }

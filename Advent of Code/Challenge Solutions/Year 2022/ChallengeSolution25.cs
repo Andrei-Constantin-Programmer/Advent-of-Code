@@ -17,13 +17,13 @@ public class ChallengeSolution25 : ChallengeSolution
     {
         var fuelRequirementsSum = fuelRequirements.Sum();
 
-        Console.WriteLine(fuelRequirementsSum);
-        Console.WriteLine(DecimalToSnafu(fuelRequirementsSum));
+        _console.WriteLine(fuelRequirementsSum);
+        _console.WriteLine(DecimalToSnafu(fuelRequirementsSum));
     }
 
     public override void SolveSecondPart()
     {
-        Console.WriteLine("There is no second part to this challenge!");
+        _console.WriteLine("There is no second part to this challenge!");
     }
 
     private List<long> ReadFuelRequirements()

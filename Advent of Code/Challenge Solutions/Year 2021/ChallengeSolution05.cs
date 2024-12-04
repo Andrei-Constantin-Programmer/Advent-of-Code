@@ -35,7 +35,7 @@ public class ChallengeSolution05(IConsole console) : ChallengeSolution(console)
             AddToDiagram(diagram, x1, y1, x2, y2, diagonal);
         }
 
-        Console.WriteLine(GetOverlappingPoints(diagram));
+        _console.WriteLine(GetOverlappingPoints(diagram));
     }
 
     private void AddToDiagram(int[,] diagram, int x1, int y1, int x2, int y2, bool diagonal)
@@ -94,12 +94,12 @@ public class ChallengeSolution05(IConsole console) : ChallengeSolution(console)
         {
             for (int j = 0; j < Math.Sqrt(diagram.Length); j++)
                 if (diagram[i, j] != 0)
-                    Console.Write(diagram[i, j] + " ");
+                    _console.Write(diagram[i, j] + " ");
                 else
-                    Console.Write(". ");
-            Console.WriteLine();
+                    _console.Write(". ");
+            _console.WriteLine();
         }
-        Console.WriteLine();
+        _console.WriteLine();
     }
 
     private int GetOverlappingPoints(int[,] diagram)

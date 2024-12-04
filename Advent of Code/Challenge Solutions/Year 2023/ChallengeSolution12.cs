@@ -12,21 +12,21 @@ public class ChallengeSolution12(IConsole console) : ChallengeSolution(console)
     private const char OPERATIONAL = '.';
     private const char DAMAGED = '#';
     private const char UNKNOWN = '?';
-        
+
     public override void SolveFirstPart()
     {
         var conditionRecords = ReadConditionRecords();
-        
-        Console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
+
+        _console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
     }
 
     public override void SolveSecondPart()
     {
         var conditionRecords = ReadConditionRecords(multiplier: 5);
-        
-        Console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
+
+        _console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
     }
-    
+
     private static long GetSumOfFittingArrangements(List<(string, ImmutableStack<int>)> conditionRecords)
     {
         Dictionary<(string, ImmutableStack<int>), long> memo = new();

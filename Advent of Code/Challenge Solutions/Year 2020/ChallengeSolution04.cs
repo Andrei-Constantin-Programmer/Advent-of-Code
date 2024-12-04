@@ -20,12 +20,12 @@ public class ChallengeSolution04 : ChallengeSolution
 
     public override void SolveFirstPart()
     {
-        Console.WriteLine(ValidPassports(passports));
+        _console.WriteLine(ValidPassports(passports));
     }
 
     public override void SolveSecondPart()
     {
-        Console.WriteLine(ValidPassportsValidated(passports));
+        _console.WriteLine(ValidPassportsValidated(passports));
     }
 
     private static int ValidPassports(string[] passports)
@@ -73,7 +73,7 @@ public class ChallengeSolution04 : ChallengeSolution
                     }
                 }
             }
-            //Console.WriteLine(nr);
+            //_console.WriteLine(nr);
             if (nr <= reqFields.Length - 1)
                 isValid = false;
             if (isValid)

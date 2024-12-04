@@ -14,7 +14,7 @@ public class ChallengeSolution09(IConsole console) : ChallengeSolution(console)
         var tail = new Knot(new Coordinate(0, 0));
         ComputeCommands(head, tail, commands);
 
-        Console.WriteLine(tail.History.Count);
+        _console.WriteLine(tail.History.Count);
     }
 
     public override void SolveSecondPart()
@@ -24,7 +24,7 @@ public class ChallengeSolution09(IConsole console) : ChallengeSolution(console)
 
         ComputeCommands(knots[0], knots.Skip(1).ToList(), commands);
 
-        Console.WriteLine(knots.Last().History.Count);
+        _console.WriteLine(knots.Last().History.Count);
     }
 
     private static void ComputeCommands(Knot head, Knot tail, List<Command> commands)

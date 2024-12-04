@@ -38,7 +38,7 @@ public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
             CalculatePathsFrom(elem.Key, elem.Value);
         }
 
-        Console.WriteLine(pathMatrix[n - 1, n - 1]);
+        _console.WriteLine(pathMatrix[n - 1, n - 1]);
     }
 
     private void ReadMatrix()
@@ -129,8 +129,8 @@ public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
         for (int i = 0; i < matrix.GetLength(0); i++)
         {
             for (int j = 0; j < matrix.GetLength(1); j++)
-                Console.Write(matrix[i, j] + " ");
-            Console.WriteLine();
+                _console.Write(matrix[i, j] + " ");
+            _console.WriteLine();
         }
     }
 }

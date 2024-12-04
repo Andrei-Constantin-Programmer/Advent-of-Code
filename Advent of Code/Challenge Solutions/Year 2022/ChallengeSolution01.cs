@@ -8,12 +8,12 @@ public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
 {
     public override void SolveFirstPart()
     {
-        Console.WriteLine(GetElfCaloriesList().First());
+        _console.WriteLine(GetElfCaloriesList().First());
     }
 
     public override void SolveSecondPart()
     {
-        Console.WriteLine(GetElfCaloriesList().GetRange(0, 3).Sum());
+        _console.WriteLine(GetElfCaloriesList().GetRange(0, 3).Sum());
     }
 
     private List<int> GetElfCaloriesList()

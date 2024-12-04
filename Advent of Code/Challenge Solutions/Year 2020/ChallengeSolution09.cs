@@ -28,7 +28,7 @@ public class ChallengeSolution09 : ChallengeSolution
             if (!IsSumOfTwo(x, i))
             {
                 found = true;
-                Console.WriteLine(x);
+                _console.WriteLine(x);
             }
             else
                 numbers.Add(x);
@@ -53,7 +53,7 @@ public class ChallengeSolution09 : ChallengeSolution
                 numbers.Add(x);
         }
 
-        Console.WriteLine(GetContiguousSet(number, pos));
+        _console.WriteLine(GetContiguousSet(number, pos));
     }
 
 
@@ -64,7 +64,7 @@ public class ChallengeSolution09 : ChallengeSolution
         for (int i = index - 25; i < index - 1 && !found; i++)
             for (int j = i + 1; j < index && !found; j++)
             {
-                //Console.WriteLine(numbers[i]+" + "+numbers[j]+" = "+(numbers[i]+numbers[j]));
+                //_console.WriteLine(numbers[i]+" + "+numbers[j]+" = "+(numbers[i]+numbers[j]));
                 if (numbers[i] + numbers[j] == number)
                     found = true;
             }

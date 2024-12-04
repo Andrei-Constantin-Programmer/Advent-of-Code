@@ -27,7 +27,7 @@ public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
             epsilon += bit.GetLowestChar();
         }
 
-        Console.WriteLine(Convert.ToInt32(gamma, 2) * Convert.ToInt32(epsilon, 2));
+        _console.WriteLine(Convert.ToInt32(gamma, 2) * Convert.ToInt32(epsilon, 2));
     }
 
     public override void SolveSecondPart()
@@ -84,7 +84,7 @@ public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
             index++;
         }
 
-        Console.WriteLine(Convert.ToInt32(O2[0], 2) * Convert.ToInt32(CO2[0], 2));
+        _console.WriteLine(Convert.ToInt32(O2[0], 2) * Convert.ToInt32(CO2[0], 2));
     }
 }
 

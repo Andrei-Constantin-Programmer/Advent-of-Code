@@ -11,14 +11,14 @@ public class ChallengeSolution11(IConsole console) : ChallengeSolution(console)
     public override void SolveFirstPart()
     {
         var monkeys = ReadMonkeys();
-        Console.WriteLine(FindMonkeyBusiness(monkeys, 20, (x) => x / 3));
+        _console.WriteLine(FindMonkeyBusiness(monkeys, 20, (x) => x / 3));
     }
 
     public override void SolveSecondPart()
     {
         limit = 1;
         var monkeys = ReadMonkeys();
-        Console.WriteLine(FindMonkeyBusiness(monkeys, 10000, (x) => x % limit));
+        _console.WriteLine(FindMonkeyBusiness(monkeys, 10000, (x) => x % limit));
     }
 
     private static long FindMonkeyBusiness(List<Monkey> monkeys, int rounds, Func<long, long> modifier)

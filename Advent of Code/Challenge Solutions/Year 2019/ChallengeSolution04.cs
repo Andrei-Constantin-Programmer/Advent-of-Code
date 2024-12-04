@@ -9,7 +9,7 @@ public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
     public override void SolveFirstPart()
     {
         var (rangeStart, rangeEnd) = ReadRange();
-        Console.WriteLine(FindPasswordCount(rangeStart, rangeEnd, condition));
+        _console.WriteLine(FindPasswordCount(rangeStart, rangeEnd, condition));
 
         static bool condition(int[] digits) => digits
             .Zip(digits.Skip(1), (a, b) => a == b)
@@ -19,7 +19,7 @@ public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
     public override void SolveSecondPart()
     {
         var (rangeStart, rangeEnd) = ReadRange();
-        Console.WriteLine(FindPasswordCount(rangeStart, rangeEnd, condition));
+        _console.WriteLine(FindPasswordCount(rangeStart, rangeEnd, condition));
 
         static bool condition(int[] digits)
         {
@@ -72,7 +72,7 @@ public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
                                 {
                                     return passwordCount;
                                 }
-                               
+
                                 if (condition(number.ToString().Select(c => c - '0').ToArray()))
                                 {
                                     passwordCount++;

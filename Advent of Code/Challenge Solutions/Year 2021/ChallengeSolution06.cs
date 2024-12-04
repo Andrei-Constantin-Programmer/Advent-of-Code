@@ -32,7 +32,7 @@ public class ChallengeSolution06(IConsole console) : ChallengeSolution(console)
             days++;
         }
 
-        Console.WriteLine(lanternfish.Count);
+        _console.WriteLine(lanternfish.Count);
     }
 
     public override void SolveSecondPart()
@@ -60,6 +60,6 @@ public class ChallengeSolution06(IConsole console) : ChallengeSolution(console)
         foreach (var f in fish)
             sum += f;
 
-        Console.WriteLine(sum);
+        _console.WriteLine(sum);
     }
 }

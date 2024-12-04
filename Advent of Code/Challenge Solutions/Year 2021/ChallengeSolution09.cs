@@ -26,7 +26,7 @@ class ChallengeSolution09 : ChallengeSolution
             sum += heightMap[point.Row, point.Column] + 1;
         }
 
-        Console.WriteLine(sum);
+        _console.WriteLine(sum);
     }
 
     public override void SolveSecondPart()
@@ -37,7 +37,7 @@ class ChallengeSolution09 : ChallengeSolution
         int basins;
         CreateBasins(heightMap, lowPoints, out basins);
 
-        Console.WriteLine(CalculateBasinSizes(heightMap, basins)
+        _console.WriteLine(CalculateBasinSizes(heightMap, basins)
             .OrderByDescending(x => x)
             .Take(3)
             .Aggregate((x, y) => x * y));

@@ -11,7 +11,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
         var reports = ReadReports();
         var safeReports = reports.Count(r => IsSafeReport(r));
 
-        Console.WriteLine($"Safe reports: {safeReports}");
+        _console.WriteLine($"Safe reports: {safeReports}");
     }
 
     public override void SolveSecondPart()
@@ -38,7 +38,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
             }
         }
 
-        Console.WriteLine($"Safe reports: {safeReports}");
+        _console.WriteLine($"Safe reports: {safeReports}");
     }
 
     private static bool IsSafeReport(List<int> report, int? skipIndex = null)

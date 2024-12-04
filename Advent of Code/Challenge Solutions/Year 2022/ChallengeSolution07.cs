@@ -15,7 +15,7 @@ public class ChallengeSolution07 : ChallengeSolution
 
     public ChallengeSolution07(IConsole console) : base(console)
     {
-        root = new Folder("/");
+        root = new Folder(_console, "/");
         folders = new List<Folder>() { root };
         ReadFileSystem();
     }
@@ -28,7 +28,7 @@ public class ChallengeSolution07 : ChallengeSolution
             .Select(folder => folder.Size < MAX_SIZE ? folder.Size : 0)
             .Sum();
 
-        Console.WriteLine(sum);
+        _console.WriteLine(sum);
     }
 
     public override void SolveSecondPart()
@@ -41,12 +41,12 @@ public class ChallengeSolution07 : ChallengeSolution
             var used = root.Size - folder.Size;
             if (AVAILABLE - used >= NEEDED)
             {
-                Console.WriteLine(folder.Size);
+                _console.WriteLine(folder.Size);
                 return;
             }
         }
 
-        Console.WriteLine(root);
+        _console.WriteLine(root);
     }
 
     private void ReadFileSystem()
@@ -71,14 +71,14 @@ public class ChallengeSolution07 : ChallengeSolution
             {
                 if (elements[0] == "dir")
                 {
-                    var newFolder = new Folder(elements[1], currentFolder);
+                    var newFolder = new Folder(_console, elements[1], currentFolder);
                     currentFolder!.AddFile(newFolder);
 
                     folders.Add(newFolder);
                 }
                 else
                 {
-                    currentFolder!.AddFile(new TextFile(elements[1], Convert.ToInt32(elements[0]), currentFolder));
+                    currentFolder!.AddFile(new TextFile(_console, elements[1], Convert.ToInt32(elements[0]), currentFolder));
                 }
             }
         }
@@ -87,12 +87,16 @@ public class ChallengeSolution07 : ChallengeSolution
 
 abstract class FileSystemObject
 {
+    protected readonly IConsole _console;
+
     public string Name { get; }
     public Folder? Parent { get; }
     public abstract int Size { get; }
 
-    public FileSystemObject(string name, Folder? parent = null)
+    public FileSystemObject(IConsole console, string name, Folder? parent = null)
     {
+        _console = console;
+
         Name = name;
         Parent = parent;
     }
@@ -100,7 +104,7 @@ abstract class FileSystemObject
     public virtual void Print()
     {
         if (Parent != null)
-            Console.Write($" ");
+            _console.Write($" ");
     }
 }
 
@@ -108,7 +112,7 @@ class TextFile : FileSystemObject
 {
     public override int Size { get; }
 
-    public TextFile(string name, int size, Folder? parent = null) : base(name, parent)
+    public TextFile(IConsole console, string name, int size, Folder? parent = null) : base(console, name, parent)
     {
         Size = size;
     }
@@ -116,7 +120,7 @@ class TextFile : FileSystemObject
     public override void Print()
     {
         base.Print();
-        Console.WriteLine($"- {Name} (file, size = {Size})");
+        _console.WriteLine($"- {Name} (file, size = {Size})");
     }
 }
 
@@ -126,7 +130,7 @@ class Folder : FileSystemObject
 
     public override int Size => Files.Select(file => file.Size).Sum();
 
-    public Folder(string name, Folder? parent = null) : base(name, parent)
+    public Folder(IConsole console, string name, Folder? parent = null) : base(console, name, parent)
     {
         Files = new List<FileSystemObject>();
     }
@@ -147,13 +151,13 @@ class Folder : FileSystemObject
     public override void Print()
     {
         base.Print();
-        Console.WriteLine($"- {Name} (dir)");
+        _console.WriteLine($"- {Name} (dir)");
         foreach (var file in Files)
         {
             var parent = Parent;
             while (parent != null)
             {
-                Console.Write(" ");
+                _console.Write(" ");
                 parent = parent.Parent;
             }
             file.Print();

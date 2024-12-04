@@ -16,7 +16,7 @@ public class ChallengeSolution06(IConsole console) : ChallengeSolution(console)
             winningPossibilityProduct *= ComputeWinniningPossibilityCount(race);
         }
 
-        Console.WriteLine(winningPossibilityProduct);
+        _console.WriteLine(winningPossibilityProduct);
     }
 
     public override void SolveSecondPart()
@@ -24,7 +24,7 @@ public class ChallengeSolution06(IConsole console) : ChallengeSolution(console)
         var lines = ReadInputLines();
         KeyValuePair<long, long> race = new(ParseCombinedInputLine(lines[0]), ParseCombinedInputLine(lines[1]));
 
-        Console.WriteLine(ComputeWinniningPossibilityCount(race));
+        _console.WriteLine(ComputeWinniningPossibilityCount(race));
     }
 
     private static long ComputeWinniningPossibilityCount(KeyValuePair<long, long> race)

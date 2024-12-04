@@ -10,14 +10,14 @@ public class ChallengeSolution06(IConsole console) : ChallengeSolution(console)
     {
         var buffer = ReadDatastreamBuffer();
 
-        Console.WriteLine(FindFirstUniqueBufferPosition(buffer, 4));
+        _console.WriteLine(FindFirstUniqueBufferPosition(buffer, 4));
     }
 
     public override void SolveSecondPart()
     {
         var buffer = ReadDatastreamBuffer();
 
-        Console.WriteLine(FindFirstUniqueBufferPosition(buffer, 14));
+        _console.WriteLine(FindFirstUniqueBufferPosition(buffer, 14));
     }
 
     private static int FindFirstUniqueBufferPosition(string buffer, int bufferSize)

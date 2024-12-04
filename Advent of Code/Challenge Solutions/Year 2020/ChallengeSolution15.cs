@@ -48,6 +48,6 @@ public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
             }
         }
 
-        Console.WriteLine(last);
+        _console.WriteLine(last);
     }
 }

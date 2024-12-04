@@ -29,7 +29,7 @@ public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
             }
         }
 
-        Console.WriteLine(no);
+        _console.WriteLine(no);
     }
 
     public override void SolveSecondPart()
@@ -63,7 +63,7 @@ public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
             sum += number;
         }
 
-        Console.WriteLine(sum);
+        _console.WriteLine(sum);
     }
 
     private Dictionary<char, char> GetPositionsByChar(string[] wiring)

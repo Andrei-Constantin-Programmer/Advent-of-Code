@@ -10,7 +10,7 @@ public class ChallengeSolution19(IConsole console) : ChallengeSolution(console)
     private const char REJECTED = 'R';
     private const char GREATER_THAN = '>';
     private const string STARTING_WORKFLOW = "in";
-    
+
     private static readonly int _minimumRating = 0;
     private static readonly int _maximumRating = 4001;
 
@@ -22,7 +22,7 @@ public class ChallengeSolution19(IConsole console) : ChallengeSolution(console)
         var ratingNumberSum = parts
             .Where(part => GetAcceptance(part, startWorkflow, workflows) == ACCEPTED)
             .Sum(part => part.Xmas);
-        Console.WriteLine(ratingNumberSum);
+        _console.WriteLine(ratingNumberSum);
     }
 
     public override void SolveSecondPart()
@@ -32,7 +32,7 @@ public class ChallengeSolution19(IConsole console) : ChallengeSolution(console)
 
         var ranges = GetFittingRanges(startWorkflow, workflows);
         var possibleCombinations = ranges.Sum(range => range.CombinationCount);
-        Console.WriteLine(possibleCombinations);
+        _console.WriteLine(possibleCombinations);
     }
 
     private static List<RatingRange> GetFittingRanges(Workflow workflow, List<Workflow> workflows)

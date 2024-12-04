@@ -36,7 +36,7 @@ public class ChallengeSolution10 : ChallengeSolution
                 threeJolts++;
         }
 
-        Console.WriteLine(oneJolt * threeJolts);
+        _console.WriteLine(oneJolt * threeJolts);
     }
 
     public override void SolveSecondPart()
@@ -55,6 +55,6 @@ public class ChallengeSolution10 : ChallengeSolution
             }
         }
 
-        Console.WriteLine(paths[paths.Length - 1]);
+        _console.WriteLine(paths[paths.Length - 1]);
     }
 }

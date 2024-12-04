@@ -9,7 +9,7 @@ public class ChallengeSolution23(IConsole console) : ChallengeSolution(console)
     public override void SolveFirstPart()
     {
         var hikingTrails = ReadHikingTrails();
-        Console.WriteLine(FindLongestTrail(hikingTrails));
+        _console.WriteLine(FindLongestTrail(hikingTrails));
     }
 
     public override void SolveSecondPart()
@@ -25,7 +25,7 @@ public class ChallengeSolution23(IConsole console) : ChallengeSolution(console)
         }
 
         throw new NotImplementedException();
-        Console.WriteLine(FindLongestTrail(hikingTrails));
+        _console.WriteLine(FindLongestTrail(hikingTrails));
     }
 
     private static int FindLongestTrail(string[] hikingTrails)

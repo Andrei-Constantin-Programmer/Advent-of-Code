@@ -23,7 +23,7 @@ public class ChallengeSolution01 : ChallengeSolution
             for (int j = i; j < a.Length; j++)
             {
                 if (a[i] + a[j] == 2020)
-                    Console.WriteLine(a[i] * a[j]);
+                    _console.WriteLine(a[i] * a[j]);
             }
         }
     }
@@ -37,7 +37,7 @@ public class ChallengeSolution01 : ChallengeSolution
                 for (int l = j; l < a.Length; l++)
                 {
                     if (a[i] + a[j] + a[l] == 2020)
-                        Console.WriteLine(a[i] * a[j] * a[l]);
+                        _console.WriteLine(a[i] * a[j] * a[l]);
                 }
             }
         }

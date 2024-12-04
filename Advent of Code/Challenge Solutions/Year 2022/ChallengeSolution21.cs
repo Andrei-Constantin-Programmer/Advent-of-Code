@@ -13,7 +13,7 @@ public class ChallengeSolution21(IConsole console) : ChallengeSolution(console)
 
         //Print(root, 0);
 
-        Console.WriteLine(root.Value);
+        _console.WriteLine(root.Value);
     }
 
     public override void SolveSecondPart()
@@ -22,14 +22,14 @@ public class ChallengeSolution21(IConsole console) : ChallengeSolution(console)
         var root = FindMonkey(monkeys, "root");
         var human = FindMonkey(monkeys, "humn");
 
-        Console.WriteLine(FindHumanCall(root, human));
+        _console.WriteLine(FindHumanCall(root, human));
     }
 
-    private static void Print(Monkey monkey, int spaces)
+    private void Print(Monkey monkey, int spaces)
     {
         for (int i = 0; i < spaces; i++)
-            Console.Write(" ");
-        Console.WriteLine(monkey.Name + " " + monkey.Value);
+            _console.Write(" ");
+        _console.WriteLine(monkey.Name + " " + monkey.Value);
 
         if (monkey.LeftMonkey != null)
             Print(monkey.LeftMonkey, spaces + 1);

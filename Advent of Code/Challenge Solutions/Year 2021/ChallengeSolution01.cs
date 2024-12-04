@@ -21,7 +21,7 @@ public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
             }
         }
 
-        Console.WriteLine(no);
+        _console.WriteLine(no);
     }
 
     public override void SolveSecondPart()
@@ -44,6 +44,6 @@ public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
             if (sums[i] > sums[i - 1])
                 no++;
 
-        Console.WriteLine(no);
+        _console.WriteLine(no);
     }
 }

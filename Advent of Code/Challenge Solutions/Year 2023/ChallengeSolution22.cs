@@ -8,14 +8,14 @@ public class ChallengeSolution22(IConsole console) : ChallengeSolution(console)
 {
     public override void SolveFirstPart()
     {
-        Console.WriteLine(
+        _console.WriteLine(
             ReadToppledCounts()
             .Count(toppleCount => toppleCount == 0));
     }
 
     public override void SolveSecondPart()
     {
-        Console.WriteLine(
+        _console.WriteLine(
             ReadToppledCounts()
             .Sum());
     }
@@ -147,7 +147,7 @@ public class ChallengeSolution22(IConsole console) : ChallengeSolution(console)
 
         public int Bottom => Z.Start;
         public int Top => Z.End;
-        
+
         public Brick(Range x, Range y, Range z)
         {
             X = x;

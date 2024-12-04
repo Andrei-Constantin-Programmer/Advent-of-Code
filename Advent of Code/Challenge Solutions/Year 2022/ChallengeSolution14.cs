@@ -21,13 +21,13 @@ public class ChallengeSolution14 : ChallengeSolution
     public override void SolveFirstPart()
     {
         var cave = CreateCaveMap(paths, leftMargin, rightMargin, bottomMargin);
-        Console.WriteLine(GrainsToFillCave(cave, leftMargin));
+        _console.WriteLine(GrainsToFillCave(cave, leftMargin));
     }
 
     public override void SolveSecondPart()
     {
         var cave = AddFloor(CreateCaveMap(paths, leftMargin, rightMargin, bottomMargin));
-        Console.WriteLine(GrainsToPlugSource(cave, leftMargin));
+        _console.WriteLine(GrainsToPlugSource(cave, leftMargin));
         PrintCave(cave);
     }
 

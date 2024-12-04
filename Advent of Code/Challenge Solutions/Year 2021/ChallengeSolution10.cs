@@ -40,7 +40,7 @@ public class ChallengeSolution10(IConsole console) : ChallengeSolution(console)
             }
         }
 
-        Console.WriteLine(points);
+        _console.WriteLine(points);
     }
 
     public override void SolveSecondPart()
@@ -68,7 +68,7 @@ public class ChallengeSolution10(IConsole console) : ChallengeSolution(console)
         }
 
         scores.Sort();
-        Console.WriteLine(scores[(scores.Count - 1) / 2]);
+        _console.WriteLine(scores[(scores.Count - 1) / 2]);
     }
 
     private char? CorruptedChar(string line)

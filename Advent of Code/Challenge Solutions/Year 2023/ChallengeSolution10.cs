@@ -13,8 +13,8 @@ public class ChallengeSolution10(IConsole console) : ChallengeSolution(console)
         var lines = Reader.ReadLines(this);
         var grid = GetInputGrid(lines);
         var startTile = GetStartTile(grid, out var _);
-        
-        Console.WriteLine(ComputeStepsToFarthestElement(startTile));
+
+        _console.WriteLine(ComputeStepsToFarthestElement(startTile));
     }
 
     public override void SolveSecondPart()
@@ -27,7 +27,7 @@ public class ChallengeSolution10(IConsole console) : ChallengeSolution(console)
 
         var enclosedTiles = FindEnclosedTileCount(knotGrid);
 
-        Console.WriteLine(enclosedTiles);
+        _console.WriteLine(enclosedTiles);
     }
 
     private static int FindEnclosedTileCount(char[,] knotGrid)

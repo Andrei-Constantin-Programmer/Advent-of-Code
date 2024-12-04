@@ -8,14 +8,14 @@ public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
 {
     public override void SolveFirstPart()
     {
-        Console.WriteLine(ReadModuleMasses()
+        _console.WriteLine(ReadModuleMasses()
             .Select(mass => CalculateFuelForMass(mass))
             .Sum());
     }
 
     public override void SolveSecondPart()
     {
-        Console.WriteLine(ReadModuleMasses()
+        _console.WriteLine(ReadModuleMasses()
             .Select(mass =>
             {
                 var remainingMass = mass;

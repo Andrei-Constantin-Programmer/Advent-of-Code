@@ -22,7 +22,7 @@ public partial class ChallengeSolution03(IConsole console) : ChallengeSolution(c
             sum += x * y;
         }
 
-        Console.WriteLine($"Multiplication sum: {sum}");
+        _console.WriteLine($"Multiplication sum: {sum}");
     }
 
     public override void SolveSecondPart()
@@ -57,7 +57,7 @@ public partial class ChallengeSolution03(IConsole console) : ChallengeSolution(c
             }
         }
 
-        Console.WriteLine($"Multiplication sum: {sum}");
+        _console.WriteLine($"Multiplication sum: {sum}");
     }
 
     private static (int, int) ConvertMul(string mul)

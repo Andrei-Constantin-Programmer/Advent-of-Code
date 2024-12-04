@@ -12,7 +12,7 @@ public class ChallengeSolution05(IConsole console) : ChallengeSolution(console)
 
         OperateMovesCrateMover9000(stacks, moves);
 
-        Console.WriteLine(String.Join("", stacks.Select(stack => stack.Peek())));
+        _console.WriteLine(String.Join("", stacks.Select(stack => stack.Peek())));
     }
 
     public override void SolveSecondPart()
@@ -21,7 +21,7 @@ public class ChallengeSolution05(IConsole console) : ChallengeSolution(console)
 
         OperateMovesCrateMover9001(stacks, moves);
 
-        Console.WriteLine(String.Join("", stacks.Select(stack => stack.Peek())));
+        _console.WriteLine(String.Join("", stacks.Select(stack => stack.Peek())));
     }
 
     private static void OperateMovesCrateMover9000(List<Stack<char>> stacks, List<MoveOperation> moves)

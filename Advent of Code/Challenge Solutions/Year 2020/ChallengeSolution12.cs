@@ -23,7 +23,7 @@ public class ChallengeSolution12 : ChallengeSolution
             MovePlane(action);
         }
 
-        Console.WriteLine(Math.Abs(horizontal) + Math.Abs(vertical));
+        _console.WriteLine(Math.Abs(horizontal) + Math.Abs(vertical));
     }
 
     public override void SolveSecondPart()
@@ -36,7 +36,7 @@ public class ChallengeSolution12 : ChallengeSolution
         {
             DoAction(action);
         }
-        Console.WriteLine(Math.Abs(planeVertical) + Math.Abs(planeHorizontal));
+        _console.WriteLine(Math.Abs(planeVertical) + Math.Abs(planeHorizontal));
     }
 
     private int horizontal, vertical;

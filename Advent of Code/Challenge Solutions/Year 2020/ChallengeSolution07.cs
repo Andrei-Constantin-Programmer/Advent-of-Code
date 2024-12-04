@@ -8,16 +8,16 @@ public class ChallengeSolution07(IConsole console) : ChallengeSolution(console)
 {
     public override void SolveFirstPart()
     {
-        new FirstPart().Solution(Reader.ReadLines(this));
+        new FirstPart(_console).Solution(Reader.ReadLines(this));
     }
 
     public override void SolveSecondPart()
     {
-        new SecondPart().Solution(Reader.ReadLines(this));
+        new SecondPart(_console).Solution(Reader.ReadLines(this));
     }
 
 
-    class FirstPart
+    class FirstPart(IConsole console)
     {
         private static List<Bag> allBags;
         private static List<Bag> validBags;
@@ -44,7 +44,7 @@ public class ChallengeSolution07(IConsole console) : ChallengeSolution(console)
                     validBags.Add(bag);
             }
 
-            Console.WriteLine(validBags.Count);
+            console.WriteLine(validBags.Count);
         }
 
         private static Bag? FindBag(string bagName)
@@ -118,7 +118,7 @@ public class ChallengeSolution07(IConsole console) : ChallengeSolution(console)
         }
     }
 
-    class SecondPart
+    class SecondPart(IConsole console)
     {
         private static List<Bag> allBags;
         private static string sg = "shiny gold";
@@ -139,7 +139,7 @@ public class ChallengeSolution07(IConsole console) : ChallengeSolution(console)
 
             Bag? sgBag = FindBag(sg);
 
-            Console.WriteLine(sgBag!.SumOfBags());
+            console.WriteLine(sgBag!.SumOfBags());
         }
 
         private static Bag? FindBag(string bagName)

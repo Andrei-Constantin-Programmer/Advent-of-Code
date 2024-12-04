@@ -19,7 +19,7 @@ public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
                 rightOrderIndexSum += (i + 1);
         }
 
-        Console.WriteLine(rightOrderIndexSum);
+        _console.WriteLine(rightOrderIndexSum);
     }
 
     public override void SolveSecondPart()
@@ -44,7 +44,7 @@ public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
             }
         }
 
-        Console.WriteLine(product);
+        _console.WriteLine(product);
     }
 
     private static List<Packet> CreateDividerPackets(int[] values)

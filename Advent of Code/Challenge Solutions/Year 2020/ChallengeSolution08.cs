@@ -49,7 +49,7 @@ public class ChallengeSolution08 : ChallengeSolution
             }
         }
 
-        Console.WriteLine(accumulator);
+        _console.WriteLine(accumulator);
     }
 
     public override void SolveSecondPart()
@@ -69,7 +69,7 @@ public class ChallengeSolution08 : ChallengeSolution
             }
         }
 
-        Console.WriteLine(accumulator);
+        _console.WriteLine(accumulator);
     }
 
 

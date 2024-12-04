@@ -76,7 +76,7 @@ public class ChallengeSolution16 : ChallengeSolution
                 if (!valid)
                     sum += field;
             }
-        Console.WriteLine(sum);
+        _console.WriteLine(sum);
     }
 
     public override void SolveSecondPart()
@@ -102,8 +102,8 @@ public class ChallengeSolution16 : ChallengeSolution
         foreach (Ticket validTicket in validTickets)
         {
             foreach (int field in validTicket.fields)
-                Console.Write(field + " ");
-            Console.WriteLine();
+                _console.Write(field + " ");
+            _console.WriteLine();
         }
     }
 

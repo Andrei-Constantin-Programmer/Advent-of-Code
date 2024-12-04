@@ -17,7 +17,7 @@ public class ChallengeSolution16(IConsole console) : ChallengeSolution(console)
         var mirrorGrid = Reader.ReadLines(this).ToList();
         var energiseLevel = ComputeEnergiseLevel(mirrorGrid, new(0, 0, Direction.East));
 
-        Console.WriteLine(energiseLevel);
+        _console.WriteLine(energiseLevel);
     }
 
     public override void SolveSecondPart()
@@ -25,7 +25,7 @@ public class ChallengeSolution16(IConsole console) : ChallengeSolution(console)
         var mirrorGrid = Reader.ReadLines(this).ToList();
         var maxEnergiseLevel = FindMaximumEnergiseLevel(mirrorGrid);
 
-        Console.WriteLine(maxEnergiseLevel);
+        _console.WriteLine(maxEnergiseLevel);
     }
 
     private static int FindMaximumEnergiseLevel(List<string> mirrorGrid)

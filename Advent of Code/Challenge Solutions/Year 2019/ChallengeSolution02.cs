@@ -9,7 +9,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
     public override void SolveFirstPart()
     {
         var opCodes = ReadOpCodes();
-        Console.WriteLine(ResultForOpCodeCalculation(opCodes, 12, 2));
+        _console.WriteLine(ResultForOpCodeCalculation(opCodes, 12, 2));
     }
 
     public override void SolveSecondPart()
@@ -23,7 +23,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
 
                 if (result == 19_690_720)
                 {
-                    Console.WriteLine(100 * noun + verb);
+                    _console.WriteLine(100 * noun + verb);
                     return;
                 }
             }

@@ -38,7 +38,7 @@ public class ChallengeSolution14 : ChallengeSolution
             if (!String.IsNullOrEmpty(code))
                 if (code.Contains('1'))
                     sum += ToDecimal(code);
-        Console.WriteLine(sum);
+        _console.WriteLine(sum);
     }
 
     public override void SolveSecondPart()
@@ -67,7 +67,7 @@ public class ChallengeSolution14 : ChallengeSolution
             {
                 sum2 += ToDecimal(memory2[index]);
             }
-        Console.WriteLine(sum2);
+        _console.WriteLine(sum2);
     }
 
     private static string[] memory;

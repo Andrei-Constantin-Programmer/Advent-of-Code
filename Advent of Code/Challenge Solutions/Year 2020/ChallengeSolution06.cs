@@ -18,12 +18,12 @@ public class ChallengeSolution06 : ChallengeSolution
 
     public override void SolveFirstPart()
     {
-        Console.WriteLine(GetSum(groups));
+        _console.WriteLine(GetSum(groups));
     }
 
     public override void SolveSecondPart()
     {
-        Console.WriteLine(GetSumAll(groups));
+        _console.WriteLine(GetSumAll(groups));
     }
 
     private static void CleanQuestions()

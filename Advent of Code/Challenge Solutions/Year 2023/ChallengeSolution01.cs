@@ -23,13 +23,13 @@ public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
     public override void SolveFirstPart()
     {
         int calibrationSum = ComputeCalibrationSum(false);
-        Console.WriteLine(calibrationSum);
+        _console.WriteLine(calibrationSum);
     }
 
     public override void SolveSecondPart()
     {
         int calibrationSum = ComputeCalibrationSum(true);
-        Console.WriteLine(calibrationSum);
+        _console.WriteLine(calibrationSum);
     }
 
     private int ComputeCalibrationSum(bool includeWords)

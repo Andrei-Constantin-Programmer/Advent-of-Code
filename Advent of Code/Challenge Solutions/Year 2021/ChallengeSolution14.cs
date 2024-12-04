@@ -32,7 +32,7 @@ public class ChallengeSolution14(IConsole console) : ChallengeSolution(console)
 
         var sorted = (from entry in appearances orderby entry.Value ascending select entry).ToList();
 
-        Console.WriteLine(sorted[sorted.Count - 1].Value - sorted[0].Value);
+        _console.WriteLine(sorted[sorted.Count - 1].Value - sorted[0].Value);
     }
 
     public override void SolveSecondPart()
@@ -65,7 +65,7 @@ public class ChallengeSolution14(IConsole console) : ChallengeSolution(console)
         }
 
         var sorted = (from entry in appearances orderby entry.Value ascending select entry).ToList();
-        Console.WriteLine(sorted[sorted.Count - 1].Value - sorted[0].Value);
+        _console.WriteLine(sorted[sorted.Count - 1].Value - sorted[0].Value);
     }
 
     private void AddAppearance(char c, long value)

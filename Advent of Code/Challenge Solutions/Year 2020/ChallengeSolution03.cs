@@ -15,14 +15,14 @@ public class ChallengeSolution03 : ChallengeSolution
 
     public override void SolveFirstPart()
     {
-        Console.WriteLine(CountTrees(lines));
+        _console.WriteLine(CountTrees(lines));
     }
 
     public override void SolveSecondPart()
     {
         int p = CountTreesDownOne(lines);
         p *= CountTreesDownTwo(lines);
-        Console.WriteLine(p);
+        _console.WriteLine(p);
     }
 
     private static int CountTrees(string[] lines)

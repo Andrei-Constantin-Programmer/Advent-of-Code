@@ -16,7 +16,7 @@ public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
             .Select(Hash)
             .Sum();
 
-        Console.WriteLine(sum);
+        _console.WriteLine(sum);
     }
 
     public override void SolveSecondPart()
@@ -43,7 +43,7 @@ public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
             }
         }
 
-        Console.WriteLine(focusingPowerSum);
+        _console.WriteLine(focusingPowerSum);
     }
 
     private static Dictionary<int, List<Lens>> ComputeBoxesFromSteps(string[] steps)

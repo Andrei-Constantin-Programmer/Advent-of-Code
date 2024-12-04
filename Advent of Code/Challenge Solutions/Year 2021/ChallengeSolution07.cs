@@ -46,7 +46,7 @@ public class ChallengeSolution07(IConsole console) : ChallengeSolution(console)
             }
         }
 
-        Console.WriteLine(minFuel);
+        _console.WriteLine(minFuel);
     }
 
     private int GetUsedFuel(int start, int end)

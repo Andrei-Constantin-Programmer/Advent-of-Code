@@ -35,7 +35,7 @@ public class ChallengeSolution13 : ChallengeSolution
             i++;
         }
 
-        Console.WriteLine(GetEarliestBus() * (earliestTimestamp - firstTimestamp));
+        _console.WriteLine(GetEarliestBus() * (earliestTimestamp - firstTimestamp));
     }
 
     public override void SolveSecondPart()
@@ -73,7 +73,7 @@ public class ChallengeSolution13 : ChallengeSolution
             }
         }
 
-        Console.WriteLine(timestamp);
+        _console.WriteLine(timestamp);
     }
 
     private static int GetEarliestBus()

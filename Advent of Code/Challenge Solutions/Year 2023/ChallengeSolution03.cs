@@ -36,7 +36,7 @@ public class ChallengeSolution03 : ChallengeSolution
             totalPartNumberSum += ProcessDigitSequence(row, digitSequence);
         }
 
-        Console.WriteLine(totalPartNumberSum);
+        _console.WriteLine(totalPartNumberSum);
     }
 
     public override void SolveSecondPart()
@@ -67,7 +67,7 @@ public class ChallengeSolution03 : ChallengeSolution
             .Select(gearPos => gears[gearPos].Aggregate((acc, x) => acc * x))
             .Sum();
 
-        Console.WriteLine(totalGearRatioSum);
+        _console.WriteLine(totalGearRatioSum);
     }
 
     private int ProcessDigitSequence(int row, List<(int index, char character)> digitSequence)

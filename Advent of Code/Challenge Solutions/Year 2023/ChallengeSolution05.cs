@@ -32,7 +32,7 @@ public class ChallengeSolution05 : ChallengeSolution
             .Select(MapSeedToLocation)
             .Min();
 
-        Console.WriteLine(minimumLocation);
+        _console.WriteLine(minimumLocation);
     }
 
     public override void SolveSecondPart()
@@ -69,7 +69,7 @@ public class ChallengeSolution05 : ChallengeSolution
             .First()
             .Start;
 
-        Console.WriteLine(minimumLocation);
+        _console.WriteLine(minimumLocation);
     }
 
     private long MapSeedToLocation(long seed) => _mappingLists.Aggregate(seed, (value, mappingList) => mappingList.Map(value));

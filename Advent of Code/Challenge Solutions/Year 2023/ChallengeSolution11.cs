@@ -14,7 +14,7 @@ public class ChallengeSolution11(IConsole console) : ChallengeSolution(console)
         var galaxy = Reader.ReadLines(this).ToList();
         var manhattanDistanceSum = GetManhattanDistanceSum(galaxy, 2);
 
-        Console.WriteLine(manhattanDistanceSum);
+        _console.WriteLine(manhattanDistanceSum);
     }
 
     public override void SolveSecondPart()
@@ -22,7 +22,7 @@ public class ChallengeSolution11(IConsole console) : ChallengeSolution(console)
         var galaxy = Reader.ReadLines(this).ToList();
         var manhattanDistanceSum = GetManhattanDistanceSum(galaxy, 1_000_000);
 
-        Console.WriteLine(manhattanDistanceSum);
+        _console.WriteLine(manhattanDistanceSum);
     }
 
     private static long GetManhattanDistanceSum(List<string> galaxy, int expansionRate)

@@ -16,7 +16,7 @@ public class ChallengeSolution12(IConsole console) : ChallengeSolution(console)
         GetCaves();
         FindCaves("start", new List<string>());
 
-        Console.WriteLine(paths);
+        _console.WriteLine(paths);
     }
 
     private void FindCaves(string cave, List<string> prevCaves)
@@ -55,7 +55,7 @@ public class ChallengeSolution12(IConsole console) : ChallengeSolution(console)
             }
 
 
-        Console.WriteLine(fullPaths.Count);
+        _console.WriteLine(fullPaths.Count);
     }
 
 

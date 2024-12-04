@@ -14,7 +14,7 @@ public class ChallengeSolution25(IConsole console) : ChallengeSolution(console)
 
         //var (subgraphSize1, subgraphSize2) = GetPartialGraphSizesAfterDivision(graph);
 
-        //Console.WriteLine(subgraphSize1 * subgraphSize2);
+        //_console.WriteLine(subgraphSize1 * subgraphSize2);
     }
 
     public override void SolveSecondPart()

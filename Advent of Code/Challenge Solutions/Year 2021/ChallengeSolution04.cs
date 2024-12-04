@@ -34,7 +34,7 @@ public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
             }
         }
 
-        Console.WriteLine(winNumber * winBoard.SumUnchecked());
+        _console.WriteLine(winNumber * winBoard.SumUnchecked());
 
     }
 
@@ -64,7 +64,7 @@ public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
                     else
                     {
                         foundLast = true;
-                        Console.WriteLine(x * boards[0].SumUnchecked());
+                        _console.WriteLine(x * boards[0].SumUnchecked());
                     }
                 }
             }

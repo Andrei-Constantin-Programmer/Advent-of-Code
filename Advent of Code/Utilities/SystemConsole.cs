@@ -5,6 +5,7 @@ public class SystemConsole : IConsole
     public void WriteLine() => Console.WriteLine();
 
     public void WriteLine(string message) => Console.WriteLine(message);
+    public void WriteLine(char[] message) => Console.WriteLine(message);
 
     public void WriteLine(object obj) => Console.WriteLine(obj);
 

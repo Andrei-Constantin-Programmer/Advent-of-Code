@@ -15,22 +15,25 @@ public class ChallengeSolution11 : ChallengeSolution
 
     public override void SolveFirstPart()
     {
-        new FirstPart(lines).Solution();
+        new FirstPart(_console, lines).Solution();
     }
 
     public override void SolveSecondPart()
     {
-        new SecondPart(lines).Solution();
+        new SecondPart(_console, lines).Solution();
     }
 
     class FirstPart
     {
+        private readonly IConsole _console;
+
         private char[][] seats;
         private char[][] prevSeats;
         private string[] lines;
 
-        public FirstPart(string[] lines)
+        public FirstPart(IConsole console, string[] lines)
         {
+            _console = console;
             this.lines = lines;
         }
 
@@ -62,7 +65,7 @@ public class ChallengeSolution11 : ChallengeSolution
                 for (int j = 0; j < seats[i].Length; j++)
                     if (seats[i][j] == '#')
                         nr++;
-            Console.WriteLine(nr);
+            _console.WriteLine(nr);
         }
 
         private int CountNeighbour(int i, int j, char c)
@@ -133,8 +136,8 @@ public class ChallengeSolution11 : ChallengeSolution
                 {
                     if (row[j] == 'L')
                     {
-                        /*Console.Write(i + " " + j+" ");
-                        Console.WriteLine(countNeighbour(i, j, '#'));*/
+                        /*_console.Write(i + " " + j+" ");
+                        _console.WriteLine(countNeighbour(i, j, '#'));*/
                         if (CountNeighbour(i, j, '#') == 0)
                         {
                             changedSeats[i][j] = '#';
@@ -142,7 +145,7 @@ public class ChallengeSolution11 : ChallengeSolution
                     }
                     else if (row[j] == '#')
                     {
-                        //Console.WriteLine("#");
+                        //_console.WriteLine("#");
                         if (CountNeighbour(i, j, '#') >= 4)
                             changedSeats[i][j] = 'L';
                     }
@@ -178,12 +181,15 @@ public class ChallengeSolution11 : ChallengeSolution
 
     class SecondPart
     {
+        private readonly IConsole _console;
+
         private char[][] seats;
         private char[][] prevSeats;
         private string[] lines;
 
-        public SecondPart(string[] lines)
+        public SecondPart(IConsole console, string[] lines)
         {
+            _console = console;
             this.lines = lines;
         }
 
@@ -215,7 +221,7 @@ public class ChallengeSolution11 : ChallengeSolution
                 for (int j = 0; j < seats[i].Length; j++)
                     if (seats[i][j] == '#')
                         nr++;
-            Console.WriteLine(nr);
+            _console.WriteLine(nr);
         }
 
         private int CountSeats(int i, int j, int c)

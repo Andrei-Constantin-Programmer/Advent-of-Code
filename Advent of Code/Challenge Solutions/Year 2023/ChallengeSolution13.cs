@@ -10,13 +10,13 @@ public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
     public override void SolveFirstPart()
     {
         var patterns = ReadPatterns();
-        Console.WriteLine(GetNoteSummary(patterns));
+        _console.WriteLine(GetNoteSummary(patterns));
     }
 
     public override void SolveSecondPart()
     {
         var patterns = ReadPatterns();
-        Console.WriteLine(GetNoteSummary(patterns, includeSmudge: true));
+        _console.WriteLine(GetNoteSummary(patterns, includeSmudge: true));
     }
 
     private static int GetNoteSummary(List<string[]> patterns, bool includeSmudge = false)

@@ -11,7 +11,7 @@ public class ChallengeSolution17(IConsole console) : ChallengeSolution(console)
         var heatLossMap = ReadHeatLossMap();
         var leastSpillage = FindLeastSpillage(heatLossMap, new(0, 3));
 
-        Console.WriteLine(leastSpillage);
+        _console.WriteLine(leastSpillage);
     }
 
     public override void SolveSecondPart()
@@ -19,7 +19,7 @@ public class ChallengeSolution17(IConsole console) : ChallengeSolution(console)
         var heatLossMap = ReadHeatLossMap();
         var leastSpillage = FindLeastSpillage(heatLossMap, new(4, 10));
 
-        Console.WriteLine(leastSpillage);
+        _console.WriteLine(leastSpillage);
     }
 
     private static int FindLeastSpillage(byte[,] heatLossMap, Crucible crucible)
@@ -119,7 +119,7 @@ public class ChallengeSolution17(IConsole console) : ChallengeSolution(console)
         public Point Point { get; init; }
         public Direction Direction { get; }
         public int ConsecutiveSteps { get; }
-        
+
         public Block(Point point, Direction direction, int consecutiveSteps)
         {
             Point = point;

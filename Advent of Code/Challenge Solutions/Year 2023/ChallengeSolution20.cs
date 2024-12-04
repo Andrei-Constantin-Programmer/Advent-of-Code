@@ -23,7 +23,7 @@ public class ChallengeSolution20(IConsole console) : ChallengeSolution(console)
             totalHighPulses += highPulses;
         }
 
-        Console.WriteLine(totalLowPulses * totalHighPulses);
+        _console.WriteLine(totalLowPulses * totalHighPulses);
     }
 
     public override void SolveSecondPart()
@@ -39,7 +39,7 @@ public class ChallengeSolution20(IConsole console) : ChallengeSolution(console)
         var inputPresses = FindPressesToHighPulse(broadcaster, rxInput.InputModules.Keys);
 
         var pressesToLowPulseToRx = inputPresses.Values.Aggregate(1L, (aggregator, presses) => aggregator * presses);
-        Console.WriteLine(pressesToLowPulseToRx);
+        _console.WriteLine(pressesToLowPulseToRx);
     }
 
     private static Dictionary<IModule, long> FindPressesToHighPulse(BroadcasterModule broadcaster, IEnumerable<IModule> inputModules)

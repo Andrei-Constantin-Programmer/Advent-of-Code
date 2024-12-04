@@ -39,7 +39,7 @@ public class ChallengeSolution02 : ChallengeSolution
                 no++;
         }
 
-        Console.WriteLine(no);
+        _console.WriteLine(no);
     }
 
     public override void SolveSecondPart()
@@ -61,7 +61,7 @@ public class ChallengeSolution02 : ChallengeSolution
                 no++;
         }
 
-        Console.WriteLine(no);
+        _console.WriteLine(no);
     }
 
     private static int NumberOfDigits(int x)

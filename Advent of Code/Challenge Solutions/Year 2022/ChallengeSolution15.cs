@@ -16,7 +16,7 @@ public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
 
         var row = IsTesting ? 10 : 2000000;
 
-        Console.WriteLine(GetBlockedPositions(row, pairs).Count);
+        _console.WriteLine(GetBlockedPositions(row, pairs).Count);
     }
 
     public override void SolveSecondPart()
@@ -26,7 +26,7 @@ public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
 
         var maximum = IsTesting ? 20 : 4000000;
 
-        Console.WriteLine(GetTuningFrequency(FindDistressBeacon(diamonds, maximum)));
+        _console.WriteLine(GetTuningFrequency(FindDistressBeacon(diamonds, maximum)));
     }
 
     private (long, long) FindDistressBeacon(List<BlockedDiamond> diamonds, long maximum)

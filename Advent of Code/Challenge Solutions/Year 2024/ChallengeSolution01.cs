@@ -15,7 +15,7 @@ public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
             .Zip(rightList.Order(), (x, y) => Math.Abs(x - y))
             .Sum();
 
-        Console.WriteLine($"Total distance: {totalDistance}");
+        _console.WriteLine($"Total distance: {totalDistance}");
     }
 
     public override void SolveSecondPart()
@@ -25,7 +25,7 @@ public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
         var similarityScore = leftList
             .Sum(x => x * rightList.Count(y => y == x));
 
-        Console.WriteLine($"Similarity score: {similarityScore}");
+        _console.WriteLine($"Similarity score: {similarityScore}");
     }
 
     private (List<int>, List<int>) ReadLocationIds()

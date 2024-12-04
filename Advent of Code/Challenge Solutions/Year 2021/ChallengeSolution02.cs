@@ -21,7 +21,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
                 depth -= x;
         }
 
-        Console.WriteLine(depth * horizontal);
+        _console.WriteLine(depth * horizontal);
     }
 
     public override void SolveSecondPart()
@@ -44,6 +44,6 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
         }
 
 
-        Console.WriteLine(depth * horizontal);
+        _console.WriteLine(depth * horizontal);
     }
 }

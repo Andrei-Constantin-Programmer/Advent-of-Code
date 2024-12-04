@@ -10,8 +10,8 @@ public class ChallengeSolution18(IConsole console) : ChallengeSolution(console)
     {
         var lines = Reader.ReadLines(this);
         var corners = GetCornersWithLeftInstructions(lines, out var perimeter);
-        
-        Console.WriteLine(GetLavaStorageAmount(corners, perimeter));
+
+        _console.WriteLine(GetLavaStorageAmount(corners, perimeter));
     }
 
     public override void SolveSecondPart()
@@ -19,7 +19,7 @@ public class ChallengeSolution18(IConsole console) : ChallengeSolution(console)
         var lines = Reader.ReadLines(this);
         var corners = GetCornersWithRightInstructions(lines, out var perimeter);
 
-        Console.WriteLine(GetLavaStorageAmount(corners, perimeter));
+        _console.WriteLine(GetLavaStorageAmount(corners, perimeter));
     }
 
     private static long GetLavaStorageAmount(List<Point> corners, long perimeter)
@@ -82,7 +82,7 @@ public class ChallengeSolution18(IConsole console) : ChallengeSolution(console)
             var elements = line.Split(' ');
             var direction = (Direction)elements[0][0];
             var edgeLength = int.Parse(elements[1]);
-            
+
             Point endPoint = GetEndPoint(currentPoint, direction, edgeLength);
 
             corners.Add(currentPoint);

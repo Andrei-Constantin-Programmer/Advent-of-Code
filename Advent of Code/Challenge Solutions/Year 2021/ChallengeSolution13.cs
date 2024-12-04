@@ -36,7 +36,7 @@ public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
                 if (matrix[i, j] == '#')
                     dots++;
 
-        Console.WriteLine(dots);
+        _console.WriteLine(dots);
     }
 
     public override void SolveSecondPart()
@@ -69,7 +69,7 @@ public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
                 l += matrix[i, j] == '.' ? " " : "#" + "";
             }
 
-            Console.WriteLine(l);
+            _console.WriteLine(l);
         }
     }
 
@@ -143,10 +143,10 @@ public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
         for (int i = 0; i < n; i++)
         {
             for (int j = 0; j < m; j++)
-                Console.Write(matrix[i, j]);
-            Console.WriteLine();
+                _console.Write(matrix[i, j]);
+            _console.WriteLine();
         }
-        Console.WriteLine();
+        _console.WriteLine();
     }
 }
 
