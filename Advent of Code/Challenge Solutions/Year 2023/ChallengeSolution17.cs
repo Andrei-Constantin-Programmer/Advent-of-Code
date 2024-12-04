@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution17(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution17(IConsole console, ISolutionReader<ChallengeSolution17> reader)
+    : ChallengeSolution<ChallengeSolution17>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -100,7 +101,7 @@ public class ChallengeSolution17(IConsole console) : ChallengeSolution(console)
 
     private byte[,] ReadHeatLossMap()
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         var heatLossMap = new byte[lines.Length, lines[0].Length];
 
         for (var row = 0; row < lines.Length; row++)

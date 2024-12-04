@@ -5,7 +5,8 @@ using System.Collections.Concurrent;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolution15> reader)
+    : ChallengeSolution<ChallengeSolution15>(console, reader)
 {
     private const bool IsTesting = false;
     private readonly ParallelOptions parallelOptions = new() { MaxDegreeOfParallelism = 12 };
@@ -186,7 +187,7 @@ public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
     private List<SensorBeaconPair> ReadSensorsAndBeacons()
     {
         var sensorBeaconPairs = new List<SensorBeaconPair>();
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             var values = line
                 .Split(" ", StringSplitOptions.RemoveEmptyEntries)

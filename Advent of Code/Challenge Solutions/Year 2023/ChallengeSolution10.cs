@@ -6,11 +6,12 @@ using System.Text.RegularExpressions;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution10(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolution10> reader)
+    : ChallengeSolution<ChallengeSolution10>(console, reader)
 {
     public override void SolveFirstPart()
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         var grid = GetInputGrid(lines);
         var startTile = GetStartTile(grid, out var _);
 
@@ -19,7 +20,7 @@ public class ChallengeSolution10(IConsole console) : ChallengeSolution(console)
 
     public override void SolveSecondPart()
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         var tileGrid = GetInputGrid(lines);
         var startTile = GetStartTile(tileGrid, out var startPosition);
         var knotGrid = ConvertTileGridToKnotGrid(lines, tileGrid, startPosition);

@@ -4,16 +4,16 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-public class ChallengeSolution13 : ChallengeSolution
+public class ChallengeSolution13 : ChallengeSolution<ChallengeSolution13>
 {
     private static long timestamp, firstTimestamp, earliestTimestamp;
     private static int[] buses;
     private static string[] lines;
     private static string[] busesIds;
 
-    public ChallengeSolution13(IConsole console) : base(console)
+    public ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolution13> reader) : base(console, reader)
     {
-        lines = Reader.ReadLines(this);
+        lines = _reader.ReadLines();
         busesIds = lines[1].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
     }
 

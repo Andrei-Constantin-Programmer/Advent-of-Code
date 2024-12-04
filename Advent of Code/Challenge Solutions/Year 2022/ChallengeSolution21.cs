@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution21(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolution21> reader)
+    : ChallengeSolution<ChallengeSolution21>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -78,7 +79,7 @@ public class ChallengeSolution21(IConsole console) : ChallengeSolution(console)
 
     private List<Monkey> ReadMonkeys(bool separateRootMonkey)
     {
-        var splitLines = Reader.ReadLines(this)
+        var splitLines = _reader.ReadLines()
             .Select(line => line.Split(':', StringSplitOptions.RemoveEmptyEntries))
             .ToList();
 

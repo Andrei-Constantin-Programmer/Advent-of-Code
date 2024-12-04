@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution06(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolution06> reader)
+    : ChallengeSolution<ChallengeSolution06>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -58,6 +59,6 @@ public class ChallengeSolution06(IConsole console) : ChallengeSolution(console)
 
     private string ReadDatastreamBuffer()
     {
-        return String.Join(Environment.NewLine, Reader.ReadLines(this));
+        return String.Join(Environment.NewLine, _reader.ReadLines());
     }
 }

@@ -5,7 +5,8 @@ using System.Text.RegularExpressions;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
-public partial class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
+public partial class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolution03> reader)
+    : ChallengeSolution<ChallengeSolution03>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -74,7 +75,7 @@ public partial class ChallengeSolution03(IConsole console) : ChallengeSolution(c
 
     public string ReadMemory()
     {
-        return string.Join("", Reader.ReadLines(this));
+        return string.Join("", _reader.ReadLines());
     }
 
     [GeneratedRegex(@"mul\(\d+,\d+\)|do\(\)|don't\(\)")]

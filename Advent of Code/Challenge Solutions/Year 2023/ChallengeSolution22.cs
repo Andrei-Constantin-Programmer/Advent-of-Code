@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution22(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution22(IConsole console, ISolutionReader<ChallengeSolution22> reader)
+    : ChallengeSolution<ChallengeSolution22>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -120,7 +121,7 @@ public class ChallengeSolution22(IConsole console) : ChallengeSolution(console)
 
     private List<Brick> ReadBricks()
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         List<Brick> bricks = new();
 
         foreach (var line in lines)

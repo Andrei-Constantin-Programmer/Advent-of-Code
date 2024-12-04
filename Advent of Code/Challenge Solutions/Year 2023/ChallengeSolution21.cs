@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution21(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolution21> reader)
+    : ChallengeSolution<ChallengeSolution21>(console, reader)
 {
     private const int MAX_STEPS = 64;
     private const char PLOT = '.';
@@ -78,7 +79,7 @@ public class ChallengeSolution21(IConsole console) : ChallengeSolution(console)
 
     private string[] ReadGarden(out Point start)
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         start = new(-1, -1);
 
         for (var row = 0; row < lines.Length && start.Row == -1; row++)

@@ -4,13 +4,14 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolution03> reader)
+    : ChallengeSolution<ChallengeSolution03>(console, reader)
 {
     public override void SolveFirstPart()
     {
         var bits = Enumerable.Range(0, 12).Select(x => new BitAmmount { }).ToList();
 
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             for (int i = 0; i < line.Length; i++)
                 if (line[i] == '0')
@@ -32,7 +33,7 @@ public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
 
     public override void SolveSecondPart()
     {
-        string[] lines = Reader.ReadLines(this);
+        string[] lines = _reader.ReadLines();
         var O2 = new List<string>(lines);
         var CO2 = new List<string>(lines);
 

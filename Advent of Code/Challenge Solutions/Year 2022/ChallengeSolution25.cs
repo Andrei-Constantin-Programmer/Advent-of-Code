@@ -4,11 +4,12 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution25 : ChallengeSolution
+public class ChallengeSolution25 : ChallengeSolution<ChallengeSolution25>
 {
     private readonly List<long> fuelRequirements;
 
-    public ChallengeSolution25(IConsole console) : base(console)
+    public ChallengeSolution25(IConsole console, ISolutionReader<ChallengeSolution25> reader)
+        : base(console, reader)
     {
         fuelRequirements = ReadFuelRequirements();
     }
@@ -29,7 +30,7 @@ public class ChallengeSolution25 : ChallengeSolution
     private List<long> ReadFuelRequirements()
     {
         var fuelRequirements = new List<long>();
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             fuelRequirements.Add(SnafuToDecimal(line));
         }

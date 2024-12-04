@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution11(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution11(IConsole console, ISolutionReader<ChallengeSolution11> reader)
+    : ChallengeSolution<ChallengeSolution11>(console, reader)
 {
     private int limit;
 
@@ -70,7 +71,7 @@ public class ChallengeSolution11(IConsole console) : ChallengeSolution(console)
         Func<long, long>? currentOperation = null;
         Func<long, int>? currentTest = null;
 
-        using TextReader read = Reader.GetInputFile(this);
+        using TextReader read = _reader.GetInputFile();
         string? line;
         while (true)
         {

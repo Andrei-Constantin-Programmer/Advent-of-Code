@@ -4,16 +4,16 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution11 : ChallengeSolution
+public class ChallengeSolution11 : ChallengeSolution<ChallengeSolution11>
 {
     private const int n = 10;
     private int[,]? energy;
     private int[,] originalEnergy;
 
-    public ChallengeSolution11(IConsole console) : base(console)
+    public ChallengeSolution11(IConsole console, ISolutionReader<ChallengeSolution11> reader) : base(console, reader)
     {
         originalEnergy = new int[n, n];
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         for (int i = 0; i < n; i++)
         {
             int[] energyLevels = Array.ConvertAll(lines[i].ToCharArray(), character => (int)Char.GetNumericValue(character));

@@ -4,15 +4,15 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-public class ChallengeSolution06 : ChallengeSolution
+public class ChallengeSolution06 : ChallengeSolution<ChallengeSolution06>
 {
     private static bool[] questions = new bool[200];
     private static int[] groupQuestions = new int[200];
     private static string[] groups;
 
-    public ChallengeSolution06(IConsole console) : base(console)
+    public ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolution06> reader) : base(console, reader)
     {
-        string lines = string.Join(Environment.NewLine, Reader.ReadLines(this));
+        string lines = string.Join(Environment.NewLine, _reader.ReadLines());
         groups = lines.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
     }
 

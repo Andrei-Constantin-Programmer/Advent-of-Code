@@ -5,13 +5,14 @@ using System.Text;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution11(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution11(IConsole console, ISolutionReader<ChallengeSolution11> reader)
+    : ChallengeSolution<ChallengeSolution11>(console, reader)
 {
     private const char GALAXY = '#';
 
     public override void SolveFirstPart()
     {
-        var galaxy = Reader.ReadLines(this).ToList();
+        var galaxy = _reader.ReadLines().ToList();
         var manhattanDistanceSum = GetManhattanDistanceSum(galaxy, 2);
 
         _console.WriteLine(manhattanDistanceSum);
@@ -19,7 +20,7 @@ public class ChallengeSolution11(IConsole console) : ChallengeSolution(console)
 
     public override void SolveSecondPart()
     {
-        var galaxy = Reader.ReadLines(this).ToList();
+        var galaxy = _reader.ReadLines().ToList();
         var manhattanDistanceSum = GetManhattanDistanceSum(galaxy, 1_000_000);
 
         _console.WriteLine(manhattanDistanceSum);

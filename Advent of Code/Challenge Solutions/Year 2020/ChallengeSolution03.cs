@@ -4,13 +4,13 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-public class ChallengeSolution03 : ChallengeSolution
+public class ChallengeSolution03 : ChallengeSolution<ChallengeSolution03>
 {
     private string[] lines;
 
-    public ChallengeSolution03(IConsole console) : base(console)
+    public ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolution03> reader) : base(console, reader)
     {
-        lines = Reader.ReadLines(this);
+        lines = _reader.ReadLines();
     }
 
     public override void SolveFirstPart()

@@ -4,14 +4,14 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-public class ChallengeSolution08 : ChallengeSolution
+public class ChallengeSolution08 : ChallengeSolution<ChallengeSolution08>
 {
     private static List<Instruction> instructions = new List<Instruction>();
     private int accumulator;
 
-    public ChallengeSolution08(IConsole console) : base(console)
+    public ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolution08> reader) : base(console, reader)
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
 
         foreach (string instruction in lines)
         {

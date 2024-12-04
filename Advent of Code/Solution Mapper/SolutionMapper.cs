@@ -1,5 +1,6 @@
 ﻿using Advent_of_Code.Challenge_Solutions;
 using Advent_of_Code.Utilities;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Advent_of_Code.Solution_Mapper;
@@ -10,8 +11,9 @@ internal class SolutionMapper : ISolutionMapper
     private readonly List<int> _years;
 
     private readonly IConsole _console;
+    private readonly IServiceProvider _serviceProvider;
 
-    public SolutionMapper(IConsole console)
+    public SolutionMapper(IConsole console, IServiceProvider serviceProvider)
     {
         var currentAssembly = Assembly.GetExecutingAssembly();
 
@@ -23,21 +25,26 @@ internal class SolutionMapper : ISolutionMapper
             .ToList();
 
         _console = console;
+        _serviceProvider = serviceProvider;
     }
 
     public bool DoesYearExist(int year) => _years.Contains(year);
 
     public ChallengeSolution GetChallengeSolution(int year, int day)
     {
-        var challengeClassName = $"ChallengeSolution{Reader.FormatDay(day)}";
+        var challengeClassName = $"ChallengeSolution{PathUtils.FormatDay(day)}";
         var fullClassName = $"{GetChallengeYearNamespace(year)}.{challengeClassName}";
 
         var type = Type.GetType(fullClassName)
             ?? throw new NonexistentChallengeException(year, day);
 
-        return Activator.CreateInstance(type, _console) is ChallengeSolution solution
-            ? solution
-            : throw new Exception($"The solution for challenge {year}_{day} is malformed");
+        var readerType = typeof(ISolutionReader<>).MakeGenericType(type);
+        var reader = _serviceProvider.GetRequiredService(readerType);
+
+        var solution = Activator.CreateInstance(type, _console, reader);
+
+        return solution as ChallengeSolution
+            ?? throw new Exception($"The solution for challenge {year}_{day} is malformed");
     }
 
     private static string GetChallengeYearNamespace(int year) => $"{YEAR_NAMESPACE_PREFIX}{year}";

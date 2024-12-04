@@ -4,12 +4,13 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolution01> reader)
+    : ChallengeSolution<ChallengeSolution01>(console, reader)
 {
     public override void SolveFirstPart()
     {
         int no = 0;
-        using (TextReader read = Reader.GetInputFile(this))
+        using (TextReader read = _reader.GetInputFile())
         {
             int prev = Convert.ToInt32(read.ReadLine());
             int x = 0;
@@ -26,7 +27,7 @@ public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
 
     public override void SolveSecondPart()
     {
-        List<int> depths = new List<int>(Array.ConvertAll(Reader.ReadLines(this), int.Parse));
+        List<int> depths = new List<int>(Array.ConvertAll(_reader.ReadLines(), int.Parse));
         List<int> sums = new List<int>(depths);
         int highestSum = 0;
         for (int i = 0; i < depths.Count; i++)

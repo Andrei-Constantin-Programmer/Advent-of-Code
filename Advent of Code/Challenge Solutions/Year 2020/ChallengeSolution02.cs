@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-public class ChallengeSolution02 : ChallengeSolution
+public class ChallengeSolution02 : ChallengeSolution<ChallengeSolution02>
 {
     private string[] lines;
 
-    public ChallengeSolution02(IConsole console) : base(console)
+    public ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolution02> reader) : base(console, reader)
     {
-        lines = Reader.ReadLines(this);
+        lines = _reader.ReadLines();
     }
 
     public override void SolveFirstPart()

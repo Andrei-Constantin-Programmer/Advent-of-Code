@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2019;
 
-public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolution02> reader)
+    : ChallengeSolution<ChallengeSolution02>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -55,7 +56,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
 
     private long[] ReadOpCodes()
     {
-        return string.Join(",", Reader.ReadLines(this))
+        return string.Join(",", _reader.ReadLines())
             .Split(",", StringSplitOptions.RemoveEmptyEntries)
             .Select(stringValue => Convert.ToInt64(stringValue))
             .ToArray();

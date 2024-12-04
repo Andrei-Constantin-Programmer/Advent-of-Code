@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution24(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution24(IConsole console, ISolutionReader<ChallengeSolution24> reader)
+    : ChallengeSolution<ChallengeSolution24>(console, reader)
 {
     private static readonly Point _noBlizzardPoint = new(-1, -1);
 
@@ -57,7 +58,7 @@ public class ChallengeSolution24(IConsole console) : ChallengeSolution(console)
 
             _ => _noBlizzardPoint
         };
-        
+
         return currentPosition != _noBlizzardPoint;
     }
 
@@ -67,7 +68,7 @@ public class ChallengeSolution24(IConsole console) : ChallengeSolution(console)
 
     private char[,] ReadValley()
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         var valley = new char[lines.Length - 2, lines[0].Length - 2];
 
         for (var row = 1; row < lines.Length - 1; row++)

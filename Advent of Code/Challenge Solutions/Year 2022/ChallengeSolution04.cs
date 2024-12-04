@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolution04> reader)
+    : ChallengeSolution<ChallengeSolution04>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -26,7 +27,7 @@ public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
     {
         var pairs = new List<Pair>();
 
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             var ranges = line
                 .Split(",", StringSplitOptions.RemoveEmptyEntries)

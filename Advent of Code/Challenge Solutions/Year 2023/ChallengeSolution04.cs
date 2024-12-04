@@ -4,13 +4,14 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolution04> reader)
+    : ChallengeSolution<ChallengeSolution04>(console, reader)
 {
     public override void SolveFirstPart()
     {
         double totalPointsSum = 0;
 
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             var winningGameNumberCount = GetCard(line).MatchingValues;
 
@@ -28,7 +29,7 @@ public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
 
     public override void SolveSecondPart()
     {
-        var cards = Reader.ReadLines(this).Select(GetCard).ToList();
+        var cards = _reader.ReadLines().Select(GetCard).ToList();
 
         Queue<Card> cardQueue = new(cards);
         int cardCount = 0;

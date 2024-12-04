@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolution13> reader)
+    : ChallengeSolution<ChallengeSolution13>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -78,7 +79,7 @@ public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
 
     private List<(Packet, Packet)> ReadPacketGroups()
     {
-        var lines = string.Join("\n", Reader.ReadLines(this));
+        var lines = string.Join("\n", _reader.ReadLines());
 
         return lines
             .Split("\n\n", StringSplitOptions.RemoveEmptyEntries)

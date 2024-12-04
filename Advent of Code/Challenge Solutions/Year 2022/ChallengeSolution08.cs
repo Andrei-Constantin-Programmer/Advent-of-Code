@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolution08> reader)
+    : ChallengeSolution<ChallengeSolution08>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -211,7 +212,7 @@ public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
 
     private byte[][] ReadTreeGrid()
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         var rows = lines.Length;
         var columns = lines[0].Length;
 

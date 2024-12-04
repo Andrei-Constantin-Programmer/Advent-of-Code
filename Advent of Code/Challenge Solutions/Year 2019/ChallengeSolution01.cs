@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2019;
 
-public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolution01> reader)
+    : ChallengeSolution<ChallengeSolution01>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -40,8 +41,8 @@ public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
 
     private List<long> ReadModuleMasses()
     {
-        return Reader
-            .ReadLines(this)
+        return _reader
+            .ReadLines()
             .Select(massString => Convert.ToInt64(massString))
             .ToList();
     }

@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolution15> reader)
+    : ChallengeSolution<ChallengeSolution15>(console, reader)
 {
     private int n;
     private int[,] riskMatrix;
@@ -43,7 +44,7 @@ public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
 
     private void ReadMatrix()
     {
-        string[] lines = Reader.ReadLines(this);
+        string[] lines = _reader.ReadLines();
         n = lines.Length;
         riskMatrix = new int[n, n];
         for (int i = 0; i < n; i++)

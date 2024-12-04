@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2019;
 
-public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolution04> reader)
+    : ChallengeSolution<ChallengeSolution04>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -89,7 +90,7 @@ public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
 
     private (int, int) ReadRange()
     {
-        var inputNumbers = Reader.ReadLines(this)[0].Split('-').Select(int.Parse).ToArray();
+        var inputNumbers = _reader.ReadLines()[0].Split('-').Select(int.Parse).ToArray();
         var rangeStart = inputNumbers[0];
         var rangeEnd = inputNumbers[1];
 

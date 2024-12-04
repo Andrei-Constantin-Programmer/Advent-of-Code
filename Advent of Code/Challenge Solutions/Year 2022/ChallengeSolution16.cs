@@ -4,11 +4,11 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution16 : ChallengeSolution
+public class ChallengeSolution16 : ChallengeSolution<ChallengeSolution16>
 {
     private readonly Dictionary<Valve, List<Valve>> adjacentValves;
 
-    public ChallengeSolution16(IConsole console) : base(console)
+    public ChallengeSolution16(IConsole console, ISolutionReader<ChallengeSolution16> reader) : base(console, reader)
     {
         adjacentValves = ReadValves();
     }
@@ -53,7 +53,7 @@ public class ChallengeSolution16 : ChallengeSolution
         var valves = new List<Valve>();
         var valveNeighbours = new Dictionary<Valve, string[]>();
 
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             var valveLabel = elements[1];

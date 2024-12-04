@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution09(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolution09> reader)
+    : ChallengeSolution<ChallengeSolution09>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -18,7 +19,7 @@ public class ChallengeSolution09(IConsole console) : ChallengeSolution(console)
 
     private long ComputePredictionSum(ExtrapolationDirection direction)
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
 
         long predictionSum = 0;
         foreach (var line in lines)

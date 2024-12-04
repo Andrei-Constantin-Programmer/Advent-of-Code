@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution09(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolution09> reader)
+    : ChallengeSolution<ChallengeSolution09>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -165,7 +166,7 @@ public class ChallengeSolution09(IConsole console) : ChallengeSolution(console)
     private List<Command> ReadCommands()
     {
         var commands = new List<Command>();
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             commands.Add(new Command(

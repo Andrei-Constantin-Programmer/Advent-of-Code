@@ -4,13 +4,13 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution05 : ChallengeSolution
+public class ChallengeSolution05 : ChallengeSolution<ChallengeSolution05>
 {
     private readonly List<string> _lines;
 
     private readonly List<List<Mapping>> _mappingLists;
 
-    public ChallengeSolution05(IConsole console) : base(console)
+    public ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolution05> reader) : base(console, reader)
     {
         _lines = ReadInputLines();
 
@@ -119,8 +119,8 @@ public class ChallengeSolution05 : ChallengeSolution
 
     private List<string> ReadInputLines()
     {
-        var lines = Reader
-            .ReadLines(this)
+        var lines = _reader
+            .ReadLines()
             .Where(x => !string.IsNullOrEmpty(x))
             .Select(x => x.Trim())
             .ToList();

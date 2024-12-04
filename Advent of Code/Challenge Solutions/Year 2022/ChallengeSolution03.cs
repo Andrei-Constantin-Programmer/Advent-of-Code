@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolution03> reader)
+    : ChallengeSolution<ChallengeSolution03>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -26,7 +27,7 @@ public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
         _console.WriteLine(sum);
     }
 
-    private string[] ReadRucksacks() => Reader.ReadLines(this);
+    private string[] ReadRucksacks() => _reader.ReadLines();
 
     private static char GetCommonItemType(string rucksack)
     {

@@ -4,15 +4,15 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-public class ChallengeSolution09 : ChallengeSolution
+public class ChallengeSolution09 : ChallengeSolution<ChallengeSolution09>
 {
     private List<long> numbers;
     private string[] lines;
 
-    public ChallengeSolution09(IConsole console) : base(console)
+    public ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolution09> reader) : base(console, reader)
     {
         numbers = new List<long>();
-        lines = Reader.ReadLines(this);
+        lines = _reader.ReadLines();
         for (int i = 0; i < 25; i++)
         {
             numbers.Add(Convert.ToInt64(lines[i]));

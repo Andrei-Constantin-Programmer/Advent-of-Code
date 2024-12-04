@@ -4,13 +4,13 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-public class ChallengeSolution10 : ChallengeSolution
+public class ChallengeSolution10 : ChallengeSolution<ChallengeSolution10>
 {
     private static List<long> numbers = new List<long>();
 
-    public ChallengeSolution10(IConsole console) : base(console)
+    public ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolution10> reader) : base(console, reader)
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         numbers.Add(0);
 
         foreach (string line in lines)

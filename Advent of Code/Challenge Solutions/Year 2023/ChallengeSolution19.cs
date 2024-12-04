@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution19(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution19(IConsole console, ISolutionReader<ChallengeSolution19> reader)
+    : ChallengeSolution<ChallengeSolution19>(console, reader)
 {
     private const char ACCEPTED = 'A';
     private const char REJECTED = 'R';
@@ -158,7 +159,7 @@ public class ChallengeSolution19(IConsole console) : ChallengeSolution(console)
 
     private (List<Workflow> workflows, List<Part> parts) ReadInput()
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         var workflowLines = lines
             .TakeWhile(line => !string.IsNullOrWhiteSpace(line))
             .ToList();

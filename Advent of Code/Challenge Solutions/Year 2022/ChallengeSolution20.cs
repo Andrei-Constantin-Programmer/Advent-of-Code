@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution20(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution20(IConsole console, ISolutionReader<ChallengeSolution20> reader)
+    : ChallengeSolution<ChallengeSolution20>(console, reader)
 {
     private const long DECRYPTION_KEY = 811589153;
 
@@ -114,7 +115,7 @@ public class ChallengeSolution20(IConsole console) : ChallengeSolution(console)
 
     private List<EncryptedValue> ReadInitialArrangement()
     {
-        return Reader.ReadLines(this)
+        return _reader.ReadLines()
             .Select(x => new EncryptedValue(Convert.ToInt16(x)))
             .ToList();
     }

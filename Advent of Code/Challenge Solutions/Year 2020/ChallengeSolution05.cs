@@ -4,14 +4,14 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-public class ChallengeSolution05 : ChallengeSolution
+public class ChallengeSolution05 : ChallengeSolution<ChallengeSolution05>
 {
     private string[] seats;
     private static int[,] plane = new int[128, 8];
 
-    public ChallengeSolution05(IConsole console) : base(console)
+    public ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolution05> reader) : base(console, reader)
     {
-        seats = Reader.ReadLines(this);
+        seats = _reader.ReadLines();
     }
 
     public override void SolveFirstPart()
@@ -28,7 +28,7 @@ public class ChallengeSolution05 : ChallengeSolution
         seats.CopyTo(mySeats, 0);
         FillPlane(mySeats);
 
-        using (StreamWriter write = Reader.GetOutputFile(2020, 5))
+        using (StreamWriter write = PathUtils.GetOutputFile(2020, 5))
         {
             for (int i = 0; i < 128; i++)
             {

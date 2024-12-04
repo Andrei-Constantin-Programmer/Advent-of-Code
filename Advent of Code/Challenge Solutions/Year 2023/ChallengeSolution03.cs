@@ -4,11 +4,11 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution03 : ChallengeSolution
+public class ChallengeSolution03 : ChallengeSolution<ChallengeSolution03>
 {
     private readonly char[,] _engineSchematic;
 
-    public ChallengeSolution03(IConsole console) : base(console)
+    public ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolution03> reader) : base(console, reader)
     {
         _engineSchematic = ReadEngineSchematic();
     }
@@ -145,7 +145,7 @@ public class ChallengeSolution03 : ChallengeSolution
 
     private char[,] ReadEngineSchematic()
     {
-        string[] lines = Reader.ReadLines(this);
+        string[] lines = _reader.ReadLines();
 
         char[,] schematic = new char[lines.Length, lines[0].Length];
 

@@ -4,7 +4,7 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution07 : ChallengeSolution
+public class ChallengeSolution07 : ChallengeSolution<ChallengeSolution07>
 {
     private const int MAX_SIZE = 100000;
     private const int AVAILABLE = 70000000;
@@ -13,7 +13,7 @@ public class ChallengeSolution07 : ChallengeSolution
     private Folder root;
     private List<Folder> folders;
 
-    public ChallengeSolution07(IConsole console) : base(console)
+    public ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolution07> reader) : base(console, reader)
     {
         root = new Folder(_console, "/");
         folders = new List<Folder>() { root };
@@ -52,7 +52,7 @@ public class ChallengeSolution07 : ChallengeSolution
     private void ReadFileSystem()
     {
         var currentFolder = root;
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             if (elements[0] == "$")

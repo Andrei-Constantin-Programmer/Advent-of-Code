@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution14(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolution14> reader)
+    : ChallengeSolution<ChallengeSolution14>(console, reader)
 {
     private Dictionary<string, char> insertionRules;
     private Dictionary<char, long> appearances;
@@ -95,7 +96,7 @@ public class ChallengeSolution14(IConsole console) : ChallengeSolution(console)
         insertionRules = new Dictionary<string, char>();
         appearances = new Dictionary<char, long>();
         pairAppearances = new Dictionary<string, long>();
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         polymer = new List<char>(lines[0].ToCharArray());
         foreach (var c in polymer)
         {

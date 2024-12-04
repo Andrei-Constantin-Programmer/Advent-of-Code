@@ -4,7 +4,7 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution10 : ChallengeSolution
+public class ChallengeSolution10 : ChallengeSolution<ChallengeSolution10>
 {
     private const int DISPLAY_WIDTH = 40, DISPLAY_HEIGHT = 6;
     private const char LIT = '#', DARK = ' ';
@@ -12,7 +12,7 @@ public class ChallengeSolution10 : ChallengeSolution
     private int sumSignalStrengths;
     private char[] flattenedDisplay;
 
-    public ChallengeSolution10(IConsole console) : base(console)
+    public ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolution10> reader) : base(console, reader)
     {
         sumSignalStrengths = 0;
 
@@ -123,7 +123,7 @@ public class ChallengeSolution10 : ChallengeSolution
 
     private string[] ReadCommands()
     {
-        return Reader.ReadLines(this);
+        return _reader.ReadLines();
     }
 
     private class CPU

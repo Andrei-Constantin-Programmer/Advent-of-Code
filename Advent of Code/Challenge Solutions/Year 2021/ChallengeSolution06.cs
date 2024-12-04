@@ -4,11 +4,12 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution06(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolution06> reader)
+    : ChallengeSolution<ChallengeSolution06>(console, reader)
 {
     public override void SolveFirstPart()
     {
-        List<int> lanternfish = new List<int>(Array.ConvertAll(Reader.ReadLines(this)[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
+        List<int> lanternfish = new List<int>(Array.ConvertAll(_reader.ReadLines()[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
 
         int days = 0;
 
@@ -38,7 +39,7 @@ public class ChallengeSolution06(IConsole console) : ChallengeSolution(console)
     public override void SolveSecondPart()
     {
         long[] fish = new long[9];
-        List<int> initialFish = new List<int>(Array.ConvertAll(Reader.ReadLines(this)[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
+        List<int> initialFish = new List<int>(Array.ConvertAll(_reader.ReadLines()[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
         foreach (var f in initialFish)
             fish[f]++;
 

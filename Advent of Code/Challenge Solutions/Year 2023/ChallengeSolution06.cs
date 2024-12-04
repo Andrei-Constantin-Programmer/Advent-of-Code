@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution06(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolution06> reader)
+    : ChallengeSolution<ChallengeSolution06>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -73,7 +74,7 @@ public class ChallengeSolution06(IConsole console) : ChallengeSolution(console)
         return races;
     }
 
-    private string[] ReadInputLines() => Reader.ReadLines(this);
+    private string[] ReadInputLines() => _reader.ReadLines();
 
     private static long ParseCombinedInputLine(string line) => long.Parse(string.Concat(line
         .Split(':', StringSplitOptions.RemoveEmptyEntries)[1]

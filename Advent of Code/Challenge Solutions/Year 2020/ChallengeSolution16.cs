@@ -4,7 +4,7 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-public class ChallengeSolution16 : ChallengeSolution
+public class ChallengeSolution16 : ChallengeSolution<ChallengeSolution16>
 {
     private static List<Rule> rules = new List<Rule>();
 
@@ -16,9 +16,9 @@ public class ChallengeSolution16 : ChallengeSolution
 
     private static Dictionary<int, string> fieldPositions = new Dictionary<int, string>();
 
-    public ChallengeSolution16(IConsole console) : base(console)
+    public ChallengeSolution16(IConsole console, ISolutionReader<ChallengeSolution16> reader) : base(console, reader)
     {
-        string[] lines = Reader.ReadLines(this);
+        string[] lines = _reader.ReadLines();
 
         int nearbyTicketsPos = 0;
 

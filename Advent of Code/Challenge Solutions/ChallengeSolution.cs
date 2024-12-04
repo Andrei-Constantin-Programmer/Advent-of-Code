@@ -5,14 +5,23 @@ namespace Advent_of_Code.Challenge_Solutions;
 
 public abstract class ChallengeSolution
 {
-    protected readonly IConsole _console;
+    public abstract void PrintSolution();
+    protected abstract ISolutionReader<ChallengeSolution> GetReader();
+}
 
-    public ChallengeSolution(IConsole console)
+public abstract class ChallengeSolution<TSolution> : ChallengeSolution
+    where TSolution : ChallengeSolution
+{
+    protected readonly IConsole _console;
+    protected readonly ISolutionReader<TSolution> _reader;
+
+    public ChallengeSolution(IConsole console, ISolutionReader<TSolution> reader)
     {
         _console = console;
+        _reader = reader;
     }
 
-    public void PrintSolution()
+    public override void PrintSolution()
     {
         var watch = new Stopwatch();
 
@@ -53,4 +62,7 @@ public abstract class ChallengeSolution
 
     public abstract void SolveFirstPart();
     public abstract void SolveSecondPart();
+
+    protected override ISolutionReader<ChallengeSolution> GetReader()
+        => (ISolutionReader<ChallengeSolution>)_reader;
 }

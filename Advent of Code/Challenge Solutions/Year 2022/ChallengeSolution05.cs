@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution05(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolution05> reader)
+    : ChallengeSolution<ChallengeSolution05>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -57,7 +58,7 @@ public class ChallengeSolution05(IConsole console) : ChallengeSolution(console)
         var stacks = new List<Stack<char>>();
         var moves = new List<MoveOperation>();
 
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         var movesPosition = lines.ToList().IndexOf(string.Empty);
         var stackInput = lines[..movesPosition].ToList();
         stacks = GetStacksFromInput(stackInput);

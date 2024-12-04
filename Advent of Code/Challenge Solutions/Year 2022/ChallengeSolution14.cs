@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution14 : ChallengeSolution
+public class ChallengeSolution14 : ChallengeSolution<ChallengeSolution14>
 {
     private const char ROCK = '#', AIR = '.', SAND = 'o';
     private List<(int x, int y)[]> paths;
@@ -13,7 +13,7 @@ public class ChallengeSolution14 : ChallengeSolution
     private const int startingColumn = 500;
     private const int floorExtension = 500;
 
-    public ChallengeSolution14(IConsole console) : base(console)
+    public ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolution14> reader) : base(console, reader)
     {
         paths = ReadRockPaths(out leftMargin, out rightMargin, out bottomMargin);
     }
@@ -73,7 +73,7 @@ public class ChallengeSolution14 : ChallengeSolution
 
     private static void PrintCave(char[][] cave)
     {
-        using StreamWriter write = Reader.GetOutputFile(2022, 14);
+        using StreamWriter write = PathUtils.GetOutputFile(2022, 14);
         for (int i = 0; i < cave.Length; i++)
         {
             var builder = new StringBuilder();
@@ -209,7 +209,7 @@ public class ChallengeSolution14 : ChallengeSolution
 
         var paths = new List<(int x, int y)[]>();
 
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             paths.Add(line
                 .Split("->", StringSplitOptions.RemoveEmptyEntries)

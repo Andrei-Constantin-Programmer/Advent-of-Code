@@ -4,13 +4,13 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-class ChallengeSolution09 : ChallengeSolution
+class ChallengeSolution09 : ChallengeSolution<ChallengeSolution09>
 {
     private int rows, columns;
 
-    public ChallengeSolution09(IConsole console) : base(console)
+    public ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolution09> reader) : base(console, reader)
     {
-        string[] lines = Reader.ReadLines(this);
+        string[] lines = _reader.ReadLines();
         rows = lines.Length;
         columns = lines[0].Length;
     }
@@ -162,7 +162,7 @@ class ChallengeSolution09 : ChallengeSolution
     private int[,] ReadHeightMap()
     {
         var heightMap = new int[rows, columns];
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         for (int i = 0; i < rows; i++)
         {
             char[] heightsAsChar = lines[i].ToCharArray();

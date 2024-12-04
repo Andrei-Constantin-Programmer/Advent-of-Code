@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolution02> reader)
+    : ChallengeSolution<ChallengeSolution02>(console, reader)
 {
     private const int MAX_RED_CUBES = 12;
     private const int MAX_GREEN_CUBES = 13;
@@ -14,7 +15,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
     {
         int totalIdSum = 0;
 
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             Game game = ReadGameFromInputLine(line);
 
@@ -33,7 +34,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
     {
         long totalPowerSum = 0;
 
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             Game game = ReadGameFromInputLine(line);
 

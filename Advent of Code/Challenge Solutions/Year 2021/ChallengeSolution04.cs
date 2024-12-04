@@ -4,13 +4,14 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolution04> reader)
+    : ChallengeSolution<ChallengeSolution04>(console, reader)
 {
     private const int n = 5;
 
     public override void SolveFirstPart()
     {
-        using TextReader read = Reader.GetInputFile(this);
+        using TextReader read = _reader.GetInputFile();
         var drawn = Array.ConvertAll(read.ReadLine()!.Split(","), int.Parse);
         var boards = GetBingoBoards(read);
 
@@ -40,7 +41,7 @@ public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
 
     public override void SolveSecondPart()
     {
-        using TextReader read = Reader.GetInputFile(this);
+        using TextReader read = _reader.GetInputFile();
 
         var drawn = Array.ConvertAll(read.ReadLine()!.Split(","), int.Parse);
         var boards = GetBingoBoards(read);

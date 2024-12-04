@@ -7,7 +7,8 @@ using System.Text.RegularExpressions;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution12(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolution12> reader)
+    : ChallengeSolution<ChallengeSolution12>(console, reader)
 {
     private const char OPERATIONAL = '.';
     private const char DAMAGED = '#';
@@ -94,7 +95,7 @@ public class ChallengeSolution12(IConsole console) : ChallengeSolution(console)
             .ToString();
     }
 
-    private List<(string, ImmutableStack<int>)> ReadConditionRecords(int multiplier = 1) => Reader.ReadLines(this)
+    private List<(string, ImmutableStack<int>)> ReadConditionRecords(int multiplier = 1) => _reader.ReadLines()
         .Select(line =>
         {
             var elements = line.Split(' ');

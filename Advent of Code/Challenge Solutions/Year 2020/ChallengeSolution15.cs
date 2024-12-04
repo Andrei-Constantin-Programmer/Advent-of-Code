@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolution15> reader)
+    : ChallengeSolution<ChallengeSolution15>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -18,7 +19,7 @@ public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
 
     private void Solution(int n)
     {
-        string input = string.Join(Environment.NewLine, Reader.ReadLines(this));
+        string input = string.Join(Environment.NewLine, _reader.ReadLines());
         string[] inputSeparated = input.Split(new string(","), StringSplitOptions.RemoveEmptyEntries);
         var spokenNumbers = new Dictionary<ulong, uint>();
 

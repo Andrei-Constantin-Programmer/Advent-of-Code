@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolution13> reader)
+    : ChallengeSolution<ChallengeSolution13>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -101,7 +102,7 @@ public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
 
     private List<string[]> ReadPatterns()
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         List<string[]> patterns = new();
         var emptySpaceIndexes = lines
             .Select((line, index) => new { line, index })

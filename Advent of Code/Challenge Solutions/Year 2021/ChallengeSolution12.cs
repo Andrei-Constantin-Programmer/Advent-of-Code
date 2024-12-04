@@ -5,7 +5,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution12(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolution12> reader)
+    : ChallengeSolution<ChallengeSolution12>(console, reader)
 {
     private Dictionary<string, List<string>>? caveConnections;
     private int paths;
@@ -85,7 +86,7 @@ public class ChallengeSolution12(IConsole console) : ChallengeSolution(console)
     {
         caveConnections = new Dictionary<string, List<string>>();
         smallCaves = new List<string>();
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             string[] caves = line.Split("-", StringSplitOptions.RemoveEmptyEntries);
             if (caveConnections.ContainsKey(caves[0]))

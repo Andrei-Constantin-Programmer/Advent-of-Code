@@ -9,8 +9,9 @@ public static class Configuration
 {
     internal static IServiceCollection ConfigureServices(this IServiceCollection services) => services
         .AddTransient<IConsole, SystemConsole>()
-        .AddSingleton<IChallengeReader, ChallengeReader.ChallengeReader>()
-        .AddSingleton<ISolutionMapper, SolutionMapper>()
+        .AddTransient(typeof(ISolutionReader<>), typeof(SolutionReader<>))
+        .AddTransient<IChallengeReader, ChallengeReader.ChallengeReader>()
+        .AddTransient<ISolutionMapper, SolutionMapper>()
         .AddSingleton<AdventOfCodeApplication>()
         ;
 }

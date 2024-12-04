@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution16(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution16(IConsole console, ISolutionReader<ChallengeSolution16> reader)
+    : ChallengeSolution<ChallengeSolution16>(console, reader)
 {
     private const char EMPTY = '.';
     private const char CONCAVE_MIRROR = '/';
@@ -14,7 +15,7 @@ public class ChallengeSolution16(IConsole console) : ChallengeSolution(console)
 
     public override void SolveFirstPart()
     {
-        var mirrorGrid = Reader.ReadLines(this).ToList();
+        var mirrorGrid = _reader.ReadLines().ToList();
         var energiseLevel = ComputeEnergiseLevel(mirrorGrid, new(0, 0, Direction.East));
 
         _console.WriteLine(energiseLevel);
@@ -22,7 +23,7 @@ public class ChallengeSolution16(IConsole console) : ChallengeSolution(console)
 
     public override void SolveSecondPart()
     {
-        var mirrorGrid = Reader.ReadLines(this).ToList();
+        var mirrorGrid = _reader.ReadLines().ToList();
         var maxEnergiseLevel = FindMaximumEnergiseLevel(mirrorGrid);
 
         _console.WriteLine(maxEnergiseLevel);

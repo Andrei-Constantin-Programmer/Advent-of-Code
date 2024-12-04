@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution10(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolution10> reader)
+    : ChallengeSolution<ChallengeSolution10>(console, reader)
 {
     private static Dictionary<char, int> pointValues = new Dictionary<char, int>()
     {
@@ -31,7 +32,7 @@ public class ChallengeSolution10(IConsole console) : ChallengeSolution(console)
     public override void SolveFirstPart()
     {
         int points = 0;
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             char? c = CorruptedChar(line);
             if (c != null)
@@ -46,7 +47,7 @@ public class ChallengeSolution10(IConsole console) : ChallengeSolution(console)
     public override void SolveSecondPart()
     {
         var scores = new List<long>();
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             if (CorruptedChar(line) == null)
             {

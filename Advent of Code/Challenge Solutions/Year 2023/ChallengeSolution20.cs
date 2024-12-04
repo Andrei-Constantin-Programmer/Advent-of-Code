@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution20(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution20(IConsole console, ISolutionReader<ChallengeSolution20> reader)
+    : ChallengeSolution<ChallengeSolution20>(console, reader)
 {
     private const char FLIP_FLOP_PREFIX = '%';
     private const char CONJUNCTION_PREFIX = '&';
@@ -144,7 +145,7 @@ public class ChallengeSolution20(IConsole console) : ChallengeSolution(console)
 
     private List<IModule> ReadModules(out BroadcasterModule broadcaster)
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         List<IModule> modules = new();
         Dictionary<IModule, HashSet<string>> destinations = new();
         foreach (var line in lines)

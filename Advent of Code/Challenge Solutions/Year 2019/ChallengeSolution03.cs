@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2019;
 
-public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolution03> reader)
+    : ChallengeSolution<ChallengeSolution03>(console, reader)
 {
     private static readonly Point _origin = new(0, 0);
 
@@ -29,7 +30,7 @@ public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
 
     private Dictionary<Point, int> ReadIntersections()
     {
-        var inputLines = Reader.ReadLines(this);
+        var inputLines = _reader.ReadLines();
         var firstWireInstructions = ParseWireSteps(inputLines[0]);
         var secondWireInstructions = ParseWireSteps(inputLines[1]);
 

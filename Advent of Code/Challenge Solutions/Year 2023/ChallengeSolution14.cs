@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution14(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolution14> reader)
+    : ChallengeSolution<ChallengeSolution14>(console, reader)
 {
     private const char ROUND_ROCK = 'O';
     private const char EMPTY = '.';
@@ -167,7 +168,7 @@ public class ChallengeSolution14(IConsole console) : ChallengeSolution(console)
 
     private char[,] ReadPlatform()
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         var platform = new char[lines.Length, lines[0].Length];
 
         for (var row = 0; row < lines.Length; row++)

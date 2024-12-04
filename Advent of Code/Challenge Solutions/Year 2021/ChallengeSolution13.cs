@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolution13> reader)
+    : ChallengeSolution<ChallengeSolution13>(console, reader)
 {
     private int n, m;
     private char[,] matrix;
@@ -13,7 +14,7 @@ public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
     {
         var points = new List<Point>();
 
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         var foldPosition = lines.ToList().IndexOf(string.Empty);
         var pointLines = lines[..foldPosition];
         var foldLines = lines[(foldPosition + 1)..];
@@ -42,7 +43,7 @@ public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
     public override void SolveSecondPart()
     {
         var points = new List<Point>();
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         var foldPosition = lines.ToList().IndexOf(string.Empty);
         var pointLines = lines[..foldPosition];
         var foldLines = lines[(foldPosition + 1)..];

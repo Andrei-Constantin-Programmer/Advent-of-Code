@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution16(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution16(IConsole console, ISolutionReader<ChallengeSolution16> reader)
+    : ChallengeSolution<ChallengeSolution16>(console, reader)
 {
     private Dictionary<char, string> hexToBinary = new Dictionary<char, string>()
     {
@@ -29,7 +30,7 @@ public class ChallengeSolution16(IConsole console) : ChallengeSolution(console)
     public override void SolveFirstPart()
     {
         throw new NotImplementedException();
-        string transmission = Reader.ReadLines(this)[0];
+        string transmission = _reader.ReadLines()[0];
         string binary = ConvertToBinary(transmission);
     }
 

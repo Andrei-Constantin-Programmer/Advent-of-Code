@@ -4,12 +4,13 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolution02> reader)
+    : ChallengeSolution<ChallengeSolution02>(console, reader)
 {
     public override void SolveFirstPart()
     {
         int depth = 0, horizontal = 0;
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             string[] command = line.Split(" ");
             int x = Convert.ToInt32(command[1]);
@@ -28,7 +29,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
     {
         int depth = 0, horizontal = 0, aim = 0;
 
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             string[] command = line.Split(" ");
             int x = Convert.ToInt32(command[1]);

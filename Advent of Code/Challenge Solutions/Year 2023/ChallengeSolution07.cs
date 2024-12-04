@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution07(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolution07> reader)
+    : ChallengeSolution<ChallengeSolution07>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -37,7 +38,7 @@ public class ChallengeSolution07(IConsole console) : ChallengeSolution(console)
     {
         List<Hand> hands = new();
 
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             var elements = line.Split(' ');
             var cards = elements[0]

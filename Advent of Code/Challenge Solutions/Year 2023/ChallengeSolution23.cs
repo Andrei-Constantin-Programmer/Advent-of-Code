@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution23(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution23(IConsole console, ISolutionReader<ChallengeSolution23> reader)
+    : ChallengeSolution<ChallengeSolution23>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -104,7 +105,7 @@ public class ChallengeSolution23(IConsole console) : ChallengeSolution(console)
 
     private string[] ReadHikingTrails()
     {
-        return Reader.ReadLines(this);
+        return _reader.ReadLines();
     }
 
     private record Point(int Row, int Column);

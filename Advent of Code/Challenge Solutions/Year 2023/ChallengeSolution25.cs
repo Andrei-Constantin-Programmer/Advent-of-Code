@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution25(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution25(IConsole console, ISolutionReader<ChallengeSolution25> reader)
+    : ChallengeSolution<ChallengeSolution25>(console, reader)
 {
     private static readonly Random _random = new();
 
@@ -26,7 +27,7 @@ public class ChallengeSolution25(IConsole console) : ChallengeSolution(console)
     {
         Dictionary<string, HashSet<string>> graph = new();
 
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         foreach (var line in lines)
         {
             var elements = line.Split(": ");

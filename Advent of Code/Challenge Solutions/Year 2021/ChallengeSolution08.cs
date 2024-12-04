@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolution08> reader)
+    : ChallengeSolution<ChallengeSolution08>(console, reader)
 {
     Dictionary<byte, char[]> segmentsByDigit;
     Dictionary<char, char> positionsByChar;
@@ -16,7 +17,7 @@ public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
         var uniqueSegmentsDigits = new List<byte>() { 1, 4, 7, 8 };
 
         int no = 0;
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             string[] parts = line.Split("|", StringSplitOptions.RemoveEmptyEntries);
 
@@ -35,7 +36,7 @@ public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
     public override void SolveSecondPart()
     {
         int sum = 0;
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             string[] parts = line.Split("|", StringSplitOptions.RemoveEmptyEntries);
             string[] wiring = parts[0].Split(" ", StringSplitOptions.RemoveEmptyEntries);

@@ -4,13 +4,13 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-public class ChallengeSolution01 : ChallengeSolution
+public class ChallengeSolution01 : ChallengeSolution<ChallengeSolution01>
 {
     private static int[] a;
 
-    public ChallengeSolution01(IConsole console) : base(console)
+    public ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolution01> reader) : base(console, reader)
     {
-        string[] lines = Reader.ReadLines(this);
+        string[] lines = _reader.ReadLines();
         a = new int[lines.Length];
         for (int i = 0; i < lines.Length; i++)
             a[i] = Convert.ToInt32(lines[i]);

@@ -4,7 +4,7 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-public class ChallengeSolution04 : ChallengeSolution
+public class ChallengeSolution04 : ChallengeSolution<ChallengeSolution04>
 {
     private string text;
     private string[] passports;
@@ -12,9 +12,9 @@ public class ChallengeSolution04 : ChallengeSolution
     private static string[] eyeColors = new string[] { "amb", "blu", "brn", "gry", "grn", "hzl", "oth" };
 
 
-    public ChallengeSolution04(IConsole console) : base(console)
+    public ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolution04> reader) : base(console, reader)
     {
-        text = string.Join(Environment.NewLine, Reader.ReadLines(this));
+        text = string.Join(Environment.NewLine, _reader.ReadLines());
         passports = text.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
     }
 

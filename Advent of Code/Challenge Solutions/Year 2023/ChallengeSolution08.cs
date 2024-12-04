@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolution08> reader)
+    : ChallengeSolution<ChallengeSolution08>(console, reader)
 {
     private const string START_LABEL = "AAA";
     private const string END_LABEL = "ZZZ";
@@ -108,7 +109,7 @@ public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
         return (instructions, nodes);
     }
 
-    private string[] ReadInputLines() => Reader.ReadLines(this);
+    private string[] ReadInputLines() => _reader.ReadLines();
 
     private class Node
     {

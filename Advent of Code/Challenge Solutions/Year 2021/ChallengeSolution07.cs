@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution07(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolution07> reader)
+    : ChallengeSolution<ChallengeSolution07>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -18,7 +19,7 @@ public class ChallengeSolution07(IConsole console) : ChallengeSolution(console)
 
     private void Solution(bool increasingFuel)
     {
-        List<int> initialPositions = new List<int>(Array.ConvertAll(Reader.ReadLines(this)[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
+        List<int> initialPositions = new List<int>(Array.ConvertAll(_reader.ReadLines()[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
         Dictionary<int, int> fishByPosition = new Dictionary<int, int>();
         foreach (var x in initialPositions)
         {

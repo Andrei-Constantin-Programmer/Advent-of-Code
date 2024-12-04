@@ -4,12 +4,13 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolution15> reader)
+    : ChallengeSolution<ChallengeSolution15>(console, reader)
 {
     public override void SolveFirstPart()
     {
-        var stringsToHash = Reader
-            .ReadLines(this)[0]
+        var stringsToHash = _reader
+            .ReadLines()[0]
             .Split(',', StringSplitOptions.RemoveEmptyEntries);
 
         long sum = stringsToHash
@@ -21,8 +22,8 @@ public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
 
     public override void SolveSecondPart()
     {
-        var steps = Reader
-            .ReadLines(this)[0]
+        var steps = _reader
+            .ReadLines()[0]
             .Split(',', StringSplitOptions.RemoveEmptyEntries);
 
         Dictionary<int, List<Lens>> boxes = ComputeBoxesFromSteps(steps);

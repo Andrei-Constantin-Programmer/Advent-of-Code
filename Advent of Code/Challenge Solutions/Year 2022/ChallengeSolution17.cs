@@ -4,12 +4,12 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution17 : ChallengeSolution
+public class ChallengeSolution17 : ChallengeSolution<ChallengeSolution17>
 {
     private const int stackWidth = 7;
     private readonly Rock[] rocks;
 
-    public ChallengeSolution17(IConsole console) : base(console)
+    public ChallengeSolution17(IConsole console, ISolutionReader<ChallengeSolution17> reader) : base(console, reader)
     {
         rocks = CreateRocks();
     }

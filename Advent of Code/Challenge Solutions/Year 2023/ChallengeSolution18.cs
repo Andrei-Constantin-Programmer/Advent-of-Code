@@ -4,11 +4,12 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution18(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution18(IConsole console, ISolutionReader<ChallengeSolution18> reader)
+    : ChallengeSolution<ChallengeSolution18>(console, reader)
 {
     public override void SolveFirstPart()
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         var corners = GetCornersWithLeftInstructions(lines, out var perimeter);
 
         _console.WriteLine(GetLavaStorageAmount(corners, perimeter));
@@ -16,7 +17,7 @@ public class ChallengeSolution18(IConsole console) : ChallengeSolution(console)
 
     public override void SolveSecondPart()
     {
-        var lines = Reader.ReadLines(this);
+        var lines = _reader.ReadLines();
         var corners = GetCornersWithRightInstructions(lines, out var perimeter);
 
         _console.WriteLine(GetLavaStorageAmount(corners, perimeter));

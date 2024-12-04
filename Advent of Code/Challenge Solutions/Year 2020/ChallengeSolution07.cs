@@ -4,18 +4,18 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-public class ChallengeSolution07(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolution07> reader)
+    : ChallengeSolution<ChallengeSolution07>(console, reader)
 {
     public override void SolveFirstPart()
     {
-        new FirstPart(_console).Solution(Reader.ReadLines(this));
+        new FirstPart(_console).Solution(_reader.ReadLines());
     }
 
     public override void SolveSecondPart()
     {
-        new SecondPart(_console).Solution(Reader.ReadLines(this));
+        new SecondPart(_console).Solution(_reader.ReadLines());
     }
-
 
     class FirstPart(IConsole console)
     {

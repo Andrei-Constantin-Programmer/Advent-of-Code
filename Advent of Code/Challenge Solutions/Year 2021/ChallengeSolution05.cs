@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-public class ChallengeSolution05(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolution05> reader)
+    : ChallengeSolution<ChallengeSolution05>(console, reader)
 {
     private const int n = 1000;
 
@@ -22,7 +23,7 @@ public class ChallengeSolution05(IConsole console) : ChallengeSolution(console)
     {
         var diagram = new int[n, n];
 
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             string[] coordinates = line.Split("->", StringSplitOptions.RemoveEmptyEntries);
             string[] coordinateStart = coordinates[0].Split(",");

@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolution02> reader)
+    : ChallengeSolution<ChallengeSolution02>(console, reader)
 {
     public override void SolveFirstPart()
     {
@@ -31,7 +32,7 @@ public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
     private List<(char, char)> ReadRockPaperScissorsRounds()
     {
         var rounds = new List<(char, char)>();
-        foreach (var line in Reader.ReadLines(this).Select(line => line.ToUpper()))
+        foreach (var line in _reader.ReadLines().Select(line => line.ToUpper()))
         {
             rounds.Add((line[0], line[2]));
         }

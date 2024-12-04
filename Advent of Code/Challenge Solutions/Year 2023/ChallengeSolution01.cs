@@ -4,7 +4,8 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
+public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolution01> reader)
+    : ChallengeSolution<ChallengeSolution01>(console, reader)
 {
     private readonly Dictionary<string, char> _digitWords = new()
     {
@@ -36,7 +37,7 @@ public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
     {
         int calibrationSum = 0;
 
-        foreach (var line in Reader.ReadLines(this))
+        foreach (var line in _reader.ReadLines())
         {
             calibrationSum += ComputeCalibrationValue(line, includeWords);
         }
