@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-class ChallengeSolution01 : ChallengeSolution
+public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         int no = 0;
         using (TextReader read = Reader.GetInputFile(this))
@@ -24,7 +24,7 @@ class ChallengeSolution01 : ChallengeSolution
         Console.WriteLine(no);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         List<int> depths = new List<int>(Array.ConvertAll(Reader.ReadLines(this), int.Parse));
         List<int> sums = new List<int>(depths);

@@ -4,16 +4,16 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-internal class ChallengeSolution12 : ChallengeSolution
+public class ChallengeSolution12 : ChallengeSolution
 {
     private string[] actions;
 
-    public ChallengeSolution12()
+    public ChallengeSolution12(IConsole console) : base(console)
     {
         actions = Reader.ReadLines(this);
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         horizontal = vertical = 0;
         direction = EAST;
@@ -26,7 +26,7 @@ internal class ChallengeSolution12 : ChallengeSolution
         Console.WriteLine(Math.Abs(horizontal) + Math.Abs(vertical));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         planeHorizontal = planeVertical = 0;
         wpHorizontal = 10;

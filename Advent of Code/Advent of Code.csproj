@@ -9,8 +9,14 @@
     <LangVersion>12.0</LangVersion>
   </PropertyGroup>
 
-  <Target Name="AddTasks" BeforeTargets="Build">
-	  <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)..\AddTask.ps1&quot; -SolutionPath &quot;Challenge Solutions&quot;"/>
-	  <Message Text="Added links to Advent of Code" Importance="High" />
+  <Target Name="AddTaskComments" BeforeTargets="Build">
+	  <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)..\AddTaskComments.ps1&quot; -SolutionPath &quot;Challenge Solutions&quot;" />
+	  <Message Text="Added comments with links to Advent of Code." Importance="High" />
   </Target>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
+  </ItemGroup>
 </Project>

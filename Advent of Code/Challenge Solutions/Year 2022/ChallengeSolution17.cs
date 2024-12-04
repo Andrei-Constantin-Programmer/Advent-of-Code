@@ -1,18 +1,20 @@
 ﻿// Task: https://adventofcode.com/2022/day/17
 
+using Advent_of_Code.Utilities;
+
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution17 : ChallengeSolution
+public class ChallengeSolution17 : ChallengeSolution
 {
     private const int stackWidth = 7;
     private readonly Rock[] rocks;
 
-    public ChallengeSolution17()
+    public ChallengeSolution17(IConsole console) : base(console)
     {
         rocks = CreateRocks();
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var stack = new Stack<char[]>();
         stack.Push(CreateStackBase());
@@ -39,7 +41,7 @@ internal class ChallengeSolution17 : ChallengeSolution
 
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         throw new NotImplementedException();
     }

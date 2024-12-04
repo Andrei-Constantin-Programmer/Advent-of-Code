@@ -4,11 +4,11 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution25 : ChallengeSolution
+public class ChallengeSolution25(IConsole console) : ChallengeSolution(console)
 {
     private static readonly Random _random = new();
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var graph = ReadGraph();
 
@@ -17,7 +17,7 @@ internal class ChallengeSolution25 : ChallengeSolution
         //Console.WriteLine(subgraphSize1 * subgraphSize2);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         throw new NotImplementedException();
     }

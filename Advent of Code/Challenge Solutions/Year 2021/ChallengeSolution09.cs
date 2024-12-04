@@ -8,14 +8,14 @@ class ChallengeSolution09 : ChallengeSolution
 {
     private int rows, columns;
 
-    public ChallengeSolution09()
+    public ChallengeSolution09(IConsole console) : base(console)
     {
         string[] lines = Reader.ReadLines(this);
         rows = lines.Length;
         columns = lines[0].Length;
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         int[,] heightMap = ReadHeightMap();
         int sum = 0;
@@ -29,7 +29,7 @@ class ChallengeSolution09 : ChallengeSolution
         Console.WriteLine(sum);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var heightMap = ReadHeightMap();
         var lowPoints = GetLowPoints(heightMap);

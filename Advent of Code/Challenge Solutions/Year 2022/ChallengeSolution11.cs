@@ -4,17 +4,17 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution11 : ChallengeSolution
+public class ChallengeSolution11(IConsole console) : ChallengeSolution(console)
 {
     private int limit;
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var monkeys = ReadMonkeys();
         Console.WriteLine(FindMonkeyBusiness(monkeys, 20, (x) => x / 3));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         limit = 1;
         var monkeys = ReadMonkeys();

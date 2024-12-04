@@ -5,7 +5,12 @@ namespace Advent_of_Code.Challenge_Solutions;
 
 public abstract class ChallengeSolution
 {
-    public ChallengeSolution() { }
+    protected readonly IConsole _console;
+
+    public ChallengeSolution(IConsole console)
+    {
+        _console = console;
+    }
 
     public void PrintSolution()
     {
@@ -13,39 +18,39 @@ public abstract class ChallengeSolution
 
         try
         {
-            Console.WriteLine("First part:");
+            _console.WriteLine("First part:");
 
             watch.Start();
             SolveFirstPart();
             watch.Stop();
 
-            Console.WriteLine("Time for solving first: " + TimeUtils.GetTimeElapsed(watch));
-            Console.WriteLine();
+            _console.WriteLine("Time for solving first: " + TimeUtils.GetTimeElapsed(watch));
+            _console.WriteLine();
             try
             {
-                Console.WriteLine("Second part:");
+                _console.WriteLine("Second part:");
 
                 watch.Start();
                 SolveSecondPart();
                 watch.Stop();
 
-                Console.WriteLine("Time for solving second: " + TimeUtils.GetTimeElapsed(watch));
-                Console.WriteLine();
-                Console.WriteLine();
+                _console.WriteLine("Time for solving second: " + TimeUtils.GetTimeElapsed(watch));
+                _console.WriteLine();
+                _console.WriteLine();
             }
             catch (NotImplementedException)
             {
-                Console.WriteLine("The second part of this challenge has not been solved yet.");
-                Console.WriteLine();
+                _console.WriteLine("The second part of this challenge has not been solved yet.");
+                _console.WriteLine();
             }
         }
         catch (NotImplementedException)
         {
-            Console.WriteLine("The first part of this challenge has not been solved yet.");
-            Console.WriteLine();
+            _console.WriteLine("The first part of this challenge has not been solved yet.");
+            _console.WriteLine();
         }
     }
 
-    protected abstract void SolveFirstPart();
-    protected abstract void SolveSecondPart();
+    public abstract void SolveFirstPart();
+    public abstract void SolveSecondPart();
 }

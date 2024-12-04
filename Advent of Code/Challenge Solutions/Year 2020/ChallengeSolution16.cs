@@ -4,7 +4,7 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-internal class ChallengeSolution16 : ChallengeSolution
+public class ChallengeSolution16 : ChallengeSolution
 {
     private static List<Rule> rules = new List<Rule>();
 
@@ -16,7 +16,7 @@ internal class ChallengeSolution16 : ChallengeSolution
 
     private static Dictionary<int, string> fieldPositions = new Dictionary<int, string>();
 
-    public ChallengeSolution16()
+    public ChallengeSolution16(IConsole console) : base(console)
     {
         string[] lines = Reader.ReadLines(this);
 
@@ -63,7 +63,7 @@ internal class ChallengeSolution16 : ChallengeSolution
         }
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         int sum = 0;
         foreach (Ticket ticket in nearbyTickets)
@@ -79,7 +79,7 @@ internal class ChallengeSolution16 : ChallengeSolution
         Console.WriteLine(sum);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         throw new NotImplementedException();
 

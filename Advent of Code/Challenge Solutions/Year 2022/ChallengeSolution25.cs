@@ -4,16 +4,16 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution25 : ChallengeSolution
+public class ChallengeSolution25 : ChallengeSolution
 {
     private readonly List<long> fuelRequirements;
 
-    public ChallengeSolution25()
+    public ChallengeSolution25(IConsole console) : base(console)
     {
         fuelRequirements = ReadFuelRequirements();
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var fuelRequirementsSum = fuelRequirements.Sum();
 
@@ -21,7 +21,7 @@ internal class ChallengeSolution25 : ChallengeSolution
         Console.WriteLine(DecimalToSnafu(fuelRequirementsSum));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         Console.WriteLine("There is no second part to this challenge!");
     }

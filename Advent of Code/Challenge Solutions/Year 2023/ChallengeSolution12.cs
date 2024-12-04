@@ -7,20 +7,20 @@ using System.Text.RegularExpressions;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution12 : ChallengeSolution
+public class ChallengeSolution12(IConsole console) : ChallengeSolution(console)
 {
     private const char OPERATIONAL = '.';
     private const char DAMAGED = '#';
     private const char UNKNOWN = '?';
         
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var conditionRecords = ReadConditionRecords();
         
         Console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var conditionRecords = ReadConditionRecords(multiplier: 5);
         

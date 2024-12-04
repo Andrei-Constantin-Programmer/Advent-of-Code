@@ -4,13 +4,13 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution21 : ChallengeSolution
+public class ChallengeSolution21(IConsole console) : ChallengeSolution(console)
 {
     private const int MAX_STEPS = 64;
     private const char PLOT = '.';
     private const char START = 'S';
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var garden = ReadGarden(out var startPlot);
         var latestPlotsReached = FindLastPlotsReached(garden, startPlot);
@@ -46,7 +46,7 @@ internal class ChallengeSolution21 : ChallengeSolution
         return lastPlotsReachedCount;
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         throw new NotImplementedException();
     }

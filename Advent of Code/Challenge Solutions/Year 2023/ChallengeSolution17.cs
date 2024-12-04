@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution17 : ChallengeSolution
+public class ChallengeSolution17(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var heatLossMap = ReadHeatLossMap();
         var leastSpillage = FindLeastSpillage(heatLossMap, new(0, 3));
@@ -14,7 +14,7 @@ internal class ChallengeSolution17 : ChallengeSolution
         Console.WriteLine(leastSpillage);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var heatLossMap = ReadHeatLossMap();
         var leastSpillage = FindLeastSpillage(heatLossMap, new(4, 10));

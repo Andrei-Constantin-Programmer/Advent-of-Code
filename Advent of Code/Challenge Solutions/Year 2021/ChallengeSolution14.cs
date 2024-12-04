@@ -4,14 +4,14 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-class ChallengeSolution14 : ChallengeSolution
+public class ChallengeSolution14(IConsole console) : ChallengeSolution(console)
 {
     private Dictionary<string, char> insertionRules;
     private Dictionary<char, long> appearances;
     private Dictionary<string, long> pairAppearances;
     private List<char> polymer;
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         ReadInput();
         for (int step = 0; step < 10; step++)
@@ -35,7 +35,7 @@ class ChallengeSolution14 : ChallengeSolution
         Console.WriteLine(sorted[sorted.Count - 1].Value - sorted[0].Value);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         ReadInput();
         for (int step = 0; step < 40; step++)

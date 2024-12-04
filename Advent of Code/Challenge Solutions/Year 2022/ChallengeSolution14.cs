@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution14 : ChallengeSolution
+public class ChallengeSolution14 : ChallengeSolution
 {
     private const char ROCK = '#', AIR = '.', SAND = 'o';
     private List<(int x, int y)[]> paths;
@@ -13,18 +13,18 @@ internal class ChallengeSolution14 : ChallengeSolution
     private const int startingColumn = 500;
     private const int floorExtension = 500;
 
-    public ChallengeSolution14()
+    public ChallengeSolution14(IConsole console) : base(console)
     {
         paths = ReadRockPaths(out leftMargin, out rightMargin, out bottomMargin);
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var cave = CreateCaveMap(paths, leftMargin, rightMargin, bottomMargin);
         Console.WriteLine(GrainsToFillCave(cave, leftMargin));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var cave = AddFloor(CreateCaveMap(paths, leftMargin, rightMargin, bottomMargin));
         Console.WriteLine(GrainsToPlugSource(cave, leftMargin));

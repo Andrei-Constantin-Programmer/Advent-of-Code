@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution09 : ChallengeSolution
+public class ChallengeSolution09(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var commands = ReadCommands();
 
@@ -17,7 +17,7 @@ internal class ChallengeSolution09 : ChallengeSolution
         Console.WriteLine(tail.History.Count);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var commands = ReadCommands();
         var knots = CreateKnots();

@@ -4,13 +4,13 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-class ChallengeSolution11 : ChallengeSolution
+public class ChallengeSolution11 : ChallengeSolution
 {
     private const int n = 10;
     private int[,]? energy;
     private int[,] originalEnergy;
 
-    public ChallengeSolution11()
+    public ChallengeSolution11(IConsole console) : base(console)
     {
         originalEnergy = new int[n, n];
         var lines = Reader.ReadLines(this);
@@ -22,7 +22,7 @@ class ChallengeSolution11 : ChallengeSolution
         }
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         energy = (int[,])originalEnergy.Clone();
         int flashes = 0;
@@ -58,7 +58,7 @@ class ChallengeSolution11 : ChallengeSolution
         Console.WriteLine(flashes);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         energy = (int[,])originalEnergy.Clone();
         int step = 0;

@@ -4,7 +4,7 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution07 : ChallengeSolution
+public class ChallengeSolution07 : ChallengeSolution
 {
     private const int MAX_SIZE = 100000;
     private const int AVAILABLE = 70000000;
@@ -13,14 +13,14 @@ internal class ChallengeSolution07 : ChallengeSolution
     private Folder root;
     private List<Folder> folders;
 
-    public ChallengeSolution07()
+    public ChallengeSolution07(IConsole console) : base(console)
     {
         root = new Folder("/");
         folders = new List<Folder>() { root };
         ReadFileSystem();
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         int sum = 0;
 
@@ -31,7 +31,7 @@ internal class ChallengeSolution07 : ChallengeSolution
         Console.WriteLine(sum);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var orderedFolders = folders
             .OrderBy(folder => folder.Size);

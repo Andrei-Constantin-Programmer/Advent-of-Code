@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution10 : ChallengeSolution
+public class ChallengeSolution10(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var lines = Reader.ReadLines(this);
         var grid = GetInputGrid(lines);
@@ -17,7 +17,7 @@ internal class ChallengeSolution10 : ChallengeSolution
         Console.WriteLine(ComputeStepsToFarthestElement(startTile));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var lines = Reader.ReadLines(this);
         var tileGrid = GetInputGrid(lines);

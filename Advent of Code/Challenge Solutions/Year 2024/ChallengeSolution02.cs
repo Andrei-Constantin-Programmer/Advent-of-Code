@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
-public class ChallengeSolution02 : ChallengeSolution
+public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var reports = ReadReports();
         var safeReports = reports.Count(r => IsSafeReport(r));
@@ -14,7 +14,7 @@ public class ChallengeSolution02 : ChallengeSolution
         Console.WriteLine($"Safe reports: {safeReports}");
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var reports = ReadReports();
         var safeReports = 0;

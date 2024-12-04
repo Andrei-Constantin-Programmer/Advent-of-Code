@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
-public class ChallengeSolution01 : ChallengeSolution
+public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         (var leftList, var rightList) = ReadLocationIds();
 
@@ -18,7 +18,7 @@ public class ChallengeSolution01 : ChallengeSolution
         Console.WriteLine($"Total distance: {totalDistance}");
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         (var leftList, var rightList) = ReadLocationIds();
 

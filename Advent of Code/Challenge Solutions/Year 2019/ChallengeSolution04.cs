@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2019;
 
-internal class ChallengeSolution04 : ChallengeSolution
+public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var (rangeStart, rangeEnd) = ReadRange();
         Console.WriteLine(FindPasswordCount(rangeStart, rangeEnd, condition));
@@ -16,7 +16,7 @@ internal class ChallengeSolution04 : ChallengeSolution
             .Any(isEqualAdjacency => isEqualAdjacency);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var (rangeStart, rangeEnd) = ReadRange();
         Console.WriteLine(FindPasswordCount(rangeStart, rangeEnd, condition));

@@ -4,12 +4,12 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-internal class ChallengeSolution09 : ChallengeSolution
+public class ChallengeSolution09 : ChallengeSolution
 {
     private List<long> numbers;
     private string[] lines;
 
-    public ChallengeSolution09()
+    public ChallengeSolution09(IConsole console) : base(console)
     {
         numbers = new List<long>();
         lines = Reader.ReadLines(this);
@@ -19,7 +19,7 @@ internal class ChallengeSolution09 : ChallengeSolution
         }
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         bool found = false;
         for (int i = 25; i < lines.Length && !found; i++)
@@ -35,7 +35,7 @@ internal class ChallengeSolution09 : ChallengeSolution
         }
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         bool found = false;
         int pos = 0;

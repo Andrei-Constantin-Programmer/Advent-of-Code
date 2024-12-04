@@ -8,7 +8,7 @@ internal class ChallengeReader : IChallengeReader
     private const int FIRST_CHALLENGE_DAY = 1;
     private const int LAST_CHALLENGE_DAY = 25;
 
-    private ISolutionMapper _mapper;
+    private readonly ISolutionMapper _mapper;
 
     public ChallengeReader(ISolutionMapper mapper)
     {
@@ -28,7 +28,9 @@ internal class ChallengeReader : IChallengeReader
                 var year = Convert.ToInt32(line);
 
                 if (_mapper.DoesYearExist(year))
+                {
                     return year;
+                }
 
                 Console.WriteLine($"There are no solutions found for year {year}.");
                 Console.WriteLine();

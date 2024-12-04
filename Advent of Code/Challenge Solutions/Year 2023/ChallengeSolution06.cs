@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution06 : ChallengeSolution
+public class ChallengeSolution06(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var races = ReadRaceInformation();
 
@@ -19,7 +19,7 @@ internal class ChallengeSolution06 : ChallengeSolution
         Console.WriteLine(winningPossibilityProduct);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var lines = ReadInputLines();
         KeyValuePair<long, long> race = new(ParseCombinedInputLine(lines[0]), ParseCombinedInputLine(lines[1]));

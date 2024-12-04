@@ -4,13 +4,13 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution20 : ChallengeSolution
+public class ChallengeSolution20(IConsole console) : ChallengeSolution(console)
 {
     private const char FLIP_FLOP_PREFIX = '%';
     private const char CONJUNCTION_PREFIX = '&';
     private const int HIGH_PULSE_NOT_FOUND = -1;
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         _ = ReadModules(out var broadcaster);
         (long totalLowPulses, long totalHighPulses) = (0, 0);
@@ -26,7 +26,7 @@ internal class ChallengeSolution20 : ChallengeSolution
         Console.WriteLine(totalLowPulses * totalHighPulses);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var modules = ReadModules(out var broadcaster);
         var rxModule = modules

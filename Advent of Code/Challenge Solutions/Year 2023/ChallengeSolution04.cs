@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution04 : ChallengeSolution
+public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         double totalPointsSum = 0;
 
@@ -26,7 +26,7 @@ internal class ChallengeSolution04 : ChallengeSolution
         Console.WriteLine(totalPointsSum);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var cards = Reader.ReadLines(this).Select(GetCard).ToList();
 

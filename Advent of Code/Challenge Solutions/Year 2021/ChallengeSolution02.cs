@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-class ChallengeSolution02 : ChallengeSolution
+public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         int depth = 0, horizontal = 0;
         foreach (var line in Reader.ReadLines(this))
@@ -24,7 +24,7 @@ class ChallengeSolution02 : ChallengeSolution
         Console.WriteLine(depth * horizontal);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         int depth = 0, horizontal = 0, aim = 0;
 

@@ -4,16 +4,16 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution22 : ChallengeSolution
+public class ChallengeSolution22(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         Console.WriteLine(
             ReadToppledCounts()
             .Count(toppleCount => toppleCount == 0));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         Console.WriteLine(
             ReadToppledCounts()

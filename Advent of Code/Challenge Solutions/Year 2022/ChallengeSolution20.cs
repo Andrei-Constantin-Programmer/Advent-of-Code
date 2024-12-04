@@ -4,11 +4,11 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution20 : ChallengeSolution
+public class ChallengeSolution20(IConsole console) : ChallengeSolution(console)
 {
     private const long DECRYPTION_KEY = 811589153;
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var arrangement = ReadInitialArrangement();
 
@@ -18,7 +18,7 @@ internal class ChallengeSolution20 : ChallengeSolution
         Console.WriteLine(GetGroveCoordinatesSum(arrangement));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var arrangement = ReadInitialArrangement();
         ApplyDecriptionKey(arrangement);

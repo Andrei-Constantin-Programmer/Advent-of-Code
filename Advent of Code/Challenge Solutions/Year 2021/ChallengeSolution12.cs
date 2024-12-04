@@ -5,12 +5,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-class ChallengeSolution12 : ChallengeSolution
+public class ChallengeSolution12(IConsole console) : ChallengeSolution(console)
 {
     private Dictionary<string, List<string>>? caveConnections;
     private int paths;
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         paths = 0;
         GetCaves();
@@ -39,7 +39,7 @@ class ChallengeSolution12 : ChallengeSolution
 
     private List<string> smallCaves;
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         paths = 0;
         GetCaves();

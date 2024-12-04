@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution08 : ChallengeSolution
+public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var grid = ReadTreeGrid();
 
@@ -16,7 +16,7 @@ internal class ChallengeSolution08 : ChallengeSolution
         Console.WriteLine(perimeter + visibleTrees);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var grid = ReadTreeGrid();
 

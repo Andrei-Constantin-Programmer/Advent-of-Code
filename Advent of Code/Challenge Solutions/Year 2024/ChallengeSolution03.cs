@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
-public partial class ChallengeSolution03 : ChallengeSolution
+public partial class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var lines = ReadMemory();
         var muls = MulRegex()
@@ -25,7 +25,7 @@ public partial class ChallengeSolution03 : ChallengeSolution
         Console.WriteLine($"Multiplication sum: {sum}");
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var lines = ReadMemory();
         var instructions = InstructionRegex()

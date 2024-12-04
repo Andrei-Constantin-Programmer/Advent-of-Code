@@ -4,20 +4,20 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-internal class ChallengeSolution13 : ChallengeSolution
+public class ChallengeSolution13 : ChallengeSolution
 {
     private static long timestamp, firstTimestamp, earliestTimestamp;
     private static int[] buses;
     private static string[] lines;
     private static string[] busesIds;
 
-    public ChallengeSolution13()
+    public ChallengeSolution13(IConsole console) : base(console)
     {
         lines = Reader.ReadLines(this);
         busesIds = lines[1].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var busIds = new string[busesIds.Length];
         busesIds.CopyTo(busIds, 0);
@@ -38,7 +38,7 @@ internal class ChallengeSolution13 : ChallengeSolution
         Console.WriteLine(GetEarliestBus() * (earliestTimestamp - firstTimestamp));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var busIds = new string[busesIds.Length];
         busesIds.CopyTo(busIds, 0);

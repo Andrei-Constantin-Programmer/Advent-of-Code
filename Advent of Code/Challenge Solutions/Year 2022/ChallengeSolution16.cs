@@ -4,16 +4,16 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution16 : ChallengeSolution
+public class ChallengeSolution16 : ChallengeSolution
 {
     private readonly Dictionary<Valve, List<Valve>> adjacentValves;
 
-    public ChallengeSolution16()
+    public ChallengeSolution16(IConsole console) : base(console)
     {
         adjacentValves = ReadValves();
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         throw new NotImplementedException();
 
@@ -43,7 +43,7 @@ internal class ChallengeSolution16 : ChallengeSolution
         return accumulatedPressure + maximumPressure;
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         throw new NotImplementedException();
     }

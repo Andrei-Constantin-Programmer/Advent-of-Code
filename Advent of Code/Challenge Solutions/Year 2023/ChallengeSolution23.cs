@@ -4,15 +4,15 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution23 : ChallengeSolution
+public class ChallengeSolution23(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var hikingTrails = ReadHikingTrails();
         Console.WriteLine(FindLongestTrail(hikingTrails));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var hikingTrails = ReadHikingTrails();
         for (var i = 0; i < hikingTrails.Length; i++)

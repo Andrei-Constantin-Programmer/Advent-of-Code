@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-class ChallengeSolution06 : ChallengeSolution
+public class ChallengeSolution06(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         List<int> lanternfish = new List<int>(Array.ConvertAll(Reader.ReadLines(this)[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
 
@@ -35,7 +35,7 @@ class ChallengeSolution06 : ChallengeSolution
         Console.WriteLine(lanternfish.Count);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         long[] fish = new long[9];
         List<int> initialFish = new List<int>(Array.ConvertAll(Reader.ReadLines(this)[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));

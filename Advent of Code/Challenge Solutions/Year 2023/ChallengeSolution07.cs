@@ -4,14 +4,14 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution07 : ChallengeSolution
+public class ChallengeSolution07(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         Console.WriteLine(GetTotalWinnings(false));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         Console.WriteLine(GetTotalWinnings(true));
     }

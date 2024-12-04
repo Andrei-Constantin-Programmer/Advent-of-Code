@@ -9,7 +9,9 @@ internal class SolutionMapper : ISolutionMapper
     private const string YEAR_NAMESPACE_PREFIX = "Advent_of_Code.Challenge_Solutions.Year_";
     private readonly List<int> _years;
 
-    public SolutionMapper()
+    private readonly IConsole _console;
+
+    public SolutionMapper(IConsole console)
     {
         var currentAssembly = Assembly.GetExecutingAssembly();
 
@@ -19,22 +21,21 @@ internal class SolutionMapper : ISolutionMapper
             .Where(year => year != -1)
             .Distinct()
             .ToList();
+
+        _console = console;
     }
 
     public bool DoesYearExist(int year) => _years.Contains(year);
 
     public ChallengeSolution GetChallengeSolution(int year, int day)
     {
-        string challengeClassName = $"ChallengeSolution{Reader.FormatDay(day)}";
-        string fullClassName = $"{GetChallengeYearNamespace(year)}.{challengeClassName}";
+        var challengeClassName = $"ChallengeSolution{Reader.FormatDay(day)}";
+        var fullClassName = $"{GetChallengeYearNamespace(year)}.{challengeClassName}";
 
-        var type = Type.GetType(fullClassName);
-        if (type is null)
-        {
-            throw new NonexistentChallengeException(year, day);
-        }
+        var type = Type.GetType(fullClassName)
+            ?? throw new NonexistentChallengeException(year, day);
 
-        return Activator.CreateInstance(type) is ChallengeSolution solution
+        return Activator.CreateInstance(type, _console) is ChallengeSolution solution
             ? solution
             : throw new Exception($"The solution for challenge {year}_{day} is malformed");
     }

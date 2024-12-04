@@ -4,12 +4,12 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution14 : ChallengeSolution
+public class ChallengeSolution14(IConsole console) : ChallengeSolution(console)
 {
     private const char ROUND_ROCK = 'O';
     private const char EMPTY = '.';
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var platform = ReadPlatform();
         TiltNorth(platform);
@@ -17,7 +17,7 @@ internal class ChallengeSolution14 : ChallengeSolution
         Console.WriteLine(GetTotalLoad(platform));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var platform = ReadPlatform();
         CharArrayComparer comparer = new();

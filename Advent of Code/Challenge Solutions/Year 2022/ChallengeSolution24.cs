@@ -4,7 +4,7 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution24 : ChallengeSolution
+public class ChallengeSolution24(IConsole console) : ChallengeSolution(console)
 {
     private static readonly Point _noBlizzardPoint = new(-1, -1);
 
@@ -13,12 +13,12 @@ internal class ChallengeSolution24 : ChallengeSolution
     private const char EAST = '>';
     private const char SOUTH = 'v';
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         throw new NotImplementedException();
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         throw new NotImplementedException();
     }

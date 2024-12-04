@@ -4,11 +4,11 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-internal class ChallengeSolution10 : ChallengeSolution
+public class ChallengeSolution10 : ChallengeSolution
 {
     private static List<long> numbers = new List<long>();
 
-    public ChallengeSolution10()
+    public ChallengeSolution10(IConsole console) : base(console)
     {
         var lines = Reader.ReadLines(this);
         numbers.Add(0);
@@ -22,7 +22,7 @@ internal class ChallengeSolution10 : ChallengeSolution
         numbers.Add(numbers[numbers.Count - 1] + 3);
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         int oneJolt = 0, twoJolts = 0, threeJolts = 0;
         for (int i = 1; i < numbers.Count; i++)
@@ -39,7 +39,7 @@ internal class ChallengeSolution10 : ChallengeSolution
         Console.WriteLine(oneJolt * threeJolts);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var limit = numbers[numbers.Count - 1] + 1;
         long[] paths = new long[limit];

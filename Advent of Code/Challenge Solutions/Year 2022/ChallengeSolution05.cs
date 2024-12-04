@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution05 : ChallengeSolution
+public class ChallengeSolution05(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var (stacks, moves) = ReadInput();
 
@@ -15,7 +15,7 @@ internal class ChallengeSolution05 : ChallengeSolution
         Console.WriteLine(String.Join("", stacks.Select(stack => stack.Peek())));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var (stacks, moves) = ReadInput();
 

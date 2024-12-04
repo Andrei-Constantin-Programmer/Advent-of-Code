@@ -4,12 +4,12 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-internal class ChallengeSolution08 : ChallengeSolution
+public class ChallengeSolution08 : ChallengeSolution
 {
     private static List<Instruction> instructions = new List<Instruction>();
     private int accumulator;
 
-    public ChallengeSolution08()
+    public ChallengeSolution08(IConsole console) : base(console)
     {
         var lines = Reader.ReadLines(this);
 
@@ -34,7 +34,7 @@ internal class ChallengeSolution08 : ChallengeSolution
         }
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         accumulator = 0;
 
@@ -52,7 +52,7 @@ internal class ChallengeSolution08 : ChallengeSolution
         Console.WriteLine(accumulator);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         accumulator = 0;
 

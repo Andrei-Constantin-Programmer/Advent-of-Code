@@ -4,24 +4,24 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-internal class ChallengeSolution06 : ChallengeSolution
+public class ChallengeSolution06 : ChallengeSolution
 {
     private static bool[] questions = new bool[200];
     private static int[] groupQuestions = new int[200];
     private static string[] groups;
 
-    public ChallengeSolution06()
+    public ChallengeSolution06(IConsole console) : base(console)
     {
         string lines = string.Join(Environment.NewLine, Reader.ReadLines(this));
         groups = lines.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         Console.WriteLine(GetSum(groups));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         Console.WriteLine(GetSumAll(groups));
     }

@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution21 : ChallengeSolution
+public class ChallengeSolution21(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var monkeys = ReadMonkeys(false);
         var root = FindMonkey(monkeys, "root");
@@ -16,7 +16,7 @@ internal class ChallengeSolution21 : ChallengeSolution
         Console.WriteLine(root.Value);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var monkeys = ReadMonkeys(true);
         var root = FindMonkey(monkeys, "root");

@@ -4,21 +4,21 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-internal class ChallengeSolution03 : ChallengeSolution
+public class ChallengeSolution03 : ChallengeSolution
 {
     private string[] lines;
 
-    public ChallengeSolution03()
+    public ChallengeSolution03(IConsole console) : base(console)
     {
         lines = Reader.ReadLines(this);
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         Console.WriteLine(CountTrees(lines));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         int p = CountTreesDownOne(lines);
         p *= CountTreesDownTwo(lines);

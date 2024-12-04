@@ -4,21 +4,21 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-internal class ChallengeSolution11 : ChallengeSolution
+public class ChallengeSolution11 : ChallengeSolution
 {
     private string[] lines;
 
-    public ChallengeSolution11()
+    public ChallengeSolution11(IConsole console) : base(console)
     {
         lines = Reader.ReadLines(this);
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         new FirstPart(lines).Solution();
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         new SecondPart(lines).Solution();
     }

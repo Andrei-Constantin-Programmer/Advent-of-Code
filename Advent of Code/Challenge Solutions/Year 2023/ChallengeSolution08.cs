@@ -4,19 +4,19 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution08 : ChallengeSolution
+public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
 {
     private const string START_LABEL = "AAA";
     private const string END_LABEL = "ZZZ";
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var (instructions, nodes) = ReadInput();
 
         Console.WriteLine(ComputeStepsFromSourceToDestination(instructions, nodes));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var (instructions, nodes) = ReadInput();
 

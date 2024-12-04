@@ -4,12 +4,12 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-class ChallengeSolution08 : ChallengeSolution
+public class ChallengeSolution08(IConsole console) : ChallengeSolution(console)
 {
     Dictionary<byte, char[]> segmentsByDigit;
     Dictionary<char, char> positionsByChar;
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         GenerateInitialMapping();
 
@@ -32,7 +32,7 @@ class ChallengeSolution08 : ChallengeSolution
         Console.WriteLine(no);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         int sum = 0;
         foreach (var line in Reader.ReadLines(this))

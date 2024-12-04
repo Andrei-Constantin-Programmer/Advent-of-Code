@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution03 : ChallengeSolution
+public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         Console.WriteLine(ReadRucksacks()
             .Select(rucksack => GetItemTypePriority(GetCommonItemType(rucksack)))
@@ -14,7 +14,7 @@ internal class ChallengeSolution03 : ChallengeSolution
             );
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         int sum = 0;
         var rucksacks = ReadRucksacks();

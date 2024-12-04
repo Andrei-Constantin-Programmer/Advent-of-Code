@@ -4,14 +4,14 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-internal class ChallengeSolution15 : ChallengeSolution
+public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         Solution(2020);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         Solution(30000000);
     }

@@ -5,12 +5,12 @@ using System.Collections.Concurrent;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution15 : ChallengeSolution
+public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
 {
     private const bool IsTesting = false;
     private readonly ParallelOptions parallelOptions = new() { MaxDegreeOfParallelism = 12 };
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var pairs = ReadSensorsAndBeacons();
 
@@ -19,7 +19,7 @@ internal class ChallengeSolution15 : ChallengeSolution
         Console.WriteLine(GetBlockedPositions(row, pairs).Count);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var sensorBeaconPairs = ReadSensorsAndBeacons();
         var diamonds = CreateDiamonds(sensorBeaconPairs);

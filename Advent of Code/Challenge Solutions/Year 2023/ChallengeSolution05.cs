@@ -4,13 +4,13 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution05 : ChallengeSolution
+public class ChallengeSolution05 : ChallengeSolution
 {
     private readonly List<string> _lines;
 
     private readonly List<List<Mapping>> _mappingLists;
 
-    public ChallengeSolution05()
+    public ChallengeSolution05(IConsole console) : base(console)
     {
         _lines = ReadInputLines();
 
@@ -26,7 +26,7 @@ internal class ChallengeSolution05 : ChallengeSolution
         };
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var minimumLocation = ParseSeeds(_lines[0])
             .Select(MapSeedToLocation)
@@ -35,7 +35,7 @@ internal class ChallengeSolution05 : ChallengeSolution
         Console.WriteLine(minimumLocation);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         List<MappingRange> seedRanges = ParseSeedRanges(_lines[0]);
 

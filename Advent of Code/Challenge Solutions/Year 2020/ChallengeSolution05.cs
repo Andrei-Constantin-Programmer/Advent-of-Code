@@ -4,17 +4,17 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-internal class ChallengeSolution05 : ChallengeSolution
+public class ChallengeSolution05 : ChallengeSolution
 {
     private string[] seats;
     private static int[,] plane = new int[128, 8];
 
-    public ChallengeSolution05()
+    public ChallengeSolution05(IConsole console) : base(console)
     {
         seats = Reader.ReadLines(this);
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         string[] mySeats = new string[seats.Length];
         seats.CopyTo(mySeats, 0);
@@ -22,7 +22,7 @@ internal class ChallengeSolution05 : ChallengeSolution
         Console.WriteLine(GetHighestID(mySeats));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         string[] mySeats = new string[seats.Length];
         seats.CopyTo(mySeats, 0);
@@ -47,7 +47,7 @@ internal class ChallengeSolution05 : ChallengeSolution
 
         for (int i = 0; i < searchString.Length; i++)
         {
-            double m = ((double)low + (double)high) / 2;
+            double m = (low + (double)high) / 2;
             double frac = m - Math.Truncate(m);
             if (frac == 0)
                 med = (low + high) / 2;

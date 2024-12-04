@@ -4,15 +4,15 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2019;
 
-internal class ChallengeSolution02 : ChallengeSolution
+public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var opCodes = ReadOpCodes();
         Console.WriteLine(ResultForOpCodeCalculation(opCodes, 12, 2));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         for (byte noun = 0; noun < 99; noun++)
         {

@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-class ChallengeSolution03 : ChallengeSolution
+public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var bits = Enumerable.Range(0, 12).Select(x => new BitAmmount { }).ToList();
 
@@ -30,7 +30,7 @@ class ChallengeSolution03 : ChallengeSolution
         Console.WriteLine(Convert.ToInt32(gamma, 2) * Convert.ToInt32(epsilon, 2));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         string[] lines = Reader.ReadLines(this);
         var O2 = new List<string>(lines);

@@ -4,7 +4,7 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution19 : ChallengeSolution
+public class ChallengeSolution19(IConsole console) : ChallengeSolution(console)
 {
     private const char ACCEPTED = 'A';
     private const char REJECTED = 'R';
@@ -14,7 +14,7 @@ internal class ChallengeSolution19 : ChallengeSolution
     private static readonly int _minimumRating = 0;
     private static readonly int _maximumRating = 4001;
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var (workflows, parts) = ReadInput();
         var startWorkflow = workflows.First(w => w.Label == STARTING_WORKFLOW);
@@ -25,7 +25,7 @@ internal class ChallengeSolution19 : ChallengeSolution
         Console.WriteLine(ratingNumberSum);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var (workflows, _) = ReadInput();
         var startWorkflow = workflows.First(w => w.Label == STARTING_WORKFLOW);

@@ -4,16 +4,16 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution03 : ChallengeSolution
+public class ChallengeSolution03 : ChallengeSolution
 {
     private readonly char[,] _engineSchematic;
 
-    public ChallengeSolution03()
+    public ChallengeSolution03(IConsole console) : base(console)
     {
         _engineSchematic = ReadEngineSchematic();
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         int totalPartNumberSum = 0;
 
@@ -39,7 +39,7 @@ internal class ChallengeSolution03 : ChallengeSolution
         Console.WriteLine(totalPartNumberSum);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         Dictionary<(int row, int column), List<int>> gears = new();
 

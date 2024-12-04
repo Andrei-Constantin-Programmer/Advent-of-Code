@@ -4,20 +4,20 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-class ChallengeSolution15 : ChallengeSolution
+public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
 {
     private int n;
     private int[,] riskMatrix;
     private int[,] pathMatrix;
     Queue<KeyValuePair<int, int>> queue;
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         ReadMatrix();
         FindPath();
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         CreateBigMatrix();
         FindPath();

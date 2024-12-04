@@ -4,11 +4,11 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2019;
 
-internal class ChallengeSolution03 : ChallengeSolution
+public class ChallengeSolution03(IConsole console) : ChallengeSolution(console)
 {
     private static readonly Point _origin = new(0, 0);
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var lowestManhattanDistance =
             ReadIntersections().Keys
@@ -18,7 +18,7 @@ internal class ChallengeSolution03 : ChallengeSolution
         Console.WriteLine(lowestManhattanDistance);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var fewestCombinedSteps =
             ReadIntersections().Values

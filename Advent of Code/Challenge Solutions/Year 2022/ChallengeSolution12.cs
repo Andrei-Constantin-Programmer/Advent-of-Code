@@ -4,26 +4,26 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution12 : ChallengeSolution
+public class ChallengeSolution12 : ChallengeSolution
 {
     private const char START = 'S', END = 'E';
     private readonly int[][] heightMap;
     private (int row, int column) endPosition;
 
-    public ChallengeSolution12()
+    public ChallengeSolution12(IConsole console) : base(console)
     {
         heightMap = ReadHeightMap();
         endPosition = GetPositionOf(0);
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var distanceMap = CreateMatrix<int>(heightMap.Length, heightMap[0].Length);
 
         Console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a') + 1));
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var distanceMap = CreateMatrix<int>(heightMap.Length, heightMap[0].Length);
 

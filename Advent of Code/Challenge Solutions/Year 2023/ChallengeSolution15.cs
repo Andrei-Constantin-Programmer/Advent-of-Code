@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution15 : ChallengeSolution
+public class ChallengeSolution15(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var stringsToHash = Reader
             .ReadLines(this)[0]
@@ -19,7 +19,7 @@ internal class ChallengeSolution15 : ChallengeSolution
         Console.WriteLine(sum);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var steps = Reader
             .ReadLines(this)[0]

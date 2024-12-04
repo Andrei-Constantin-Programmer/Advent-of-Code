@@ -4,7 +4,7 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution01 : ChallengeSolution
+public class ChallengeSolution01(IConsole console) : ChallengeSolution(console)
 {
     private readonly Dictionary<string, char> _digitWords = new()
     {
@@ -20,13 +20,13 @@ internal class ChallengeSolution01 : ChallengeSolution
         { "nine", '9' }
     };
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         int calibrationSum = ComputeCalibrationSum(false);
         Console.WriteLine(calibrationSum);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         int calibrationSum = ComputeCalibrationSum(true);
         Console.WriteLine(calibrationSum);

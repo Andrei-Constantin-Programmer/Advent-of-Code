@@ -4,13 +4,13 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
-internal class ChallengeSolution02 : ChallengeSolution
+public class ChallengeSolution02(IConsole console) : ChallengeSolution(console)
 {
     private const int MAX_RED_CUBES = 12;
     private const int MAX_GREEN_CUBES = 13;
     private const int MAX_BLUE_CUBES = 14;
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         int totalIdSum = 0;
 
@@ -29,7 +29,7 @@ internal class ChallengeSolution02 : ChallengeSolution
         Console.WriteLine(totalIdSum);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         long totalPowerSum = 0;
 

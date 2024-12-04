@@ -4,11 +4,11 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
-class ChallengeSolution04 : ChallengeSolution
+public class ChallengeSolution04(IConsole console) : ChallengeSolution(console)
 {
     private const int n = 5;
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         using TextReader read = Reader.GetInputFile(this);
         var drawn = Array.ConvertAll(read.ReadLine()!.Split(","), int.Parse);
@@ -38,7 +38,7 @@ class ChallengeSolution04 : ChallengeSolution
 
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         using TextReader read = Reader.GetInputFile(this);
 

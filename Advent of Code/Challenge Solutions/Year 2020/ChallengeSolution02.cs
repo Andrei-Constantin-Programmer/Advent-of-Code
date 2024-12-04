@@ -5,16 +5,16 @@ using System.Text;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-internal class ChallengeSolution02 : ChallengeSolution
+public class ChallengeSolution02 : ChallengeSolution
 {
     private string[] lines;
 
-    public ChallengeSolution02()
+    public ChallengeSolution02(IConsole console) : base(console)
     {
         lines = Reader.ReadLines(this);
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         int no = 0;
 
@@ -42,7 +42,7 @@ internal class ChallengeSolution02 : ChallengeSolution
         Console.WriteLine(no);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         int no = 0;
 

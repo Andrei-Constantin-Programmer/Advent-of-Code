@@ -4,16 +4,16 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
-internal class ChallengeSolution14 : ChallengeSolution
+public class ChallengeSolution14 : ChallengeSolution
 {
     private string[] lines;
 
-    public ChallengeSolution14()
+    public ChallengeSolution14(IConsole console) : base(console)
     {
         lines = Reader.ReadLines(this);
     }
 
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         memory = new string[100000];
         string mask = "";
@@ -41,7 +41,7 @@ internal class ChallengeSolution14 : ChallengeSolution
         Console.WriteLine(sum);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         memory2 = new Dictionary<long, string>();
         string mask = "";

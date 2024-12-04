@@ -4,9 +4,9 @@ using Advent_of_Code.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
-internal class ChallengeSolution13 : ChallengeSolution
+public class ChallengeSolution13(IConsole console) : ChallengeSolution(console)
 {
-    protected override void SolveFirstPart()
+    public override void SolveFirstPart()
     {
         var packetGroups = ReadPacketGroups();
 
@@ -22,7 +22,7 @@ internal class ChallengeSolution13 : ChallengeSolution
         Console.WriteLine(rightOrderIndexSum);
     }
 
-    protected override void SolveSecondPart()
+    public override void SolveSecondPart()
     {
         var packets = GetAllPacketsFromPacketGroups(ReadPacketGroups());
         var dividers = CreateDividerPackets(new int[] { 2, 6 });
