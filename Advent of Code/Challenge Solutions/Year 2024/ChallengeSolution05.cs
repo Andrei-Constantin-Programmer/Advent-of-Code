@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2024/day/5
 
 using Advent_of_Code.Utilities;
+using System.Data;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
@@ -38,7 +39,55 @@ public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolu
 
     public override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var (rules, updates) = ReadPrinterInformation();
+
+        var middlePageNumberSum = 0;
+
+        foreach (var update in updates)
+        {
+            var priorities = ComputePageNumberPriorities(rules, update);
+
+            var correctedUpdate = update
+                .OrderByDescending(pageNumber => priorities[pageNumber])
+                .ToArray();
+
+            if (!correctedUpdate.SequenceEqual(update))
+            {
+                middlePageNumberSum += correctedUpdate[correctedUpdate.Length / 2];
+            }
+        }
+
+        _console.WriteLine($"Correct updates's middle page number sum: {middlePageNumberSum}");
+    }
+
+    private static Dictionary<int, int> ComputePageNumberPriorities(Dictionary<int, List<int>> rules, int[] update)
+    {
+        Dictionary<int, int> priorities = [];
+
+        foreach (var pageNumber in update)
+        {
+            if (!priorities.ContainsKey(pageNumber))
+            {
+                priorities[pageNumber] = 0;
+            }
+
+            if (!rules.ContainsKey(pageNumber))
+            {
+                continue;
+            }
+
+            foreach (var pageBefore in rules[pageNumber])
+            {
+                if (!priorities.ContainsKey(pageBefore))
+                {
+                    priorities[pageBefore] = 0;
+                }
+
+                priorities[pageBefore]++;
+            }
+        }
+
+        return priorities;
     }
 
     private (Dictionary<int, List<int>> rules, List<int[]> updates) ReadPrinterInformation()

@@ -89,7 +89,7 @@ public class ChallengeSolutionTests05
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(9)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(123)));
     }
 
     [Fact]
@@ -99,6 +99,6 @@ public class ChallengeSolutionTests05
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(2029)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(5152)));
     }
 }
