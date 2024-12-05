@@ -75,7 +75,7 @@ public class ChallengeSolutionTests05
         _challengeSolution.SolveFirstPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(2567)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(5064)));
     }
 
     [Fact]
