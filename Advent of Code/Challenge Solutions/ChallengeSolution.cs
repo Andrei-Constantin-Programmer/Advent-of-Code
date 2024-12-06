@@ -39,7 +39,7 @@ public abstract class ChallengeSolution<TSolution> : ChallengeSolution
             {
                 _console.WriteLine("Second part:");
 
-                watch.Start();
+                watch.Restart();
                 SolveSecondPart();
                 watch.Stop();
 
