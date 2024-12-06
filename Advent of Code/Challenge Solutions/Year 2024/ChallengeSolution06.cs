@@ -157,31 +157,37 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
 
     private static Point? GetClosestWall(Point point, Direction direction, List<Point> walls)
     {
-        Point? closestWall = null;
-
-        try
+        Point nullPoint = direction switch
         {
-            closestWall = direction switch
-            {
-                Direction.Up => walls
-                    .Where(w => w.Col == point.Col && w.Row < point.Row)
-                    .MaxBy(w => w.Row),
-                Direction.Right => walls
-                    .Where(w => w.Row == point.Row && w.Col > point.Col)
-                    .MinBy(w => w.Col),
-                Direction.Down => walls
-                    .Where(w => w.Col == point.Col && w.Row > point.Row)
-                    .MinBy(w => w.Row),
-                Direction.Left => walls
-                    .Where(w => w.Row == point.Row && w.Col < point.Col)
-                    .MaxBy(w => w.Col),
+            Direction.Up or Direction.Left => new Point(-1, -1),
+            Direction.Down or Direction.Right => new Point(int.MaxValue, int.MaxValue),
 
-                _ => null
-            };
-        }
-        catch (Exception) { }
+            _ => throw new NotImplementedException(),
+        };
 
-        return closestWall;
+        walls.Add(nullPoint);
+
+        Point? closestWall = direction switch
+        {
+            Direction.Up => walls
+                .Where(w => (w.Col == point.Col && w.Row < point.Row) || w == nullPoint)
+                .MaxBy(w => w.Row),
+            Direction.Right => walls
+                .Where(w => (w.Row == point.Row && w.Col > point.Col) || w == nullPoint)
+                .MinBy(w => w.Col),
+            Direction.Down => walls
+                .Where(w => (w.Col == point.Col && w.Row > point.Row) || w == nullPoint)
+                .MinBy(w => w.Row),
+            Direction.Left => walls
+                .Where(w => (w.Row == point.Row && w.Col < point.Col) || w == nullPoint)
+                .MaxBy(w => w.Col),
+
+            _ => null
+        };
+
+        walls.Remove(nullPoint);
+
+        return closestWall == nullPoint ? null : closestWall;
     }
 
     private static ((Point, Direction), List<Point>) GetStartPositionAndWalls(string[] map)
