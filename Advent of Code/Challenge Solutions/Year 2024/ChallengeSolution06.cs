@@ -35,7 +35,61 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
 
     public override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var map = ReadMap();
+        ((Point point, Direction direction) currentPosition, List<Point> walls) = GetStartPositionAndWalls(map);
+
+        var count = 0;
+        for (var row = 0; row < map.Length; row++)
+        {
+            for (var col = 0; col < map[row].Length; col++)
+            {
+                Point point = new(row, col);
+                if (currentPosition.point != point
+                    && !walls.Contains(point))
+                {
+                    walls.Add(point);
+                    if (IsLooping(map, currentPosition, walls))
+                    {
+                        count++;
+                    }
+
+                    walls.Remove(point);
+                }
+            }
+        }
+
+        _console.WriteLine($"Possible obstructions: {count}");
+    }
+
+    private bool IsLooping(string[] map, (Point point, Direction direction) currentPosition, List<Point> walls)
+    {
+        HashSet<MapRange> visited = [];
+
+        while (true)
+        {
+            var closestWall = GetClosestWall(currentPosition.point, currentPosition.direction, walls);
+            if (closestWall is null)
+            {
+                return false;
+            }
+
+            (Point point, Direction direction) nextPosition = currentPosition.direction switch
+            {
+                Direction.Up => (new Point(closestWall.Value.Row + 1, closestWall.Value.Col), Direction.Right),
+                Direction.Right => (new Point(closestWall.Value.Row, closestWall.Value.Col - 1), Direction.Down),
+                Direction.Down => (new Point(closestWall.Value.Row - 1, closestWall.Value.Col), Direction.Left),
+                Direction.Left => (new Point(closestWall.Value.Row, closestWall.Value.Col + 1), Direction.Up),
+
+                _ => throw new NotImplementedException(),
+            };
+
+            if (!visited.Add(new(currentPosition.point, nextPosition.point)))
+            {
+                return true;
+            }
+
+            currentPosition = nextPosition;
+        }
     }
 
     private static List<MapRange> GetVisitedPositions(string[] map, (Point point, Direction direction) currentPosition, List<Point> walls)
