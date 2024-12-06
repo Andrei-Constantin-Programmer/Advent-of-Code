@@ -14,119 +14,86 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveFirstPart()
     {
         var map = ReadMap();
-        Point currentPoint = GetStartPosition(map);
+        ((Point, Direction) currentPosition, List<Point> walls) = GetStartPositionAndWalls(map);
 
-        var visited = GetVisitedNodes(map, currentPoint);
-
+        var visited = GetVisitedNodes(map, currentPosition, walls);
         var count = GetUniquePointCount(visited);
 
         _console.WriteLine($"Guard patrolled: {count}");
     }
 
-    private static List<MapRange> GetVisitedNodes(string[] map, Point currentPoint)
+    public override void SolveSecondPart()
+    {
+        throw new NotImplementedException();
+    }
+
+    private static List<MapRange> GetVisitedNodes(string[] map, (Point point, Direction direction) currentPosition, List<Point> walls)
     {
         List<MapRange> visited = [];
-        var hasExitMap = false;
 
-        while (!hasExitMap)
+        while (true)
         {
-            if (currentPoint.Direction == Direction.Up)
+            var closestWall = GetClosestWall(currentPosition.point, currentPosition.direction, walls);
+            if (closestWall is null)
             {
-                for (var row = currentPoint.Row - 1; row >= 0; row--)
+                var (row, col) = currentPosition.direction switch
                 {
-                    if (map[row][currentPoint.Col].IsEmpty())
-                    {
-                        continue;
-                    }
+                    Direction.Up => (0, currentPosition.point.Col),
+                    Direction.Down => (map.Length - 1, currentPosition.point.Col),
+                    Direction.Left => (currentPosition.point.Row, 0),
+                    Direction.Right => (currentPosition.point.Row, map[currentPosition.point.Row].Length - 1),
 
-                    if (row == 0 && map[row][currentPoint.Col] != WALL)
-                    {
-                        visited.Add(new(currentPoint, new Point(row, currentPoint.Col, Direction.Right)));
-                        hasExitMap = true;
-                    }
-                    else
-                    {
-                        Point newPoint = new(row + 1, currentPoint.Col, Direction.Right);
-                        visited.Add(new(currentPoint, newPoint));
-                        currentPoint = newPoint;
-                    }
+                    _ => throw new NotImplementedException(),
+                };
 
-                    break;
-                }
+                visited.Add(new(currentPosition.point, new Point(row, col)));
+                break;
             }
-            else if (currentPoint.Direction == Direction.Right)
+
+            (Point point, Direction direction) nextPosition = currentPosition.direction switch
             {
-                for (var col = currentPoint.Col + 1; col < map[currentPoint.Row].Length; col++)
-                {
-                    if (map[currentPoint.Row][col].IsEmpty())
-                    {
-                        continue;
-                    }
+                Direction.Up => (new Point(closestWall.Value.Row + 1, closestWall.Value.Col), Direction.Right),
+                Direction.Right => (new Point(closestWall.Value.Row, closestWall.Value.Col - 1), Direction.Down),
+                Direction.Down => (new Point(closestWall.Value.Row - 1, closestWall.Value.Col), Direction.Left),
+                Direction.Left => (new Point(closestWall.Value.Row, closestWall.Value.Col + 1), Direction.Up),
 
-                    if (col == map[currentPoint.Row].Length - 1 && map[currentPoint.Row][col] != WALL)
-                    {
-                        visited.Add(new(currentPoint, new Point(currentPoint.Row, col, Direction.Down)));
-                        hasExitMap = true;
-                    }
-                    else
-                    {
-                        Point newPoint = new(currentPoint.Row, col - 1, Direction.Down);
-                        visited.Add(new(currentPoint, newPoint));
-                        currentPoint = newPoint;
-                    }
+                _ => throw new NotImplementedException(),
+            };
 
-                    break;
-                }
-            }
-            else if (currentPoint.Direction == Direction.Down)
-            {
-                for (var row = currentPoint.Row + 1; row < map.Length; row++)
-                {
-                    if (map[row][currentPoint.Col].IsEmpty())
-                    {
-                        if (row == map.Length - 1)
-                        {
-                            visited.Add(new(currentPoint, new Point(row, currentPoint.Col, Direction.Left)));
-                            hasExitMap = true;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        var newPoint = new Point(row - 1, currentPoint.Col, Direction.Left);
-                        visited.Add(new(currentPoint, newPoint));
-                        currentPoint = newPoint;
-                        break;
-                    }
-                }
-            }
-            else if (currentPoint.Direction == Direction.Left)
-            {
-                for (var col = currentPoint.Col - 1; col >= 0; col--)
-                {
-                    if (map[currentPoint.Row][col].IsEmpty())
-                    {
-                        continue;
-                    }
-
-                    if (col == 0 && map[currentPoint.Row][col] != WALL)
-                    {
-                        visited.Add(new(currentPoint, new Point(currentPoint.Row, col, Direction.Up)));
-                        hasExitMap = true;
-                    }
-                    else
-                    {
-                        var newPoint = new Point(currentPoint.Row, col + 1, Direction.Up);
-                        visited.Add(new(currentPoint, newPoint));
-                        currentPoint = newPoint;
-                    }
-
-                    break;
-                }
-            }
+            visited.Add(new(currentPosition.point, nextPosition.point));
+            currentPosition = nextPosition;
         }
 
         return visited;
+    }
+
+    private static Point? GetClosestWall(Point point, Direction direction, List<Point> walls)
+    {
+        Point? closestWall = null;
+
+        try
+        {
+            closestWall = direction switch
+            {
+                Direction.Up => walls
+                    .Where(w => w.Col == point.Col && w.Row < point.Row)
+                    .MaxBy(w => w.Row),
+                Direction.Right => walls
+                    .Where(w => w.Row == point.Row && w.Col > point.Col)
+                    .MinBy(w => w.Col),
+                Direction.Down => walls
+                    .Where(w => w.Col == point.Col && w.Row > point.Row)
+                    .MinBy(w => w.Row),
+                Direction.Left => walls
+                    .Where(w => w.Row == point.Row && w.Col < point.Col)
+                    .MaxBy(w => w.Col),
+
+                _ => null
+            };
+        }
+        catch (Exception) { }
+
+        return closestWall;
     }
 
     private static int GetUniquePointCount(List<MapRange> visited)
@@ -136,7 +103,7 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
 
         foreach (var range in visited)
         {
-            if (range.Start.Direction is Direction.Left or Direction.Right)
+            if (range.Start.Row == range.End.Row)
             {
                 var row = range.Start.Row;
                 var startCol = Math.Min(range.Start.Col, range.End.Col);
@@ -230,30 +197,39 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         return intersections;
     }
 
-    public override void SolveSecondPart()
+    private static ((Point, Direction), List<Point>) GetStartPositionAndWalls(string[] map)
     {
-        throw new NotImplementedException();
-    }
+        (Point, Direction)? start = null;
 
-    private static Point GetStartPosition(string[] map)
-    {
+        List<Point> walls = [];
+
         for (var row = 0; row < map.Length; row++)
         {
             for (var col = 0; col < map[row].Length; col++)
             {
-                if (map[row][col].TryGetDirection(out var direction))
+                if (start is null && map[row][col].TryGetDirection(out var direction))
                 {
-                    return new(row, col, direction!.Value);
+                    start = (new Point(row, col), direction!.Value);
+                }
+
+                if (map[row][col] is WALL)
+                {
+                    walls.Add(new(row, col));
                 }
             }
         }
 
-        throw new ArgumentException("No starting position found");
+        if (start is null)
+        {
+            throw new ArgumentException("No starting position found");
+        }
+
+        return (start.Value, walls);
     }
 
     private record struct MapRange(Point Start, Point End);
 
-    private record struct Point(int Row, int Col, Direction Direction);
+    private record struct Point(int Row, int Col);
 
     public enum Direction
     {
