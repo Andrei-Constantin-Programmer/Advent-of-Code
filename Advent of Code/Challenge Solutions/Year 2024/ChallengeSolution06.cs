@@ -16,10 +16,21 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         var map = ReadMap();
         ((Point, Direction) currentPosition, List<Point> walls) = GetStartPositionAndWalls(map);
 
-        var visited = GetVisitedNodes(map, currentPosition, walls);
-        var count = GetUniquePointCount(visited);
+        var visited = GetVisitedPositions(map, currentPosition, walls);
 
-        _console.WriteLine($"Guard patrolled: {count}");
+        HashSet<Point> points = [];
+        foreach (var x in visited)
+        {
+            for (var row = Math.Min(x.Start.Row, x.End.Row); row <= Math.Max(x.Start.Row, x.End.Row); row++)
+            {
+                for (var col = Math.Min(x.Start.Col, x.End.Col); col <= Math.Max(x.Start.Col, x.End.Col); col++)
+                {
+                    points.Add(new(row, col));
+                }
+            }
+        }
+
+        _console.WriteLine($"Guard patrolled: {points.Count}");
     }
 
     public override void SolveSecondPart()
@@ -27,7 +38,7 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         throw new NotImplementedException();
     }
 
-    private static List<MapRange> GetVisitedNodes(string[] map, (Point point, Direction direction) currentPosition, List<Point> walls)
+    private static List<MapRange> GetVisitedPositions(string[] map, (Point point, Direction direction) currentPosition, List<Point> walls)
     {
         List<MapRange> visited = [];
 
@@ -94,107 +105,6 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         catch (Exception) { }
 
         return closestWall;
-    }
-
-    private static int GetUniquePointCount(List<MapRange> visited)
-    {
-        var horizontalIntervals = new Dictionary<int, List<(int Start, int End)>>();
-        var verticalIntervals = new Dictionary<int, List<(int Start, int End)>>();
-
-        foreach (var range in visited)
-        {
-            if (range.Start.Row == range.End.Row)
-            {
-                var row = range.Start.Row;
-                var startCol = Math.Min(range.Start.Col, range.End.Col);
-                var endCol = Math.Max(range.Start.Col, range.End.Col);
-
-                if (!horizontalIntervals.ContainsKey(row))
-                {
-                    horizontalIntervals[row] = [];
-                }
-
-                horizontalIntervals[row].Add((startCol, endCol));
-            }
-            else
-            {
-                var col = range.Start.Col;
-                var startRow = Math.Min(range.Start.Row, range.End.Row);
-                var endRow = Math.Max(range.Start.Row, range.End.Row);
-
-                if (!verticalIntervals.ContainsKey(col))
-                {
-                    verticalIntervals[col] = [];
-                }
-
-                verticalIntervals[col].Add((startRow, endRow));
-            }
-        }
-
-        var horizontalPoints = CountUniquePointsInIntervals(horizontalIntervals);
-        var verticalPoints = CountUniquePointsInIntervals(verticalIntervals);
-
-        var intersectionPoints = CountIntersections(horizontalIntervals, verticalIntervals);
-
-        return horizontalPoints + verticalPoints - intersectionPoints;
-    }
-
-    private static int CountUniquePointsInIntervals(Dictionary<int, List<(int Start, int End)>> intervalsByFixedAxis)
-    {
-        var uniqueCount = 0;
-
-        foreach (var intervals in intervalsByFixedAxis.Values)
-        {
-            intervals.Sort((a, b) => a.Start != b.Start ? a.Start.CompareTo(b.Start) : a.End.CompareTo(b.End));
-
-            var currentStart = intervals[0].Start;
-            var currentEnd = intervals[0].End;
-
-            foreach (var (Start, End) in intervals)
-            {
-                if (Start > currentEnd)
-                {
-                    uniqueCount += currentEnd - currentStart + 1;
-                    currentStart = Start;
-                    currentEnd = End;
-                }
-                else
-                {
-                    currentEnd = Math.Max(currentEnd, End);
-                }
-            }
-
-            uniqueCount += currentEnd - currentStart + 1;
-        }
-
-        return uniqueCount;
-    }
-
-    private static int CountIntersections(
-        Dictionary<int, List<(int Start, int End)>> horizontal,
-        Dictionary<int, List<(int Start, int End)>> vertical)
-    {
-        var intersections = 0;
-
-        foreach (var (row, horizontalIntervals) in horizontal)
-        {
-            foreach (var (col, verticalIntervals) in vertical)
-            {
-                foreach (var (HorizontalStart, HorizontalEnd) in horizontalIntervals)
-                {
-                    foreach (var (VerticalStart, VerticalEnd) in verticalIntervals)
-                    {
-                        if (HorizontalStart <= col && col <= HorizontalEnd
-                            && VerticalStart <= row && row <= VerticalEnd)
-                        {
-                            intersections++;
-                        }
-                    }
-                }
-            }
-        }
-
-        return intersections;
     }
 
     private static ((Point, Direction), List<Point>) GetStartPositionAndWalls(string[] map)
