@@ -14,7 +14,7 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveFirstPart()
     {
         var map = ReadMap();
-        ((Point, Direction) currentPosition, List<Point> walls) = GetStartPositionAndWalls(map);
+        ((Point, Direction) currentPosition, HashSet<Point> walls) = GetStartPositionAndWalls(map);
 
         var visitedRanges = GetVisitedPositionRanges(map, currentPosition, walls);
         HashSet<Point> points = GetVisitedPositions(visitedRanges);
@@ -25,37 +25,32 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveSecondPart()
     {
         var map = ReadMap();
-        ((Point point, Direction direction) startPosition, List<Point> walls) = GetStartPositionAndWalls(map);
+        ((Point point, Direction direction) startPosition, HashSet<Point> walls) = GetStartPositionAndWalls(map);
 
         var visitedRanges = GetVisitedPositionRanges(map, startPosition, walls);
         var originallyVisited = GetVisitedPositions(visitedRanges);
+        originallyVisited.Remove(startPosition.point);
 
         var count = 0;
 
         foreach (var point in originallyVisited)
         {
-            if (startPosition.point != point)
+            if (IsLooping(startPosition, walls, point))
             {
-                walls.Add(point);
-                if (IsLooping(map, startPosition, walls))
-                {
-                    count++;
-                }
-
-                walls.Remove(point);
+                count++;
             }
         }
 
         _console.WriteLine($"Possible obstructions: {count}");
     }
 
-    private static bool IsLooping(string[] map, (Point point, Direction direction) currentPosition, List<Point> walls)
+    private static bool IsLooping((Point point, Direction direction) currentPosition, HashSet<Point> walls, Point obstruction)
     {
-        HashSet<MapRange> visited = [];
+        HashSet<(Point, Direction)> visited = [currentPosition];
 
         while (true)
         {
-            var closestWall = GetClosestWall(currentPosition.point, currentPosition.direction, walls);
+            var closestWall = GetClosestWall(currentPosition.point, currentPosition.direction, walls, obstruction);
             if (closestWall is null)
             {
                 return false;
@@ -71,7 +66,7 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
                 _ => throw new NotImplementedException(),
             };
 
-            if (!visited.Add(new(currentPosition.point, nextPosition.point)))
+            if (!visited.Add(nextPosition))
             {
                 return true;
             }
@@ -97,7 +92,7 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         return points;
     }
 
-    private static List<MapRange> GetVisitedPositionRanges(string[] map, (Point point, Direction direction) currentPosition, List<Point> walls)
+    private static List<MapRange> GetVisitedPositionRanges(string[] map, (Point point, Direction direction) currentPosition, HashSet<Point> walls)
     {
         List<MapRange> visited = [];
 
@@ -155,8 +150,9 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         return visited;
     }
 
-    private static Point? GetClosestWall(Point point, Direction direction, List<Point> walls)
+    private static Point? GetClosestWall(Point point, Direction direction, HashSet<Point> walls, Point? obstruction = null)
     {
+
         Point nullPoint = direction switch
         {
             Direction.Up or Direction.Left => new Point(-1, -1),
@@ -166,6 +162,10 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         };
 
         walls.Add(nullPoint);
+        if (obstruction is not null)
+        {
+            walls.Add(obstruction.Value);
+        }
 
         Point? closestWall = direction switch
         {
@@ -186,11 +186,15 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         };
 
         walls.Remove(nullPoint);
+        if (obstruction is not null)
+        {
+            walls.Remove(obstruction.Value);
+        }
 
         return closestWall == nullPoint ? null : closestWall;
     }
 
-    private static ((Point, Direction), List<Point>) GetStartPositionAndWalls(string[] map)
+    private static ((Point, Direction), HashSet<Point>) GetStartPositionAndWalls(string[] map)
     {
         (Point, Direction)? start = null;
 
@@ -200,14 +204,13 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         {
             for (var col = 0; col < map[row].Length; col++)
             {
-                if (start is null && map[row][col].TryGetDirection(out var direction))
-                {
-                    start = (new Point(row, col), direction!.Value);
-                }
-
                 if (map[row][col] is WALL)
                 {
                     walls.Add(new(row, col));
+                }
+                else if (start is null && map[row][col].TryGetDirection(out var direction))
+                {
+                    start = (new Point(row, col), direction!.Value);
                 }
             }
         }
@@ -217,7 +220,7 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
             throw new ArgumentException("No starting position found");
         }
 
-        return (start.Value, walls);
+        return (start.Value, walls.ToHashSet());
     }
 
     private record struct MapRange(Point Start, Point End);
