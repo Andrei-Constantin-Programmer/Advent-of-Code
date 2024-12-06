@@ -16,19 +16,8 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         var map = ReadMap();
         ((Point, Direction) currentPosition, List<Point> walls) = GetStartPositionAndWalls(map);
 
-        var visited = GetVisitedPositions(map, currentPosition, walls);
-
-        HashSet<Point> points = [];
-        foreach (var x in visited)
-        {
-            for (var row = Math.Min(x.Start.Row, x.End.Row); row <= Math.Max(x.Start.Row, x.End.Row); row++)
-            {
-                for (var col = Math.Min(x.Start.Col, x.End.Col); col <= Math.Max(x.Start.Col, x.End.Col); col++)
-                {
-                    points.Add(new(row, col));
-                }
-            }
-        }
+        var visitedRanges = GetVisitedPositionRanges(map, currentPosition, walls);
+        HashSet<Point> points = GetVisitedPositions(visitedRanges);
 
         _console.WriteLine($"Guard patrolled: {points.Count}");
     }
@@ -36,32 +25,31 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveSecondPart()
     {
         var map = ReadMap();
-        ((Point point, Direction direction) currentPosition, List<Point> walls) = GetStartPositionAndWalls(map);
+        ((Point point, Direction direction) startPosition, List<Point> walls) = GetStartPositionAndWalls(map);
+
+        var visitedRanges = GetVisitedPositionRanges(map, startPosition, walls);
+        var originallyVisited = GetVisitedPositions(visitedRanges);
 
         var count = 0;
-        for (var row = 0; row < map.Length; row++)
-        {
-            for (var col = 0; col < map[row].Length; col++)
-            {
-                Point point = new(row, col);
-                if (currentPosition.point != point
-                    && !walls.Contains(point))
-                {
-                    walls.Add(point);
-                    if (IsLooping(map, currentPosition, walls))
-                    {
-                        count++;
-                    }
 
-                    walls.Remove(point);
+        foreach (var point in originallyVisited)
+        {
+            if (startPosition.point != point)
+            {
+                walls.Add(point);
+                if (IsLooping(map, startPosition, walls))
+                {
+                    count++;
                 }
+
+                walls.Remove(point);
             }
         }
 
         _console.WriteLine($"Possible obstructions: {count}");
     }
 
-    private bool IsLooping(string[] map, (Point point, Direction direction) currentPosition, List<Point> walls)
+    private static bool IsLooping(string[] map, (Point point, Direction direction) currentPosition, List<Point> walls)
     {
         HashSet<MapRange> visited = [];
 
@@ -92,26 +80,54 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         }
     }
 
-    private static List<MapRange> GetVisitedPositions(string[] map, (Point point, Direction direction) currentPosition, List<Point> walls)
+    private static HashSet<Point> GetVisitedPositions(List<MapRange> visitedRanges)
+    {
+        HashSet<Point> points = [];
+        foreach (var x in visitedRanges)
+        {
+            for (var row = x.Start.Row; row <= x.End.Row; row++)
+            {
+                for (var col = x.Start.Col; col <= x.End.Col; col++)
+                {
+                    points.Add(new(row, col));
+                }
+            }
+        }
+
+        return points;
+    }
+
+    private static List<MapRange> GetVisitedPositionRanges(string[] map, (Point point, Direction direction) currentPosition, List<Point> walls)
     {
         List<MapRange> visited = [];
 
         while (true)
         {
             var closestWall = GetClosestWall(currentPosition.point, currentPosition.direction, walls);
+            var firstPoint = currentPosition.point;
+            Point secondPoint;
+
             if (closestWall is null)
             {
-                var (row, col) = currentPosition.direction switch
+                secondPoint = currentPosition.direction switch
                 {
-                    Direction.Up => (0, currentPosition.point.Col),
-                    Direction.Down => (map.Length - 1, currentPosition.point.Col),
-                    Direction.Left => (currentPosition.point.Row, 0),
-                    Direction.Right => (currentPosition.point.Row, map[currentPosition.point.Row].Length - 1),
+                    Direction.Up => new Point(0, currentPosition.point.Col),
+                    Direction.Down => new Point(map.Length - 1, currentPosition.point.Col),
+                    Direction.Left => new Point(currentPosition.point.Row, 0),
+                    Direction.Right => new Point(currentPosition.point.Row, map[currentPosition.point.Row].Length - 1),
 
                     _ => throw new NotImplementedException(),
                 };
 
-                visited.Add(new(currentPosition.point, new Point(row, col)));
+                firstPoint = currentPosition.point;
+
+                if (firstPoint.Row > secondPoint.Row
+                    || firstPoint.Col > secondPoint.Col)
+                {
+                    (secondPoint, firstPoint) = (firstPoint, secondPoint);
+                }
+
+                visited.Add(new(firstPoint, secondPoint));
                 break;
             }
 
@@ -125,7 +141,14 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
                 _ => throw new NotImplementedException(),
             };
 
-            visited.Add(new(currentPosition.point, nextPosition.point));
+            secondPoint = nextPosition.point;
+            if (firstPoint.Row > secondPoint.Row
+                || firstPoint.Col > secondPoint.Col)
+            {
+                (secondPoint, firstPoint) = (firstPoint, secondPoint);
+            }
+
+            visited.Add(new(firstPoint, secondPoint));
             currentPosition = nextPosition;
         }
 
