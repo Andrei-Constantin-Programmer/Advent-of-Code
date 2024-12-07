@@ -13,4 +13,6 @@ public static class TestHelpers
     }
 
     public static bool ContainsInt(this string s, int x) => s.Contains(x.ToString());
+
+    public static bool ContainsLong(this string s, long x) => s.Contains(x.ToString());
 }
