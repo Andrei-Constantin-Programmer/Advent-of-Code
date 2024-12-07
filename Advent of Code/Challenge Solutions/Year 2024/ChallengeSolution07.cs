@@ -11,29 +11,36 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
     {
         var equations = ReadEquations();
 
-        long totalCalibrationResult = 0;
-
-        foreach (var equation in equations)
-        {
-            if (IsTrueEquation(equation))
-            {
-                totalCalibrationResult += equation.Result;
-            }
-            else
-            {
-                Console.WriteLine(equation.Result);
-            }
-        }
+        var totalCalibrationResult = CalculateTotalCalibrationResult(equations);
 
         _console.WriteLine($"Total Calibration Result: {totalCalibrationResult}");
     }
 
     public override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var equations = ReadEquations();
+
+        var totalCalibrationResult = CalculateTotalCalibrationResult(equations, true);
+
+        _console.WriteLine($"Total Calibration Result: {totalCalibrationResult}");
     }
 
-    private static bool IsTrueEquation(Equation equation)
+    private static long CalculateTotalCalibrationResult(List<Equation> equations, bool allowConcatenation = false)
+    {
+        long totalCalibrationResult = 0;
+
+        foreach (var equation in equations)
+        {
+            if (IsTrueEquation(equation, allowConcatenation))
+            {
+                totalCalibrationResult += equation.Result;
+            }
+        }
+
+        return totalCalibrationResult;
+    }
+
+    private static bool IsTrueEquation(Equation equation, bool allowConcatenation = false)
     {
         var signs = new Sign[equation.Values.Length - 1];
 
@@ -58,6 +65,15 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
                 return true;
             }
 
+            if (allowConcatenation)
+            {
+                signs[position] = Sign.Concatenate;
+                if (VerifyEquationIsTrue(position + 1, signs))
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
 
@@ -71,9 +87,13 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
                 {
                     result += equation.Values[i + 1];
                 }
-                else
+                else if (signs[i] == Sign.Multiply)
                 {
                     result *= equation.Values[i + 1];
+                }
+                else if (signs[i] == Sign.Concatenate)
+                {
+                    result = long.Parse($"{result}{equation.Values[i + 1]}");
                 }
             }
 
@@ -106,5 +126,6 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
     {
         Add,
         Multiply,
+        Concatenate
     }
 }

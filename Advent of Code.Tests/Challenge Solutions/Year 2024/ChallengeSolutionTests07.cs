@@ -70,7 +70,7 @@ public class ChallengeSolutionTests07
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(6)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(11387)));
     }
 
     [Fact]
@@ -80,6 +80,6 @@ public class ChallengeSolutionTests07
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(1530)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(340362529351427)));
     }
 }
