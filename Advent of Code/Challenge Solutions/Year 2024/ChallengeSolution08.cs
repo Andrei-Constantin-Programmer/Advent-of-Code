@@ -20,7 +20,17 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveSecondPart()
     {
         var antennas = ReadAntennaPositions(out var maxIndex);
+        List<Point> antinodes = ComputeAllColinearAntinodes(antennas, maxIndex);
 
+        HashSet<Point> allAntinodes = [.. antinodes];
+        allAntinodes
+            .UnionWith(antennas.Select(antenna => antenna.Point));
+
+        _console.WriteLine($"Antinodes: {allAntinodes.Count}");
+    }
+
+    private static List<Point> ComputeAllColinearAntinodes(List<Antenna> antennas, int maxIndex)
+    {
         var antinodes = new List<Point>();
 
         var antennasByFrequency = antennas
@@ -39,8 +49,7 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
                 {
                     var antenna2 = antennaPositions[j];
 
-                    var rowDistance = antenna1.Point.Row - antenna2.Point.Row;
-                    var colDistance = antenna1.Point.Col - antenna2.Point.Col;
+                    var (rowDistance, colDistance) = ComputeAntennaDistance(antenna1.Point, antenna2.Point);
 
                     for (int row = antenna1.Point.Row + rowDistance, col = antenna1.Point.Col + colDistance;
                         row >= 0 && row <= maxIndex && col >= 0 && col <= maxIndex;
@@ -59,10 +68,7 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        HashSet<Point> allAntinodes = [.. antinodes];
-        allAntinodes.UnionWith(antennas.Select(antenna => antenna.Point));
-
-        _console.WriteLine($"Antinodes: {allAntinodes.Count}");
+        return antinodes;
     }
 
     private static HashSet<Point> ComputeAntinodes(List<Antenna> antennas, int maxIndex)
@@ -85,8 +91,7 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
                 {
                     var antenna2 = antennaPositions[j];
 
-                    var rowDistance = antenna1.Point.Row - antenna2.Point.Row;
-                    var colDistance = antenna1.Point.Col - antenna2.Point.Col;
+                    var (rowDistance, colDistance) = ComputeAntennaDistance(antenna1.Point, antenna2.Point);
 
                     antinodes.Add(new(antenna1.Point.Row + rowDistance, antenna1.Point.Col + colDistance));
                     antinodes.Add(new(antenna2.Point.Row - rowDistance, antenna2.Point.Col - colDistance));
@@ -103,6 +108,9 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
 
         return [.. antinodes];
     }
+
+    private static (int RowDifference, int ColDifference) ComputeAntennaDistance(Point antenna1, Point antenna2)
+        => (antenna1.Row - antenna2.Row, antenna1.Col - antenna2.Col);
 
     private List<Antenna> ReadAntennaPositions(out int maxIndex)
     {
