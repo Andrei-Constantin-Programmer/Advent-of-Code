@@ -19,7 +19,50 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
 
     public override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var antennas = ReadAntennaPositions(out var maxIndex);
+
+        var antinodes = new List<Point>();
+
+        var antennasByFrequency = antennas
+            .GroupBy(a => a.Frequency)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        foreach (var frequency in antennasByFrequency.Keys)
+        {
+            var antennaPositions = antennasByFrequency[frequency];
+
+            for (var i = 0; i < antennaPositions.Count - 1; i++)
+            {
+                var antenna1 = antennaPositions[i];
+
+                for (var j = i + 1; j < antennaPositions.Count; j++)
+                {
+                    var antenna2 = antennaPositions[j];
+
+                    var rowDistance = antenna1.Point.Row - antenna2.Point.Row;
+                    var colDistance = antenna1.Point.Col - antenna2.Point.Col;
+
+                    for (int row = antenna1.Point.Row + rowDistance, col = antenna1.Point.Col + colDistance;
+                        row >= 0 && row <= maxIndex && col >= 0 && col <= maxIndex;
+                        row += rowDistance, col += colDistance)
+                    {
+                        antinodes.Add(new(row, col));
+                    }
+
+                    for (int row = antenna2.Point.Row - rowDistance, col = antenna2.Point.Col - colDistance;
+                        row >= 0 && row <= maxIndex && col >= 0 && col <= maxIndex;
+                        row -= rowDistance, col -= colDistance)
+                    {
+                        antinodes.Add(new(row, col));
+                    }
+                }
+            }
+        }
+
+        HashSet<Point> allAntinodes = [.. antinodes];
+        allAntinodes.UnionWith(antennas.Select(antenna => antenna.Point));
+
+        _console.WriteLine($"Antinodes: {allAntinodes.Count}");
     }
 
     private static HashSet<Point> ComputeAntinodes(List<Antenna> antennas, int maxIndex)

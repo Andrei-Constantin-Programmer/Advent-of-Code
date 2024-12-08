@@ -83,6 +83,6 @@ public class ChallengeSolutionTests08
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(0)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(1017)));
     }
 }
