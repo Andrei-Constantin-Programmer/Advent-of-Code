@@ -62,38 +62,48 @@ public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolu
         {
             var memoryBlockEnd = ComputeMemoryBlockEnd(blocks, rightIndex);
 
-            var notFound = true;
-            for (var leftIndex = 0; leftIndex < memoryBlockEnd;)
-            {
-                if (blocks[leftIndex] != FREE_SPACE)
-                {
-                    leftIndex++;
-                    continue;
-                }
-
-                var freeBlockEnd = ComputeFreeBlockEnd(blocks, leftIndex);
-
-                if (freeBlockEnd - leftIndex >= rightIndex - memoryBlockEnd)
-                {
-                    notFound = false;
-                    for (var left = leftIndex; rightIndex > memoryBlockEnd; left++, rightIndex--)
-                    {
-                        blocks[left] = blocks[rightIndex];
-                        blocks[rightIndex] = FREE_SPACE;
-                    }
-
-                    break;
-                }
-
-                leftIndex = freeBlockEnd;
-            }
-
-            if (notFound)
+            if (!TryCompactBlockAsFile(blocks, ref rightIndex, memoryBlockEnd))
             {
                 rightIndex = memoryBlockEnd;
             }
 
             rightIndex = FindNextMemoryBlock(blocks, rightIndex);
+        }
+    }
+
+    private static bool TryCompactBlockAsFile(int[] blocks, ref int rightIndex, int memoryBlockEnd)
+    {
+        for (var leftIndex = 0; leftIndex < memoryBlockEnd;)
+        {
+            if (blocks[leftIndex] != FREE_SPACE)
+            {
+                leftIndex++;
+                continue;
+            }
+
+            var freeBlockEnd = ComputeFreeBlockEnd(blocks, leftIndex);
+
+            if (CanMoveBlockAsFile(freeBlockEnd, leftIndex, rightIndex, memoryBlockEnd))
+            {
+                MoveBlockAsFile(blocks, ref rightIndex, memoryBlockEnd, leftIndex);
+                return true;
+            }
+
+            leftIndex = freeBlockEnd;
+        }
+
+        return false;
+    }
+
+    private static bool CanMoveBlockAsFile(int freeBlockEnd, int leftIndex, int rightIndex, int memoryBlockEnd)
+        => freeBlockEnd - leftIndex >= rightIndex - memoryBlockEnd;
+
+    private static void MoveBlockAsFile(int[] blocks, ref int rightIndex, int memoryBlockEnd, int leftIndex)
+    {
+        for (var left = leftIndex; rightIndex > memoryBlockEnd; left++, rightIndex--)
+        {
+            blocks[left] = blocks[rightIndex];
+            blocks[rightIndex] = FREE_SPACE;
         }
     }
 
@@ -151,37 +161,38 @@ public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolu
     private static int[] GenerateBlocks(byte[] diskMap)
     {
         var blocks = Enumerable
-                    .Repeat(FREE_SPACE, diskMap.Length * 9)
-                    .ToArray();
+            .Repeat(FREE_SPACE, diskMap.Length * 9)
+            .ToArray();
 
-        var id = 0;
-        var blockId = 0;
+        var currentBlockId = 0;
+        var blockIndex = 0;
 
         for (var diskMapIndex = 0; diskMapIndex < diskMap.Length; diskMapIndex++)
         {
+            var blockLength = diskMap[diskMapIndex];
+
             if (diskMapIndex % 2 == 0)
             {
-                for (var i = 0; i < diskMap[diskMapIndex]; i++)
-                {
-                    blocks[blockId++] = id;
-                }
+                FillBlock(blocks, blockIndex, blockLength, currentBlockId);
+                currentBlockId++;
+            }
 
-                id++;
-            }
-            else
-            {
-                blockId += diskMap[diskMapIndex];
-            }
+            blockIndex += blockLength;
         }
 
         return blocks;
     }
 
-    private byte[] ReadDiskMap()
+    private static void FillBlock(int[] blocks, int startIndex, int length, int blockId)
     {
-        var lines = _reader.ReadLines();
-        return lines[0]
-            .Select(c => (byte)(c - '0'))
-            .ToArray();
+        for (var i = 0; i < length; i++)
+        {
+            blocks[startIndex + i] = blockId;
+        }
     }
+
+    private byte[] ReadDiskMap() => _reader
+        .ReadLines()[0]
+        .Select(c => (byte)(c - '0'))
+        .ToArray();
 }
