@@ -74,7 +74,7 @@ public class ChallengeSolutionTests09
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(34)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(132)));
     }
 
     [Fact]
@@ -88,7 +88,7 @@ public class ChallengeSolutionTests09
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(34)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(2858)));
     }
 
     [Fact]
@@ -98,6 +98,6 @@ public class ChallengeSolutionTests09
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(1017)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(6347435485773)));
     }
 }

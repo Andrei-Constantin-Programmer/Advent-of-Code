@@ -15,14 +15,86 @@ public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolu
         var blocks = GenerateBlocks(diskMap);
 
         CompactBlocks(blocks);
+        var checksum = ComputeChecksum(blocks);
 
+        _console.WriteLine($"Checksum: {checksum}");
+    }
+
+    public override void SolveSecondPart()
+    {
+        var diskMap = ReadDiskMap();
+        var blocks = GenerateBlocks(diskMap);
+
+        CompactBlocksByFile(blocks, out var lastMemoryBlockEnd);
+        var checksum = ComputeChecksum(blocks, lastMemoryBlockEnd + 1);
+
+        _console.WriteLine($"Checksum: {checksum}");
+    }
+
+    private static long ComputeChecksum(int[] blocks, int end = 0)
+    {
         long checksum = 0;
-        for (var blockId = 0; blocks[blockId] != FREE_SPACE; blockId++)
+
+        if (end == 0)
         {
+            end = Array.FindIndex(blocks, block => block == FREE_SPACE);
+        }
+
+        for (var blockId = 0; blockId < end; blockId++)
+        {
+            if (blocks[blockId] == FREE_SPACE)
+            {
+                continue;
+            }
+
             checksum += blockId * (long)blocks[blockId];
         }
 
-        _console.WriteLine($"Checksum: {checksum}");
+        return checksum;
+    }
+
+    private static void CompactBlocksByFile(int[] blocks, out int lastMemoryBlockEnd)
+    {
+        var rightIndex = FindNextMemoryBlock(blocks, blocks.Length - 1);
+        lastMemoryBlockEnd = rightIndex;
+
+        while (blocks[rightIndex] != 0)
+        {
+            var memoryBlockEnd = ComputeMemoryBlockEnd(blocks, rightIndex);
+
+            var notFound = true;
+            for (var leftIndex = 0; leftIndex < memoryBlockEnd;)
+            {
+                if (blocks[leftIndex] != FREE_SPACE)
+                {
+                    leftIndex++;
+                    continue;
+                }
+
+                var freeBlockEnd = ComputeFreeBlockEnd(blocks, leftIndex);
+
+                if (freeBlockEnd - leftIndex >= rightIndex - memoryBlockEnd)
+                {
+                    notFound = false;
+                    for (var left = leftIndex; rightIndex > memoryBlockEnd; left++, rightIndex--)
+                    {
+                        blocks[left] = blocks[rightIndex];
+                        blocks[rightIndex] = FREE_SPACE;
+                    }
+
+                    break;
+                }
+
+                leftIndex = freeBlockEnd;
+            }
+
+            if (notFound)
+            {
+                rightIndex = memoryBlockEnd;
+            }
+
+            rightIndex = FindNextMemoryBlock(blocks, rightIndex);
+        }
     }
 
     private static void CompactBlocks(int[] blocks)
@@ -34,10 +106,7 @@ public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolu
         {
             if (blocks[leftIndex] == FREE_SPACE)
             {
-                while (blocks[rightIndex] == FREE_SPACE)
-                {
-                    rightIndex--;
-                }
+                rightIndex = FindNextMemoryBlock(blocks, rightIndex);
 
                 blocks[leftIndex] = blocks[rightIndex];
                 blocks[rightIndex--] = FREE_SPACE;
@@ -45,6 +114,38 @@ public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolu
 
             leftIndex++;
         }
+    }
+
+    private static int FindNextMemoryBlock(int[] blocks, int rightIndex)
+    {
+        while (blocks[rightIndex] == FREE_SPACE)
+        {
+            rightIndex--;
+        }
+
+        return rightIndex;
+    }
+
+    private static int ComputeMemoryBlockEnd(int[] blocks, int rightIndex)
+    {
+        var memoryBlockEnd = rightIndex;
+        while (blocks[memoryBlockEnd] == blocks[rightIndex])
+        {
+            memoryBlockEnd--;
+        }
+
+        return memoryBlockEnd;
+    }
+
+    private static int ComputeFreeBlockEnd(int[] blocks, int leftIndex)
+    {
+        var freeBlockEnd = leftIndex;
+        while (blocks[freeBlockEnd] == FREE_SPACE)
+        {
+            freeBlockEnd++;
+        }
+
+        return freeBlockEnd;
     }
 
     private static int[] GenerateBlocks(byte[] diskMap)
@@ -74,11 +175,6 @@ public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolu
         }
 
         return blocks;
-    }
-
-    public override void SolveSecondPart()
-    {
-        throw new NotImplementedException();
     }
 
     private byte[] ReadDiskMap()
