@@ -69,7 +69,7 @@ public class ChallengeSolutionTests10
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(2858)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(81)));
     }
 
     [Fact]
@@ -79,6 +79,6 @@ public class ChallengeSolutionTests10
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(100)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(1706)));
     }
 }

@@ -21,40 +21,87 @@ public class ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolu
 
     public override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var topographicMap = ReadTopographicMap();
+        var trailheads = FindTrailheads(topographicMap);
+
+        var ratingSum = trailheads
+            .Select(trailhead => ComputeRating(topographicMap, trailhead))
+            .Sum();
+
+        _console.WriteLine($"Sum of ratings: {ratingSum}");
+    }
+
+    private static int ComputeRating(byte[][] topographicMap, Point trailhead)
+    {
+        var ratingMap = Enumerable.Range(0, topographicMap.Length)
+            .Select(_ => Enumerable
+                .Repeat(-1, topographicMap[0].Length)
+                .ToArray())
+            .ToArray();
+
+        return ComputeTrails(topographicMap, ratingMap, trailhead);
+
+        static int ComputeTrails(byte[][] topographicMap, int[][] ratingMap, Point trailhead)
+        {
+            if (ratingMap[trailhead.Row][trailhead.Col] != -1)
+            {
+                return ratingMap[trailhead.Row][trailhead.Col];
+            }
+
+            if (topographicMap[trailhead.Row][trailhead.Col] == 9)
+            {
+                ratingMap[trailhead.Row][trailhead.Col] = 1;
+                return 1;
+            }
+
+            var directions = GetDirections(trailhead);
+            var rating = 0;
+            foreach (var direction in directions)
+            {
+                if (!IsValidStep(topographicMap, trailhead, direction))
+                {
+                    continue;
+                }
+
+                rating += ComputeTrails(topographicMap, ratingMap, direction);
+            }
+
+            ratingMap[trailhead.Row][trailhead.Col] = rating;
+            return rating;
+        }
     }
 
     private static int ComputeScore(byte[][] topographicMap, Point trailhead)
     {
         return FindNines(topographicMap, trailhead).Count;
-    }
 
-    private static HashSet<Point> FindNines(byte[][] topographicMap, Point start)
-    {
-        if (topographicMap[start.Row][start.Col] == 9)
+        static HashSet<Point> FindNines(byte[][] topographicMap, Point start)
         {
-            return [start];
-        }
-
-        HashSet<Point> visitedNines = [];
-
-        var directions = GetDirections(start);
-        foreach (var direction in directions)
-        {
-            if (!IsValidStep(topographicMap, start, direction))
+            if (topographicMap[start.Row][start.Col] == 9)
             {
-                continue;
+                return [start];
             }
 
-            var visited = FindNines(topographicMap, direction);
+            HashSet<Point> visitedNines = [];
 
-            foreach (var nine in visited)
+            var directions = GetDirections(start);
+            foreach (var direction in directions)
             {
-                _ = visitedNines.Add(nine);
-            }
-        }
+                if (!IsValidStep(topographicMap, start, direction))
+                {
+                    continue;
+                }
 
-        return visitedNines;
+                var visited = FindNines(topographicMap, direction);
+
+                foreach (var nine in visited)
+                {
+                    _ = visitedNines.Add(nine);
+                }
+            }
+
+            return visitedNines;
+        }
     }
 
     private static Point[] GetDirections(Point trailhead)
