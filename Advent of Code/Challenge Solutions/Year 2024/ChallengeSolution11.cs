@@ -19,50 +19,49 @@ public class ChallengeSolution11(IConsole console, ISolutionReader<ChallengeSolu
 
     private void SolveStoneProblem(int blinks)
     {
-        var stones = new Queue<long>(ReadStones());
-        Dictionary<long, List<long>> stoneStore = [];
+        var stoneCountsPerValue = ReadStones()
+            .GroupBy(x => x)
+            .ToDictionary(g => g.Key, g => (long)g.Count());
 
+        var currentStoneCounts = stoneCountsPerValue;
         for (var blink = 0; blink < blinks; blink++)
         {
-            var stoneCount = stones.Count;
-            ComputeNextStoneSet(stones, stoneStore, stoneCount);
+            currentStoneCounts = BlinkStones(currentStoneCounts);
         }
 
-        _console.WriteLine(stones.Count);
+        var finalStoneCount = currentStoneCounts.Values.Sum();
+
+        _console.WriteLine($"Final stone count: {finalStoneCount}");
     }
 
-    private static void ComputeNextStoneSet(Queue<long> stones, Dictionary<long, List<long>> stoneStore, int stoneCount)
+    private static Dictionary<long, long> BlinkStones(Dictionary<long, long> stoneCounts)
     {
-        for (var i = 0; i < stoneCount; i++)
+        Dictionary<long, long> newStoneCounts = [];
+
+        foreach (var (stone, count) in stoneCounts)
         {
-            var stone = stones.Dequeue();
-
-            if (stoneStore.TryGetValue(stone, out var results))
-            {
-                foreach (var result in results)
-                {
-                    stones.Enqueue(result);
-                }
-
-                continue;
-            }
-
-            var stoneString = stone.ToString();
-            var stoneLength = stoneString.Length;
-            List<long> newStones = FindNewStones(stone, stoneString, stoneLength);
-
+            var newStones = FindNewStones(stone);
             foreach (var newStone in newStones)
             {
-                stones.Enqueue(newStone);
+                if (newStoneCounts.ContainsKey(newStone))
+                {
+                    newStoneCounts[newStone] += count;
+                }
+                else
+                {
+                    newStoneCounts[newStone] = count;
+                }
             }
-
-            stoneStore[stone] = newStones;
         }
+
+        return newStoneCounts;
     }
 
-    private static List<long> FindNewStones(long stone, string stoneString, int stoneLength)
+    private static List<long> FindNewStones(long stone)
     {
         List<long> newResults = [];
+        var stoneString = stone.ToString();
+        var stoneLength = stoneString.Length;
 
         if (stone == 0)
         {

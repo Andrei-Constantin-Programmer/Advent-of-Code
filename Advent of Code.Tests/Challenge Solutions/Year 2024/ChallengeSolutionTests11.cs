@@ -38,7 +38,7 @@ public class ChallengeSolutionTests11
         _challengeSolution.SolveFirstPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(55312)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(55312)));
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public class ChallengeSolutionTests11
         _challengeSolution.SolveFirstPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(203228)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(203228)));
     }
 
     [Fact]
@@ -62,7 +62,7 @@ public class ChallengeSolutionTests11
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(81)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(65601038650482)));
     }
 
     [Fact]
@@ -72,6 +72,6 @@ public class ChallengeSolutionTests11
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(1706)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(240884656550923)));
     }
 }
