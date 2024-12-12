@@ -85,15 +85,15 @@ public class ChallengeSolution23(IConsole console, ISolutionReader<ChallengeSolu
             Trail.SlopeSouth => new() { GoSouth(start) },
             Trail.SlopeWest => new() { GoWest(start) },
             Trail.SlopeEast => new() { GoEast(start) },
-            Trail.Path => new()
-            {
+            Trail.Path =>
+            [
                 GoNorth(start),
                 GoSouth(start),
                 GoWest(start),
                 GoEast(start),
-            },
+            ],
 
-            _ => new()
+            _ => []
         };
     }
 
