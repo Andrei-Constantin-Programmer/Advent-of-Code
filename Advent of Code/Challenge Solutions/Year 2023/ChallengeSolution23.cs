@@ -25,10 +25,12 @@ public class ChallengeSolution23(IConsole console, ISolutionReader<ChallengeSolu
         Point start = new(0, 1);
         Point end = new(hikingTrails.Length - 1, hikingTrails[0].Length - 2);
 
-        _console.WriteLine(FindLongestTrail(trailGraph, start, end));
+        var compactedGraph = CompactGraph(trailGraph, start, end);
+
+        _console.WriteLine(FindLongestTrail(compactedGraph, start, end));
     }
 
-    private static int FindLongestTrail(Dictionary<Point, HashSet<Point>> graph, Point start, Point end)
+    private static int FindLongestTrail(Dictionary<Point, Dictionary<Point, int>> graph, Point start, Point end)
     {
         Stack<(Point current, HashSet<Point> visited, int length)> stack = [];
         stack.Push((start, [start], 0));
@@ -46,15 +48,63 @@ public class ChallengeSolution23(IConsole console, ISolutionReader<ChallengeSolu
 
             foreach (var neighbor in graph[current])
             {
-                if (!currentVisited.Contains(neighbor))
+                var neighbourPoint = neighbor.Key;
+
+                if (!currentVisited.Contains(neighbourPoint))
                 {
-                    HashSet<Point> newVisited = new(currentVisited) { neighbor };
-                    stack.Push((neighbor, newVisited, pathLength + 1));
+                    HashSet<Point> newVisited = [.. currentVisited, neighbourPoint];
+                    stack.Push((neighbourPoint, newVisited, pathLength + neighbor.Value));
                 }
             }
         }
 
         return longestTrail;
+    }
+
+    private static Dictionary<Point, Dictionary<Point, int>> CompactGraph(Dictionary<Point, HashSet<Point>> graph, Point start, Point end)
+    {
+        Dictionary<Point, Dictionary<Point, int>> compactedGraph = [];
+        var corners = graph
+            .Where(node => node.Value.Count != 2
+                          || node.Key == start
+                          || node.Key == end)
+            .Select(node => node.Key)
+            .ToHashSet();
+
+        foreach (var corner in corners)
+        {
+            Dictionary<Point, int> neighbors = [];
+
+            foreach (var neighbor in graph[corner])
+            {
+                HashSet<Point> visited = [corner];
+                var current = neighbor;
+                var length = 1;
+
+                while (!corners.Contains(current))
+                {
+                    visited.Add(current);
+
+                    var next = graph[current].FirstOrDefault(n => !visited.Contains(n));
+                    if (next == default)
+                    {
+                        break;
+                    }
+
+                    current = next;
+                    length++;
+                }
+
+                if (current != corner && corners.Contains(current))
+                {
+                    neighbors[current] = length;
+                }
+            }
+
+            compactedGraph[corner] = neighbors;
+        }
+
+        return compactedGraph;
     }
 
     private static Dictionary<Point, HashSet<Point>> ConvertTrailMapToGraph(string[] hikingTrails)

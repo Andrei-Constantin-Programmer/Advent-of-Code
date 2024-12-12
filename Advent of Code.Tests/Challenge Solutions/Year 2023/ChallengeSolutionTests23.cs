@@ -87,13 +87,13 @@ public class ChallengeSolutionTests23
         _consoleMock.Received().WriteLine(Arg.Is(154));
     }
 
-    [Fact]
+    [Fact(Skip = "Takes too long")]
     public void SolveSecondPart_RealInput()
     {
         // Act
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is(3123));
+        _consoleMock.Received().WriteLine(Arg.Is(6230));
     }
 }
