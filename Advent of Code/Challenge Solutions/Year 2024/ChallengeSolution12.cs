@@ -10,18 +10,36 @@ public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolu
     private static Point[] Directions =>
     [
         new(-1, 0),
+        new (0, 1),
         new (1, 0),
         new (0, -1),
-        new (0, 1),
     ];
 
     public override void SolveFirstPart()
     {
+        SolvePlotProblem(CalculatePerimeter);
+    }
+
+    public override void SolveSecondPart()
+    {
+        SolvePlotProblem(CalculateSideCount);
+    }
+
+    private void SolvePlotProblem(Func<string[], List<Point>, int> sideCalculationFunction)
+    {
         var plotMap = ReadGardenPlotMap();
-        List<long> plotPrices = [];
+
+        List<int> plotPrices = [];
         HashSet<Point> visited = [];
 
-        long totalPrice = 0;
+        var totalPrice = FindTotalPrice(plotMap, visited, sideCalculationFunction);
+
+        _console.WriteLine($"Total Cost: {totalPrice}");
+    }
+
+    private static int FindTotalPrice(string[] plotMap, HashSet<Point> visited, Func<string[], List<Point>, int> sideCalculationFunction)
+    {
+        int totalPrice = 0;
 
         for (var row = 0; row < plotMap.Length; row++)
         {
@@ -33,31 +51,86 @@ public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolu
                     continue;
                 }
 
-                var price = FindPriceForPlotStartingAt(plotMap, point, out var newlyVisited);
+                var price = FindPriceByPerimeterForPlotStartingAt(plotMap, point, sideCalculationFunction, out var newlyVisited);
                 totalPrice += price;
 
                 visited.UnionWith(newlyVisited);
             }
         }
 
-        _console.WriteLine($"Total Cost: {totalPrice}");
+        return totalPrice;
     }
 
-    private long FindPriceForPlotStartingAt(string[] plotMap, Point point, out HashSet<Point> visited)
+    private static int FindPriceByPerimeterForPlotStartingAt(
+        string[] plotMap,
+        Point point,
+        Func<string[], List<Point>, int> sideCalculationFunction,
+        out HashSet<Point> visited)
     {
         var plot = GetPlot(plotMap, point, out visited);
 
         var area = plot.Count;
-        var perimeter = CalculatePerimeter(plotMap, plot);
+        var sideNumber = sideCalculationFunction(plotMap, plot);
+        Console.WriteLine(plotMap[point.Row][point.Col] + " - " + sideNumber);
 
-        return area * perimeter;
+        return area * sideNumber;
     }
 
-    private int CalculatePerimeter(string[] plotMap, List<Point> plot)
+    private static int CalculateSideCount(string[] plotMap, List<Point> plot)
+    {
+        if (plot.Count is < 3)
+        {
+            return 4;
+        }
+
+        (Point, Point)[] cornerChecks =
+        [
+            (Directions[0], Directions[1]),
+            (Directions[0], Directions[3]),
+            (Directions[2], Directions[1]),
+            (Directions[2], Directions[3]),
+        ];
+
+        var corners = 0;
+        var plant = plotMap[plot[0].Row][plot[0].Col];
+
+        foreach (var point in plot)
+        {
+            foreach (var check in cornerChecks)
+            {
+                Point neighbour1 = new(point.Row + check.Item1.Row, point.Col + check.Item1.Col);
+                Point neighbour2 = new(point.Row + check.Item2.Row, point.Col + check.Item2.Col);
+                Point neighbour3 = new(point.Row + check.Item1.Row + check.Item2.Row, point.Col + check.Item1.Col + check.Item2.Col);
+
+                var neighbour1Value = GetValueOrDefault(plotMap, neighbour1);
+                var neighbour2Value = GetValueOrDefault(plotMap, neighbour2);
+                var neighbour3Value = GetValueOrDefault(plotMap, neighbour3);
+
+                var isConcaveCorner = neighbour1Value != plant
+                                    && neighbour2Value != plant;
+
+                var isConvexCorner = neighbour1Value == plant
+                                   && neighbour2Value == plant
+                                   && neighbour3Value != plant;
+
+                if (isConcaveCorner || isConvexCorner)
+                {
+                    corners++;
+                }
+            }
+        }
+
+        return corners;
+
+        static char GetValueOrDefault(string[] plotMap, Point point)
+            => IsOutOfBounds(plotMap, point) ? ' ' : plotMap[point.Row][point.Col];
+    }
+
+    private static int CalculatePerimeter(string[] plotMap, List<Point> plot)
     {
         var perimeter = 0;
-
         var plant = plotMap[plot[0].Row][plot[0].Col];
+
         foreach (var point in plot)
         {
             foreach (var direction in Directions)
@@ -75,7 +148,7 @@ public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolu
         return perimeter;
     }
 
-    private List<Point> GetPlot(string[] plotMap, Point start, out HashSet<Point> visited)
+    private static List<Point> GetPlot(string[] plotMap, Point start, out HashSet<Point> visited)
     {
         List<Point> result = [];
         visited = [];
@@ -119,11 +192,6 @@ public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolu
         || point.Row >= plotMap.Length
         || point.Col < 0
         || point.Col >= plotMap[point.Row].Length;
-
-    public override void SolveSecondPart()
-    {
-        throw new NotImplementedException();
-    }
 
     private string[] ReadGardenPlotMap()
     {
