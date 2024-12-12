@@ -9,103 +9,143 @@ public class ChallengeSolution23(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        var hikingTrails = ReadHikingTrails();
-        _console.WriteLine(FindLongestTrail(hikingTrails));
+        SolveLongestTrailProblem(considerSlopes: true);
     }
 
     public override void SolveSecondPart()
     {
-        var hikingTrails = ReadHikingTrails();
-        for (var i = 0; i < hikingTrails.Length; i++)
-        {
-            hikingTrails[i] = hikingTrails[i]
-                .Replace((char)Trail.SlopeNorth, (char)Trail.Path)
-                .Replace((char)Trail.SlopeSouth, (char)Trail.Path)
-                .Replace((char)Trail.SlopeWest, (char)Trail.Path)
-                .Replace((char)Trail.SlopeEast, (char)Trail.Path);
-        }
-
-        throw new NotImplementedException();
-        _console.WriteLine(FindLongestTrail(hikingTrails));
+        SolveLongestTrailProblem(considerSlopes: false);
     }
 
-    private static int FindLongestTrail(string[] hikingTrails)
+    private void SolveLongestTrailProblem(bool considerSlopes)
     {
+        var hikingTrails = ReadHikingTrails(considerSlopes);
+        var trailGraph = ConvertTrailMapToGraph(hikingTrails);
+
         Point start = new(0, 1);
         Point end = new(hikingTrails.Length - 1, hikingTrails[0].Length - 2);
 
-        HashSet<Point> visited = new();
+        _console.WriteLine(FindLongestTrail(trailGraph, start, end));
+    }
 
-        var longestTrail = FindLongestTrail(hikingTrails, start, end, visited, 0);
+    private static int FindLongestTrail(Dictionary<Point, HashSet<Point>> graph, Point start, Point end)
+    {
+        Stack<(Point current, HashSet<Point> visited, int length)> stack = [];
+        stack.Push((start, [start], 0));
+        var longestTrail = 0;
+
+        while (stack.Count > 0)
+        {
+            var (current, currentVisited, pathLength) = stack.Pop();
+
+            if (current == end)
+            {
+                longestTrail = Math.Max(longestTrail, pathLength);
+                continue;
+            }
+
+            foreach (var neighbor in graph[current])
+            {
+                if (!currentVisited.Contains(neighbor))
+                {
+                    HashSet<Point> newVisited = new(currentVisited) { neighbor };
+                    stack.Push((neighbor, newVisited, pathLength + 1));
+                }
+            }
+        }
 
         return longestTrail;
     }
 
-    private static int FindLongestTrail(string[] hikingTrails, Point start, Point end, HashSet<Point> visited, int currentLength)
+    private static Dictionary<Point, HashSet<Point>> ConvertTrailMapToGraph(string[] hikingTrails)
     {
-        if (start == end)
-        {
-            return currentLength;
-        }
+        Dictionary<Point, HashSet<Point>> graph = [];
 
-        currentLength++;
-        visited.Add(start);
-        var maxLength = 0;
-
-        List<Point> nextMoves = GetNextTrailMoves(hikingTrails, start);
-        foreach (var nextMove in nextMoves)
+        for (var row = 0; row < hikingTrails.Length; row++)
         {
-            if (IsValidMove(nextMove))
+            for (var column = 0; column < hikingTrails[0].Length; column++)
             {
-                maxLength = Math.Max(maxLength, FindLongestTrail(hikingTrails, nextMove, end, visited, currentLength));
+                var point = new Point(row, column);
+                var trail = (Trail)hikingTrails[point.Row][point.Column];
+
+                if (trail is Trail.Forest)
+                {
+                    continue;
+                }
+
+                graph[point] = NextGraphElements(hikingTrails, point);
             }
         }
 
-        visited.Remove(start);
-
-        return maxLength;
-
-        bool IsValidMove(Point point)
-        {
-            var isOutOfBounds = point.Row < 0 || point.Row >= hikingTrails.Length
-                         || point.Column < 0 || point.Column >= hikingTrails[0].Length;
-
-            return !isOutOfBounds
-                && !visited.Contains(point)
-                && (Trail)hikingTrails[point.Row][point.Column] is not Trail.Forest;
-        }
+        return graph;
     }
 
-    private static List<Point> GetNextTrailMoves(string[] hikingTrails, Point start)
+    private static HashSet<Point> NextGraphElements(string[] hikingTrails, Point point)
     {
-        var trail = (Trail)hikingTrails[start.Row][start.Column];
+        HashSet<Point> nextGraphElements = [];
+
+        var nextMoves = GetNextTrailMoves(hikingTrails, point);
+        foreach (var nextMove in nextMoves)
+        {
+            if (IsWithinBounds(nextMove)
+                && (Trail)hikingTrails[nextMove.Row][nextMove.Column] is not Trail.Forest)
+            {
+                nextGraphElements.Add(nextMove);
+            }
+        }
+
+        return nextGraphElements;
+
+        bool IsWithinBounds(Point point) =>
+            point.Row >= 0
+            && point.Row < hikingTrails.Length
+            && point.Column > -0
+            && point.Column < hikingTrails[0].Length;
+    }
+
+    private static List<Point> GetNextTrailMoves(string[] hikingTrails, Point point)
+    {
+        var trail = (Trail)hikingTrails[point.Row][point.Column];
         return trail switch
         {
-            Trail.SlopeNorth => new() { GoNorth(start) },
-            Trail.SlopeSouth => new() { GoSouth(start) },
-            Trail.SlopeWest => new() { GoWest(start) },
-            Trail.SlopeEast => new() { GoEast(start) },
+            Trail.SlopeNorth => [GoNorth(point)],
+            Trail.SlopeSouth => [GoSouth(point)],
+            Trail.SlopeWest => [GoWest(point)],
+            Trail.SlopeEast => [GoEast(point)],
             Trail.Path =>
             [
-                GoNorth(start),
-                GoSouth(start),
-                GoWest(start),
-                GoEast(start),
+                GoNorth(point),
+                GoSouth(point),
+                GoWest(point),
+                GoEast(point),
             ],
 
             _ => []
         };
     }
 
-
     private static Point GoNorth(Point fromPoint) => new(fromPoint.Row - 1, fromPoint.Column);
     private static Point GoSouth(Point fromPoint) => new(fromPoint.Row + 1, fromPoint.Column);
     private static Point GoWest(Point fromPoint) => new(fromPoint.Row, fromPoint.Column - 1);
     private static Point GoEast(Point fromPoint) => new(fromPoint.Row, fromPoint.Column + 1);
 
-    private string[] ReadHikingTrails()
+    private string[] ReadHikingTrails(bool considerSlopes)
     {
-        return _reader.ReadLines();
+        var hikingTrails = _reader.ReadLines();
+
+        if (!considerSlopes)
+        {
+            for (var i = 0; i < hikingTrails.Length; i++)
+            {
+                hikingTrails[i] = hikingTrails[i]
+                    .Replace((char)Trail.SlopeNorth, (char)Trail.Path)
+                    .Replace((char)Trail.SlopeSouth, (char)Trail.Path)
+                    .Replace((char)Trail.SlopeWest, (char)Trail.Path)
+                    .Replace((char)Trail.SlopeEast, (char)Trail.Path);
+            }
+        }
+
+        return hikingTrails;
     }
 
     private record Point(int Row, int Column);
