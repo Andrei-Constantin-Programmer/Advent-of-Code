@@ -1,36 +1,104 @@
 ﻿// Task: https://adventofcode.com/2023/day/21
 
 using Advent_of_Code.Utilities;
+using System.Diagnostics;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
 public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolution21> reader)
     : ChallengeSolution<ChallengeSolution21>(console, reader)
 {
-    private const int MAX_STEPS = 64;
     private const char PLOT = '.';
     private const char START = 'S';
 
+    private static Point[] _directions =
+    [
+        new(-1, 0),
+        new(1, 0),
+        new(0, -1),
+        new(0, 1),
+    ];
+
     public override void SolveFirstPart()
     {
+        var maxSteps = 64;
+
         var garden = ReadGarden(out var startPlot);
-        var latestPlotsReached = FindLastPlotsReached(garden, startPlot);
+        var latestPlotsReached = FindLastPlotsReached(garden, startPlot, maxSteps, isInfiniteGarden: false);
 
         _console.WriteLine(latestPlotsReached);
     }
 
-    private static int FindLastPlotsReached(string[] garden, Point startPlot)
+    public override void SolveSecondPart()
+    {
+        var maxSteps = 26501365;
+        var expectedGardenSize = 131;
+
+        var garden = ReadGarden(out var startPlot);
+        Trace.Assert(garden.Length == garden[0].Length
+                     && garden.Length == expectedGardenSize, $"Garden must be a square matrix of size {expectedGardenSize}");
+
+        var points = GenerateInterpolationPoints(garden, startPlot);
+        var latestPlotsReached = (long)LagrangePolynomial(maxSteps, points);
+
+        _console.WriteLine(latestPlotsReached);
+    }
+
+    private static List<(int x, int y)> GenerateInterpolationPoints(string[] garden, Point startPlot)
+    {
+        var order = 2;
+
+        var independentValues = Enumerable
+            .Range(1, (2 * (order + 1)) - 1)
+            .Where(x => x % 2 == 1)
+            .Select(x => x * garden.Length / 2)
+            .ToList();
+
+        var dependentValues = independentValues
+            .Select(x => FindLastPlotsReached(garden, startPlot, x, isInfiniteGarden: true))
+            .ToList();
+
+        return independentValues
+            .Zip(dependentValues, (x, y) => (x, y))
+            .ToList();
+    }
+
+    private static double LagrangePolynomial(long p, List<(int x, int y)> points)
+    {
+        long result = 0;
+
+        foreach (var (xi, yi) in points)
+        {
+            long numerator = 1;
+            long denominator = 1;
+
+            foreach (var (xj, _) in points)
+            {
+                if (xi != xj)
+                {
+                    numerator *= p - xj;
+                    denominator *= xi - xj;
+                }
+            }
+
+            result += yi * (numerator / denominator);
+        }
+
+        return result;
+    }
+
+    private static int FindLastPlotsReached(string[] garden, Point startPlot, int maxSteps, bool isInfiniteGarden)
     {
         Queue<Point> nextPlotsToVisit = new();
-        HashSet<Point> lastPlotsReached = new();
+        HashSet<Point> lastPlotsReached = [];
 
         nextPlotsToVisit.Enqueue(startPlot);
 
         var stepsTaken = 0;
         var lastPlotsReachedCount = 0;
-        while (nextPlotsToVisit.TryDequeue(out var step) && stepsTaken < MAX_STEPS)
+        while (nextPlotsToVisit.TryDequeue(out var step) && stepsTaken < maxSteps)
         {
-            foreach (var plot in GetNeighbouringPlots(garden, step))
+            foreach (var plot in GetNeighbouringPlots(garden, step, isInfiniteGarden))
             {
                 lastPlotsReached.Add(plot);
             }
@@ -39,7 +107,7 @@ public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolu
             {
                 nextPlotsToVisit = new Queue<Point>(lastPlotsReached);
                 lastPlotsReachedCount = lastPlotsReached.Count;
-                lastPlotsReached = new();
+                lastPlotsReached = [];
                 stepsTaken++;
             }
         }
@@ -47,33 +115,39 @@ public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolu
         return lastPlotsReachedCount;
     }
 
-    public override void SolveSecondPart()
+    private static List<Point> GetNeighbouringPlots(string[] garden, Point point, bool isInfiniteGarden)
     {
-        throw new NotImplementedException();
-    }
+        List<Point> neighbours = [];
 
-    private static List<Point> GetNeighbouringPlots(string[] garden, Point point)
-    {
-        List<Point> neighbours = new();
-        if (point.Row - 1 >= 0 && IsPlot(garden[point.Row - 1][point.Column]))
+        foreach (var direction in _directions)
         {
-            neighbours.Add(new(point.Row - 1, point.Column));
-        }
-        if (point.Row + 1 < garden.Length && IsPlot(garden[point.Row + 1][point.Column]))
-        {
-            neighbours.Add(new(point.Row + 1, point.Column));
-        }
-        if (point.Column - 1 >= 0 && IsPlot(garden[point.Row][point.Column - 1]))
-        {
-            neighbours.Add(new(point.Row, point.Column - 1));
-        }
-        if (point.Column + 1 < garden[0].Length && IsPlot(garden[point.Row][point.Column + 1]))
-        {
-            neighbours.Add(new(point.Row, point.Column + 1));
+            var neighbour = new Point(point.Row + direction.Row, point.Column + direction.Column);
+            var normalisedNeighbour = isInfiniteGarden
+                ? MovePointToFirstGarden(neighbour, garden.Length)
+                : neighbour;
+
+            if (normalisedNeighbour.Row < 0
+                || normalisedNeighbour.Row >= garden.Length
+                || normalisedNeighbour.Column < 0
+                || normalisedNeighbour.Column >= garden[0].Length)
+            {
+                continue;
+            }
+
+            if (IsPlot(garden[normalisedNeighbour.Row][normalisedNeighbour.Column]))
+            {
+                neighbours.Add(neighbour);
+            }
         }
 
         return neighbours;
     }
+
+    private static Point MovePointToFirstGarden(Point point, int gardenSize) => new
+    (
+        ((point.Row % gardenSize) + gardenSize) % gardenSize,
+        ((point.Column % gardenSize) + gardenSize) % gardenSize
+    );
 
     private static bool IsPlot(char gardenPlot) => gardenPlot is PLOT or START;
 
@@ -97,4 +171,6 @@ public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolu
     }
 
     private record Point(int Row, int Column);
+
+
 }
