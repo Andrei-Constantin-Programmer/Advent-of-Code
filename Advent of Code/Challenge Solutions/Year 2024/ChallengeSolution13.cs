@@ -7,35 +7,46 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolution13> reader)
     : ChallengeSolution<ChallengeSolution13>(console, reader)
 {
-    const int ACost = 3;
-    const int BCost = 1;
-    const int MaxPresses = 100;
+    private const int ACost = 3;
+    private const int BCost = 1;
+    private const int MaxPresses = 100;
 
     public override void SolveFirstPart()
     {
         var machines = ReadMachines();
-        var totalTokens = ComputeTotalTokens(machines);
+        var totalTokens = ComputeTotalTokens(machines, limitPresses: true);
 
         _console.WriteLine($"Tokens: {totalTokens}");
     }
 
     public override void SolveSecondPart()
     {
-        throw new NotImplementedException();
+        var prizeAddition = 10000000000000L;
+
+        var machines = ReadMachines(prizeAddition);
+        var totalTokens = ComputeTotalTokens(machines, limitPresses: false);
+
+        _console.WriteLine($"Tokens: {totalTokens}");
     }
 
-    private static int ComputeTotalTokens(List<Machine> machines)
+    private static long ComputeTotalTokens(List<Machine> machines, bool limitPresses)
     {
-        var totalTokens = 0;
+        long totalTokens = 0;
         foreach (var machine in machines)
         {
             var (aPresses, bPresses) = FindMinimalPressesRequired(machine);
 
-            if (aPresses > MaxPresses
-                || bPresses > MaxPresses)
+            if (limitPresses && (aPresses > MaxPresses || bPresses > MaxPresses))
             {
                 continue;
             }
+
+            if ((aPresses * machine.A.X) + (bPresses * machine.B.X) != machine.Prize.X
+                || (aPresses * machine.A.Y) + (bPresses * machine.B.Y) != machine.Prize.Y)
+            {
+                continue;
+            }
+
 
             totalTokens += (aPresses * ACost) + (bPresses * BCost);
         }
@@ -43,62 +54,39 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
         return totalTokens;
     }
 
-    private static (int aPresses, int bPresses) FindMinimalPressesRequired(Machine machine)
+    private static (long aPresses, long bPresses) FindMinimalPressesRequired(Machine machine)
     {
-        var aPresses = 0;
-        var bPresses = 0;
-        var minCost = int.MaxValue;
+        long[] equationX = [machine.A.X, machine.B.X, machine.Prize.X];
+        long[] equationY = [machine.A.Y, machine.B.Y, machine.Prize.Y];
 
-        for (var a = 0; a * machine.A.X <= machine.Prize.X; a++)
-        {
-            var remainingX = machine.Prize.X - (a * machine.A.X);
-            if (remainingX % machine.B.X == 0)
-            {
-                var bX = remainingX / machine.B.X;
-
-                var totalY = (a * machine.A.Y) + (bX * machine.B.Y);
-                if (totalY == machine.Prize.Y)
-                {
-                    var currentCost = (a * ACost) + (bX * BCost);
-
-                    if (currentCost < minCost)
-                    {
-                        aPresses = a;
-                        bPresses = bX;
-                        minCost = currentCost;
-                    }
-                }
-            }
-        }
+        var (aPresses, bPresses) = PerformCramersRule(equationX, equationY);
 
         return (aPresses, bPresses);
     }
 
-    private static (int gcd, int aCoefficient, int bCoefficient) GreatestCommonDivisorWithCoefficients(int a, int b)
+    private static (long aPresses, long bPresses) PerformCramersRule(long[] equationX, long[] equationY)
     {
-        if (b == 0)
-        {
-            return (a, 1, 0);
-        }
+        var determinant = (equationX[0] * equationY[1]) - (equationY[0] * equationX[1]);
 
-        var (gcd, aCoeff, bCoeff) = GreatestCommonDivisorWithCoefficients(b, a % b);
-        var x = bCoeff;
-        var y = aCoeff - (a / b * bCoeff);
+        var determinantA = (equationX[2] * equationY[1]) - (equationY[2] * equationX[1]);
+        var determinantB = (equationX[0] * equationY[2]) - (equationY[0] * equationX[2]);
 
-        return (gcd, x, y);
+        var aPresses = determinantA / determinant;
+        var bPresses = determinantB / determinant;
+
+        return (aPresses, bPresses);
     }
 
-
-    private List<Machine> ReadMachines()
+    private List<Machine> ReadMachines(long prizeAddition = 0)
     {
         List<Machine> machines = [];
         var lines = _reader.ReadLines();
 
         for (var i = 0; i < lines.Length; i++)
         {
-            var pointA = ExtractPoint(lines[i++]);
-            var pointB = ExtractPoint(lines[i++]);
-            var prize = ExtractPoint(lines[i++]);
+            var pointA = ExtractButton(lines[i++]);
+            var pointB = ExtractButton(lines[i++]);
+            var prize = ExtractPrize(lines[i++], prizeAddition);
 
             Machine machine = new(pointA, pointB, prize);
             machines.Add(machine);
@@ -107,30 +95,28 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
         return machines;
     }
 
-    private static Point ExtractPoint(string input)
+    private static Point ExtractPrize(string input, long prizeAddition = 0)
     {
-        var xPlus = input.IndexOf('+');
+        return ExtractPoint(input, '=', prizeAddition);
+    }
 
-        if (xPlus >= 0)
-        {
-            var yPlus = input.IndexOf('+', xPlus + 1);
+    private static Point ExtractButton(string input)
+    {
+        return ExtractPoint(input, '+');
+    }
 
-            return new Point(
-                int.Parse(input[(xPlus + 1)..input.IndexOf(',')]),
-                int.Parse(input[(yPlus + 1)..])
-            );
-        }
-
-        var xEqual = input.IndexOf('=');
-        var yEqual = input.IndexOf('=', xEqual + 1);
+    private static Point ExtractPoint(string input, char separator, long prizeAddition = 0)
+    {
+        var first = input.IndexOf(separator);
+        var second = input.IndexOf(separator, first + 1);
 
         return new Point(
-                int.Parse(input[(xEqual + 1)..input.IndexOf(',')]),
-                int.Parse(input[(yEqual + 1)..])
-            );
+            prizeAddition + int.Parse(input[(first + 1)..input.IndexOf(',')]),
+            prizeAddition + int.Parse(input[(second + 1)..])
+        );
     }
 
     private record Machine(Point A, Point B, Point Prize);
 
-    private record struct Point(int X, int Y);
+    private record struct Point(long X, long Y);
 }

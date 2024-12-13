@@ -76,7 +76,7 @@ public class ChallengeSolutionTests13
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(65601038650482)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(0)));
     }
 
     [Fact]
@@ -86,6 +86,6 @@ public class ChallengeSolutionTests13
         _challengeSolution.SolveSecondPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(240884656550923)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(83197086729371)));
     }
 }
