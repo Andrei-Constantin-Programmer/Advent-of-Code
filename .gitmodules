@@ -1,0 +1,6 @@
+[submodule "input"]
+	path = input
+	url = https://github.com/Andrei-Constantin-Programmer/Advent-of-Code_Input
+[submodule "resources"]
+	path = resources
+	url = https://github.com/Andrei-Constantin-Programmer/Advent-of-Code_Input

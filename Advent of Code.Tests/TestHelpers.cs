@@ -7,7 +7,7 @@ public static class TestHelpers
     public static string[] GetInputFileContents(int year, int day)
     {
         var inputFilePath = Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.Parent!.FullName
-            + @$"\Advent of Code\resources\input\{year}\{PathUtils.FormatDay(day)}.txt";
+            + @$"\resources\input\{year}\{PathUtils.FormatDay(day)}.txt";
 
         return File.ReadAllLines(inputFilePath);
     }
