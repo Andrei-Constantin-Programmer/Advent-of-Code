@@ -61,4 +61,14 @@ public class ChallengeSolutionTests14
         // Assert
         _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(224554908)));
     }
+
+    [Fact]
+    public void SolveSecondPart_RealInput()
+    {
+        // Act
+        _challengeSolution.SolveSecondPart();
+
+        // Assert
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(6644)));
+    }
 }

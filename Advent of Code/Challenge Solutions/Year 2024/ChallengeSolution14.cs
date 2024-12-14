@@ -1,9 +1,6 @@
 ﻿// Task: https://adventofcode.com/2024/day/14
 
 using Advent_of_Code.Utilities;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Text;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
@@ -18,34 +15,34 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
         var seconds = 100;
 
         List<Robot> finalPoints = ComputeRobotPositions(robots, rows, cols, seconds);
-        var robotsInQuadrant = FindRobotsInQuadrants(rows, cols, finalPoints);
-
-        var safetyFactor = robotsInQuadrant.Aggregate(1L, (acc, x) => acc * x);
+        var safetyFactor = ComputeSafetyFactor(rows, cols, finalPoints);
 
         _console.WriteLine($"Safety factor: {safetyFactor}");
     }
 
     public override void SolveSecondPart()
     {
-        var performManualCheck = false;
-
         var robots = ReadRobots();
         var rows = 103;
         var cols = 101;
 
         var seconds = rows * cols;
+        var minimalSafetyFactor = long.MaxValue;
+        var minimalSafetyFactorSecond = -1;
 
         for (var second = 0; second < seconds; second++)
         {
             robots = ComputeRobotPositions(robots, rows, cols, 1);
-            if (performManualCheck)
+            var safetyFactor = ComputeSafetyFactor(rows, cols, robots);
+
+            if (safetyFactor < minimalSafetyFactor)
             {
-                PrintBathroom(rows, cols, robots, second);
+                minimalSafetyFactor = safetyFactor;
+                minimalSafetyFactorSecond = second + 1;
             }
         }
 
-        var secondsToTree = 6644;
-        _console.WriteLine($"Solved manually: {secondsToTree}");
+        _console.WriteLine($"Seconds to find tree: {minimalSafetyFactorSecond}");
     }
 
     private static List<Robot> ComputeRobotPositions(List<Robot> robots, int rows, int cols, int seconds)
@@ -78,6 +75,14 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
         }
 
         return newRobots;
+    }
+
+    private static long ComputeSafetyFactor(int rows, int cols, List<Robot> finalPoints)
+    {
+        var robotsInQuadrant = FindRobotsInQuadrants(rows, cols, finalPoints);
+
+        var safetyFactor = robotsInQuadrant.Aggregate(1L, (acc, x) => acc * x);
+        return safetyFactor;
     }
 
     private static long[] FindRobotsInQuadrants(int rows, int cols, List<Robot> robots)
@@ -140,44 +145,6 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
         col %= cols;
 
         return new Point(row, col);
-    }
-
-    private static void PrintBathroom(int rows, int cols, List<Robot> robots, int second)
-    {
-        var matrix = new char[rows, cols];
-        for (var row = 0; row < rows; row++)
-        {
-            var builder = new StringBuilder();
-
-            for (var col = 0; col < cols; col++)
-            {
-                if (robots.Any(robot => robot.Point.Row == row && robot.Point.Col == col))
-                {
-                    matrix[row, col] = '#';
-                }
-                else
-                {
-                    matrix[row, col] = ' ';
-                }
-            }
-        }
-
-        var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "2024_14");
-        Directory.CreateDirectory(folder);
-        var fileName = Path.Combine(folder, $"{second}.png");
-#pragma warning disable CA1416 // Validate platform compatibility
-        using Bitmap bitmap = new(cols, rows);
-
-        for (var row = 0; row < rows; row++)
-        {
-            for (var col = 0; col < cols; col++)
-            {
-                bitmap.SetPixel(col, row, matrix[row, col] == '#' ? Color.Black : Color.White);
-            }
-        }
-
-        bitmap.Save(fileName, ImageFormat.Png);
-#pragma warning restore CA1416 // Validate platform compatibility
     }
 
     private List<Robot> ReadRobots()
