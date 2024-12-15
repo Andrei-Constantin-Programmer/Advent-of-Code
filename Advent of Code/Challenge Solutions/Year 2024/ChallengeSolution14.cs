@@ -7,15 +7,16 @@ namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolution14> reader)
     : ChallengeSolution<ChallengeSolution14>(console, reader)
 {
+    private const int Rows = 103;
+    private const int Cols = 101;
+
     public override void SolveFirstPart()
     {
         var robots = ReadRobots();
-        var rows = 103;
-        var cols = 101;
         var seconds = 100;
 
-        List<Robot> finalPoints = ComputeRobotPositions(robots, rows, cols, seconds);
-        var safetyFactor = ComputeSafetyFactor(rows, cols, finalPoints);
+        ComputeRobotPositions(robots, seconds, out var _);
+        var safetyFactor = ComputeSafetyFactor(robots);
 
         _console.WriteLine($"Safety factor: {safetyFactor}");
     }
@@ -23,82 +24,55 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveSecondPart()
     {
         var robots = ReadRobots();
-        var rows = 103;
-        var cols = 101;
+        var seconds = Rows * Cols;
 
-        var seconds = rows * cols;
+        ComputeRobotPositions(robots, seconds, out var secondWithMinimalSafetyFactor);
+
+        _console.WriteLine($"Seconds to find tree: {secondWithMinimalSafetyFactor}");
+    }
+
+    private static void ComputeRobotPositions(List<Robot> robots, int seconds, out int secondWithMinimalSafetyFactor)
+    {
         var minimalSafetyFactor = long.MaxValue;
-        var minimalSafetyFactorSecond = -1;
+        secondWithMinimalSafetyFactor = -1;
 
         for (var second = 0; second < seconds; second++)
         {
-            robots = ComputeRobotPositions(robots, rows, cols, 1);
-            var safetyFactor = ComputeSafetyFactor(rows, cols, robots);
-
-            if (safetyFactor < minimalSafetyFactor)
+            foreach (var robot in robots)
             {
-                minimalSafetyFactor = safetyFactor;
-                minimalSafetyFactorSecond = second + 1;
-            }
-        }
-
-        _console.WriteLine($"Seconds to find tree: {minimalSafetyFactorSecond}");
-    }
-
-    private static List<Robot> ComputeRobotPositions(List<Robot> robots, int rows, int cols, int seconds)
-    {
-        var newRobots = new List<Robot>(robots.Count);
-
-        foreach (var robot in robots)
-        {
-            var currentPoint = robot.Point;
-            var pointsAtTime = new Dictionary<Point, int> { { currentPoint, 0 } };
-
-            for (var second = 0; second < seconds; second++)
-            {
-                Point newPoint = Move(currentPoint, robot.Velocity, rows, cols);
-
-                if (pointsAtTime.TryGetValue(newPoint, out var time))
-                {
-                    var timeDifference = (second + 1) - time;
-                    seconds %= timeDifference;
-                }
-                else
-                {
-                    pointsAtTime[newPoint] = second + 1;
-                }
-
-                currentPoint = newPoint;
+                robot.Point = Move(robot.Point, robot.Velocity);
             }
 
-            newRobots.Add(new(currentPoint, robot.Velocity));
+            if (ComputeSafetyFactor(robots) < minimalSafetyFactor)
+            {
+                minimalSafetyFactor = ComputeSafetyFactor(robots);
+                secondWithMinimalSafetyFactor = second + 1;
+            }
         }
-
-        return newRobots;
     }
 
-    private static long ComputeSafetyFactor(int rows, int cols, List<Robot> finalPoints)
+    private static long ComputeSafetyFactor(List<Robot> finalPoints)
     {
-        var robotsInQuadrant = FindRobotsInQuadrants(rows, cols, finalPoints);
+        var robotsInQuadrant = FindRobotsInQuadrants(finalPoints);
 
         var safetyFactor = robotsInQuadrant.Aggregate(1L, (acc, x) => acc * x);
         return safetyFactor;
     }
 
-    private static long[] FindRobotsInQuadrants(int rows, int cols, List<Robot> robots)
+    private static long[] FindRobotsInQuadrants(List<Robot> robots)
     {
         var robotsInQuadrant = new long[4];
 
         foreach (var robot in robots)
         {
-            if (IsInThemMiddle(robot.Point, rows, cols))
+            if (IsInThemMiddle(robot.Point))
             {
                 continue;
             }
 
-            if (robot.Point.Row < rows / 2)
+            if (robot.Point.Row < Rows / 2)
             {
-                if (robot.Point.Col < cols / 2)
+                if (robot.Point.Col < Cols / 2)
                 {
                     robotsInQuadrant[0]++;
                 }
@@ -109,7 +83,7 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
             }
             else
             {
-                if (robot.Point.Col < cols / 2)
+                if (robot.Point.Col < Cols / 2)
                 {
                     robotsInQuadrant[2]++;
                 }
@@ -123,26 +97,26 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
         return robotsInQuadrant;
     }
 
-    private static bool IsInThemMiddle(Point point, int rows, int cols) => point.Row == rows / 2 || point.Col == cols / 2;
+    private static bool IsInThemMiddle(Point point) => point.Row == Rows / 2 || point.Col == Cols / 2;
 
-    private static Point Move(Point point, Point velocity, int rows, int cols)
+    private static Point Move(Point point, Point velocity)
     {
         var row = point.Row + velocity.Row;
         var col = point.Col + velocity.Col;
 
         if (row < 0)
         {
-            row = rows + row;
+            row = Rows + row;
         }
 
-        row %= rows;
+        row %= Rows;
 
         if (col < 0)
         {
-            col = cols + col;
+            col = Cols + col;
         }
 
-        col %= cols;
+        col %= Cols;
 
         return new Point(row, col);
     }
@@ -176,7 +150,11 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
         return robots;
     }
 
-    private record Robot(Point Point, Point Velocity);
+    private class Robot(Point point, Point velocity)
+    {
+        public Point Point { get; set; } = point;
+        public Point Velocity { get; } = velocity;
+    }
 
     private record Point(int Row, int Col);
 }

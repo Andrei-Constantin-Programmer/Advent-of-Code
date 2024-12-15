@@ -26,7 +26,7 @@ dotnet_naming_rule.private_or_internal_field_should_be_is_prefixed_with_undersco
 
 dotnet_naming_rule.constant_field_should_be_all_caps.severity = error
 dotnet_naming_rule.constant_field_should_be_all_caps.symbols = constant_field
-dotnet_naming_rule.constant_field_should_be_all_caps.style = all_caps
+dotnet_naming_rule.constant_field_should_be_all_caps.style = pascal_case
 
 # Symbol specifications
 
@@ -95,6 +95,7 @@ csharp_style_expression_bodied_local_functions = true:suggestion
 
 # IDE0008: Use explicit type
 dotnet_diagnostic.IDE0008.severity = none
+csharp_prefer_system_threading_lock = true:suggestion
 
 [*.vb]
 #### Naming styles ####
