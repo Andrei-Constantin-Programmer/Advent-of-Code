@@ -1,4 +1,6 @@
 # Advent of Code
+[![GitHub repo size](https://img.shields.io/github/repo-size/Andrei-Constantin-Programmer/Advent-of-Code?label=Repo%20Size)](https://shields.io/badges/git-hub-repo-size)
+[![GitHub License](https://img.shields.io/github/license/Andrei-Constantin-Programmer/Advent-of-Code?label=License)](LICENSE)
 
 ## General information
 My solution for Advent of Code, written in C# as a Console Application. There are also some PowerShell scripts to help with automating documentation. No other technologies are used.
