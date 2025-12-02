@@ -16,6 +16,7 @@ The solutions to each year are in their own folder under Challenge Solutions. Be
 | 2022 | [Advent of Code 2022](https://adventofcode.com/2022) | [Solutions 2022](https://github.com/Andrei-Constantin-Programmer/Advent-of-Code/tree/master/Advent%20of%20Code/Challenge%20Solutions/Year%202022) |
 | 2023 | [Advent of Code 2023](https://adventofcode.com/2023) | [Solutions 2023](https://github.com/Andrei-Constantin-Programmer/Advent-of-Code/tree/master/Advent%20of%20Code/Challenge%20Solutions/Year%202023) |
 | 2024 | [Advent of Code 2024](https://adventofcode.com/2024) | [Solutions 2024](https://github.com/Andrei-Constantin-Programmer/Advent-of-Code/tree/master/Advent%20of%20Code/Challenge%20Solutions/Year%202024) |
+| 2025 | [Advent of Code 2025](https://adventofcode.com/2025) | [Solutions 2025](https://github.com/Andrei-Constantin-Programmer/Advent-of-Code/tree/master/Advent%20of%20Code/Challenge%20Solutions/Year%202025) |
 
 ## Launching the program
 Clone the solution  
