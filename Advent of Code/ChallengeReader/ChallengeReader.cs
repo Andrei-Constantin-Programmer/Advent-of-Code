@@ -6,7 +6,8 @@ namespace Advent_of_Code.ChallengeReader;
 internal class ChallengeReader : IChallengeReader
 {
     private const int FIRST_CHALLENGE_DAY = 1;
-    private const int LAST_CHALLENGE_DAY = 25;
+    private const int LAST_CHALLENGE_DAY_PRE_2025 = 25;
+    private const int LAST_CHALLENGE_DAY_POST_2025 = 12;
 
     private readonly ISolutionMapper _mapper;
 
@@ -49,14 +50,15 @@ internal class ChallengeReader : IChallengeReader
 
     public ChallengeSolution ReadChallenge(int year)
     {
+        var lastChallengeDay = GetLastChallengeDay(year);
         while (true)
         {
             PrintQuit();
             Console.WriteLine($"Year chosen: {year}");
-            Console.WriteLine($"Select a challenge ({FIRST_CHALLENGE_DAY}-{LAST_CHALLENGE_DAY}): ");
+            Console.WriteLine($"Select a challenge ({FIRST_CHALLENGE_DAY}-{lastChallengeDay}): ");
             try
             {
-                var challengeDay = ReadChallengeDay();
+                var challengeDay = ReadChallengeDay(lastChallengeDay);
                 ChallengeSolution solution = GetChallengeSolution(year, challengeDay);
 
                 return solution;
@@ -72,21 +74,21 @@ internal class ChallengeReader : IChallengeReader
             }
             catch (Exception)
             {
-                Console.WriteLine($"Sorry, this is an invalid challenge. Please choose a number between {FIRST_CHALLENGE_DAY} and {LAST_CHALLENGE_DAY}.");
+                Console.WriteLine($"Sorry, this is an invalid challenge. Please choose a number between {FIRST_CHALLENGE_DAY} and {lastChallengeDay}.");
                 Console.WriteLine();
             }
         }
     }
 
-    private static int ReadChallengeDay()
+    private static int ReadChallengeDay(int lastChallengeDay)
     {
         var line = Console.ReadLine()!;
         CheckQuitSymbol(line);
         var challengeDay = Convert.ToInt32(line);
 
-        if (challengeDay is < FIRST_CHALLENGE_DAY or > LAST_CHALLENGE_DAY)
+        if (challengeDay < FIRST_CHALLENGE_DAY || challengeDay > lastChallengeDay)
         {
-            throw new ArgumentException($"The challenge must be between {FIRST_CHALLENGE_DAY} and {LAST_CHALLENGE_DAY}");
+            throw new ArgumentException($"The challenge must be between {FIRST_CHALLENGE_DAY} and {lastChallengeDay}");
         }
 
         return challengeDay;
@@ -104,6 +106,10 @@ internal class ChallengeReader : IChallengeReader
             throw new ArgumentException($"There is no solution yet for challenge number {challengeDay}");
         }
     }
+
+    private static int GetLastChallengeDay(int year) => year >= 2025
+                                                 ? LAST_CHALLENGE_DAY_POST_2025
+                                                 : LAST_CHALLENGE_DAY_PRE_2025;
 
     private static void PrintQuit() => Console.WriteLine("Press 'Q' or 'quit' to close this menu.");
 

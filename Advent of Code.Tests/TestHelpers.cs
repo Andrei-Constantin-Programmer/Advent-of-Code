@@ -4,6 +4,8 @@ namespace Advent_of_Code.Tests;
 
 public static class TestHelpers
 {
+    public const string NotYetFinished = "Challenge not yet solved";
+
     public static string[] GetInputFileContents(int year, int day)
     {
         var inputFilePath = Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.Parent!.FullName

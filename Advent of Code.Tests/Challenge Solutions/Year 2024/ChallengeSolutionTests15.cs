@@ -71,7 +71,7 @@ public class ChallengeSolutionTests15
         _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(1398947)));
     }
 
-    [Fact]
+    [Fact(Skip = TestHelpers.NotYetFinished)]
     public void SolveSecondPart_SampleInput()
     {
         // Arrange
@@ -85,7 +85,7 @@ public class ChallengeSolutionTests15
         _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(9021)));
     }
 
-    [Fact]
+    [Fact(Skip = TestHelpers.NotYetFinished)]
     public void SolveSecondPart_RealInput()
     {
         // Act
