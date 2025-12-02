@@ -78,7 +78,7 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
 
     private List<Rotation> ReadRotations()
     {
-        List<Rotation> rotations = new();
+        List<Rotation> rotations = [];
 
         var lines = _reader.ReadLines();
         foreach (var line in lines)
