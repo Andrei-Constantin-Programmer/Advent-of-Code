@@ -20,4 +20,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Advent of Code.FSharp\Advent of Code.FSharp.fsproj" />
+  </ItemGroup>
 </Project>
