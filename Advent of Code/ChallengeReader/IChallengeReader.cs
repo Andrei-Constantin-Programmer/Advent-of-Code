@@ -1,9 +1,11 @@
-﻿using Advent_of_Code.Challenge_Solutions;
+﻿using Advent_of_Code.Services;
+using Advent_of_Code.Shared;
 
 namespace Advent_of_Code.ChallengeReader;
 
 internal interface IChallengeReader
 {
-    public int ReadYear();
-    public ChallengeSolution ReadChallenge(int year);
+    public Lang ReadLang();
+    public int ReadYear(Lang lang = Lang.CSharp);
+    public ChallengeSolution ReadChallenge(int year, Lang lang = Lang.CSharp);
 }

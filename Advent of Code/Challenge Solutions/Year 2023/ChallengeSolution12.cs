@@ -1,9 +1,10 @@
 ﻿// Task: https://adventofcode.com/2023/day/12
 
-using Advent_of_Code.Utilities;
 using System.Collections.Immutable;
 using System.Text;
 using System.Text.RegularExpressions;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 

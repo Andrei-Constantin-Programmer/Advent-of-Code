@@ -1,7 +1,8 @@
 ﻿// Task: https://adventofcode.com/2022/day/14
 
-using Advent_of_Code.Utilities;
 using System.Text;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 

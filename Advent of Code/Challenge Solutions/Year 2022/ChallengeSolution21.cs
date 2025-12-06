@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2022/day/21
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
@@ -141,7 +142,7 @@ public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolu
             set
             {
                 _operator = value;
-                Operation = ChallengeSolution21.OperationFromOperator(_operator);
+                Operation = OperationFromOperator(_operator);
             }
         }
         public long Value => Operation(

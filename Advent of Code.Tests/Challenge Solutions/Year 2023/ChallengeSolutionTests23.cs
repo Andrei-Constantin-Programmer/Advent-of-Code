@@ -1,13 +1,13 @@
 ﻿using Advent_of_Code.Challenge_Solutions.Year_2023;
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared.Utilities;
 using NSubstitute;
 
 namespace Advent_of_Code.Tests.Challenge_Solutions.Year_2023;
 
 public class ChallengeSolutionTests23
 {
-    protected IConsole _consoleMock;
-    protected ISolutionReader<ChallengeSolution23> _readerMock;
+    private readonly IConsole _consoleMock;
+    private readonly ISolutionReader<ChallengeSolution23> _readerMock;
 
     private readonly ChallengeSolution23 _challengeSolution;
 

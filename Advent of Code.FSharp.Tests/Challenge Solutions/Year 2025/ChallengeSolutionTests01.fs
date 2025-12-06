@@ -1,12 +1,10 @@
 ﻿namespace Advent_of_Code.FSharp.Challenge_Solutions.Year_2025.Tests
+open Xunit
+open Advent_of_Code.FSharp.Challenge_Solutions.Year_2025.ChallengeSolution01
+open Advent_of_Code.FSharp.Tests.TestUtilities
+open TestExtensions
 
 module ChallengeSolutionTests01 =
-
-    open System
-    open Xunit
-    open TestUtilities
-    open TestExtensions
-    open Challenge_Solutions.Year_2025.ChallengeSolution01
 
     let getSampleInput() : string list =
         [
@@ -23,13 +21,12 @@ module ChallengeSolutionTests01 =
             "L282"
         ]
 
-    
     [<Fact>]
     let ``SolveFirstPart with sample input`` () =
         // Arrange
         let writeLineFake = WriteLineFake()
 
-        let challengeSolution = ChallengeSolution01(getSampleInput, writeLineFake.WriteLine)
+        let challengeSolution = Solution(getSampleInput, writeLineFake.WriteLine)
 
         // Act
         challengeSolution.SolveFirstPart()
@@ -37,13 +34,12 @@ module ChallengeSolutionTests01 =
         // Assert
         writeLineFake.VerifyCalledContainingInt 3 1
 
-
     [<Fact>]
     let ``SolveSecondPart with sample input`` () =
         // Arrange
         let writeLineFake = WriteLineFake()
 
-        let challengeSolution = ChallengeSolution01(getSampleInput, writeLineFake.WriteLine)
+        let challengeSolution = Solution(getSampleInput, writeLineFake.WriteLine)
 
         // Act
         challengeSolution.SolveSecondPart()

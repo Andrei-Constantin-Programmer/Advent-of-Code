@@ -1,7 +1,8 @@
 ﻿// Task: https://adventofcode.com/2024/day/3
 
-using Advent_of_Code.Utilities;
 using System.Text.RegularExpressions;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 

@@ -1,9 +1,7 @@
-﻿module TestUtilities
+﻿module Advent_of_Code.FSharp.Tests.TestUtilities
 
-open System
-open System.IO
 open Xunit
-open Utilities
+open Advent_of_Code.FSharp.Utilities
     
 type WriteLineFake() =
     
@@ -21,7 +19,7 @@ type WriteLineFake() =
         this.CallsLike ^<| fun msg -> msg = message
 
     member this.CallsContaining (partMessage: string) =
-        this.CallsLike ^<| fun msg -> msg.Contains(partMessage)
+        this.CallsLike ^<| _.Contains(partMessage)
 
     member this.GetCalls () : string list =
         printed.Value

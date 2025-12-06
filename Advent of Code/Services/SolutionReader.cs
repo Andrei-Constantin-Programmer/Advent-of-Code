@@ -1,7 +1,8 @@
-﻿using Advent_of_Code.Challenge_Solutions;
-using static Advent_of_Code.Utilities.PathUtils;
+﻿using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
+using static Advent_of_Code.Shared.Utilities.PathUtils;
 
-namespace Advent_of_Code.Utilities;
+namespace Advent_of_Code.Services;
 
 public class SolutionReader<TSolution> : ISolutionReader<TSolution>
     where TSolution : ChallengeSolution
@@ -27,10 +28,10 @@ public class SolutionReader<TSolution> : ISolutionReader<TSolution>
         var year = int.Parse(solutionType.Namespace![^4..]);
         var day = int.Parse(new string(
             solutionType.Name
-            .Reverse()
-            .TakeWhile(char.IsDigit)
-            .Reverse()
-            .ToArray()));
+                .Reverse()
+                .TakeWhile(char.IsDigit)
+                .Reverse()
+                .ToArray()));
 
         return (year, day);
     }
