@@ -9,6 +9,7 @@
     <ItemGroup>
         <Compile Include="Utilities.fs"/>
         <Compile Include="Challenge Solutions\Year 2025\ChallengeSolution01.fs"/>
+        <Compile Include="Challenge Solutions\Year 2025\ChallengeSolution02.fs" />
         <Compile Include="FSharpSolutionMapper.fs" />
     </ItemGroup>
 
