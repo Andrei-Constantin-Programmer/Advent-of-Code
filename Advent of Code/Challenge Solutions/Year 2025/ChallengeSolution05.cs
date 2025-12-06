@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2025/day/5
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2025;
 
@@ -21,7 +22,7 @@ public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolu
             }
         }    
         
-        _console.WriteLine($"Fresh ingredients: {freshCount}");
+        Console.WriteLine($"Fresh ingredients: {freshCount}");
     }
 
     public override void SolveSecondPart()
@@ -31,7 +32,7 @@ public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolu
 
         var allFreshCount = ranges.Sum(range => range.Count);
         
-        _console.WriteLine($"All fresh ingredients: {allFreshCount}");
+        Console.WriteLine($"All fresh ingredients: {allFreshCount}");
     }
 
     private static List<Range> MergeOverlappingRanges(List<Range> ranges)
@@ -56,7 +57,7 @@ public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolu
 
     private (List<Range>, List<long>) ReadFreshRangesAndIngredientIds()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         
         List<Range> ranges = [];
         int rangeIndex;
