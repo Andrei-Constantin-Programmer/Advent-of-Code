@@ -12,7 +12,7 @@ public class ChallengeSolution02 : ChallengeSolution<ChallengeSolution02>
 
     public ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolution02> reader) : base(console, reader)
     {
-        lines = _reader.ReadLines();
+        lines = Reader.ReadLines();
     }
 
     public override void SolveFirstPart()
@@ -40,7 +40,7 @@ public class ChallengeSolution02 : ChallengeSolution<ChallengeSolution02>
                 no++;
         }
 
-        _console.WriteLine(no);
+        Console.WriteLine(no);
     }
 
     public override void SolveSecondPart()
@@ -62,7 +62,7 @@ public class ChallengeSolution02 : ChallengeSolution<ChallengeSolution02>
                 no++;
         }
 
-        _console.WriteLine(no);
+        Console.WriteLine(no);
     }
 
     private static int NumberOfDigits(int x)

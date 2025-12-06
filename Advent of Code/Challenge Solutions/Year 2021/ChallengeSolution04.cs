@@ -12,7 +12,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
 
     public override void SolveFirstPart()
     {
-        using TextReader read = _reader.GetInputFile();
+        using TextReader read = Reader.GetInputFile();
         var drawn = Array.ConvertAll(read.ReadLine()!.Split(","), int.Parse);
         var boards = GetBingoBoards(read);
 
@@ -36,13 +36,13 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine(winNumber * winBoard.SumUnchecked());
+        Console.WriteLine(winNumber * winBoard.SumUnchecked());
 
     }
 
     public override void SolveSecondPart()
     {
-        using TextReader read = _reader.GetInputFile();
+        using TextReader read = Reader.GetInputFile();
 
         var drawn = Array.ConvertAll(read.ReadLine()!.Split(","), int.Parse);
         var boards = GetBingoBoards(read);
@@ -66,7 +66,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
                     else
                     {
                         foundLast = true;
-                        _console.WriteLine(x * boards[0].SumUnchecked());
+                        Console.WriteLine(x * boards[0].SumUnchecked());
                     }
                 }
             }

@@ -35,7 +35,7 @@ public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolu
 
         var totalPrice = FindTotalPrice(plotMap, visited, sideCalculationFunction);
 
-        _console.WriteLine($"Total Cost: {totalPrice}");
+        Console.WriteLine($"Total Cost: {totalPrice}");
     }
 
     private static int FindTotalPrice(string[] plotMap, HashSet<Point> visited, Func<string[], List<Point>, int> sideCalculationFunction)
@@ -72,7 +72,7 @@ public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolu
 
         var area = plot.Count;
         var sideNumber = sideCalculationFunction(plotMap, plot);
-        Console.WriteLine(plotMap[point.Row][point.Col] + " - " + sideNumber);
+        System.Console.WriteLine(plotMap[point.Row][point.Col] + " - " + sideNumber);
 
         return area * sideNumber;
     }
@@ -196,7 +196,7 @@ public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolu
 
     private string[] ReadGardenPlotMap()
     {
-        return _reader.ReadLines();
+        return Reader.ReadLines();
     }
 
     private record Point(int Row, int Col);

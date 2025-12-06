@@ -13,7 +13,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
         var reports = ReadReports();
         var safeReports = reports.Count(r => IsSafeReport(r));
 
-        _console.WriteLine($"Safe reports: {safeReports}");
+        Console.WriteLine($"Safe reports: {safeReports}");
     }
 
     public override void SolveSecondPart()
@@ -40,7 +40,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine($"Safe reports: {safeReports}");
+        Console.WriteLine($"Safe reports: {safeReports}");
     }
 
     private static bool IsSafeReport(List<int> report, int? skipIndex = null)
@@ -100,7 +100,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
 
     private IEnumerable<List<int>> ReadReports()
     {
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             yield return line
                 .Split(' ', StringSplitOptions.RemoveEmptyEntries)

@@ -16,7 +16,7 @@ public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolu
         var tail = new Knot(new Coordinate(0, 0));
         ComputeCommands(head, tail, commands);
 
-        _console.WriteLine(tail.History.Count);
+        Console.WriteLine(tail.History.Count);
     }
 
     public override void SolveSecondPart()
@@ -26,7 +26,7 @@ public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolu
 
         ComputeCommands(knots[0], knots.Skip(1).ToList(), commands);
 
-        _console.WriteLine(knots.Last().History.Count);
+        Console.WriteLine(knots.Last().History.Count);
     }
 
     private static void ComputeCommands(Knot head, Knot tail, List<Command> commands)
@@ -167,7 +167,7 @@ public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolu
     private List<Command> ReadCommands()
     {
         var commands = new List<Command>();
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             commands.Add(new Command(

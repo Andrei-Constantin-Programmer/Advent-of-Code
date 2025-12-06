@@ -28,7 +28,7 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine($"Password: {password}");
+        Console.WriteLine($"Password: {password}");
     }
 
     public override void SolveSecondPart()
@@ -55,7 +55,7 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
             currentDialPosition = TurnDial(currentDialPosition, rotation);
         }
 
-        _console.WriteLine($"Password: {password}");
+        Console.WriteLine($"Password: {password}");
     }
 
     private static int TurnDial(int dialPosition, Rotation rotation)
@@ -76,7 +76,7 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
     {
         List<Rotation> rotations = [];
 
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         foreach (var line in lines)
         {
             var direction = line[0] switch

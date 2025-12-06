@@ -10,7 +10,7 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        var stringsToHash = _reader
+        var stringsToHash = Reader
             .ReadLines()[0]
             .Split(',', StringSplitOptions.RemoveEmptyEntries);
 
@@ -18,12 +18,12 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
             .Select(Hash)
             .Sum();
 
-        _console.WriteLine(sum);
+        Console.WriteLine(sum);
     }
 
     public override void SolveSecondPart()
     {
-        var steps = _reader
+        var steps = Reader
             .ReadLines()[0]
             .Split(',', StringSplitOptions.RemoveEmptyEntries);
 
@@ -45,7 +45,7 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine(focusingPowerSum);
+        Console.WriteLine(focusingPowerSum);
     }
 
     private static Dictionary<int, List<Lens>> ComputeBoxesFromSteps(string[] steps)

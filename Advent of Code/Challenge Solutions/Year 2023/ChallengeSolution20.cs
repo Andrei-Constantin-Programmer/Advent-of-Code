@@ -25,7 +25,7 @@ public class ChallengeSolution20(IConsole console, ISolutionReader<ChallengeSolu
             totalHighPulses += highPulses;
         }
 
-        _console.WriteLine(totalLowPulses * totalHighPulses);
+        Console.WriteLine(totalLowPulses * totalHighPulses);
     }
 
     public override void SolveSecondPart()
@@ -41,7 +41,7 @@ public class ChallengeSolution20(IConsole console, ISolutionReader<ChallengeSolu
         var inputPresses = FindPressesToHighPulse(broadcaster, rxInput.InputModules.Keys);
 
         var pressesToLowPulseToRx = inputPresses.Values.Aggregate(1L, (aggregator, presses) => aggregator * presses);
-        _console.WriteLine(pressesToLowPulseToRx);
+        Console.WriteLine(pressesToLowPulseToRx);
     }
 
     private static Dictionary<IModule, long> FindPressesToHighPulse(BroadcasterModule broadcaster, IEnumerable<IModule> inputModules)
@@ -146,7 +146,7 @@ public class ChallengeSolution20(IConsole console, ISolutionReader<ChallengeSolu
 
     private List<IModule> ReadModules(out BroadcasterModule broadcaster)
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         List<IModule> modules = new();
         Dictionary<IModule, HashSet<string>> destinations = new();
         foreach (var line in lines)

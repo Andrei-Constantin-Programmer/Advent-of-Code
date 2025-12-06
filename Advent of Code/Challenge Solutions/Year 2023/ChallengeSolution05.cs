@@ -33,7 +33,7 @@ public class ChallengeSolution05 : ChallengeSolution<ChallengeSolution05>
             .Select(MapSeedToLocation)
             .Min();
 
-        _console.WriteLine(minimumLocation);
+        Console.WriteLine(minimumLocation);
     }
 
     public override void SolveSecondPart()
@@ -70,7 +70,7 @@ public class ChallengeSolution05 : ChallengeSolution<ChallengeSolution05>
             .First()
             .Start;
 
-        _console.WriteLine(minimumLocation);
+        Console.WriteLine(minimumLocation);
     }
 
     private long MapSeedToLocation(long seed) => _mappingLists.Aggregate(seed, (value, mappingList) => mappingList.Map(value));
@@ -120,7 +120,7 @@ public class ChallengeSolution05 : ChallengeSolution<ChallengeSolution05>
 
     private List<string> ReadInputLines()
     {
-        var lines = _reader
+        var lines = Reader
             .ReadLines()
             .Where(x => !string.IsNullOrEmpty(x))
             .Select(x => x.Trim())

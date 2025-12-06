@@ -24,7 +24,7 @@ public partial class ChallengeSolution03(IConsole console, ISolutionReader<Chall
             sum += x * y;
         }
 
-        _console.WriteLine($"Multiplication sum: {sum}");
+        Console.WriteLine($"Multiplication sum: {sum}");
     }
 
     public override void SolveSecondPart()
@@ -59,7 +59,7 @@ public partial class ChallengeSolution03(IConsole console, ISolutionReader<Chall
             }
         }
 
-        _console.WriteLine($"Multiplication sum: {sum}");
+        Console.WriteLine($"Multiplication sum: {sum}");
     }
 
     private static (int, int) ConvertMul(string mul)
@@ -76,7 +76,7 @@ public partial class ChallengeSolution03(IConsole console, ISolutionReader<Chall
 
     public string ReadMemory()
     {
-        return string.Join("", _reader.ReadLines());
+        return string.Join("", Reader.ReadLines());
     }
 
     [GeneratedRegex(@"mul\(\d+,\d+\)|do\(\)|don't\(\)")]

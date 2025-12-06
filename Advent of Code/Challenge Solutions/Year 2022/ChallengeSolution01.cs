@@ -10,19 +10,19 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        _console.WriteLine(GetElfCaloriesList().First());
+        Console.WriteLine(GetElfCaloriesList().First());
     }
 
     public override void SolveSecondPart()
     {
-        _console.WriteLine(GetElfCaloriesList().GetRange(0, 3).Sum());
+        Console.WriteLine(GetElfCaloriesList().GetRange(0, 3).Sum());
     }
 
     private List<int> GetElfCaloriesList()
     {
         var elfCalories = new List<int>();
         int currentCaloriesSum = 0;
-        foreach (var line in _reader.ReadLines().Select(line => line.Trim()))
+        foreach (var line in Reader.ReadLines().Select(line => line.Trim()))
         {
             if (line.Length == 0)
             {

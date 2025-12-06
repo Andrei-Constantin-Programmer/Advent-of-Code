@@ -37,7 +37,7 @@ public class ChallengeSolution03 : ChallengeSolution<ChallengeSolution03>
             totalPartNumberSum += ProcessDigitSequence(row, digitSequence);
         }
 
-        _console.WriteLine(totalPartNumberSum);
+        Console.WriteLine(totalPartNumberSum);
     }
 
     public override void SolveSecondPart()
@@ -68,7 +68,7 @@ public class ChallengeSolution03 : ChallengeSolution<ChallengeSolution03>
             .Select(gearPos => gears[gearPos].Aggregate((acc, x) => acc * x))
             .Sum();
 
-        _console.WriteLine(totalGearRatioSum);
+        Console.WriteLine(totalGearRatioSum);
     }
 
     private int ProcessDigitSequence(int row, List<(int index, char character)> digitSequence)
@@ -146,7 +146,7 @@ public class ChallengeSolution03 : ChallengeSolution<ChallengeSolution03>
 
     private char[,] ReadEngineSchematic()
     {
-        string[] lines = _reader.ReadLines();
+        string[] lines = Reader.ReadLines();
 
         char[,] schematic = new char[lines.Length, lines[0].Length];
 

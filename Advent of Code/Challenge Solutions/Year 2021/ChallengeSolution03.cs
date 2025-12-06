@@ -12,7 +12,7 @@ public class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolu
     {
         var bits = Enumerable.Range(0, 12).Select(x => new BitAmmount { }).ToList();
 
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             for (int i = 0; i < line.Length; i++)
                 if (line[i] == '0')
@@ -29,12 +29,12 @@ public class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolu
             epsilon += bit.GetLowestChar();
         }
 
-        _console.WriteLine(Convert.ToInt32(gamma, 2) * Convert.ToInt32(epsilon, 2));
+        Console.WriteLine(Convert.ToInt32(gamma, 2) * Convert.ToInt32(epsilon, 2));
     }
 
     public override void SolveSecondPart()
     {
-        string[] lines = _reader.ReadLines();
+        string[] lines = Reader.ReadLines();
         var O2 = new List<string>(lines);
         var CO2 = new List<string>(lines);
 
@@ -86,7 +86,7 @@ public class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolu
             index++;
         }
 
-        _console.WriteLine(Convert.ToInt32(O2[0], 2) * Convert.ToInt32(CO2[0], 2));
+        Console.WriteLine(Convert.ToInt32(O2[0], 2) * Convert.ToInt32(CO2[0], 2));
     }
 }
 

@@ -24,7 +24,7 @@ public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolu
     {
         var diagram = new int[n, n];
 
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             string[] coordinates = line.Split("->", StringSplitOptions.RemoveEmptyEntries);
             string[] coordinateStart = coordinates[0].Split(",");
@@ -37,7 +37,7 @@ public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolu
             AddToDiagram(diagram, x1, y1, x2, y2, diagonal);
         }
 
-        _console.WriteLine(GetOverlappingPoints(diagram));
+        Console.WriteLine(GetOverlappingPoints(diagram));
     }
 
     private void AddToDiagram(int[,] diagram, int x1, int y1, int x2, int y2, bool diagonal)
@@ -96,12 +96,12 @@ public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolu
         {
             for (int j = 0; j < Math.Sqrt(diagram.Length); j++)
                 if (diagram[i, j] != 0)
-                    _console.Write(diagram[i, j] + " ");
+                    Console.Write(diagram[i, j] + " ");
                 else
-                    _console.Write(". ");
-            _console.WriteLine();
+                    Console.Write(". ");
+            Console.WriteLine();
         }
-        _console.WriteLine();
+        Console.WriteLine();
     }
 
     private int GetOverlappingPoints(int[,] diagram)

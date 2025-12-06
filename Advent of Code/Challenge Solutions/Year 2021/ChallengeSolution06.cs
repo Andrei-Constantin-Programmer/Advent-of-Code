@@ -10,7 +10,7 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        List<int> lanternfish = new List<int>(Array.ConvertAll(_reader.ReadLines()[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
+        List<int> lanternfish = new List<int>(Array.ConvertAll(Reader.ReadLines()[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
 
         int days = 0;
 
@@ -34,13 +34,13 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
             days++;
         }
 
-        _console.WriteLine(lanternfish.Count);
+        Console.WriteLine(lanternfish.Count);
     }
 
     public override void SolveSecondPart()
     {
         long[] fish = new long[9];
-        List<int> initialFish = new List<int>(Array.ConvertAll(_reader.ReadLines()[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
+        List<int> initialFish = new List<int>(Array.ConvertAll(Reader.ReadLines()[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
         foreach (var f in initialFish)
             fish[f]++;
 
@@ -62,6 +62,6 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         foreach (var f in fish)
             sum += f;
 
-        _console.WriteLine(sum);
+        Console.WriteLine(sum);
     }
 }

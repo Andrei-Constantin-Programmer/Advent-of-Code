@@ -20,7 +20,7 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
 
     private void Solution(bool increasingFuel)
     {
-        List<int> initialPositions = new List<int>(Array.ConvertAll(_reader.ReadLines()[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
+        List<int> initialPositions = new List<int>(Array.ConvertAll(Reader.ReadLines()[0].Split(",", StringSplitOptions.RemoveEmptyEntries), int.Parse));
         Dictionary<int, int> fishByPosition = new Dictionary<int, int>();
         foreach (var x in initialPositions)
         {
@@ -48,7 +48,7 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine(minFuel);
+        Console.WriteLine(minFuel);
     }
 
     private int GetUsedFuel(int start, int end)

@@ -32,7 +32,7 @@ public class ChallengeSolution11(IConsole console, ISolutionReader<ChallengeSolu
 
         var finalStoneCount = currentStoneCounts.Values.Sum();
 
-        _console.WriteLine($"Final stone count: {finalStoneCount}");
+        Console.WriteLine($"Final stone count: {finalStoneCount}");
     }
 
     private static Dictionary<long, long> BlinkStones(Dictionary<long, long> stoneCounts)
@@ -92,7 +92,7 @@ public class ChallengeSolution11(IConsole console, ISolutionReader<ChallengeSolu
         return (firstHalf, secondHalf);
     }
 
-    private List<long> ReadStones() => _reader.ReadLines()[0]
+    private List<long> ReadStones() => Reader.ReadLines()[0]
         .Split(' ', StringSplitOptions.RemoveEmptyEntries)
         .Select(long.Parse)
         .ToList();

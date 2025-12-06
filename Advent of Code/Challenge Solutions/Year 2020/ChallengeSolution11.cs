@@ -11,17 +11,17 @@ public class ChallengeSolution11 : ChallengeSolution<ChallengeSolution11>
 
     public ChallengeSolution11(IConsole console, ISolutionReader<ChallengeSolution11> reader) : base(console, reader)
     {
-        lines = _reader.ReadLines();
+        lines = Reader.ReadLines();
     }
 
     public override void SolveFirstPart()
     {
-        new FirstPart(_console, lines).Solution();
+        new FirstPart(Console, lines).Solution();
     }
 
     public override void SolveSecondPart()
     {
-        new SecondPart(_console, lines).Solution();
+        new SecondPart(Console, lines).Solution();
     }
 
     class FirstPart
@@ -137,8 +137,8 @@ public class ChallengeSolution11 : ChallengeSolution<ChallengeSolution11>
                 {
                     if (row[j] == 'L')
                     {
-                        /*_console.Write(i + " " + j+" ");
-                        _console.WriteLine(countNeighbour(i, j, '#'));*/
+                        /*Console.Write(i + " " + j+" ");
+                        Console.WriteLine(countNeighbour(i, j, '#'));*/
                         if (CountNeighbour(i, j, '#') == 0)
                         {
                             changedSeats[i][j] = '#';
@@ -146,7 +146,7 @@ public class ChallengeSolution11 : ChallengeSolution<ChallengeSolution11>
                     }
                     else if (row[j] == '#')
                     {
-                        //_console.WriteLine("#");
+                        //Console.WriteLine("#");
                         if (CountNeighbour(i, j, '#') >= 4)
                             changedSeats[i][j] = 'L';
                     }

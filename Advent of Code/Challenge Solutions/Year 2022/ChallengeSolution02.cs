@@ -10,7 +10,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        _console.WriteLine(
+        Console.WriteLine(
             ReadRockPaperScissorsRounds()
             .Select((round) =>
             {
@@ -21,7 +21,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
 
     public override void SolveSecondPart()
     {
-        _console.WriteLine(
+        Console.WriteLine(
             ReadRockPaperScissorsRounds()
             .Select((round) =>
             {
@@ -33,7 +33,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
     private List<(char, char)> ReadRockPaperScissorsRounds()
     {
         var rounds = new List<(char, char)>();
-        foreach (var line in _reader.ReadLines().Select(line => line.ToUpper()))
+        foreach (var line in Reader.ReadLines().Select(line => line.ToUpper()))
         {
             rounds.Add((line[0], line[2]));
         }

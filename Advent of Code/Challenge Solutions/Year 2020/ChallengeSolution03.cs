@@ -11,19 +11,19 @@ public class ChallengeSolution03 : ChallengeSolution<ChallengeSolution03>
 
     public ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolution03> reader) : base(console, reader)
     {
-        lines = _reader.ReadLines();
+        lines = Reader.ReadLines();
     }
 
     public override void SolveFirstPart()
     {
-        _console.WriteLine(CountTrees(lines));
+        Console.WriteLine(CountTrees(lines));
     }
 
     public override void SolveSecondPart()
     {
         int p = CountTreesDownOne(lines);
         p *= CountTreesDownTwo(lines);
-        _console.WriteLine(p);
+        Console.WriteLine(p);
     }
 
     private static int CountTrees(string[] lines)

@@ -10,18 +10,18 @@ public class ChallengeSolution18(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var corners = GetCornersWithLeftInstructions(lines, out var perimeter);
 
-        _console.WriteLine(GetLavaStorageAmount(corners, perimeter));
+        Console.WriteLine(GetLavaStorageAmount(corners, perimeter));
     }
 
     public override void SolveSecondPart()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var corners = GetCornersWithRightInstructions(lines, out var perimeter);
 
-        _console.WriteLine(GetLavaStorageAmount(corners, perimeter));
+        Console.WriteLine(GetLavaStorageAmount(corners, perimeter));
     }
 
     private static long GetLavaStorageAmount(List<Point> corners, long perimeter)

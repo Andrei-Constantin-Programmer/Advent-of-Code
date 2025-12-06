@@ -11,7 +11,7 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveFirstPart()
     {
         int no = 0;
-        using (TextReader read = _reader.GetInputFile())
+        using (TextReader read = Reader.GetInputFile())
         {
             int prev = Convert.ToInt32(read.ReadLine());
             int x = 0;
@@ -23,12 +23,12 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine(no);
+        Console.WriteLine(no);
     }
 
     public override void SolveSecondPart()
     {
-        List<int> depths = new List<int>(Array.ConvertAll(_reader.ReadLines(), int.Parse));
+        List<int> depths = new List<int>(Array.ConvertAll(Reader.ReadLines(), int.Parse));
         List<int> sums = new List<int>(depths);
         int highestSum = 0;
         for (int i = 0; i < depths.Count; i++)
@@ -46,6 +46,6 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
             if (sums[i] > sums[i - 1])
                 no++;
 
-        _console.WriteLine(no);
+        Console.WriteLine(no);
     }
 }

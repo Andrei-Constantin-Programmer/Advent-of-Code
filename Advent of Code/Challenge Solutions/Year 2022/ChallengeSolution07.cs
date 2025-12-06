@@ -16,7 +16,7 @@ public class ChallengeSolution07 : ChallengeSolution<ChallengeSolution07>
 
     public ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolution07> reader) : base(console, reader)
     {
-        root = new Folder(_console, "/");
+        root = new Folder(Console, "/");
         folders = new List<Folder>() { root };
         ReadFileSystem();
     }
@@ -29,7 +29,7 @@ public class ChallengeSolution07 : ChallengeSolution<ChallengeSolution07>
             .Select(folder => folder.Size < MAX_SIZE ? folder.Size : 0)
             .Sum();
 
-        _console.WriteLine(sum);
+        Console.WriteLine(sum);
     }
 
     public override void SolveSecondPart()
@@ -42,18 +42,18 @@ public class ChallengeSolution07 : ChallengeSolution<ChallengeSolution07>
             var used = root.Size - folder.Size;
             if (AVAILABLE - used >= NEEDED)
             {
-                _console.WriteLine(folder.Size);
+                Console.WriteLine(folder.Size);
                 return;
             }
         }
 
-        _console.WriteLine(root);
+        Console.WriteLine(root);
     }
 
     private void ReadFileSystem()
     {
         var currentFolder = root;
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             if (elements[0] == "$")
@@ -72,14 +72,14 @@ public class ChallengeSolution07 : ChallengeSolution<ChallengeSolution07>
             {
                 if (elements[0] == "dir")
                 {
-                    var newFolder = new Folder(_console, elements[1], currentFolder);
+                    var newFolder = new Folder(Console, elements[1], currentFolder);
                     currentFolder!.AddFile(newFolder);
 
                     folders.Add(newFolder);
                 }
                 else
                 {
-                    currentFolder!.AddFile(new TextFile(_console, elements[1], Convert.ToInt32(elements[0]), currentFolder));
+                    currentFolder!.AddFile(new TextFile(Console, elements[1], Convert.ToInt32(elements[0]), currentFolder));
                 }
             }
         }

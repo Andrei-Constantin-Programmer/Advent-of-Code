@@ -21,14 +21,14 @@ public class ChallengeSolution12 : ChallengeSolution<ChallengeSolution12>
     {
         var distanceMap = CreateMatrix<int>(heightMap.Length, heightMap[0].Length);
 
-        _console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a') + 1));
+        Console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a') + 1));
     }
 
     public override void SolveSecondPart()
     {
         var distanceMap = CreateMatrix<int>(heightMap.Length, heightMap[0].Length);
 
-        _console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a')));
+        Console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a')));
     }
 
     private int ShortestPath(int[][] distanceMap, (int row, int column) position, int toBeReached)
@@ -103,7 +103,7 @@ public class ChallengeSolution12 : ChallengeSolution<ChallengeSolution12>
 
     private int[][] ReadHeightMap()
     {
-        return _reader.ReadLines()
+        return Reader.ReadLines()
             .Select(line => line
                 .ToCharArray()
                 .Select(c =>

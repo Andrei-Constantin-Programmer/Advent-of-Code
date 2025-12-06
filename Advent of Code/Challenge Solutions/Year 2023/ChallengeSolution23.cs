@@ -28,7 +28,7 @@ public class ChallengeSolution23(IConsole console, ISolutionReader<ChallengeSolu
 
         var compactedGraph = CompactGraph(trailGraph, start, end);
 
-        _console.WriteLine(FindLongestTrail(compactedGraph, start, end));
+        Console.WriteLine(FindLongestTrail(compactedGraph, start, end));
     }
 
     private static int FindLongestTrail(Dictionary<Point, Dictionary<Point, int>> graph, Point start, Point end)
@@ -182,7 +182,7 @@ public class ChallengeSolution23(IConsole console, ISolutionReader<ChallengeSolu
 
     private string[] ReadHikingTrails(bool considerSlopes)
     {
-        var hikingTrails = _reader.ReadLines();
+        var hikingTrails = Reader.ReadLines();
 
         if (!considerSlopes)
         {

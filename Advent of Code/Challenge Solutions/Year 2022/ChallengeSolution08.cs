@@ -15,14 +15,14 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
         int perimeter = CalculatePerimeter(grid.Length, grid[0].Length);
         int visibleTrees = GetVisibleTreeCount(grid);
 
-        _console.WriteLine(perimeter + visibleTrees);
+        Console.WriteLine(perimeter + visibleTrees);
     }
 
     public override void SolveSecondPart()
     {
         var grid = ReadTreeGrid();
 
-        _console.WriteLine(GetScenicScores(grid).Max());
+        Console.WriteLine(GetScenicScores(grid).Max());
     }
 
     private static List<int> GetScenicScores(byte[][] grid)
@@ -213,7 +213,7 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
 
     private byte[][] ReadTreeGrid()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var rows = lines.Length;
         var columns = lines[0].Length;
 

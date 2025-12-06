@@ -13,18 +13,18 @@ public class ChallengeSolution11(IConsole console, ISolutionReader<ChallengeSolu
 
     public override void SolveFirstPart()
     {
-        var galaxy = _reader.ReadLines().ToList();
+        var galaxy = Reader.ReadLines().ToList();
         var manhattanDistanceSum = GetManhattanDistanceSum(galaxy, 2);
 
-        _console.WriteLine(manhattanDistanceSum);
+        Console.WriteLine(manhattanDistanceSum);
     }
 
     public override void SolveSecondPart()
     {
-        var galaxy = _reader.ReadLines().ToList();
+        var galaxy = Reader.ReadLines().ToList();
         var manhattanDistanceSum = GetManhattanDistanceSum(galaxy, 1_000_000);
 
-        _console.WriteLine(manhattanDistanceSum);
+        Console.WriteLine(manhattanDistanceSum);
     }
 
     private static long GetManhattanDistanceSum(List<string> galaxy, int expansionRate)

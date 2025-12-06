@@ -15,18 +15,18 @@ public class ChallengeSolution04 : ChallengeSolution<ChallengeSolution04>
 
     public ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolution04> reader) : base(console, reader)
     {
-        text = string.Join(Environment.NewLine, _reader.ReadLines());
+        text = string.Join(Environment.NewLine, Reader.ReadLines());
         passports = text.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
     }
 
     public override void SolveFirstPart()
     {
-        _console.WriteLine(ValidPassports(passports));
+        Console.WriteLine(ValidPassports(passports));
     }
 
     public override void SolveSecondPart()
     {
-        _console.WriteLine(ValidPassportsValidated(passports));
+        Console.WriteLine(ValidPassportsValidated(passports));
     }
 
     private static int ValidPassports(string[] passports)
@@ -74,7 +74,7 @@ public class ChallengeSolution04 : ChallengeSolution<ChallengeSolution04>
                     }
                 }
             }
-            //_console.WriteLine(nr);
+            //Console.WriteLine(nr);
             if (nr <= reqFields.Length - 1)
                 isValid = false;
             if (isValid)

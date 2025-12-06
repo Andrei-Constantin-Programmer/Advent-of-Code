@@ -13,14 +13,14 @@ public class ChallengeSolution11(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveFirstPart()
     {
         var monkeys = ReadMonkeys();
-        _console.WriteLine(FindMonkeyBusiness(monkeys, 20, (x) => x / 3));
+        Console.WriteLine(FindMonkeyBusiness(monkeys, 20, (x) => x / 3));
     }
 
     public override void SolveSecondPart()
     {
         limit = 1;
         var monkeys = ReadMonkeys();
-        _console.WriteLine(FindMonkeyBusiness(monkeys, 10000, (x) => x % limit));
+        Console.WriteLine(FindMonkeyBusiness(monkeys, 10000, (x) => x % limit));
     }
 
     private static long FindMonkeyBusiness(List<Monkey> monkeys, int rounds, Func<long, long> modifier)
@@ -72,7 +72,7 @@ public class ChallengeSolution11(IConsole console, ISolutionReader<ChallengeSolu
         Func<long, long>? currentOperation = null;
         Func<long, int>? currentTest = null;
 
-        using TextReader read = _reader.GetInputFile();
+        using TextReader read = Reader.GetInputFile();
         string? line;
         while (true)
         {

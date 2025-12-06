@@ -66,7 +66,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine($"XMAS Count: {count}");
+        Console.WriteLine($"XMAS Count: {count}");
     }
 
     public override void SolveSecondPart()
@@ -112,10 +112,10 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine($"X-MAS Count: {count}");
+        Console.WriteLine($"X-MAS Count: {count}");
     }
 
-    private string[] ReadWordSearch() => _reader.ReadLines();
+    private string[] ReadWordSearch() => Reader.ReadLines();
 }
 
 internal static class ChallengeSolution04Extensions

@@ -18,7 +18,7 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
 
         var row = IsTesting ? 10 : 2000000;
 
-        _console.WriteLine(GetBlockedPositions(row, pairs).Count);
+        Console.WriteLine(GetBlockedPositions(row, pairs).Count);
     }
 
     public override void SolveSecondPart()
@@ -28,7 +28,7 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
 
         var maximum = IsTesting ? 20 : 4000000;
 
-        _console.WriteLine(GetTuningFrequency(FindDistressBeacon(diamonds, maximum)));
+        Console.WriteLine(GetTuningFrequency(FindDistressBeacon(diamonds, maximum)));
     }
 
     private (long, long) FindDistressBeacon(List<BlockedDiamond> diamonds, long maximum)
@@ -188,7 +188,7 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
     private List<SensorBeaconPair> ReadSensorsAndBeacons()
     {
         var sensorBeaconPairs = new List<SensorBeaconPair>();
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             var values = line
                 .Split(" ", StringSplitOptions.RemoveEmptyEntries)

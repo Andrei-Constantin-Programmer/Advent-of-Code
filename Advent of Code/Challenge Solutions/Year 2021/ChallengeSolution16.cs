@@ -31,7 +31,7 @@ public class ChallengeSolution16(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveFirstPart()
     {
         throw new NotImplementedException();
-        string transmission = _reader.ReadLines()[0];
+        string transmission = Reader.ReadLines()[0];
         string binary = ConvertToBinary(transmission);
     }
 

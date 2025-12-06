@@ -13,7 +13,7 @@ public class ChallengeSolution17(IConsole console, ISolutionReader<ChallengeSolu
         var heatLossMap = ReadHeatLossMap();
         var leastSpillage = FindLeastSpillage(heatLossMap, new(0, 3));
 
-        _console.WriteLine(leastSpillage);
+        Console.WriteLine(leastSpillage);
     }
 
     public override void SolveSecondPart()
@@ -21,7 +21,7 @@ public class ChallengeSolution17(IConsole console, ISolutionReader<ChallengeSolu
         var heatLossMap = ReadHeatLossMap();
         var leastSpillage = FindLeastSpillage(heatLossMap, new(4, 10));
 
-        _console.WriteLine(leastSpillage);
+        Console.WriteLine(leastSpillage);
     }
 
     private static int FindLeastSpillage(byte[,] heatLossMap, Crucible crucible)
@@ -102,7 +102,7 @@ public class ChallengeSolution17(IConsole console, ISolutionReader<ChallengeSolu
 
     private byte[,] ReadHeatLossMap()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var heatLossMap = new byte[lines.Length, lines[0].Length];
 
         for (var row = 0; row < lines.Length; row++)

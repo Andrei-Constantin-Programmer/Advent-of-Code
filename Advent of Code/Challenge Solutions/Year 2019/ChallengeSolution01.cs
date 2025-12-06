@@ -10,14 +10,14 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        _console.WriteLine(ReadModuleMasses()
+        Console.WriteLine(ReadModuleMasses()
             .Select(mass => CalculateFuelForMass(mass))
             .Sum());
     }
 
     public override void SolveSecondPart()
     {
-        _console.WriteLine(ReadModuleMasses()
+        Console.WriteLine(ReadModuleMasses()
             .Select(mass =>
             {
                 var remainingMass = mass;
@@ -42,7 +42,7 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
 
     private List<long> ReadModuleMasses()
     {
-        return _reader
+        return Reader
             .ReadLines()
             .Select(massString => Convert.ToInt64(massString))
             .ToList();

@@ -38,7 +38,7 @@ public class ChallengeSolution17 : ChallengeSolution<ChallengeSolution17>
         }
 
         foreach (var x in stack)
-            _console.WriteLine(x);
+            Console.WriteLine(x);
 
     }
 

@@ -20,7 +20,7 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
 
     private void Solution(int n)
     {
-        string input = string.Join(Environment.NewLine, _reader.ReadLines());
+        string input = string.Join(Environment.NewLine, Reader.ReadLines());
         string[] inputSeparated = input.Split(new string(","), StringSplitOptions.RemoveEmptyEntries);
         var spokenNumbers = new Dictionary<ulong, uint>();
 
@@ -50,6 +50,6 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine(last);
+        Console.WriteLine(last);
     }
 }

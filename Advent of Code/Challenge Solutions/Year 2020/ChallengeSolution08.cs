@@ -12,7 +12,7 @@ public class ChallengeSolution08 : ChallengeSolution<ChallengeSolution08>
 
     public ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolution08> reader) : base(console, reader)
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
 
         foreach (string instruction in lines)
         {
@@ -50,7 +50,7 @@ public class ChallengeSolution08 : ChallengeSolution<ChallengeSolution08>
             }
         }
 
-        _console.WriteLine(accumulator);
+        Console.WriteLine(accumulator);
     }
 
     public override void SolveSecondPart()
@@ -70,7 +70,7 @@ public class ChallengeSolution08 : ChallengeSolution<ChallengeSolution08>
             }
         }
 
-        _console.WriteLine(accumulator);
+        Console.WriteLine(accumulator);
     }
 
 

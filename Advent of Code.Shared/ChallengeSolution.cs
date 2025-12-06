@@ -13,13 +13,13 @@ public abstract class ChallengeSolution
 public abstract class ChallengeSolution<TSolution> : ChallengeSolution
     where TSolution : ChallengeSolution
 {
-    protected readonly IConsole _console;
-    protected readonly ISolutionReader<TSolution> _reader;
+    protected readonly IConsole Console;
+    protected readonly ISolutionReader<TSolution> Reader;
 
     protected ChallengeSolution(IConsole console, ISolutionReader<TSolution> reader)
     {
-        _console = console;
-        _reader = reader;
+        Console = console;
+        Reader = reader;
     }
 
     public override void PrintSolution()
@@ -28,36 +28,36 @@ public abstract class ChallengeSolution<TSolution> : ChallengeSolution
 
         try
         {
-            Console.WriteLine("First part:");
+            System.Console.WriteLine("First part:");
 
             watch.Start();
             SolveFirstPart();
             watch.Stop();
 
-            Console.WriteLine("Time for solving first: " + TimeUtils.GetTimeElapsed(watch));
-            Console.WriteLine();
+            System.Console.WriteLine("Time for solving first: " + TimeUtils.GetTimeElapsed(watch));
+            System.Console.WriteLine();
             try
             {
-                Console.WriteLine("Second part:");
+                System.Console.WriteLine("Second part:");
 
                 watch.Restart();
                 SolveSecondPart();
                 watch.Stop();
 
-                Console.WriteLine("Time for solving second: " + TimeUtils.GetTimeElapsed(watch));
-                Console.WriteLine();
-                Console.WriteLine();
+                System.Console.WriteLine("Time for solving second: " + TimeUtils.GetTimeElapsed(watch));
+                System.Console.WriteLine();
+                System.Console.WriteLine();
             }
             catch (NotImplementedException)
             {
-                Console.WriteLine("The second part of this challenge has not been solved yet.");
-                Console.WriteLine();
+                System.Console.WriteLine("The second part of this challenge has not been solved yet.");
+                System.Console.WriteLine();
             }
         }
         catch (NotImplementedException)
         {
-            Console.WriteLine("The first part of this challenge has not been solved yet.");
-            Console.WriteLine();
+            System.Console.WriteLine("The first part of this challenge has not been solved yet.");
+            System.Console.WriteLine();
         }
     }
 

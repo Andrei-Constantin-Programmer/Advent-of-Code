@@ -11,7 +11,7 @@ public class ChallengeSolution14 : ChallengeSolution<ChallengeSolution14>
 
     public ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolution14> reader) : base(console, reader)
     {
-        lines = _reader.ReadLines();
+        lines = Reader.ReadLines();
     }
 
     public override void SolveFirstPart()
@@ -39,7 +39,7 @@ public class ChallengeSolution14 : ChallengeSolution<ChallengeSolution14>
             if (!String.IsNullOrEmpty(code))
                 if (code.Contains('1'))
                     sum += ToDecimal(code);
-        _console.WriteLine(sum);
+        Console.WriteLine(sum);
     }
 
     public override void SolveSecondPart()
@@ -68,7 +68,7 @@ public class ChallengeSolution14 : ChallengeSolution<ChallengeSolution14>
             {
                 sum2 += ToDecimal(memory2[index]);
             }
-        _console.WriteLine(sum2);
+        Console.WriteLine(sum2);
     }
 
     private static string[] memory;

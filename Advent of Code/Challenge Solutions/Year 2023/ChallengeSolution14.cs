@@ -16,7 +16,7 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
         var platform = ReadPlatform();
         TiltNorth(platform);
 
-        _console.WriteLine(GetTotalLoad(platform));
+        Console.WriteLine(GetTotalLoad(platform));
     }
 
     public override void SolveSecondPart()
@@ -39,7 +39,7 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
         var repeatingCount = cycles.Count - repeatingIndex;
         var billionthCycleIndex = (1_000_000_000 - repeatingIndex) % repeatingCount;
 
-        _console.WriteLine(GetTotalLoad(cycles.ToArray()[repeatingIndex..].ElementAt(billionthCycleIndex)));
+        Console.WriteLine(GetTotalLoad(cycles.ToArray()[repeatingIndex..].ElementAt(billionthCycleIndex)));
     }
 
     private static long GetTotalLoad(char[,] platform)
@@ -169,7 +169,7 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
 
     private char[,] ReadPlatform()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var platform = new char[lines.Length, lines[0].Length];
 
         for (var row = 0; row < lines.Length; row++)

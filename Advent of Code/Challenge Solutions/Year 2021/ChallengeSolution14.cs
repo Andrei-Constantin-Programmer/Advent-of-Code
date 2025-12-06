@@ -34,7 +34,7 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
 
         var sorted = (from entry in appearances orderby entry.Value ascending select entry).ToList();
 
-        _console.WriteLine(sorted[sorted.Count - 1].Value - sorted[0].Value);
+        Console.WriteLine(sorted[sorted.Count - 1].Value - sorted[0].Value);
     }
 
     public override void SolveSecondPart()
@@ -67,7 +67,7 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
         }
 
         var sorted = (from entry in appearances orderby entry.Value ascending select entry).ToList();
-        _console.WriteLine(sorted[sorted.Count - 1].Value - sorted[0].Value);
+        Console.WriteLine(sorted[sorted.Count - 1].Value - sorted[0].Value);
     }
 
     private void AddAppearance(char c, long value)
@@ -97,7 +97,7 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
         insertionRules = new Dictionary<string, char>();
         appearances = new Dictionary<char, long>();
         pairAppearances = new Dictionary<string, long>();
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         polymer = new List<char>(lines[0].ToCharArray());
         foreach (var c in polymer)
         {

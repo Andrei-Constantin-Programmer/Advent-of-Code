@@ -16,18 +16,18 @@ public class ChallengeSolution16(IConsole console, ISolutionReader<ChallengeSolu
 
     public override void SolveFirstPart()
     {
-        var mirrorGrid = _reader.ReadLines().ToList();
+        var mirrorGrid = Reader.ReadLines().ToList();
         var energiseLevel = ComputeEnergiseLevel(mirrorGrid, new(0, 0, Direction.East));
 
-        _console.WriteLine(energiseLevel);
+        Console.WriteLine(energiseLevel);
     }
 
     public override void SolveSecondPart()
     {
-        var mirrorGrid = _reader.ReadLines().ToList();
+        var mirrorGrid = Reader.ReadLines().ToList();
         var maxEnergiseLevel = FindMaximumEnergiseLevel(mirrorGrid);
 
-        _console.WriteLine(maxEnergiseLevel);
+        Console.WriteLine(maxEnergiseLevel);
     }
 
     private static int FindMaximumEnergiseLevel(List<string> mirrorGrid)

@@ -14,7 +14,7 @@ public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolu
 
         OperateMovesCrateMover9000(stacks, moves);
 
-        _console.WriteLine(String.Join("", stacks.Select(stack => stack.Peek())));
+        Console.WriteLine(String.Join("", stacks.Select(stack => stack.Peek())));
     }
 
     public override void SolveSecondPart()
@@ -23,7 +23,7 @@ public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolu
 
         OperateMovesCrateMover9001(stacks, moves);
 
-        _console.WriteLine(String.Join("", stacks.Select(stack => stack.Peek())));
+        Console.WriteLine(String.Join("", stacks.Select(stack => stack.Peek())));
     }
 
     private static void OperateMovesCrateMover9000(List<Stack<char>> stacks, List<MoveOperation> moves)
@@ -59,7 +59,7 @@ public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolu
         var stacks = new List<Stack<char>>();
         var moves = new List<MoveOperation>();
 
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var movesPosition = lines.ToList().IndexOf(string.Empty);
         var stackInput = lines[..movesPosition].ToList();
         stacks = GetStacksFromInput(stackInput);

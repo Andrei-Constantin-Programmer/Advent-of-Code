@@ -69,7 +69,7 @@ public class ChallengeSolution24(IConsole console, ISolutionReader<ChallengeSolu
 
     private char[,] ReadValley()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var valley = new char[lines.Length - 2, lines[0].Length - 2];
 
         for (var row = 1; row < lines.Length - 1; row++)

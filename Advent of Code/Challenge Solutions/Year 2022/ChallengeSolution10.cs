@@ -32,7 +32,7 @@ public class ChallengeSolution10 : ChallengeSolution<ChallengeSolution10>
             RunCommand(cpu, command, AddSignalStrengthIfInteresting);
         }
 
-        _console.WriteLine(sumSignalStrengths);
+        Console.WriteLine(sumSignalStrengths);
     }
 
     public override void SolveSecondPart()
@@ -56,9 +56,9 @@ public class ChallengeSolution10 : ChallengeSolution<ChallengeSolution10>
         {
             for (int j = 0; j < DISPLAY_WIDTH; j++)
             {
-                _console.Write(display[i][j]);
+                Console.Write(display[i][j]);
             }
-            _console.WriteLine();
+            Console.WriteLine();
         }
     }
 
@@ -124,7 +124,7 @@ public class ChallengeSolution10 : ChallengeSolution<ChallengeSolution10>
 
     private string[] ReadCommands()
     {
-        return _reader.ReadLines();
+        return Reader.ReadLines();
     }
 
     private class CPU

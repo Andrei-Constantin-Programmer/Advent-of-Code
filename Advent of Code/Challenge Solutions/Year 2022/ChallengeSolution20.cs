@@ -17,7 +17,7 @@ public class ChallengeSolution20(IConsole console, ISolutionReader<ChallengeSolu
         arrangement = UnmixArrangement(arrangement, 1);
         arrangement = RotateArrangementToZero(arrangement);
 
-        _console.WriteLine(GetGroveCoordinatesSum(arrangement));
+        Console.WriteLine(GetGroveCoordinatesSum(arrangement));
     }
 
     public override void SolveSecondPart()
@@ -29,7 +29,7 @@ public class ChallengeSolution20(IConsole console, ISolutionReader<ChallengeSolu
         arrangement = RotateArrangementToZero(arrangement);
 
 
-        _console.WriteLine(GetGroveCoordinatesSum(arrangement));
+        Console.WriteLine(GetGroveCoordinatesSum(arrangement));
     }
 
     private static List<EncryptedValue> UnmixArrangement(List<EncryptedValue> arrangement, byte timesToUnmix)
@@ -116,7 +116,7 @@ public class ChallengeSolution20(IConsole console, ISolutionReader<ChallengeSolu
 
     private List<EncryptedValue> ReadInitialArrangement()
     {
-        return _reader.ReadLines()
+        return Reader.ReadLines()
             .Select(x => new EncryptedValue(Convert.ToInt16(x)))
             .ToList();
     }

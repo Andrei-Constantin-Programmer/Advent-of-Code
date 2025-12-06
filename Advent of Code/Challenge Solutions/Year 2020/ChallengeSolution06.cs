@@ -13,18 +13,18 @@ public class ChallengeSolution06 : ChallengeSolution<ChallengeSolution06>
 
     public ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolution06> reader) : base(console, reader)
     {
-        string lines = string.Join(Environment.NewLine, _reader.ReadLines());
+        string lines = string.Join(Environment.NewLine, Reader.ReadLines());
         groups = lines.Split(new string[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
     }
 
     public override void SolveFirstPart()
     {
-        _console.WriteLine(GetSum(groups));
+        Console.WriteLine(GetSum(groups));
     }
 
     public override void SolveSecondPart()
     {
-        _console.WriteLine(GetSumAll(groups));
+        Console.WriteLine(GetSumAll(groups));
     }
 
     private static void CleanQuestions()

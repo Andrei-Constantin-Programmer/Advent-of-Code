@@ -19,7 +19,7 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
         ComputeRobotPositions(robots, seconds, out var _);
         var safetyFactor = ComputeSafetyFactor(robots);
 
-        _console.WriteLine($"Safety factor: {safetyFactor}");
+        Console.WriteLine($"Safety factor: {safetyFactor}");
     }
 
     public override void SolveSecondPart()
@@ -29,7 +29,7 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
 
         ComputeRobotPositions(robots, seconds, out var secondWithMinimalSafetyFactor);
 
-        _console.WriteLine($"Seconds to find tree: {secondWithMinimalSafetyFactor}");
+        Console.WriteLine($"Seconds to find tree: {secondWithMinimalSafetyFactor}");
     }
 
     private static void ComputeRobotPositions(List<Robot> robots, int seconds, out int secondWithMinimalSafetyFactor)
@@ -125,7 +125,7 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
     private List<Robot> ReadRobots()
     {
         List<Robot> robots = [];
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
 
         foreach (var line in lines)
         {

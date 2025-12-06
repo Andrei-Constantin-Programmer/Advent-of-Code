@@ -21,7 +21,7 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
                 rightOrderIndexSum += (i + 1);
         }
 
-        _console.WriteLine(rightOrderIndexSum);
+        Console.WriteLine(rightOrderIndexSum);
     }
 
     public override void SolveSecondPart()
@@ -46,7 +46,7 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine(product);
+        Console.WriteLine(product);
     }
 
     private static List<Packet> CreateDividerPackets(int[] values)
@@ -80,7 +80,7 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
 
     private List<(Packet, Packet)> ReadPacketGroups()
     {
-        var lines = string.Join("\n", _reader.ReadLines());
+        var lines = string.Join("\n", Reader.ReadLines());
 
         return lines
             .Split("\n\n", StringSplitOptions.RemoveEmptyEntries)

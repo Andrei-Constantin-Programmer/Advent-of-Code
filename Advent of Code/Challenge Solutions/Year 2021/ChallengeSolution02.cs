@@ -11,7 +11,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveFirstPart()
     {
         int depth = 0, horizontal = 0;
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             string[] command = line.Split(" ");
             int x = Convert.ToInt32(command[1]);
@@ -23,14 +23,14 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
                 depth -= x;
         }
 
-        _console.WriteLine(depth * horizontal);
+        Console.WriteLine(depth * horizontal);
     }
 
     public override void SolveSecondPart()
     {
         int depth = 0, horizontal = 0, aim = 0;
 
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             string[] command = line.Split(" ");
             int x = Convert.ToInt32(command[1]);
@@ -46,6 +46,6 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
         }
 
 
-        _console.WriteLine(depth * horizontal);
+        Console.WriteLine(depth * horizontal);
     }
 }

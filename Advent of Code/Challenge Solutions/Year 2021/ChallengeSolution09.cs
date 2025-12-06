@@ -11,7 +11,7 @@ class ChallengeSolution09 : ChallengeSolution<ChallengeSolution09>
 
     public ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolution09> reader) : base(console, reader)
     {
-        string[] lines = _reader.ReadLines();
+        string[] lines = Reader.ReadLines();
         rows = lines.Length;
         columns = lines[0].Length;
     }
@@ -27,7 +27,7 @@ class ChallengeSolution09 : ChallengeSolution<ChallengeSolution09>
             sum += heightMap[point.Row, point.Column] + 1;
         }
 
-        _console.WriteLine(sum);
+        Console.WriteLine(sum);
     }
 
     public override void SolveSecondPart()
@@ -38,7 +38,7 @@ class ChallengeSolution09 : ChallengeSolution<ChallengeSolution09>
         int basins;
         CreateBasins(heightMap, lowPoints, out basins);
 
-        _console.WriteLine(CalculateBasinSizes(heightMap, basins)
+        Console.WriteLine(CalculateBasinSizes(heightMap, basins)
             .OrderByDescending(x => x)
             .Take(3)
             .Aggregate((x, y) => x * y));
@@ -163,7 +163,7 @@ class ChallengeSolution09 : ChallengeSolution<ChallengeSolution09>
     private int[,] ReadHeightMap()
     {
         var heightMap = new int[rows, columns];
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         for (int i = 0; i < rows; i++)
         {
             char[] heightsAsChar = lines[i].ToCharArray();

@@ -18,7 +18,7 @@ public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolu
         GetCaves();
         FindCaves("start", new List<string>());
 
-        _console.WriteLine(paths);
+        Console.WriteLine(paths);
     }
 
     private void FindCaves(string cave, List<string> prevCaves)
@@ -57,7 +57,7 @@ public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolu
             }
 
 
-        _console.WriteLine(fullPaths.Count);
+        Console.WriteLine(fullPaths.Count);
     }
 
 
@@ -87,7 +87,7 @@ public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolu
     {
         caveConnections = new Dictionary<string, List<string>>();
         smallCaves = new List<string>();
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             string[] caves = line.Split("-", StringSplitOptions.RemoveEmptyEntries);
             if (caveConnections.ContainsKey(caves[0]))

@@ -26,7 +26,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine($"Invalid ID sum: {invalidIdSum}");
+        Console.WriteLine($"Invalid ID sum: {invalidIdSum}");
     }
 
     public override void SolveSecondPart()
@@ -46,7 +46,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine($"Invalid ID sum: {invalidIdSum}");
+        Console.WriteLine($"Invalid ID sum: {invalidIdSum}");
     }
 
     private static bool IsFirstHalfEqualToTheSecondHalf(long number)
@@ -155,7 +155,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
 
     private List<Range> ReadRanges()
     {
-        var input = _reader.ReadLines()[0];
+        var input = Reader.ReadLines()[0];
         var rangeStrings = input.Split(',', StringSplitOptions.TrimEntries);
 
         List<Range> ranges = [];
