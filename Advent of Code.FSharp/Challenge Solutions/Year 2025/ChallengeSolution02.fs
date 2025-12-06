@@ -71,14 +71,14 @@ module ChallengeSolution02 =
                 |> fun (h1, h2) -> h1 = h2
             | _ -> false
             
-        let chunkNumber (number: int64) (sequenceLength: int) : string array =
-            number
-            |> string
-            |> Seq.chunkBySize sequenceLength
-            |> Seq.map System.String
-            |> Seq.toArray
-            
         let isMadeOfRepeatedSequences (number: int64) : bool =
+            let chunkNumber (number: int64) (sequenceLength: int) : string array =
+                number
+                |> string
+                |> Seq.chunkBySize sequenceLength
+                |> Seq.map System.String
+                |> Seq.toArray
+                
             let digits = number |> asDigits
             
             [|1..(digits.Length / 2)|]
@@ -86,32 +86,21 @@ module ChallengeSolution02 =
             |> Array.map (chunkNumber number)
             |> Array.exists (fun chunks -> chunks |> Array.forall (fun chunk -> chunk = chunks[0]))
         
+        let computeInvalidIdSum (isInvalid: int64 -> bool) : int64 =
+            readRanges()
+            |> getSingleSizeRanges
+            |> Array.map (fun range ->
+                [|(range.Start |> int64)..(range.End |> int64)|]
+                |> Array.filter isInvalid
+                |> Array.sum)
+            |> Array.sum
+        
         member _.SolveFirstPart() =
-            let ranges = readRanges()
-                         |> getSingleSizeRanges
-            
-            let invalidIdSum =
-                ranges
-                |> Array.map (fun range ->
-                    [|(range.Start |> int64)..(range.End |> int64)|]
-                    |> Array.filter areHalvesEqual
-                    |> Array.sum)
-                |> Array.sum
-            
+            let invalidIdSum = computeInvalidIdSum areHalvesEqual
             writeLine $"Invalid ID sum: {invalidIdSum}"
 
         member _.SolveSecondPart() : unit =
-            let ranges = readRanges()
-                         |> getSingleSizeRanges
-                         
-            let invalidIdSum =
-                ranges
-                |> Array.map (fun range ->
-                    [|(range.Start |> int64)..(range.End |> int64)|]
-                    |> Array.filter isMadeOfRepeatedSequences
-                    |> Array.sum)
-                |> Array.sum
-
+            let invalidIdSum = computeInvalidIdSum isMadeOfRepeatedSequences
             writeLine $"Invalid ID sum: {invalidIdSum}"
 
     type ChallengeSolution02(console: IConsole, reader: ISolutionReader<ChallengeSolution02>) =
