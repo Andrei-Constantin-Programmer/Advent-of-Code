@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2023/day/1
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -24,20 +25,20 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveFirstPart()
     {
         int calibrationSum = ComputeCalibrationSum(false);
-        _console.WriteLine(calibrationSum);
+        Console.WriteLine(calibrationSum);
     }
 
     public override void SolveSecondPart()
     {
         int calibrationSum = ComputeCalibrationSum(true);
-        _console.WriteLine(calibrationSum);
+        Console.WriteLine(calibrationSum);
     }
 
     private int ComputeCalibrationSum(bool includeWords)
     {
         int calibrationSum = 0;
 
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             calibrationSum += ComputeCalibrationValue(line, includeWords);
         }

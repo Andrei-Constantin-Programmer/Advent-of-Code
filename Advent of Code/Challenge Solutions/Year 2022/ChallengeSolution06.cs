@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2022/day/6
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
@@ -11,14 +12,14 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
     {
         var buffer = ReadDatastreamBuffer();
 
-        _console.WriteLine(FindFirstUniqueBufferPosition(buffer, 4));
+        Console.WriteLine(FindFirstUniqueBufferPosition(buffer, 4));
     }
 
     public override void SolveSecondPart()
     {
         var buffer = ReadDatastreamBuffer();
 
-        _console.WriteLine(FindFirstUniqueBufferPosition(buffer, 14));
+        Console.WriteLine(FindFirstUniqueBufferPosition(buffer, 14));
     }
 
     private static int FindFirstUniqueBufferPosition(string buffer, int bufferSize)
@@ -59,6 +60,6 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
 
     private string ReadDatastreamBuffer()
     {
-        return String.Join(Environment.NewLine, _reader.ReadLines());
+        return String.Join(Environment.NewLine, Reader.ReadLines());
     }
 }

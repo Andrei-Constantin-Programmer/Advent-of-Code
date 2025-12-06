@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2022/day/2
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
@@ -9,7 +10,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        _console.WriteLine(
+        Console.WriteLine(
             ReadRockPaperScissorsRounds()
             .Select((round) =>
             {
@@ -20,7 +21,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
 
     public override void SolveSecondPart()
     {
-        _console.WriteLine(
+        Console.WriteLine(
             ReadRockPaperScissorsRounds()
             .Select((round) =>
             {
@@ -32,7 +33,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
     private List<(char, char)> ReadRockPaperScissorsRounds()
     {
         var rounds = new List<(char, char)>();
-        foreach (var line in _reader.ReadLines().Select(line => line.ToUpper()))
+        foreach (var line in Reader.ReadLines().Select(line => line.ToUpper()))
         {
             rounds.Add((line[0], line[2]));
         }

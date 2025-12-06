@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2024/day/15
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
@@ -30,7 +31,7 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
         PrintMap(warehouseMap);
         var gpsCoordinatesSum = FindBoxGpsCoordinatesSum(warehouseMap);
 
-        _console.WriteLine($"GPS Box Coordinate Sum: {gpsCoordinatesSum}");
+        Console.WriteLine($"GPS Box Coordinate Sum: {gpsCoordinatesSum}");
     }
 
     public override void SolveSecondPart()
@@ -119,19 +120,19 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
         {
             for (var j = 0; j < warehouseMap[i].Length; j++)
             {
-                _console.Write(warehouseMap[i][j]);
+                Console.Write(warehouseMap[i][j]);
             }
 
-            _console.WriteLine();
+            Console.WriteLine();
         }
-        _console.WriteLine();
+        Console.WriteLine();
     }
 
     private static Point Move(Point position, Point directionChange) => new(position.Row + directionChange.Row, position.Col + directionChange.Col);
 
     private (char[][] warehouseMap, List<Direction> directions) ReadWarehouseInformation(out Point robotPosition)
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
 
         List<char[]> warehouseMap = [];
         var separatorLineIndex = -1;

@@ -1,7 +1,8 @@
 ﻿// Task: https://adventofcode.com/2023/day/21
 
-using Advent_of_Code.Utilities;
 using System.Diagnostics;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -26,7 +27,7 @@ public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolu
         var garden = ReadGarden(out var startPlot);
         var latestPlotsReached = FindLastPlotsReached(garden, startPlot, maxSteps, isInfiniteGarden: false);
 
-        _console.WriteLine(latestPlotsReached);
+        Console.WriteLine(latestPlotsReached);
     }
 
     public override void SolveSecondPart()
@@ -41,7 +42,7 @@ public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolu
         var points = GenerateInterpolationPoints(garden, startPlot);
         var latestPlotsReached = (long)LagrangePolynomial(maxSteps, points);
 
-        _console.WriteLine(latestPlotsReached);
+        Console.WriteLine(latestPlotsReached);
     }
 
     private static List<(int x, int y)> GenerateInterpolationPoints(string[] garden, Point startPlot)
@@ -153,7 +154,7 @@ public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolu
 
     private string[] ReadGarden(out Point start)
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         start = new(-1, -1);
 
         for (var row = 0; row < lines.Length && start.Row == -1; row++)

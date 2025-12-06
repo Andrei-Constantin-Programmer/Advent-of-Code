@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2020/day/13
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
@@ -13,7 +14,7 @@ public class ChallengeSolution13 : ChallengeSolution<ChallengeSolution13>
 
     public ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolution13> reader) : base(console, reader)
     {
-        lines = _reader.ReadLines();
+        lines = Reader.ReadLines();
         busesIds = lines[1].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
     }
 
@@ -35,7 +36,7 @@ public class ChallengeSolution13 : ChallengeSolution<ChallengeSolution13>
             i++;
         }
 
-        _console.WriteLine(GetEarliestBus() * (earliestTimestamp - firstTimestamp));
+        Console.WriteLine(GetEarliestBus() * (earliestTimestamp - firstTimestamp));
     }
 
     public override void SolveSecondPart()
@@ -73,7 +74,7 @@ public class ChallengeSolution13 : ChallengeSolution<ChallengeSolution13>
             }
         }
 
-        _console.WriteLine(timestamp);
+        Console.WriteLine(timestamp);
     }
 
     private static int GetEarliestBus()

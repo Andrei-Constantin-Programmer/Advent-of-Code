@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2021/day/15
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
@@ -39,12 +40,12 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
             CalculatePathsFrom(elem.Key, elem.Value);
         }
 
-        _console.WriteLine(pathMatrix[n - 1, n - 1]);
+        Console.WriteLine(pathMatrix[n - 1, n - 1]);
     }
 
     private void ReadMatrix()
     {
-        string[] lines = _reader.ReadLines();
+        string[] lines = Reader.ReadLines();
         n = lines.Length;
         riskMatrix = new int[n, n];
         for (int i = 0; i < n; i++)
@@ -130,8 +131,8 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
         for (int i = 0; i < matrix.GetLength(0); i++)
         {
             for (int j = 0; j < matrix.GetLength(1); j++)
-                _console.Write(matrix[i, j] + " ");
-            _console.WriteLine();
+                Console.Write(matrix[i, j] + " ");
+            Console.WriteLine();
         }
     }
 }

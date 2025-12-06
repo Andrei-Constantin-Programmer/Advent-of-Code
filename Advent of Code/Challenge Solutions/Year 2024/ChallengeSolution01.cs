@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2024/day/1
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
@@ -16,7 +17,7 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
             .Zip(rightList.Order(), (x, y) => Math.Abs(x - y))
             .Sum();
 
-        _console.WriteLine($"Total distance: {totalDistance}");
+        Console.WriteLine($"Total distance: {totalDistance}");
     }
 
     public override void SolveSecondPart()
@@ -26,7 +27,7 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
         var similarityScore = leftList
             .Sum(x => x * rightList.Count(y => y == x));
 
-        _console.WriteLine($"Similarity score: {similarityScore}");
+        Console.WriteLine($"Similarity score: {similarityScore}");
     }
 
     private (List<int>, List<int>) ReadLocationIds()
@@ -36,7 +37,7 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
 
         try
         {
-            foreach (var line in _reader.ReadLines())
+            foreach (var line in Reader.ReadLines())
             {
                 var values = line
                     .Split(' ', StringSplitOptions.RemoveEmptyEntries)

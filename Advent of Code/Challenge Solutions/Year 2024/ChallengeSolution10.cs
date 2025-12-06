@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2024/day/10
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
@@ -16,7 +17,7 @@ public class ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolu
             .Select(trailhead => ComputeScore(topographicMap, trailhead))
             .Sum();
 
-        _console.WriteLine($"Sum of scores: {scoreSum}");
+        Console.WriteLine($"Sum of scores: {scoreSum}");
     }
 
     public override void SolveSecondPart()
@@ -28,7 +29,7 @@ public class ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolu
             .Select(trailhead => ComputeRating(topographicMap, trailhead))
             .Sum();
 
-        _console.WriteLine($"Sum of ratings: {ratingSum}");
+        Console.WriteLine($"Sum of ratings: {ratingSum}");
     }
 
     private static int ComputeRating(byte[][] topographicMap, Point trailhead)
@@ -144,7 +145,7 @@ public class ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolu
         return trailheads;
     }
 
-    private byte[][] ReadTopographicMap() => _reader
+    private byte[][] ReadTopographicMap() => Reader
         .ReadLines()
         .Select(line => line
             .Select(c => (byte)(c - '0'))

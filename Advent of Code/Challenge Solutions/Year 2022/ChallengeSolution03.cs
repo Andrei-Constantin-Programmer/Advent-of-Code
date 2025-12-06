@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2022/day/3
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
@@ -9,7 +10,7 @@ public class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        _console.WriteLine(ReadRucksacks()
+        Console.WriteLine(ReadRucksacks()
             .Select(rucksack => GetItemTypePriority(GetCommonItemType(rucksack)))
             .Sum()
             );
@@ -24,10 +25,10 @@ public class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolu
             sum += GetItemTypePriority(GetCommonItemTypePerGroup(rucksacks[i], rucksacks[i + 1], rucksacks[i + 2]));
         }
 
-        _console.WriteLine(sum);
+        Console.WriteLine(sum);
     }
 
-    private string[] ReadRucksacks() => _reader.ReadLines();
+    private string[] ReadRucksacks() => Reader.ReadLines();
 
     private static char GetCommonItemType(string rucksack)
     {

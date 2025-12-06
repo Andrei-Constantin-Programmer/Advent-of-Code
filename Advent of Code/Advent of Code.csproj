@@ -15,9 +15,15 @@
   </Target>
 
   <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Advent of Code.FSharp\Advent of Code.FSharp.fsproj" />
+    <ProjectReference Include="..\Advent of Code.Shared\Advent of Code.Shared.csproj" />
   </ItemGroup>
 </Project>

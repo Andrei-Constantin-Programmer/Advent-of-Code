@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2020/day/15
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
@@ -19,7 +20,7 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
 
     private void Solution(int n)
     {
-        string input = string.Join(Environment.NewLine, _reader.ReadLines());
+        string input = string.Join(Environment.NewLine, Reader.ReadLines());
         string[] inputSeparated = input.Split(new string(","), StringSplitOptions.RemoveEmptyEntries);
         var spokenNumbers = new Dictionary<ulong, uint>();
 
@@ -49,6 +50,6 @@ public class ChallengeSolution15(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine(last);
+        Console.WriteLine(last);
     }
 }

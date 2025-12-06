@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2019/day/2
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2019;
 
@@ -10,7 +11,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveFirstPart()
     {
         var opCodes = ReadOpCodes();
-        _console.WriteLine(ResultForOpCodeCalculation(opCodes, 12, 2));
+        Console.WriteLine(ResultForOpCodeCalculation(opCodes, 12, 2));
     }
 
     public override void SolveSecondPart()
@@ -24,7 +25,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
 
                 if (result == 19_690_720)
                 {
-                    _console.WriteLine(100 * noun + verb);
+                    Console.WriteLine(100 * noun + verb);
                     return;
                 }
             }
@@ -56,7 +57,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
 
     private long[] ReadOpCodes()
     {
-        return string.Join(",", _reader.ReadLines())
+        return string.Join(",", Reader.ReadLines())
             .Split(",", StringSplitOptions.RemoveEmptyEntries)
             .Select(stringValue => Convert.ToInt64(stringValue))
             .ToArray();

@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2020/day/7
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
@@ -9,12 +10,12 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        new FirstPart(_console).Solution(_reader.ReadLines());
+        new FirstPart(Console).Solution(Reader.ReadLines());
     }
 
     public override void SolveSecondPart()
     {
-        new SecondPart(_console).Solution(_reader.ReadLines());
+        new SecondPart(Console).Solution(Reader.ReadLines());
     }
 
     class FirstPart(IConsole console)

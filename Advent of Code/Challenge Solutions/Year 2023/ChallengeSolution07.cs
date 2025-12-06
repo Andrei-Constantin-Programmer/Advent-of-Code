@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2023/day/7
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -9,12 +10,12 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        _console.WriteLine(GetTotalWinnings(false));
+        Console.WriteLine(GetTotalWinnings(false));
     }
 
     public override void SolveSecondPart()
     {
-        _console.WriteLine(GetTotalWinnings(true));
+        Console.WriteLine(GetTotalWinnings(true));
     }
 
     private int GetTotalWinnings(bool includeJokers)
@@ -38,7 +39,7 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
     {
         List<Hand> hands = new();
 
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             var elements = line.Split(' ');
             var cards = elements[0]

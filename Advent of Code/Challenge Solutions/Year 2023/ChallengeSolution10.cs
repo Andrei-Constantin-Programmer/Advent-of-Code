@@ -1,8 +1,8 @@
 ﻿// Task: https://adventofcode.com/2023/day/10
 
-using Advent_of_Code.Utilities;
-using System.Data;
 using System.Text.RegularExpressions;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -11,16 +11,16 @@ public class ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var grid = GetInputGrid(lines);
         var startTile = GetStartTile(grid, out var _);
 
-        _console.WriteLine(ComputeStepsToFarthestElement(startTile));
+        Console.WriteLine(ComputeStepsToFarthestElement(startTile));
     }
 
     public override void SolveSecondPart()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var tileGrid = GetInputGrid(lines);
         var startTile = GetStartTile(tileGrid, out var startPosition);
         var knotGrid = ConvertTileGridToKnotGrid(lines, tileGrid, startPosition);
@@ -28,7 +28,7 @@ public class ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolu
 
         var enclosedTiles = FindEnclosedTileCount(knotGrid);
 
-        _console.WriteLine(enclosedTiles);
+        Console.WriteLine(enclosedTiles);
     }
 
     private static int FindEnclosedTileCount(char[,] knotGrid)

@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2025/day/4
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2025;
 
@@ -28,7 +29,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine($"Reachable paper rolls: {reachablePaperRolls}");
+        Console.WriteLine($"Reachable paper rolls: {reachablePaperRolls}");
     }
 
     public override void SolveSecondPart()
@@ -63,7 +64,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
             removedPaperRolls += rollsToRemove.Count;
         }
 
-        _console.WriteLine($"Removed paper rolls: {removedPaperRolls}");
+        Console.WriteLine($"Removed paper rolls: {removedPaperRolls}");
     }
 
     private static bool IsAccessiblePaperRollPosition(char[][] grid, int row, int col)
@@ -103,7 +104,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
         }
     }
 
-    private char[][] ReadGrid() => _reader
+    private char[][] ReadGrid() => Reader
         .ReadLines()
         .Select(line => line.ToCharArray())
         .ToArray();

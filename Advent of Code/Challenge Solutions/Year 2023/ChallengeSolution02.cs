@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2023/day/2
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -15,7 +16,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
     {
         int totalIdSum = 0;
 
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             Game game = ReadGameFromInputLine(line);
 
@@ -27,14 +28,14 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine(totalIdSum);
+        Console.WriteLine(totalIdSum);
     }
 
     public override void SolveSecondPart()
     {
         long totalPowerSum = 0;
 
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             Game game = ReadGameFromInputLine(line);
 
@@ -47,7 +48,7 @@ public class ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolu
             totalPowerSum += minimumSetPower;
         }
 
-        _console.WriteLine(totalPowerSum);
+        Console.WriteLine(totalPowerSum);
     }
 
     private static bool CubeGroupIsPossible(CubeGroup cubeGroup) => cubeGroup.Color switch

@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2023/day/22
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -9,14 +10,14 @@ public class ChallengeSolution22(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        _console.WriteLine(
+        Console.WriteLine(
             ReadToppledCounts()
             .Count(toppleCount => toppleCount == 0));
     }
 
     public override void SolveSecondPart()
     {
-        _console.WriteLine(
+        Console.WriteLine(
             ReadToppledCounts()
             .Sum());
     }
@@ -121,7 +122,7 @@ public class ChallengeSolution22(IConsole console, ISolutionReader<ChallengeSolu
 
     private List<Brick> ReadBricks()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         List<Brick> bricks = new();
 
         foreach (var line in lines)

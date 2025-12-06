@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2024/day/13
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
@@ -16,7 +17,7 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
         var machines = ReadMachines();
         var totalTokens = ComputeTotalTokens(machines, limitPresses: true);
 
-        _console.WriteLine($"Tokens: {totalTokens}");
+        Console.WriteLine($"Tokens: {totalTokens}");
     }
 
     public override void SolveSecondPart()
@@ -26,7 +27,7 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
         var machines = ReadMachines(prizeAddition);
         var totalTokens = ComputeTotalTokens(machines, limitPresses: false);
 
-        _console.WriteLine($"Tokens: {totalTokens}");
+        Console.WriteLine($"Tokens: {totalTokens}");
     }
 
     private static long ComputeTotalTokens(List<Machine> machines, bool limitPresses)
@@ -80,7 +81,7 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
     private List<Machine> ReadMachines(long prizeAddition = 0)
     {
         List<Machine> machines = [];
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
 
         for (var i = 0; i < lines.Length; i++)
         {

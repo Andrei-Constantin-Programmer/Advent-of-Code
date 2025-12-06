@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2024/day/8
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
@@ -14,7 +15,7 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
         var antennas = ReadAntennaPositions(out var maxIndex);
         var antinodes = ComputeAntinodes(antennas, maxIndex);
 
-        _console.WriteLine($"Antinodes: {antinodes.Count}");
+        Console.WriteLine($"Antinodes: {antinodes.Count}");
     }
 
     public override void SolveSecondPart()
@@ -26,7 +27,7 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
         allAntinodes
             .UnionWith(antennas.Select(antenna => antenna.Point));
 
-        _console.WriteLine($"Antinodes: {allAntinodes.Count}");
+        Console.WriteLine($"Antinodes: {allAntinodes.Count}");
     }
 
     private static List<Point> ComputeAllColinearAntinodes(List<Antenna> antennas, int maxIndex)
@@ -134,7 +135,7 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
         return antennaPositions;
     }
 
-    private string[] ReadMap() => _reader.ReadLines();
+    private string[] ReadMap() => Reader.ReadLines();
 
     private record struct Antenna(Point Point, char Frequency);
 

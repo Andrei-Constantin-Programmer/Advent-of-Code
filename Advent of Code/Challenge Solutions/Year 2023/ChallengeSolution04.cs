@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2023/day/4
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -11,7 +12,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
     {
         double totalPointsSum = 0;
 
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             var winningGameNumberCount = GetCard(line).MatchingValues;
 
@@ -24,12 +25,12 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
             totalPointsSum += pointValue;
         }
 
-        _console.WriteLine(totalPointsSum);
+        Console.WriteLine(totalPointsSum);
     }
 
     public override void SolveSecondPart()
     {
-        var cards = _reader.ReadLines().Select(GetCard).ToList();
+        var cards = Reader.ReadLines().Select(GetCard).ToList();
 
         Queue<Card> cardQueue = new(cards);
         int cardCount = 0;
@@ -50,7 +51,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine(cardCount);
+        Console.WriteLine(cardCount);
     }
 
     private static Card GetCard(string cardLine)

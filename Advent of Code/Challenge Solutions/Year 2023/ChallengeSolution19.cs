@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2023/day/19
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -23,7 +24,7 @@ public class ChallengeSolution19(IConsole console, ISolutionReader<ChallengeSolu
         var ratingNumberSum = parts
             .Where(part => GetAcceptance(part, startWorkflow, workflows) == ACCEPTED)
             .Sum(part => part.Xmas);
-        _console.WriteLine(ratingNumberSum);
+        Console.WriteLine(ratingNumberSum);
     }
 
     public override void SolveSecondPart()
@@ -33,7 +34,7 @@ public class ChallengeSolution19(IConsole console, ISolutionReader<ChallengeSolu
 
         var ranges = GetFittingRanges(startWorkflow, workflows);
         var possibleCombinations = ranges.Sum(range => range.CombinationCount);
-        _console.WriteLine(possibleCombinations);
+        Console.WriteLine(possibleCombinations);
     }
 
     private static List<RatingRange> GetFittingRanges(Workflow workflow, List<Workflow> workflows)
@@ -159,7 +160,7 @@ public class ChallengeSolution19(IConsole console, ISolutionReader<ChallengeSolu
 
     private (List<Workflow> workflows, List<Part> parts) ReadInput()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var workflowLines = lines
             .TakeWhile(line => !string.IsNullOrWhiteSpace(line))
             .ToList();

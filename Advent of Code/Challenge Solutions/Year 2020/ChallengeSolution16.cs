@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2020/day/16
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
@@ -18,7 +19,7 @@ public class ChallengeSolution16 : ChallengeSolution<ChallengeSolution16>
 
     public ChallengeSolution16(IConsole console, ISolutionReader<ChallengeSolution16> reader) : base(console, reader)
     {
-        string[] lines = _reader.ReadLines();
+        string[] lines = Reader.ReadLines();
 
         int nearbyTicketsPos = 0;
 
@@ -76,7 +77,7 @@ public class ChallengeSolution16 : ChallengeSolution<ChallengeSolution16>
                 if (!valid)
                     sum += field;
             }
-        _console.WriteLine(sum);
+        Console.WriteLine(sum);
     }
 
     public override void SolveSecondPart()
@@ -102,8 +103,8 @@ public class ChallengeSolution16 : ChallengeSolution<ChallengeSolution16>
         foreach (Ticket validTicket in validTickets)
         {
             foreach (int field in validTicket.fields)
-                _console.Write(field + " ");
-            _console.WriteLine();
+                Console.Write(field + " ");
+            Console.WriteLine();
         }
     }
 

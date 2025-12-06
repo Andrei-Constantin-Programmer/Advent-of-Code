@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2021/day/13
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
@@ -14,7 +15,7 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
     {
         var points = new List<Point>();
 
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var foldPosition = lines.ToList().IndexOf(string.Empty);
         var pointLines = lines[..foldPosition];
         var foldLines = lines[(foldPosition + 1)..];
@@ -37,13 +38,13 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
                 if (matrix[i, j] == '#')
                     dots++;
 
-        _console.WriteLine(dots);
+        Console.WriteLine(dots);
     }
 
     public override void SolveSecondPart()
     {
         var points = new List<Point>();
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var foldPosition = lines.ToList().IndexOf(string.Empty);
         var pointLines = lines[..foldPosition];
         var foldLines = lines[(foldPosition + 1)..];
@@ -70,7 +71,7 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
                 l += matrix[i, j] == '.' ? " " : "#" + "";
             }
 
-            _console.WriteLine(l);
+            Console.WriteLine(l);
         }
     }
 
@@ -144,10 +145,10 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
         for (int i = 0; i < n; i++)
         {
             for (int j = 0; j < m; j++)
-                _console.Write(matrix[i, j]);
-            _console.WriteLine();
+                Console.Write(matrix[i, j]);
+            Console.WriteLine();
         }
-        _console.WriteLine();
+        Console.WriteLine();
     }
 }
 

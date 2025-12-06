@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2024/day/9
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
@@ -17,7 +18,7 @@ public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolu
         CompactBlocks(blocks);
         var checksum = ComputeChecksum(blocks);
 
-        _console.WriteLine($"Checksum: {checksum}");
+        Console.WriteLine($"Checksum: {checksum}");
     }
 
     public override void SolveSecondPart()
@@ -28,7 +29,7 @@ public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolu
         CompactBlocksByFile(blocks, out var lastMemoryBlockEnd);
         var checksum = ComputeChecksum(blocks, lastMemoryBlockEnd + 1);
 
-        _console.WriteLine($"Checksum: {checksum}");
+        Console.WriteLine($"Checksum: {checksum}");
     }
 
     private static long ComputeChecksum(int[] blocks, int end = 0)
@@ -191,7 +192,7 @@ public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolu
         }
     }
 
-    private byte[] ReadDiskMap() => _reader
+    private byte[] ReadDiskMap() => Reader
         .ReadLines()[0]
         .Select(c => (byte)(c - '0'))
         .ToArray();

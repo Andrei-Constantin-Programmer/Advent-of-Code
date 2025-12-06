@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2023/day/18
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -9,18 +10,18 @@ public class ChallengeSolution18(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var corners = GetCornersWithLeftInstructions(lines, out var perimeter);
 
-        _console.WriteLine(GetLavaStorageAmount(corners, perimeter));
+        Console.WriteLine(GetLavaStorageAmount(corners, perimeter));
     }
 
     public override void SolveSecondPart()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var corners = GetCornersWithRightInstructions(lines, out var perimeter);
 
-        _console.WriteLine(GetLavaStorageAmount(corners, perimeter));
+        Console.WriteLine(GetLavaStorageAmount(corners, perimeter));
     }
 
     private static long GetLavaStorageAmount(List<Point> corners, long perimeter)

@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2024/day/7
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
@@ -13,7 +14,7 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
 
         var totalCalibrationResult = CalculateTotalCalibrationResult(equations);
 
-        _console.WriteLine($"Total Calibration Result: {totalCalibrationResult}");
+        Console.WriteLine($"Total Calibration Result: {totalCalibrationResult}");
     }
 
     public override void SolveSecondPart()
@@ -22,7 +23,7 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
 
         var totalCalibrationResult = CalculateTotalCalibrationResult(equations, true);
 
-        _console.WriteLine($"Total Calibration Result: {totalCalibrationResult}");
+        Console.WriteLine($"Total Calibration Result: {totalCalibrationResult}");
     }
 
     private static long CalculateTotalCalibrationResult(List<Equation> equations, bool allowConcatenation = false)
@@ -105,7 +106,7 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
     {
         var equations = new List<Equation>();
 
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             var parts = line.Split(": ");
             var result = long.Parse(parts[0]);

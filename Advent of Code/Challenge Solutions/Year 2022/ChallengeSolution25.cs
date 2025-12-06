@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2022/day/25
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
@@ -18,19 +19,19 @@ public class ChallengeSolution25 : ChallengeSolution<ChallengeSolution25>
     {
         var fuelRequirementsSum = fuelRequirements.Sum();
 
-        _console.WriteLine(fuelRequirementsSum);
-        _console.WriteLine(DecimalToSnafu(fuelRequirementsSum));
+        Console.WriteLine(fuelRequirementsSum);
+        Console.WriteLine(DecimalToSnafu(fuelRequirementsSum));
     }
 
     public override void SolveSecondPart()
     {
-        _console.WriteLine("There is no second part to this challenge!");
+        Console.WriteLine("There is no second part to this challenge!");
     }
 
     private List<long> ReadFuelRequirements()
     {
         var fuelRequirements = new List<long>();
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             fuelRequirements.Add(SnafuToDecimal(line));
         }

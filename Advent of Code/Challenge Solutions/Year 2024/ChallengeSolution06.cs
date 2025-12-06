@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2024/day/6
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 using static Advent_of_Code.Challenge_Solutions.Year_2024.ChallengeSolution06;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
@@ -19,7 +20,7 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         var visitedRanges = GetVisitedPositionRanges(map, currentPosition, walls);
         HashSet<Point> points = GetVisitedPositions(visitedRanges);
 
-        _console.WriteLine($"Guard patrolled: {points.Count}");
+        Console.WriteLine($"Guard patrolled: {points.Count}");
     }
 
     public override void SolveSecondPart()
@@ -41,7 +42,7 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine($"Possible obstructions: {count}");
+        Console.WriteLine($"Possible obstructions: {count}");
     }
 
     private static bool IsLooping((Point point, Direction direction) currentPosition, HashSet<Point> walls, Point obstruction)
@@ -237,7 +238,7 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
 
     private string[] ReadMap()
     {
-        return _reader.ReadLines();
+        return Reader.ReadLines();
     }
 }
 

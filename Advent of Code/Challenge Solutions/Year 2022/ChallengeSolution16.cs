@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2022/day/16
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
@@ -17,7 +18,7 @@ public class ChallengeSolution16 : ChallengeSolution<ChallengeSolution16>
     {
         throw new NotImplementedException();
 
-        _console.WriteLine(GetMaximumPressure(adjacentValves.Keys.First(), 30, 0));
+        Console.WriteLine(GetMaximumPressure(adjacentValves.Keys.First(), 30, 0));
     }
 
     private int GetMaximumPressure(Valve valve, int minutes, int accumulatedPressure)
@@ -25,7 +26,7 @@ public class ChallengeSolution16 : ChallengeSolution<ChallengeSolution16>
         if (minutes <= 0)
             return 0;
 
-        _console.WriteLine(valve.Label);
+        Console.WriteLine(valve.Label);
 
         int maximumPressure = 0;
         foreach (var v in adjacentValves[valve])
@@ -38,7 +39,7 @@ public class ChallengeSolution16 : ChallengeSolution<ChallengeSolution16>
                 maximumPressure = pressure;
         }
 
-        _console.WriteLine(maximumPressure);
+        Console.WriteLine(maximumPressure);
 
         return accumulatedPressure + maximumPressure;
     }
@@ -53,7 +54,7 @@ public class ChallengeSolution16 : ChallengeSolution<ChallengeSolution16>
         var valves = new List<Valve>();
         var valveNeighbours = new Dictionary<Valve, string[]>();
 
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             var elements = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             var valveLabel = elements[1];

@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2024/day/11
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
@@ -31,7 +32,7 @@ public class ChallengeSolution11(IConsole console, ISolutionReader<ChallengeSolu
 
         var finalStoneCount = currentStoneCounts.Values.Sum();
 
-        _console.WriteLine($"Final stone count: {finalStoneCount}");
+        Console.WriteLine($"Final stone count: {finalStoneCount}");
     }
 
     private static Dictionary<long, long> BlinkStones(Dictionary<long, long> stoneCounts)
@@ -91,7 +92,7 @@ public class ChallengeSolution11(IConsole console, ISolutionReader<ChallengeSolu
         return (firstHalf, secondHalf);
     }
 
-    private List<long> ReadStones() => _reader.ReadLines()[0]
+    private List<long> ReadStones() => Reader.ReadLines()[0]
         .Split(' ', StringSplitOptions.RemoveEmptyEntries)
         .Select(long.Parse)
         .ToList();

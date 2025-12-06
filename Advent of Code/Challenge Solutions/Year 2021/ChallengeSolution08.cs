@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2021/day/8
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
@@ -17,7 +18,7 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
         var uniqueSegmentsDigits = new List<byte>() { 1, 4, 7, 8 };
 
         int no = 0;
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             string[] parts = line.Split("|", StringSplitOptions.RemoveEmptyEntries);
 
@@ -30,13 +31,13 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine(no);
+        Console.WriteLine(no);
     }
 
     public override void SolveSecondPart()
     {
         int sum = 0;
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             string[] parts = line.Split("|", StringSplitOptions.RemoveEmptyEntries);
             string[] wiring = parts[0].Split(" ", StringSplitOptions.RemoveEmptyEntries);
@@ -64,7 +65,7 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
             sum += number;
         }
 
-        _console.WriteLine(sum);
+        Console.WriteLine(sum);
     }
 
     private Dictionary<char, char> GetPositionsByChar(string[] wiring)

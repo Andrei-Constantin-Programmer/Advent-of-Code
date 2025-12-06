@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2023/day/25
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -15,7 +16,7 @@ public class ChallengeSolution25(IConsole console, ISolutionReader<ChallengeSolu
 
         //var (subgraphSize1, subgraphSize2) = GetPartialGraphSizesAfterDivision(graph);
 
-        //_console.WriteLine(subgraphSize1 * subgraphSize2);
+        //Console.WriteLine(subgraphSize1 * subgraphSize2);
     }
 
     public override void SolveSecondPart()
@@ -27,7 +28,7 @@ public class ChallengeSolution25(IConsole console, ISolutionReader<ChallengeSolu
     {
         Dictionary<string, HashSet<string>> graph = new();
 
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         foreach (var line in lines)
         {
             var elements = line.Split(": ");

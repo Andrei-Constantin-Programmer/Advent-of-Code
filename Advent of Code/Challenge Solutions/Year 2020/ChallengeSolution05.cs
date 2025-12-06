@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2020/day/5
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
@@ -11,7 +12,7 @@ public class ChallengeSolution05 : ChallengeSolution<ChallengeSolution05>
 
     public ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolution05> reader) : base(console, reader)
     {
-        seats = _reader.ReadLines();
+        seats = Reader.ReadLines();
     }
 
     public override void SolveFirstPart()
@@ -19,7 +20,7 @@ public class ChallengeSolution05 : ChallengeSolution<ChallengeSolution05>
         string[] mySeats = new string[seats.Length];
         seats.CopyTo(mySeats, 0);
         FillPlane(mySeats);
-        _console.WriteLine(GetHighestID(mySeats));
+        Console.WriteLine(GetHighestID(mySeats));
     }
 
     public override void SolveSecondPart()
@@ -38,7 +39,7 @@ public class ChallengeSolution05 : ChallengeSolution<ChallengeSolution05>
             }
         }
 
-        _console.WriteLine("Look in file /resources/output/2020_5.txt");
+        Console.WriteLine("Look in file /resources/output/2020_5.txt");
     }
 
     private static int GetCorrect(string searchString, char lowChar, int low, int high)

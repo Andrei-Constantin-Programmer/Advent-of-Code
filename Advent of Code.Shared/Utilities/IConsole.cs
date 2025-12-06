@@ -1,4 +1,4 @@
-﻿namespace Advent_of_Code.Utilities;
+﻿namespace Advent_of_Code.Shared.Utilities;
 
 public interface IConsole
 {

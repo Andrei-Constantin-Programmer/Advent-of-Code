@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2024/day/14
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
@@ -18,7 +19,7 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
         ComputeRobotPositions(robots, seconds, out var _);
         var safetyFactor = ComputeSafetyFactor(robots);
 
-        _console.WriteLine($"Safety factor: {safetyFactor}");
+        Console.WriteLine($"Safety factor: {safetyFactor}");
     }
 
     public override void SolveSecondPart()
@@ -28,7 +29,7 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
 
         ComputeRobotPositions(robots, seconds, out var secondWithMinimalSafetyFactor);
 
-        _console.WriteLine($"Seconds to find tree: {secondWithMinimalSafetyFactor}");
+        Console.WriteLine($"Seconds to find tree: {secondWithMinimalSafetyFactor}");
     }
 
     private static void ComputeRobotPositions(List<Robot> robots, int seconds, out int secondWithMinimalSafetyFactor)
@@ -124,7 +125,7 @@ public class ChallengeSolution14(IConsole console, ISolutionReader<ChallengeSolu
     private List<Robot> ReadRobots()
     {
         List<Robot> robots = [];
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
 
         foreach (var line in lines)
         {

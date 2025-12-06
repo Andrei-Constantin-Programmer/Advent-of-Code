@@ -1,7 +1,8 @@
 ﻿// Task: https://adventofcode.com/2023/day/13
 
-using Advent_of_Code.Utilities;
 using System.Text;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -11,13 +12,13 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveFirstPart()
     {
         var patterns = ReadPatterns();
-        _console.WriteLine(GetNoteSummary(patterns));
+        Console.WriteLine(GetNoteSummary(patterns));
     }
 
     public override void SolveSecondPart()
     {
         var patterns = ReadPatterns();
-        _console.WriteLine(GetNoteSummary(patterns, includeSmudge: true));
+        Console.WriteLine(GetNoteSummary(patterns, includeSmudge: true));
     }
 
     private static int GetNoteSummary(List<string[]> patterns, bool includeSmudge = false)
@@ -102,7 +103,7 @@ public class ChallengeSolution13(IConsole console, ISolutionReader<ChallengeSolu
 
     private List<string[]> ReadPatterns()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         List<string[]> patterns = new();
         var emptySpaceIndexes = lines
             .Select((line, index) => new { line, index })

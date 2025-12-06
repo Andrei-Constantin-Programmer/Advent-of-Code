@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2021/day/16
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
@@ -30,7 +31,7 @@ public class ChallengeSolution16(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveFirstPart()
     {
         throw new NotImplementedException();
-        string transmission = _reader.ReadLines()[0];
+        string transmission = Reader.ReadLines()[0];
         string binary = ConvertToBinary(transmission);
     }
 

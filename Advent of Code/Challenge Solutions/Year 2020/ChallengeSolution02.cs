@@ -1,7 +1,8 @@
 ﻿// Task: https://adventofcode.com/2020/day/2
 
-using Advent_of_Code.Utilities;
 using System.Text;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
@@ -11,7 +12,7 @@ public class ChallengeSolution02 : ChallengeSolution<ChallengeSolution02>
 
     public ChallengeSolution02(IConsole console, ISolutionReader<ChallengeSolution02> reader) : base(console, reader)
     {
-        lines = _reader.ReadLines();
+        lines = Reader.ReadLines();
     }
 
     public override void SolveFirstPart()
@@ -39,7 +40,7 @@ public class ChallengeSolution02 : ChallengeSolution<ChallengeSolution02>
                 no++;
         }
 
-        _console.WriteLine(no);
+        Console.WriteLine(no);
     }
 
     public override void SolveSecondPart()
@@ -61,7 +62,7 @@ public class ChallengeSolution02 : ChallengeSolution<ChallengeSolution02>
                 no++;
         }
 
-        _console.WriteLine(no);
+        Console.WriteLine(no);
     }
 
     private static int NumberOfDigits(int x)

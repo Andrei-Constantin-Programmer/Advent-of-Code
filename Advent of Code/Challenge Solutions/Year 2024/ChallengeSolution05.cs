@@ -1,7 +1,7 @@
 ﻿// Task: https://adventofcode.com/2024/day/5
 
-using Advent_of_Code.Utilities;
-using System.Data;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2024;
 
@@ -34,7 +34,7 @@ public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine($"Correct updates's middle page number sum: {middlePageNumberSum}");
+        Console.WriteLine($"Correct updates's middle page number sum: {middlePageNumberSum}");
     }
 
     public override void SolveSecondPart()
@@ -57,7 +57,7 @@ public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine($"Correct updates's middle page number sum: {middlePageNumberSum}");
+        Console.WriteLine($"Correct updates's middle page number sum: {middlePageNumberSum}");
     }
 
     private static Dictionary<int, int> ComputePageNumberPriorities(Dictionary<int, List<int>> rules, int[] update)
@@ -92,7 +92,7 @@ public class ChallengeSolution05(IConsole console, ISolutionReader<ChallengeSolu
 
     private (Dictionary<int, List<int>> rules, List<int[]> updates) ReadPrinterInformation()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var emptyLineIndex = Array.FindIndex(lines, string.IsNullOrEmpty);
         var (rulesSection, updatesSection) = (lines.Take(emptyLineIndex).ToArray(), lines.Skip(emptyLineIndex + 1).ToArray());
 

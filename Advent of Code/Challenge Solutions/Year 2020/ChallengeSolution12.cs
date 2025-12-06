@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2020/day/12
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
@@ -10,7 +11,7 @@ public class ChallengeSolution12 : ChallengeSolution<ChallengeSolution12>
 
     public ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolution12> reader) : base(console, reader)
     {
-        actions = _reader.ReadLines();
+        actions = Reader.ReadLines();
     }
 
     public override void SolveFirstPart()
@@ -23,7 +24,7 @@ public class ChallengeSolution12 : ChallengeSolution<ChallengeSolution12>
             MovePlane(action);
         }
 
-        _console.WriteLine(Math.Abs(horizontal) + Math.Abs(vertical));
+        Console.WriteLine(Math.Abs(horizontal) + Math.Abs(vertical));
     }
 
     public override void SolveSecondPart()
@@ -36,7 +37,7 @@ public class ChallengeSolution12 : ChallengeSolution<ChallengeSolution12>
         {
             DoAction(action);
         }
-        _console.WriteLine(Math.Abs(planeVertical) + Math.Abs(planeHorizontal));
+        Console.WriteLine(Math.Abs(planeVertical) + Math.Abs(planeHorizontal));
     }
 
     private int horizontal, vertical;

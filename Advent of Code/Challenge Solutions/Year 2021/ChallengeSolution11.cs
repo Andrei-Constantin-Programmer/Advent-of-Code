@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2021/day/11
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
@@ -13,7 +14,7 @@ public class ChallengeSolution11 : ChallengeSolution<ChallengeSolution11>
     public ChallengeSolution11(IConsole console, ISolutionReader<ChallengeSolution11> reader) : base(console, reader)
     {
         originalEnergy = new int[n, n];
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         for (int i = 0; i < n; i++)
         {
             int[] energyLevels = Array.ConvertAll(lines[i].ToCharArray(), character => (int)Char.GetNumericValue(character));
@@ -55,7 +56,7 @@ public class ChallengeSolution11 : ChallengeSolution<ChallengeSolution11>
                     energy[i, j] = energy[i, j] == -1 ? 0 : energy[i, j];
         }
 
-        _console.WriteLine(flashes);
+        Console.WriteLine(flashes);
     }
 
     public override void SolveSecondPart()
@@ -105,7 +106,7 @@ public class ChallengeSolution11 : ChallengeSolution<ChallengeSolution11>
             }
         }
 
-        _console.WriteLine(step);
+        Console.WriteLine(step);
     }
 
     private void Flash(int i, int j)

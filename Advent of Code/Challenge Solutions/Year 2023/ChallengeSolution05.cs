@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2023/day/5
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -32,7 +33,7 @@ public class ChallengeSolution05 : ChallengeSolution<ChallengeSolution05>
             .Select(MapSeedToLocation)
             .Min();
 
-        _console.WriteLine(minimumLocation);
+        Console.WriteLine(minimumLocation);
     }
 
     public override void SolveSecondPart()
@@ -69,7 +70,7 @@ public class ChallengeSolution05 : ChallengeSolution<ChallengeSolution05>
             .First()
             .Start;
 
-        _console.WriteLine(minimumLocation);
+        Console.WriteLine(minimumLocation);
     }
 
     private long MapSeedToLocation(long seed) => _mappingLists.Aggregate(seed, (value, mappingList) => mappingList.Map(value));
@@ -119,7 +120,7 @@ public class ChallengeSolution05 : ChallengeSolution<ChallengeSolution05>
 
     private List<string> ReadInputLines()
     {
-        var lines = _reader
+        var lines = Reader
             .ReadLines()
             .Where(x => !string.IsNullOrEmpty(x))
             .Select(x => x.Trim())

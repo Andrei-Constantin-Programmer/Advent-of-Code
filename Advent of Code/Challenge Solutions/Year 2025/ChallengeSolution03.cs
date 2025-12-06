@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2025/day/3
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2025;
 
@@ -11,7 +12,7 @@ public class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolu
 
     public override void SolveFirstPart()
     {
-        var batteries = _reader.ReadLines();
+        var batteries = Reader.ReadLines();
         long outputJoltage = 0;
 
         foreach (var battery in batteries)
@@ -27,12 +28,12 @@ public class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolu
             outputJoltage += batteryJoltage;
         }
 
-        _console.WriteLine($"Output Joltage: {outputJoltage}");
+        Console.WriteLine($"Output Joltage: {outputJoltage}");
     }
 
     public override void SolveSecondPart()
     {
-        var batteries = _reader.ReadLines();
+        var batteries = Reader.ReadLines();
         long outputJoltage = 0;
 
         foreach (var battery in batteries)
@@ -40,7 +41,7 @@ public class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolu
             outputJoltage += ComputeBatteryJoltage(battery, BatteryJoltageDigitCount);
         }
 
-        _console.WriteLine($"Output Joltage: {outputJoltage}");
+        Console.WriteLine($"Output Joltage: {outputJoltage}");
     }
 
     private static long ComputeBatteryJoltage(string battery, int digitCount)

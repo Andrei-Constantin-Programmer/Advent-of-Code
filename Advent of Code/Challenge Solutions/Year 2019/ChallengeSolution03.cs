@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2019/day/3
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2019;
 
@@ -16,7 +17,7 @@ public class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolu
             .Select(point => ManhattanDistance(_origin, point))
             .Min();
 
-        _console.WriteLine(lowestManhattanDistance);
+        Console.WriteLine(lowestManhattanDistance);
     }
 
     public override void SolveSecondPart()
@@ -25,12 +26,12 @@ public class ChallengeSolution03(IConsole console, ISolutionReader<ChallengeSolu
             ReadIntersections().Values
             .Min();
 
-        _console.WriteLine(fewestCombinedSteps);
+        Console.WriteLine(fewestCombinedSteps);
     }
 
     private Dictionary<Point, int> ReadIntersections()
     {
-        var inputLines = _reader.ReadLines();
+        var inputLines = Reader.ReadLines();
         var firstWireInstructions = ParseWireSteps(inputLines[0]);
         var secondWireInstructions = ParseWireSteps(inputLines[1]);
 

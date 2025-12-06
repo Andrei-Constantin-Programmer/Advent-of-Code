@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2022/day/4
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
@@ -9,7 +10,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        _console.WriteLine(
+        Console.WriteLine(
             ReadPairRanges()
             .Where(pair => ContainsRange(pair.FirstRange, pair.SecondRange) || ContainsRange(pair.SecondRange, pair.FirstRange))
             .Count());
@@ -17,7 +18,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
 
     public override void SolveSecondPart()
     {
-        _console.WriteLine(
+        Console.WriteLine(
             ReadPairRanges()
             .Where(pair => OverlapsRange(pair.FirstRange, pair.SecondRange))
             .Count());
@@ -27,7 +28,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
     {
         var pairs = new List<Pair>();
 
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             var ranges = line
                 .Split(",", StringSplitOptions.RemoveEmptyEntries)

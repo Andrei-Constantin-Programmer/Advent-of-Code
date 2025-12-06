@@ -1,9 +1,10 @@
 ﻿// Task: https://adventofcode.com/2023/day/12
 
-using Advent_of_Code.Utilities;
 using System.Collections.Immutable;
 using System.Text;
 using System.Text.RegularExpressions;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -18,14 +19,14 @@ public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolu
     {
         var conditionRecords = ReadConditionRecords();
 
-        _console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
+        Console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
     }
 
     public override void SolveSecondPart()
     {
         var conditionRecords = ReadConditionRecords(multiplier: 5);
 
-        _console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
+        Console.WriteLine(GetSumOfFittingArrangements(conditionRecords));
     }
 
     private static long GetSumOfFittingArrangements(List<(string, ImmutableStack<int>)> conditionRecords)
@@ -95,7 +96,7 @@ public class ChallengeSolution12(IConsole console, ISolutionReader<ChallengeSolu
             .ToString();
     }
 
-    private List<(string, ImmutableStack<int>)> ReadConditionRecords(int multiplier = 1) => _reader.ReadLines()
+    private List<(string, ImmutableStack<int>)> ReadConditionRecords(int multiplier = 1) => Reader.ReadLines()
         .Select(line =>
         {
             var elements = line.Split(' ');

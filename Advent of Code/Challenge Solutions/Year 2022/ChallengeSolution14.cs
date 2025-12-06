@@ -1,7 +1,8 @@
 ﻿// Task: https://adventofcode.com/2022/day/14
 
-using Advent_of_Code.Utilities;
 using System.Text;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
@@ -21,13 +22,13 @@ public class ChallengeSolution14 : ChallengeSolution<ChallengeSolution14>
     public override void SolveFirstPart()
     {
         var cave = CreateCaveMap(paths, leftMargin, rightMargin, bottomMargin);
-        _console.WriteLine(GrainsToFillCave(cave, leftMargin));
+        Console.WriteLine(GrainsToFillCave(cave, leftMargin));
     }
 
     public override void SolveSecondPart()
     {
         var cave = AddFloor(CreateCaveMap(paths, leftMargin, rightMargin, bottomMargin));
-        _console.WriteLine(GrainsToPlugSource(cave, leftMargin));
+        Console.WriteLine(GrainsToPlugSource(cave, leftMargin));
         PrintCave(cave);
     }
 
@@ -209,7 +210,7 @@ public class ChallengeSolution14 : ChallengeSolution<ChallengeSolution14>
 
         var paths = new List<(int x, int y)[]>();
 
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             paths.Add(line
                 .Split("->", StringSplitOptions.RemoveEmptyEntries)

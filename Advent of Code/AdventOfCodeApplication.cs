@@ -17,14 +17,16 @@ internal class AdventOfCodeApplication
         {
             try
             {
-                var year = _reader.ReadYear();
+                var lang = _reader.ReadLang();
+                
+                var year = _reader.ReadYear(lang);
                 Console.WriteLine();
 
                 while (true)
                 {
                     try
                     {
-                        var solution = _reader.ReadChallenge(year);
+                        var solution = _reader.ReadChallenge(year, lang);
                         Console.WriteLine();
                         solution.PrintSolution();
                     }

@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2025/day/1
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2025;
 
@@ -27,7 +28,7 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine($"Password: {password}");
+        Console.WriteLine($"Password: {password}");
     }
 
     public override void SolveSecondPart()
@@ -38,14 +39,14 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
 
         foreach (var rotation in rotations)
         {
-            var fullRotations = rotation.Distance / 100;
-            var remainder = rotation.Distance - (fullRotations * 100);
+            var fullRotations = rotation.Distance / UpperDialLimit;
+            var remainder = rotation.Distance - (fullRotations * UpperDialLimit);
 
             var hasDialMovedPastZero = currentDialPosition != Zero
                 && rotation.Direction switch
                 {
                     Direction.Left => currentDialPosition <= remainder,
-                    Direction.Right => currentDialPosition >= 100 - remainder,
+                    Direction.Right => currentDialPosition >= UpperDialLimit - remainder,
                     _ => throw new NotImplementedException()
                 };
 
@@ -54,7 +55,7 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
             currentDialPosition = TurnDial(currentDialPosition, rotation);
         }
 
-        _console.WriteLine($"Password: {password}");
+        Console.WriteLine($"Password: {password}");
     }
 
     private static int TurnDial(int dialPosition, Rotation rotation)
@@ -66,12 +67,7 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
             _ => throw new NotImplementedException()
         };
 
-        while (newPosition < Zero)
-        {
-            newPosition += UpperDialLimit;
-        }
-
-        newPosition %= UpperDialLimit;
+        newPosition = (newPosition % UpperDialLimit + UpperDialLimit) % UpperDialLimit;
 
         return newPosition;
     }
@@ -80,7 +76,7 @@ public class ChallengeSolution01(IConsole console, ISolutionReader<ChallengeSolu
     {
         List<Rotation> rotations = [];
 
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         foreach (var line in lines)
         {
             var direction = line[0] switch

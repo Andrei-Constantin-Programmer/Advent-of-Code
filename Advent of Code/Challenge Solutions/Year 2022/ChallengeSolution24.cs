@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2022/day/24
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
@@ -68,7 +69,7 @@ public class ChallengeSolution24(IConsole console, ISolutionReader<ChallengeSolu
 
     private char[,] ReadValley()
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         var valley = new char[lines.Length - 2, lines[0].Length - 2];
 
         for (var row = 1; row < lines.Length - 1; row++)

@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2023/day/9
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -9,17 +10,17 @@ public class ChallengeSolution09(IConsole console, ISolutionReader<ChallengeSolu
 {
     public override void SolveFirstPart()
     {
-        _console.WriteLine(ComputePredictionSum(ExtrapolationDirection.Forwards));
+        Console.WriteLine(ComputePredictionSum(ExtrapolationDirection.Forwards));
     }
 
     public override void SolveSecondPart()
     {
-        _console.WriteLine(ComputePredictionSum(ExtrapolationDirection.Backwards));
+        Console.WriteLine(ComputePredictionSum(ExtrapolationDirection.Backwards));
     }
 
     private long ComputePredictionSum(ExtrapolationDirection direction)
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
 
         long predictionSum = 0;
         foreach (var line in lines)

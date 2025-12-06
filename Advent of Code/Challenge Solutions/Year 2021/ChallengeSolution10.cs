@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2021/day/10
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2021;
 
@@ -32,7 +33,7 @@ public class ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveFirstPart()
     {
         int points = 0;
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             char? c = CorruptedChar(line);
             if (c != null)
@@ -41,13 +42,13 @@ public class ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolu
             }
         }
 
-        _console.WriteLine(points);
+        Console.WriteLine(points);
     }
 
     public override void SolveSecondPart()
     {
         var scores = new List<long>();
-        foreach (var line in _reader.ReadLines())
+        foreach (var line in Reader.ReadLines())
         {
             if (CorruptedChar(line) == null)
             {
@@ -69,7 +70,7 @@ public class ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolu
         }
 
         scores.Sort();
-        _console.WriteLine(scores[(scores.Count - 1) / 2]);
+        Console.WriteLine(scores[(scores.Count - 1) / 2]);
     }
 
     private char? CorruptedChar(string line)

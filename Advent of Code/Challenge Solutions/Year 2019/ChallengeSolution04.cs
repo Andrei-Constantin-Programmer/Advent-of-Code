@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2019/day/4
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2019;
 
@@ -10,7 +11,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveFirstPart()
     {
         var (rangeStart, rangeEnd) = ReadRange();
-        _console.WriteLine(FindPasswordCount(rangeStart, rangeEnd, condition));
+        Console.WriteLine(FindPasswordCount(rangeStart, rangeEnd, condition));
 
         static bool condition(int[] digits) => digits
             .Zip(digits.Skip(1), (a, b) => a == b)
@@ -20,7 +21,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveSecondPart()
     {
         var (rangeStart, rangeEnd) = ReadRange();
-        _console.WriteLine(FindPasswordCount(rangeStart, rangeEnd, condition));
+        Console.WriteLine(FindPasswordCount(rangeStart, rangeEnd, condition));
 
         static bool condition(int[] digits)
         {
@@ -90,7 +91,7 @@ public class ChallengeSolution04(IConsole console, ISolutionReader<ChallengeSolu
 
     private (int, int) ReadRange()
     {
-        var inputNumbers = _reader.ReadLines()[0].Split('-').Select(int.Parse).ToArray();
+        var inputNumbers = Reader.ReadLines()[0].Split('-').Select(int.Parse).ToArray();
         var rangeStart = inputNumbers[0];
         var rangeEnd = inputNumbers[1];
 

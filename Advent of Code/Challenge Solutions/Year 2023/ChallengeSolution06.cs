@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2023/day/6
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -17,7 +18,7 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
             winningPossibilityProduct *= ComputeWinniningPossibilityCount(race);
         }
 
-        _console.WriteLine(winningPossibilityProduct);
+        Console.WriteLine(winningPossibilityProduct);
     }
 
     public override void SolveSecondPart()
@@ -25,7 +26,7 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         var lines = ReadInputLines();
         KeyValuePair<long, long> race = new(ParseCombinedInputLine(lines[0]), ParseCombinedInputLine(lines[1]));
 
-        _console.WriteLine(ComputeWinniningPossibilityCount(race));
+        Console.WriteLine(ComputeWinniningPossibilityCount(race));
     }
 
     private static long ComputeWinniningPossibilityCount(KeyValuePair<long, long> race)
@@ -74,7 +75,7 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
         return races;
     }
 
-    private string[] ReadInputLines() => _reader.ReadLines();
+    private string[] ReadInputLines() => Reader.ReadLines();
 
     private static long ParseCombinedInputLine(string line) => long.Parse(string.Concat(line
         .Split(':', StringSplitOptions.RemoveEmptyEntries)[1]

@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2022/day/21
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
@@ -14,7 +15,7 @@ public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolu
 
         //Print(root, 0);
 
-        _console.WriteLine(root.Value);
+        Console.WriteLine(root.Value);
     }
 
     public override void SolveSecondPart()
@@ -23,14 +24,14 @@ public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolu
         var root = FindMonkey(monkeys, "root");
         var human = FindMonkey(monkeys, "humn");
 
-        _console.WriteLine(FindHumanCall(root, human));
+        Console.WriteLine(FindHumanCall(root, human));
     }
 
     private void Print(Monkey monkey, int spaces)
     {
         for (int i = 0; i < spaces; i++)
-            _console.Write(" ");
-        _console.WriteLine(monkey.Name + " " + monkey.Value);
+            Console.Write(" ");
+        Console.WriteLine(monkey.Name + " " + monkey.Value);
 
         if (monkey.LeftMonkey != null)
             Print(monkey.LeftMonkey, spaces + 1);
@@ -79,7 +80,7 @@ public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolu
 
     private List<Monkey> ReadMonkeys(bool separateRootMonkey)
     {
-        var splitLines = _reader.ReadLines()
+        var splitLines = Reader.ReadLines()
             .Select(line => line.Split(':', StringSplitOptions.RemoveEmptyEntries))
             .ToList();
 
@@ -141,7 +142,7 @@ public class ChallengeSolution21(IConsole console, ISolutionReader<ChallengeSolu
             set
             {
                 _operator = value;
-                Operation = ChallengeSolution21.OperationFromOperator(_operator);
+                Operation = OperationFromOperator(_operator);
             }
         }
         public long Value => Operation(

@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2020/day/10
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2020;
 
@@ -10,7 +11,7 @@ public class ChallengeSolution10 : ChallengeSolution<ChallengeSolution10>
 
     public ChallengeSolution10(IConsole console, ISolutionReader<ChallengeSolution10> reader) : base(console, reader)
     {
-        var lines = _reader.ReadLines();
+        var lines = Reader.ReadLines();
         numbers.Add(0);
 
         foreach (string line in lines)
@@ -36,7 +37,7 @@ public class ChallengeSolution10 : ChallengeSolution<ChallengeSolution10>
                 threeJolts++;
         }
 
-        _console.WriteLine(oneJolt * threeJolts);
+        Console.WriteLine(oneJolt * threeJolts);
     }
 
     public override void SolveSecondPart()
@@ -55,6 +56,6 @@ public class ChallengeSolution10 : ChallengeSolution<ChallengeSolution10>
             }
         }
 
-        _console.WriteLine(paths[paths.Length - 1]);
+        Console.WriteLine(paths[paths.Length - 1]);
     }
 }

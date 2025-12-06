@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2022/day/12
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2022;
 
@@ -20,14 +21,14 @@ public class ChallengeSolution12 : ChallengeSolution<ChallengeSolution12>
     {
         var distanceMap = CreateMatrix<int>(heightMap.Length, heightMap[0].Length);
 
-        _console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a') + 1));
+        Console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a') + 1));
     }
 
     public override void SolveSecondPart()
     {
         var distanceMap = CreateMatrix<int>(heightMap.Length, heightMap[0].Length);
 
-        _console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a')));
+        Console.WriteLine(ShortestPath(distanceMap, endPosition, LetterReversePositionInAlphabet('a')));
     }
 
     private int ShortestPath(int[][] distanceMap, (int row, int column) position, int toBeReached)
@@ -102,7 +103,7 @@ public class ChallengeSolution12 : ChallengeSolution<ChallengeSolution12>
 
     private int[][] ReadHeightMap()
     {
-        return _reader.ReadLines()
+        return Reader.ReadLines()
             .Select(line => line
                 .ToCharArray()
                 .Select(c =>

@@ -1,6 +1,7 @@
 ﻿// Task: https://adventofcode.com/2023/day/3
 
-using Advent_of_Code.Utilities;
+using Advent_of_Code.Shared;
+using Advent_of_Code.Shared.Utilities;
 
 namespace Advent_of_Code.Challenge_Solutions.Year_2023;
 
@@ -36,7 +37,7 @@ public class ChallengeSolution03 : ChallengeSolution<ChallengeSolution03>
             totalPartNumberSum += ProcessDigitSequence(row, digitSequence);
         }
 
-        _console.WriteLine(totalPartNumberSum);
+        Console.WriteLine(totalPartNumberSum);
     }
 
     public override void SolveSecondPart()
@@ -67,7 +68,7 @@ public class ChallengeSolution03 : ChallengeSolution<ChallengeSolution03>
             .Select(gearPos => gears[gearPos].Aggregate((acc, x) => acc * x))
             .Sum();
 
-        _console.WriteLine(totalGearRatioSum);
+        Console.WriteLine(totalGearRatioSum);
     }
 
     private int ProcessDigitSequence(int row, List<(int index, char character)> digitSequence)
@@ -145,7 +146,7 @@ public class ChallengeSolution03 : ChallengeSolution<ChallengeSolution03>
 
     private char[,] ReadEngineSchematic()
     {
-        string[] lines = _reader.ReadLines();
+        string[] lines = Reader.ReadLines();
 
         char[,] schematic = new char[lines.Length, lines[0].Length];
 
