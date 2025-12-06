@@ -1,5 +1,6 @@
 ﻿using Advent_of_Code.Challenge_Solutions.Year_2023;
 using Advent_of_Code.Shared.Utilities;
+using Advent_of_Code.Tests.Shared;
 using NSubstitute;
 
 namespace Advent_of_Code.Tests.Challenge_Solutions.Year_2023;

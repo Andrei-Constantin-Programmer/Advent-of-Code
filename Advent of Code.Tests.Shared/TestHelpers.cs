@@ -1,6 +1,6 @@
 ﻿using Advent_of_Code.Shared.Utilities;
 
-namespace Advent_of_Code.Tests;
+namespace Advent_of_Code.Tests.Shared;
 
 public static class TestHelpers
 {

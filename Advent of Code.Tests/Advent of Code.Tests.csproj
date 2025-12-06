@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Advent of Code.Tests.Shared\Advent of Code.Tests.Shared.csproj" />
     <ProjectReference Include="..\Advent of Code\Advent of Code.csproj" />
   </ItemGroup>
 
