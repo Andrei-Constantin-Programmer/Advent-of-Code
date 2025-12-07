@@ -136,18 +136,14 @@ public class ChallengeSolution06(IConsole console, ISolutionReader<ChallengeSolu
 
     private record Problem(long[] Numbers, Operation Operation)
     {
-        public long Solve()
-        {
-            var x = Operation switch
+        public long Solve() =>
+            Operation switch
             {
                 Operation.Addition => Numbers.Sum(),
                 Operation.Multiplication => Numbers.Aggregate(1L, (acc, n) => acc * n),
                 
                 _ => throw new ArgumentOutOfRangeException()
             };
-
-            return x;
-        }
     }
 
     private enum Operation
