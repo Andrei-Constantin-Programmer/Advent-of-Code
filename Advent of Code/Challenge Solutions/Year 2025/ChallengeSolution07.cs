@@ -59,19 +59,19 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
     
     private static long ComputeTimelines(
         string[] lines, 
-        Dictionary<int, List<int>> splittersByRow,
+        List<List<int>> splittersByRow,
         Dictionary<(int, int), long> timelinesFromRowCol,
         int currentRow,
         int tachyonColumn)
     {
-        if (tachyonColumn < 0 || tachyonColumn > lines.Length)
-        {
-            return 0;
-        }
-        
         if (currentRow >= splittersByRow.Count)
         {
             return 1;
+        }
+        
+        if (tachyonColumn < 0 || tachyonColumn >= lines[currentRow].Length)
+        {
+            return 0;
         }
 
         if (!splittersByRow[currentRow].Contains(tachyonColumn))
@@ -92,14 +92,14 @@ public class ChallengeSolution07(IConsole console, ISolutionReader<ChallengeSolu
         return timelinesLeft + timelinesRight;
     }
 
-    private static Dictionary<int, List<int>> ReadTachyonManifold(string[] lines, out Location beamStart)
+    private static List<List<int>> ReadTachyonManifold(string[] lines, out Location beamStart)
     {
-        Dictionary<int, List<int>> splittersByRow = [];
+        List<List<int>> splittersByRow = [];
         beamStart = new(0, 0);
 
         for (var row = 0; row < lines.Length; row++)
         {
-            splittersByRow.Add(row, []);
+            splittersByRow.Add([]);
             for (var col = 0; col < lines[row].Length; col++)
             {
                 switch (lines[row][col])
