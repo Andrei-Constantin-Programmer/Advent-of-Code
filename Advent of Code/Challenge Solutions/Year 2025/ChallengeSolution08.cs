@@ -13,7 +13,6 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
     public override void SolveFirstPart()
     {
         var junctionBoxes = ReadJunctionBoxLocations(out var pairsToConnect);
-        HydrateJunctionBoxesWithDistanceToOthers(junctionBoxes);
 
         var topEdges = 
             GetEdges(junctionBoxes)
@@ -22,23 +21,21 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
         
         var circuits = BuildCircuits(junctionBoxes, topEdges);
         
-        var topThreeCircuits = circuits
+        var topThreeCircuitsProduct = circuits
             .Select(cluster => cluster.Count)
             .OrderDescending()
             .Take(CircuitsToConsider)
             .Aggregate(1, (acc, x) => acc * x);
         
-        Console.WriteLine($"Top {CircuitsToConsider} circuit sizes: {topThreeCircuits}");
+        Console.WriteLine($"Top {CircuitsToConsider} circuit sizes product: {topThreeCircuitsProduct}");
     }
 
     public override void SolveSecondPart()
     {
         var junctionBoxes = ReadJunctionBoxLocations(out _);
-        HydrateJunctionBoxesWithDistanceToOthers(junctionBoxes);
 
         var edges = 
             GetEdges(junctionBoxes)
-            .OrderBy(e => e.Distance)
             .ToList();
 
         var lastEdge = GetLastConnectingEdge(junctionBoxes, edges);
@@ -117,7 +114,7 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
 
     private static List<HashSet<JunctionBox>> BuildCircuits(List<JunctionBox> junctionBoxes, List<Edge> topEdges)
     {
-        var adjacencyMatrix = InitialiseAdjacencyMatrix(junctionBoxes, topEdges);
+        var adjacencyList = InitialiseAdjacencyList(junctionBoxes, topEdges);
 
         HashSet<JunctionBox> visited = [];
         List<HashSet<JunctionBox>> circuits = [];
@@ -138,7 +135,7 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
                 var current = stack.Pop();
                 circuit.Add(current);
 
-                foreach (var neighbour in adjacencyMatrix[current])
+                foreach (var neighbour in adjacencyList[current])
                 {
                     if (visited.Add(neighbour))
                     {
@@ -153,46 +150,36 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
         return circuits;
     }
 
-    private static Dictionary<JunctionBox, List<JunctionBox>> InitialiseAdjacencyMatrix(List<JunctionBox> junctionBoxes, List<Edge> topEdges)
+    private static Dictionary<JunctionBox, List<JunctionBox>> InitialiseAdjacencyList(List<JunctionBox> junctionBoxes, List<Edge> topEdges)
     {
-        var adjacencyMatrix = junctionBoxes.ToDictionary(jb => jb, _ => new List<JunctionBox>());
+        var adjacencyList = junctionBoxes.ToDictionary(jb => jb, _ => new List<JunctionBox>());
 
         foreach (var (jb1, jb2, _) in topEdges)
         {
-            adjacencyMatrix[jb1].Add(jb2);
-            adjacencyMatrix[jb2].Add(jb1);
+            adjacencyList[jb1].Add(jb2);
+            adjacencyList[jb2].Add(jb1);
         }
 
-        return adjacencyMatrix;
+        return adjacencyList;
     }
 
     private static IEnumerable<Edge> GetEdges(List<JunctionBox> junctionBoxes)
     {
-        var indexOf = junctionBoxes
-            .Select((jb, idx) => new { jb, idx })
-            .ToDictionary(x => x.jb, x => x.idx);
+        List<Edge> edges = [];
 
-        var edges = junctionBoxes
-            .SelectMany(
-                jb => jb.Neighbours,
-                (jb, kvp) => new Edge(jb, kvp.Key, kvp.Value))
-            .Where(e => indexOf[e.JunctionBox1] < indexOf[e.JunctionBox2])
-            .OrderBy(e => e.Distance);
-        
-        return edges;
-    }
-
-    private static void HydrateJunctionBoxesWithDistanceToOthers(List<JunctionBox> junctionBoxes)
-    {
         for (var i = 0; i < junctionBoxes.Count - 1; i++)
         {
             for (var j = i + 1; j < junctionBoxes.Count; j++)
             {
-                var distance = EuclideanDistanceSquared(junctionBoxes[i], junctionBoxes[j]);
-                junctionBoxes[i].Neighbours.Add(junctionBoxes[j], distance);
-                junctionBoxes[j].Neighbours.Add(junctionBoxes[i], distance);
+                var jb1 = junctionBoxes[i];
+                var jb2 = junctionBoxes[j];
+                var distance = EuclideanDistanceSquared(jb1, jb2);
+                
+                edges.Add(new(jb1, jb2, distance));
             }
         }
+        
+        return edges.OrderBy(e => e.Distance);
     }
     
     // Nothing earned by taking the square root of this value
@@ -231,7 +218,5 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
         public int X { get; } = x;
         public int Y { get; } = y;
         public int Z { get; } = z;
-        
-        public Dictionary<JunctionBox, long> Neighbours { get; } = [];
     }
 }
