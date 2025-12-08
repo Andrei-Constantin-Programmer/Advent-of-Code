@@ -12,6 +12,7 @@
     <Compile Include="Challenge Solutions\Year 2025\ChallengeSolutionTests01.fs" />
     <Compile Include="Challenge Solutions\Year 2025\ChallengeSolutionTests02.fs" />
     <Compile Include="Challenge Solutions\Year 2025\ChallengeSolutionTests03.fs" />
+    <Compile Include="Challenge Solutions\Year 2025\ChallengeSolutionTests04.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
