@@ -49,7 +49,7 @@ public class ChallengeSolutionTests05
         _challengeSolution.SolveFirstPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(3)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(3)));
     }
 
     [Fact]
@@ -59,7 +59,7 @@ public class ChallengeSolutionTests05
         _challengeSolution.SolveFirstPart();
 
         // Assert
-        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsLong(567)));
+        _consoleMock.Received().WriteLine(Arg.Is<string>(s => s.ContainsInt(567)));
     }
 
     [Fact]
