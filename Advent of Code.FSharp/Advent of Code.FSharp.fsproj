@@ -6,6 +6,11 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
+    <Target Name="AddTaskComments" BeforeTargets="Build">
+        <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)..\AddTaskComments.ps1&quot; -SolutionPath &quot;Challenge Solutions&quot;" />
+        <Message Text="Added comments with links to Advent of Code." Importance="High" />
+    </Target>
+
     <ItemGroup>
         <Compile Include="Utilities.fs"/>
         <Compile Include="Challenge Solutions\Year 2025\ChallengeSolution01.fs"/>

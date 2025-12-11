@@ -1,30 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
-    <RootNamespace>Advent_of_Code</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <LangVersion>12.0</LangVersion>
-  </PropertyGroup>
-
-  <Target Name="AddTaskComments" BeforeTargets="Build">
-	  <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)..\AddTaskComments.ps1&quot; -SolutionPath &quot;Challenge Solutions&quot;" />
-	  <Message Text="Added comments with links to Advent of Code." Importance="High" />
-  </Target>
-
-  <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Z3" Version="4.12.2" />
-    <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Advent of Code.FSharp\Advent of Code.FSharp.fsproj" />
-    <ProjectReference Include="..\Advent of Code.Shared\Advent of Code.Shared.csproj" />
-  </ItemGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <RootNamespace>Advent_of_Code</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>12.0</LangVersion>
+    </PropertyGroup>
+    
+    <Target Name="AddTaskComments" BeforeTargets="Build">
+        <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)..\AddTaskComments.ps1&quot; -SolutionPath &quot;Challenge Solutions&quot;" />
+        <Message Text="Added comments with links to Advent of Code." Importance="High" />
+    </Target>
+    
+    <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Z3" Version="4.12.2" />
+        <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\Advent of Code.FSharp\Advent of Code.FSharp.fsproj" />
+        <ProjectReference Include="..\Advent of Code.Shared\Advent of Code.Shared.csproj" />
+    </ItemGroup>
 </Project>

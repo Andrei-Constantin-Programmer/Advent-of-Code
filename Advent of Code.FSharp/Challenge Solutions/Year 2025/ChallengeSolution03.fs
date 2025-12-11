@@ -1,4 +1,6 @@
-﻿namespace Advent_of_Code.FSharp.Challenge_Solutions.Year_2025
+﻿// Task: https://adventofcode.com/2025/day/3
+
+namespace Advent_of_Code.FSharp.Challenge_Solutions.Year_2025
 
 open Advent_of_Code.Shared
 open Advent_of_Code.Shared.Utilities

@@ -9,9 +9,10 @@ function Add-Comments {
     foreach ($folder in $yearFolders) {
         $year = $folder.Name -replace 'Year ', ''
 
-        $csFiles = Get-ChildItem -Path $folder.FullName -Recurse -Filter "*.cs"
+        $codeFiles = Get-ChildItem -Path "$($folder.FullName)\*" -Recurse -File |
+            Where-Object { $_.Extension -in '.cs', '.fs' }
 
-        foreach ($file in $csFiles) {
+        foreach ($file in $codeFiles) {
             $day = ($file.BaseName -replace '[^0-9]', '').TrimStart('0')
 
             $comment = "// Task: https://adventofcode.com/$year/day/$day"
