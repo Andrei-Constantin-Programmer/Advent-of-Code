@@ -21,13 +21,13 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
         
         var circuits = BuildCircuits(junctionBoxes, topEdges);
         
-        var topThreeCircuitsProduct = circuits
+        var topCircuitsProduct = circuits
             .Select(cluster => cluster.Count)
             .OrderDescending()
             .Take(CircuitsToConsider)
             .Aggregate(1, (acc, x) => acc * x);
         
-        Console.WriteLine($"Top {CircuitsToConsider} circuit sizes product: {topThreeCircuitsProduct}");
+        Console.WriteLine($"Top {CircuitsToConsider} circuit sizes product: {topCircuitsProduct}");
     }
 
     public override void SolveSecondPart()
@@ -55,10 +55,10 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
             rankOf[jb] = 0;
         }
 
-        var components = junctionBoxes.Count;
+        var circuits = junctionBoxes.Count;
         Edge? lastEdge = null;
 
-        for (var eIndex = 0; eIndex < edges.Count && components > 1; eIndex++)
+        for (var eIndex = 0; eIndex < edges.Count && circuits > 1; eIndex++)
         {
             var edge = edges[eIndex];
             
@@ -71,7 +71,7 @@ public class ChallengeSolution08(IConsole console, ISolutionReader<ChallengeSolu
             }
             
             Union(rootOfJb1, rootOfJb2);
-            components--;
+            circuits--;
             lastEdge = edge;
         }
 
